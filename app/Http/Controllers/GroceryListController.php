@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GroceryList;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class GroceryListController
 {
@@ -27,5 +28,12 @@ class GroceryListController
         ]);
 
         return response()->json($grocerylist, 201);
+    }
+
+    public function delete(GroceryList $grocerylist)
+    {
+        $grocerylist->delete();
+
+        return response()->json('Grocery list with id: ' . $grocerylist->getKey() . ' has been deleted', 200);
     }
 }

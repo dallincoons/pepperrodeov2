@@ -86,4 +86,19 @@ class GroceryListApiTest extends TestCase
         $response->assertStatus(201);
         $this->assertEquals('First half of July', GroceryList::first()->title);
     }
+
+    /**
+     * @group grocery-list-tests
+     *
+     * @test
+     */
+    public function it_deletes_a_grocery_list()
+    {
+        $grocerylist = factory(GroceryList::class)->create();
+
+        $response = $this->post('/api/v1/grocery-list/' . $grocerylist->getKey() . '/delete');
+
+        $response->assertStatus(200);
+        $this->assertNull($grocerylist->fresh());
+    }
 }
