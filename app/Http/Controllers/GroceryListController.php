@@ -36,4 +36,13 @@ class GroceryListController
 
         return response()->json('Grocery list with id: ' . $grocerylist->getKey() . ' has been deleted', 200);
     }
+
+    public function update(Request $request, GroceryList $grocerylist)
+    {
+        $grocerylist->update([
+            'title' => $request->title
+        ]);
+
+        return response()->json($grocerylist, 200);
+    }
 }

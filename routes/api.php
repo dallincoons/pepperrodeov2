@@ -19,4 +19,5 @@ Route::group([
     Route::get('grocery-list/{grocerylist}', 'GroceryListController@show');
     Route::post('grocery-list/create', 'GroceryListController@store');
     Route::post('grocery-list/{grocerylist}/delete', 'GroceryListController@delete');
+    Route::patch('grocery-list/{grocerylist}', 'GroceryListController@update');
 });
