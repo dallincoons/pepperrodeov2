@@ -13,4 +13,7 @@
 
 Route::get('/', 'WelcomeController@show');
 
-Route::get('/home', 'HomeController@show');
+// vue-router will handle any other requests
+Route::get('/{vue_capture?}', function () {
+    return view('welcome');
+})->where('vue_capture', '[\/\w\.-]*')->middleware('auth');

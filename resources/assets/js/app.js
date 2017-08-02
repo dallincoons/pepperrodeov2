@@ -18,10 +18,14 @@ require('spark-bootstrap');
 
 require('./components/bootstrap');
 
-import Example from './components/Example.vue';
+import GroceryLists from './components/GroceryLists.vue';
+
+import router from './routes.js';
 
 var app = new Vue({
     mixins: [require('spark')],
 
-    components : {Example}
+    components : {GroceryLists},
+
+    router : router
 });

@@ -12,13 +12,6 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
 
     <style>
-        body, html {
-            background: url('/img/spark-bg.png');
-            background-repeat: repeat;
-            background-size: 300px 200px;
-            height: 100%;
-            margin: 0;
-        }
 
         .full-height {
             min-height: 100%;
@@ -27,21 +20,6 @@
         .flex-column {
             display: flex;
             flex-direction: column;
-        }
-
-        .flex-fill {
-            flex: 1;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-
-        .text-center {
-            text-align: center;
         }
 
         .links {
@@ -69,26 +47,29 @@
     </style>
 </head>
 <body>
-    <div class="full-height flex-column">
-        <nav class="links">
-            <a href="/login" style="margin-right: 15px;">
-                <button>
-                    Login
-                </button>
-            </a>
+    @if(!Auth::check())
+        <div class="full-height flex-column">
+            <nav class="links">
+                <a href="/login" style="margin-right: 15px;">
+                    <button>
+                        Login
+                    </button>
+                </a>
 
-            <a href="/register">
-                <button>
-                    Register
-                </button>
-            </a>
-        </nav>
-
-        <div class="flex-fill flex-center">
-            <h1 class="text-center">
-                <img src="/img/color-logo.png">
-            </h1>
+                <a href="/register">
+                    <button>
+                        Register
+                    </button>
+                </a>
+            </nav>
         </div>
-    </div>
+    @else
+        @extends('spark::layouts.app')
+
+        @section('content')
+            <router-link to="/grocery-lists">Grocery Lists</router-link>
+            <router-view></router-view>
+        @endsection
+    @endif
 </body>
 </html>
