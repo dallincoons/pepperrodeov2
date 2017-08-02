@@ -62,29 +62,27 @@ class GroceryListApiTest extends TestCase
     */
     public function it_create_a_grocery_with_title()
     {
-        $response = $this->post('/api/v1/grocery-list/create', [
-            'title' => 'Second half of June',
-        ]);
-
-        $response->assertStatus(201);
-        $this->assertEquals('Second half of June', GroceryList::first()->title);
-    }
-
-    /**
-     * @group grocery-list-tests
-     *
-     * @test
-     */
-    public function it_create_a_grocery_with_another_title()
-    {
         $this->be(factory(User::class)->create());
+
+        $items = [
+            [
+                'description' => 'banana',
+                'quantity'      => 2
+            ],
+            [
+                'description' => 'banana',
+                'quantity'      => 2
+            ]
+        ];
 
         $response = $this->post('/api/v1/grocery-list/create', [
             'title' => 'First half of July',
+            'items' => $items
         ]);
 
         $response->assertStatus(201);
         $this->assertEquals('First half of July', GroceryList::first()->title);
+        $this->assertArraySubset($items, GroceryList::first()->items->toArray());
     }
 
     /**

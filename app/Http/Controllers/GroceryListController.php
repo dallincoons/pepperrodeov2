@@ -27,6 +27,10 @@ class GroceryListController
             'user_id' => \Auth::user()->getKey()
         ]);
 
+        foreach($request->items as $item){
+            $grocerylist->items()->create($item);
+        }
+
         return response()->json($grocerylist, 201);
     }
 
