@@ -1,35 +1,33 @@
 <?php
 
 use App\GroceryList;
+use App\GroceryListItem;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class GroceryListSeeder extends Seeder
 {
     public function run()
     {
-        collect([
+        $listTitles = [
             'December First 2 Weeks List',
             'Hurricane, UT Trip Shopping List',
             'January 1st 3 Weeks',
             'January Last 2 Weeks',
-            'February 6 - 19',
-            'Costco Feb 6 - 19',
-            'Sprouts Feb 6 -19',
-            'Feb Last Two Weeks',
-            'March 1st 2 weeks',
-            'March Last half of month',
-            'Costco March',
-            'second half of April',
-            'May first half',
-            '1st half of June',
-            'June 2nd half',
-            'Late July',
-        ])->each(function($title){
-            factory(GroceryList::class)->create([
+        ];
+
+        foreach($listTitles as $title){
+
+            $grocerylist = GroceryList::create([
+                'user_id' => User::first() ?  User::first()->getKey() : factory(User::class)->create()->getKey(),
                 'title' => $title
             ]);
-        });
 
-
+            foreach(range(1, rand(1, 20)) as $itemindex)
+            {
+                $item = factory(GroceryListItem::class)->create();
+                $grocerylist->items()->save($item);
+            }
+        }
     }
 }
