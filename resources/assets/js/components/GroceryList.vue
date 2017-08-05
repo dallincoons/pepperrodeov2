@@ -3,12 +3,10 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Grocery Lists Component</div>
+                    <div class="panel-heading">Grocery List Component</div>
 
                     <div class="panel-body">
-                        <ul>
-                            <li v-for="list in grocerylists" v-text="list.title"></li>
-                        </ul>
+
                     </div>
                 </div>
             </div>
@@ -20,12 +18,13 @@
     export default {
         data(){
             return {
-                grocerylists : []
+
             }
         },
         mounted() {
-            axios.get('/api/v1/grocery-lists').then((response) => {
-                this.grocerylists = response.data;
+            console.log(this.$route.params.id);
+            let listId = this.$route.params.id;
+            axios.get('/api/v1/grocery-list/'+listId).then((response) => {
                 console.log(response.data);
             });
         }

@@ -27,7 +27,9 @@ class GroceryListController
             'user_id' => \Auth::user()->getKey()
         ]);
 
-        foreach($request->items as $item){
+        $items = $request->items ?: [];
+
+        foreach($items as $item){
             $grocerylist->items()->create($item);
         }
 

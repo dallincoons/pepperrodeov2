@@ -45,7 +45,7 @@ class GroceryListApiTest extends TestCase
     *
     * @test
     */
-    public function it_creates_a_grocery_list()
+    public function it_creates_a_grocery_list_without_items()
     {
         $response = $this->post('/api/v1/grocery-list/create', [
             'title' => 'Second half of June',
@@ -53,6 +53,29 @@ class GroceryListApiTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertEquals(1, GroceryList::count());
+    }
+
+    /**
+     * @group grocery-list-tests
+     *
+     * @test
+     */
+    public function it_creates_a_grocery_list_with_items()
+    {
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'title' => 'Second half of June',
+            'items'  => [[
+                'description' => 'blah blah',
+                'quantity' => 2
+            ]]
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertEquals(1, GroceryList::count());
+        $this->assertArraySubset([
+            'description' => 'blah blah',
+            'quantity' => 2
+        ], GroceryList::first()->items->first()->toArray());
     }
 
     /**

@@ -20,4 +20,9 @@ Route::group([
     Route::post('grocery-list/create', 'GroceryListController@store');
     Route::post('grocery-list/{grocerylist}/delete', 'GroceryListController@delete');
     Route::patch('grocery-list/{grocerylist}', 'GroceryListController@update');
+
+    // vue-router will handle any other requests
+    Route::get('/{vue_capture?}', function () {
+        return view('welcome');
+    })->where('vue_capture', '[\/\w\.-]*')->middleware('auth');
 });
