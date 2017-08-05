@@ -17,6 +17,8 @@ class GroceryListController
 
     public function show(GroceryList $grocerylist)
     {
+        $grocerylist->load('items');
+
         return response()->json($grocerylist, 200);
     }
 

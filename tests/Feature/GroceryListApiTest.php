@@ -32,12 +32,13 @@ class GroceryListApiTest extends TestCase
      */
     public function it_gets_a_single_grocery_lists()
     {
-        $grocerylist = factory(GroceryList::class)->create();
+        $grocerylist = factory(GroceryList::class)->create()->load('items');
 
         $response = $this->get('/api/v1/grocery-list/' . $grocerylist->getKey());
 
         $response->assertStatus(200);
         $this->assertEquals($grocerylist->toArray(), $response->decodeResponseJson());
+        $this->assertEquals($grocerylist->items->toArray(), $response->decodeResponseJson()['items']);
     }
 
     /**
