@@ -6,7 +6,10 @@
                     <div class="panel-heading">Grocery List Component</div>
 
                     <div class="panel-body">
-
+                        <h2>{{listTitle}}</h2>
+                        <ul>
+                            <li v-for="item in listitem">{{item.quantity}} {{item.description}}</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -18,14 +21,18 @@
     export default {
         data(){
             return {
-
+                listTitle : '',
+                listitem : ''
             }
         },
         mounted() {
             console.log(this.$route.params.id);
             let listId = this.$route.params.id;
             axios.get('/api/v1/grocery-list/'+listId).then((response) => {
-                console.log(response.data);
+                let responseData = response.data;
+                this.listTitle = responseData.title;
+                this.listitem = responseData.items;
+                console.log(responseData.items);
             });
         }
 
