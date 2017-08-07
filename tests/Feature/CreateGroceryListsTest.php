@@ -67,4 +67,16 @@ class CreateGroceryListsTest extends TestCase
         $this->assertEquals('First half of July', GroceryList::first()->title);
         $this->assertArraySubset($items, GroceryList::first()->items->toArray());
     }
+
+    /** @test */
+    public function it_requires_a_valid_title()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'title' => 1,
+        ]);
+
+        $response->assertStatus(400);
+    }
 }

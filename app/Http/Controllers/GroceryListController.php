@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GroceryList;
+use App\Http\Requests\GroceryListCreateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 
@@ -22,7 +23,7 @@ class GroceryListController
         return response()->json($grocerylist, 200);
     }
 
-    public function store(Request $request)
+    public function store(GroceryListCreateRequest $request)
     {
         $grocerylist = GroceryList::create([
             'title'   => $request->title,

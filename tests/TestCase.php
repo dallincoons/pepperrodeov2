@@ -12,6 +12,8 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseMigrations;
 
+    private $oldExceptionHandler;
+
     public function setUp()
     {
         parent::setUp();
