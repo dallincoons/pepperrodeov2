@@ -24,7 +24,10 @@ class GroceryListCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['string'],
+            'title' => ['required', 'string'],
+            'items' => ['array', 'min:1'],
+            'items.*.description' => ['required', 'string'],
+            'items.*.quantity' => ['required', 'integer'],
         ];
     }
 }

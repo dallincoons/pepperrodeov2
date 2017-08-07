@@ -69,12 +69,99 @@ class CreateGroceryListsTest extends TestCase
     }
 
     /** @test */
-    public function it_requires_a_valid_title()
+    public function it_requires_a_title()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_requires_a_string_title()
     {
         $this->withExceptionHandling();
 
         $response = $this->post('/api/v1/grocery-list/create', [
             'title' => 1,
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_requires_items_to_be_an_array()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'items' => 1,
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_requires_description_to_be_present_in_item()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'title' => 'check',
+            'items' => [[
+                'description',
+                'quantity' => 123
+            ]],
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_requires_item_description_to_be_a_string()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'title' => 'check',
+            'items' => [[
+                'description' => 1,
+                'quantity' => 123
+            ]],
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_requires_item_quantity_to_be_an_integer()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'title' => 'check',
+            'items' => [[
+                'description' => 'fake',
+                'quantity' => 'two'
+            ]],
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_requires_item_quantity_to_be_present()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list/create', [
+            'title' => 'check',
+            'items' => [[
+                'description' => 'fake',
+                'quantity'
+            ]],
         ]);
 
         $response->assertStatus(400);
