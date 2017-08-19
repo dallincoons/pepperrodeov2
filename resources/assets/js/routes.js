@@ -10,7 +10,8 @@ let routes = [
     },
     {
         'path' : '/grocery-list/:id',
-        'component' : GroceryList
+        'component' : GroceryList,
+        'name' : 'grocery-list',
     }
 ];
 

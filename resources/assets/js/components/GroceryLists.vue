@@ -7,7 +7,7 @@
 
                     <div class="panel-body">
                         <ul>
-                            <li v-for="list in grocerylists" v-text="list.title"></li>
+                            <li v-for="list in grocerylists"><router-link :to="{ name: 'grocery-list', params: { id: list.id }}">{{list.title}}</router-link></li>
                         </ul>
                     </div>
                 </div>
