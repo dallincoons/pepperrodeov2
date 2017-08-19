@@ -18,6 +18,7 @@ class CreateGroceryListItemsTable extends Migration
             $table->unsignedInteger('grocery_list_id');
             $table->string('description');
             $table->string('quantity');
+            $table->boolean('is_checked')->default(0);
             $table->timestamps();
 
             $table->foreign('grocery_list_id')->references('id')->on('grocery_lists')->onDelete('cascade');
