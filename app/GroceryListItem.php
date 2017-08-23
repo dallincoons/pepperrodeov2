@@ -13,5 +13,7 @@ class GroceryListItem extends Model
     public function toggleComplete()
     {
         $this->is_checked = (int)!$this->is_checked;
+
+        $this->save();
     }
 }

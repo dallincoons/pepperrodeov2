@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 /**
- * @group grocery-list-items-test
+ * @group grocery-list-items-feature-test
  */
 class GroceryListItemCompletionTest extends TestCase
 {
@@ -18,11 +18,11 @@ class GroceryListItemCompletionTest extends TestCase
     {
         $item = factory(GroceryListItem::class)->create();
 
-        $this->assertSame(0, $item->is_checked);
+        $this->assertEquals(0, $item->is_checked);
 
-        $item->toggleComplete();
+        $this->post('/api/v1/grocery-list-item-completion/' . $item->getKey());
 
-        $this->assertSame(1, $item->is_checked);
+        $this->assertEquals(1, $item->fresh()->is_checked);
     }
 
     /** @test */
@@ -32,10 +32,10 @@ class GroceryListItemCompletionTest extends TestCase
             'is_checked' => 1
         ]);
 
-        $this->assertSame(1, $item->is_checked);
+        $this->assertEquals(1, $item->is_checked);
 
-        $item->toggleComplete();
+        $this->post('/api/v1/grocery-list-item-completion/' . $item->getKey());
 
-        $this->assertSame(0, $item->is_checked);
+        $this->assertEquals(0, $item->fresh()->is_checked);
     }
 }
