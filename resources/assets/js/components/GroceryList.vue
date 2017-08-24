@@ -8,7 +8,7 @@
                     <div class="panel-body">
                         <h2>{{listTitle}}</h2>
                         <ul>
-                            <li v-for="item in listitem">{{item.quantity}} {{item.description}}</li>
+                            <li v-for="item in listitems" @click="toggleItem(item.id)" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</li>
                         </ul>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
         data(){
             return {
                 listTitle : '',
-                listitem : ''
+                listitems : ''
             }
         },
         mounted() {
@@ -31,9 +31,19 @@
             axios.get('/api/v1/grocery-list/'+listId).then((response) => {
                 let responseData = response.data;
                 this.listTitle = responseData.title;
-                this.listitem = responseData.items;
+                this.listitems = responseData.items;
                 console.log(responseData.items);
             });
+        },
+        methods: {
+            toggleItem(itemId) {
+                axios.post('/api/v1/grocery-list-item-completion/'+itemId).then((response)=>{
+                    let itemToUpdate = this.listitems.find(function(item){
+                        return item.id == itemId;
+                    });
+                    itemToUpdate.is_checked = response.data.is_checked;
+                });
+            },
         }
 
     }

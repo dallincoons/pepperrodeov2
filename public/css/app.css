@@ -7373,3 +7373,9 @@ body {
 [v-cloak] {
   display: none;
 }
+.checked {
+  text-decoration: line-through;
+}
+ul {
+  list-style: none;
+}
