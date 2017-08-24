@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\GroceryList;
 use App\Http\Requests\GroceryListCreateRequest;
+use App\Repositories\GroceryListRepository;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
 
 class GroceryListController
 {
     public function all()
     {
-        $grocerylists = GroceryList::all();
+        $grocerylists = GroceryListRepository::all();
 
         return response()->json($grocerylists, 200);
     }
@@ -25,16 +25,11 @@ class GroceryListController
 
     public function store(GroceryListCreateRequest $request)
     {
-        $grocerylist = GroceryList::create([
+        $grocerylist = GroceryListRepository::store([
             'title'   => $request->title,
-            'user_id' => \Auth::user()->getKey()
+            'user_id' => \Auth::user()->getKey(),
+            'items' => $request->items
         ]);
-
-        $items = $request->items ?: [];
-
-        foreach($items as $item){
-            $grocerylist->items()->create($item);
-        }
 
         return response()->json($grocerylist, 201);
     }
