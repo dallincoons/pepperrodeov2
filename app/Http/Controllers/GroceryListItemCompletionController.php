@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\GroceryListItem;
+use App\Entities\GroceryListItem;
 use Illuminate\Http\Request;
 
 class GroceryListItemCompletionController extends Controller

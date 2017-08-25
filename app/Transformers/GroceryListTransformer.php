@@ -22,6 +22,7 @@ class GroceryListTransformer extends TransformerAbstract
     {
         return [
             'id'         => (int) $model->id,
+            'title'      => (string) $model->title,
 
             /* place your other model properties here */
 

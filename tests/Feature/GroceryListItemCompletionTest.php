@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\GroceryListItem;
+use App\Entities\GroceryListItem;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

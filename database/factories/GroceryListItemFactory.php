@@ -1,7 +1,7 @@
 <?php
 
 use App\Entities\GroceryList;
-use App\GroceryListItem;
+use App\Entities\GroceryListItem;
 
 $factory->define(GroceryListItem::class, function (Faker\Generator $faker) {
     $groceryList = GroceryList::first() ?: factory(GroceryList::class)->create();

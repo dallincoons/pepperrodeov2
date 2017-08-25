@@ -1,7 +1,7 @@
 <?php
 
 use App\Entities\GroceryList;
-use App\GroceryListItem;
+use App\Entities\GroceryListItem;
 use App\User;
 use Illuminate\Database\Seeder;
 

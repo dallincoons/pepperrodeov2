@@ -25,8 +25,7 @@
         },
         mounted() {
             axios.get('/api/v1/grocery-lists').then((response) => {
-                this.grocerylists = response.data;
-                console.log(response.data);
+                this.grocerylists = response.data.data;
             });
         }
 

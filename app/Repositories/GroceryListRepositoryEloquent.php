@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Entities\GroceryList;
+use App\Entities\GroceryListItem;
+use App\Presenters\GroceryListPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -23,7 +25,9 @@ class GroceryListRepositoryEloquent extends BaseRepository implements GroceryLis
         $items = array_get($attributes, 'items') ?: [];
 
         foreach($items as $item){
-            $grocerylist->items()->create($item);
+            GroceryListItem::create([
+                'grocery_list_id' => array_get($grocerylist, 'data.id')
+            ] + $item);
         }
 
         return $grocerylist;
@@ -37,6 +41,14 @@ class GroceryListRepositoryEloquent extends BaseRepository implements GroceryLis
     public function model()
     {
         return GroceryList::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function presenter()
+    {
+        return GroceryListPresenter::class;
     }
 
     /**

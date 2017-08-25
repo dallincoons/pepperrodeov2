@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
 class GroceryListItem extends Model
 {
     protected $fillable = [
-        'description', 'quantity'
+        'grocery_list_id', 'description', 'quantity'
     ];
 
     public function toggleComplete()

@@ -17,11 +17,11 @@ class RetrieveGroceryListTest extends TestCase
         $grocerylists = factory(GroceryList::class, 2)->create();
 
         $response = $this->get('/api/v1/grocery-lists');
-        $contents = $response->decodeResponseJson();
+        $contents = $response->decodeResponseJson()['data'];
 
         $response->assertStatus(200);
         $this->assertCount(2, $contents);
-        $this->assertEquals($grocerylists->pluck('id'), collect($response->decodeResponseJson())->pluck('id'));
+        $this->assertEquals($grocerylists->pluck('id'), collect($contents)->pluck('id'));
     }
 
     /** @test */
