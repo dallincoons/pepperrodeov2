@@ -1,6 +1,6 @@
 <?php
 
-use App\GroceryList;
+use App\Entities\GroceryList;
 use App\User;
 
 $factory->define(GroceryList::class, function (Faker\Generator $faker) {

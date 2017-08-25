@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\GroceryList;
+use App\Entities\GroceryList;
 use Tests\TestCase;
 
 /**

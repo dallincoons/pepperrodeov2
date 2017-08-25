@@ -2,28 +2,9 @@
 
 namespace App\Repositories;
 
-use App\GroceryList;
+use Prettus\Repository\Contracts\RepositoryInterface;
 
-class GroceryListRepository
+interface GroceryListRepository extends RepositoryInterface
 {
-    public static function all()
-    {
-        return GroceryList::all();
-    }
-
-    public static function store($data)
-    {
-        $grocerylist = GroceryList::create([
-            'title'   => $data['title'],
-            'user_id' => $data['user_id']
-        ]);
-
-        $items = array_get($data, 'items') ?: [];
-
-        foreach($items as $item){
-            $grocerylist->items()->create($item);
-        }
-
-        return $grocerylist;
-    }
+    //
 }

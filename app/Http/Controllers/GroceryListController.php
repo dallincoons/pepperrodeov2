@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\GroceryList;
+use App\Entities\GroceryList;
 use App\Http\Requests\GroceryListCreateRequest;
 use App\Repositories\GroceryListRepository;
+use App\Repositories\GroceryListRepositoryOld;
 use Illuminate\Http\Request;
 
 class GroceryListController
 {
+    private $repository;
+
+    public function __construct(GroceryListRepository $groceryListRepository)
+    {
+       $this->repository = $groceryListRepository;
+    }
+
     public function all()
     {
-        $grocerylists = GroceryListRepository::all();
+        $grocerylists =  $this->repository->all();
 
         return response()->json($grocerylists, 200);
     }
@@ -25,7 +33,7 @@ class GroceryListController
 
     public function store(GroceryListCreateRequest $request)
     {
-        $grocerylist = GroceryListRepository::store([
+        $grocerylist = $this->repository->create([
             'title'   => $request->title,
             'user_id' => \Auth::user()->getKey(),
             'items' => $request->items

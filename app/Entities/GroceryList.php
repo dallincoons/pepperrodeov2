@@ -1,11 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Entities;
 
+use App\GroceryListItem;
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class GroceryList extends Model
+class GroceryList extends Model implements Transformable
 {
+    use TransformableTrait;
+
     protected $fillable = [
         'title', 'user_id'
     ];
@@ -17,4 +22,5 @@ class GroceryList extends Model
     {
         return $this->hasMany(GroceryListItem::class);
     }
+
 }
