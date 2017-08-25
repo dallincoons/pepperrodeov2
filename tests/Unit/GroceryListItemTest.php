@@ -22,7 +22,7 @@ class GroceryListItemTest extends TestCase
 
         $item->toggleComplete();
 
-        $this->assertSame(1, $item->is_checked);
+        $this->assertSame(1, $item->fresh()->is_checked);
     }
 
     /** @test */
@@ -36,6 +36,6 @@ class GroceryListItemTest extends TestCase
 
         $item->toggleComplete();
 
-        $this->assertSame(0, $item->is_checked);
+        $this->assertSame(0, $item->fresh()->is_checked);
     }
 }

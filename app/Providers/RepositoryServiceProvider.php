@@ -24,5 +24,6 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(\App\Repositories\GroceryListRepository::class, \App\Repositories\GroceryListRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\GroceryListItemRepository::class, \App\Repositories\GroceryListItemRepositoryEloquent::class);
     }
 }
