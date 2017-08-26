@@ -15,7 +15,7 @@ class CreateGroceryListsTest extends TestCase
     /** @test */
     public function it_creates_a_grocery_list_without_items()
     {
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'Second half of June',
         ]);
 
@@ -26,7 +26,7 @@ class CreateGroceryListsTest extends TestCase
     /** @test */
     public function it_creates_a_grocery_list_with_items()
     {
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'Second half of June',
             'items'  => [[
                 'description' => 'blah blah',
@@ -58,7 +58,7 @@ class CreateGroceryListsTest extends TestCase
             ]
         ];
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'First half of July',
             'items' => $items
         ]);
@@ -73,7 +73,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
         ]);
 
         $response->assertStatus(400);
@@ -84,7 +84,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 1,
         ]);
 
@@ -96,7 +96,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'items' => 1,
         ]);
 
@@ -108,7 +108,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'check',
             'items' => [[
                 'description',
@@ -124,7 +124,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'check',
             'items' => [[
                 'description' => 1,
@@ -140,7 +140,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'check',
             'items' => [[
                 'description' => 'fake',
@@ -156,7 +156,7 @@ class CreateGroceryListsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->post('/api/v1/grocery-list/create', [
+        $response = $this->post('/api/v1/grocery-list', [
             'title' => 'check',
             'items' => [[
                 'description' => 'fake',
