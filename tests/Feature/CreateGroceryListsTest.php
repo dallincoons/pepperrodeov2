@@ -136,6 +136,21 @@ class CreateGroceryListsTest extends TestCase
     }
 
     /** @test */
+    public function it_allows_item_quantity_to_be_nullable()
+    {
+//        $this->withExceptionHandling();
+
+        $response = $this->post('/api/v1/grocery-list', [
+            'title' => 'check',
+            'items' => [[
+                'description' => 'fake',
+            ]],
+        ]);
+
+        $response->assertStatus(201);
+    }
+
+    /** @test */
     public function it_requires_item_quantity_to_be_an_integer()
     {
         $this->withExceptionHandling();
@@ -145,22 +160,6 @@ class CreateGroceryListsTest extends TestCase
             'items' => [[
                 'description' => 'fake',
                 'quantity' => 'two'
-            ]],
-        ]);
-
-        $response->assertStatus(400);
-    }
-
-    /** @test */
-    public function it_requires_item_quantity_to_be_present()
-    {
-        $this->withExceptionHandling();
-
-        $response = $this->post('/api/v1/grocery-list', [
-            'title' => 'check',
-            'items' => [[
-                'description' => 'fake',
-                'quantity'
             ]],
         ]);
 

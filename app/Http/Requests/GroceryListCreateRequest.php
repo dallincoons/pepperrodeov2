@@ -27,7 +27,7 @@ class GroceryListCreateRequest extends FormRequest
             'title' => ['required', 'string'],
             'items' => ['array', 'min:1'],
             'items.*.description' => ['required', 'string'],
-            'items.*.quantity' => ['required', 'integer'],
+            'items.*.quantity' => ['integer'],
         ];
     }
 }
