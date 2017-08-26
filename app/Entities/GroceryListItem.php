@@ -17,7 +17,7 @@ class GroceryListItem extends Model
 
     public function toggleComplete()
     {
-        app(GroceryListItemRepository::class)->update([
+        return app(GroceryListItemRepository::class)->update([
             'is_checked' => (int)!$this->is_checked
         ], $this->getKey());
     }

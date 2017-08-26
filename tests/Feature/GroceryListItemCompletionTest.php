@@ -20,9 +20,10 @@ class GroceryListItemCompletionTest extends TestCase
 
         $this->assertEquals(0, $item->is_checked);
 
-        $this->post('/api/v1/grocery-list-item-completion/' . $item->getKey());
+        $response = $this->post('/api/v1/grocery-list-item-completion/' . $item->getKey());
 
         $this->assertEquals(1, $item->fresh()->is_checked);
+        $response->assertJsonFragment(['is_checked' => 1]);
     }
 
     /** @test */
