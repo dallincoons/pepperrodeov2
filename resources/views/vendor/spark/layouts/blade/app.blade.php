@@ -25,15 +25,8 @@
         )); ?>;
     </script>
 </head>
-<body class="with-navbar">
+<body>
     <div>
-        <!-- Navigation -->
-        @if (Auth::check())
-            @include('spark::nav.blade.user')
-        @else
-            @include('spark::nav.guest')
-        @endif
-
         <!-- Main Content -->
         @yield('content')
 
