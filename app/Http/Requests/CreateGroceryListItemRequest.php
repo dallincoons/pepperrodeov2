@@ -24,8 +24,9 @@ class CreateGroceryListItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|string',
-            'quantity'    => 'integer',
+            'grocery_list_id' => 'required|integer',
+            'description'     => 'required|string',
+            'quantity'        => 'integer',
         ];
     }
 }

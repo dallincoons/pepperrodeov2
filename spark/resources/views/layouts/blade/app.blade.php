@@ -25,7 +25,7 @@
         )); ?>;
     </script>
 </head>
-<body class="with-navbar">
+<body>
     <div>
         <!-- Navigation -->
         @if (Auth::check())

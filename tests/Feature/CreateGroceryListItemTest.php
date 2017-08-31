@@ -57,6 +57,21 @@ class CreateGroceryListItemTest extends TestCase
         $this->assertCount(0, $this->grocerylist->fresh()->items);
     }
 
+    /** @test */
+    public function it_requires_a_grocery_list_id()
+    {
+        $this->withExceptionHandling();
+
+        $this->assertCount(0, $this->grocerylist->fresh()->items);
+
+        $response = $this->createGroceryListItem([
+            'grocery_list_id' => null
+        ]);
+
+        $response->assertStatus(400);
+        $this->assertCount(0, $this->grocerylist->fresh()->items);
+    }
+
     protected function createGroceryListItem($overrides = [])
     {
         $response = $this->post('/api/v1/grocery-list-item', array_merge([

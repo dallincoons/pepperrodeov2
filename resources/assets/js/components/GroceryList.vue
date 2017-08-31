@@ -6,6 +6,7 @@
                     <div class="panel-heading">Grocery List Component</div>
 
                     <div class="panel-body">
+                        <input title="description" v-model="description" @keyup.enter="saveItem">
                         <h2>{{listTitle}}</h2>
                         <ul>
                             <li v-for="item in listitems" @click="toggleItem(item.id)" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</li>
@@ -21,21 +22,28 @@
     export default {
         data(){
             return {
+                listId : '',
                 listTitle : '',
-                listitems : ''
+                listitems : '',
+                description : ''
             }
         },
         mounted() {
-            console.log(this.$route.params.id);
-            let listId = this.$route.params.id;
-            axios.get('/api/v1/grocery-list/'+listId).then((response) => {
+            this.listId = this.$route.params.id;
+            axios.get('/api/v1/grocery-list/'+this.listId).then((response) => {
                 let responseData = response.data;
                 this.listTitle = responseData.title;
                 this.listitems = responseData.items;
-                console.log(responseData.items);
             });
         },
         methods: {
+            getList() {
+                axios.get('/api/v1/grocery-list/'+this.listId).then((response) => {
+                    let responseData = response.data;
+                    this.listTitle = responseData.title;
+                    this.listitems = responseData.items;
+                });
+            },
             toggleItem(itemId) {
                 axios.post('/api/v1/grocery-list-item-completion/'+itemId).then((response)=>{
                     let itemToUpdate = this.listitems.find(function(item){
@@ -44,6 +52,12 @@
                     itemToUpdate.is_checked = response.data.is_checked;
                 });
             },
+            saveItem() {
+                axios.post('/api/v1/grocery-list-item', {grocery_list_id : this.listId, description : this.description}).then((response) => {
+                        this.getList();
+                        this.description = '';
+                })
+            }
         }
 
     }
