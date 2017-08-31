@@ -27,7 +27,6 @@
             align-items: center;
         }
 
-
         .brand{
             font-family: 'Dancing Script', cursive;
             font-weight: 700;
