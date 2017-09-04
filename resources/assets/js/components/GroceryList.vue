@@ -9,7 +9,7 @@
                         <input title="description" v-model="description" @keyup.enter="saveItem">
                         <h2>{{listTitle}}</h2>
                         <ul>
-                            <li v-for="item in listitems" @click="toggleItem(item.id)" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</li>
+                            <li v-for="item in listitems"><span @click="toggleItem(item.id)" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span> <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span></li>
                         </ul>
                     </div>
                 </div>
@@ -57,7 +57,40 @@
                         this.getList();
                         this.description = '';
                 })
-            }
+            },
+            deleteItem(itemId) {
+                axios.delete('/api/v1/grocery-list-item/'+itemId).then((response) => {
+                    this.getList();
+                })
+            },
+
+            showUpdateItem(itemId) {
+                swal({
+                        title: "An input!",
+                        text: "Write something interesting:",
+                        type: "input",
+                        showCancelButton: true,
+                        closeOnConfirm: true,
+                        animation: "slide-from-top",
+                        inputPlaceholder: "Write something"
+                    },
+                    (inputValue) => {
+                        if (inputValue === false) return false;
+
+                        if (inputValue === "") {
+                            swal.showInputError("You need to write something!");
+                            return false
+                        }
+
+                        this.updateItem(itemId, inputValue);
+
+                    });
+            },
+            updateItem(itemId, inputValue) {
+                axios.patch('/api/v1/grocery-list-item/'+itemId, {description : inputValue}).then((response) => {
+                    this.getList();
+                })
+            },
         }
 
     }
