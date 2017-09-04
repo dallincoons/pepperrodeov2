@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\GroceryListItem;
+use App\Validators\GroceryListItemValidator;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -24,6 +25,11 @@ class GroceryListItemRepositoryEloquent extends BaseRepository implements Grocer
     public function presenter()
     {
 //        return GroceryListItemPresenter::class;
+    }
+
+    public function validator()
+    {
+        return GroceryListItemValidator::class;
     }
 
     /**

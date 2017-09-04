@@ -22,6 +22,13 @@ class GroceryListItemController extends Controller
         return response()->json($item, 201);
     }
 
+    public function update(Request $request, $groceryListItemId)
+    {
+        $item = $this->repository->update($request->all(), $groceryListItemId);
+
+        return response()->json($item, 200);
+    }
+
     public function delete(Request $request)
     {
         $success = $this->repository->delete($request->id);

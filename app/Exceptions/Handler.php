@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof ValidationException) {
+        if ($exception instanceof ValidationException || $exception instanceof \Prettus\Validator\Exceptions\ValidatorException) {
             return response()->json(['error' => $exception->getMessage()], 400);
         }
 
