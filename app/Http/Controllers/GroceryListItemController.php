@@ -29,9 +29,9 @@ class GroceryListItemController extends Controller
         return response()->json($item, 200);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $itemId)
     {
-        $success = $this->repository->delete($request->id);
+        $success = $this->repository->delete($itemId);
 
         return response()->json($success, 200);
     }

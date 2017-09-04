@@ -17,9 +17,7 @@ class DeleteGroceryListItemsTest extends TestCase
 
         $this->assertCount(2, $list->items);
 
-        $this->delete('/api/v1/grocery-list-item', [
-            'id' => $item1->getKey()
-        ]);
+        $this->delete('/api/v1/grocery-list-item/' . $item1->getKey());
 
         $list->refresh();
         $this->assertCount(1, $list->items);
