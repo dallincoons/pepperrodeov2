@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGroceryListItemRequest;
 use App\Repositories\GroceryListItemRepository;
+use Illuminate\Http\Request;
 
 class GroceryListItemController extends Controller
 {
@@ -19,5 +20,12 @@ class GroceryListItemController extends Controller
         $item = $this->repository->create($request->all());
 
         return response()->json($item, 201);
+    }
+
+    public function delete(Request $request)
+    {
+        $success = $this->repository->delete($request->id);
+
+        return response()->json($success, 200);
     }
 }

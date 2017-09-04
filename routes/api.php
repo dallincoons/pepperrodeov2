@@ -18,10 +18,11 @@ Route::group([
     Route::get('grocery-lists', 'GroceryListController@all');
     Route::get('grocery-list/{grocerylist}', 'GroceryListController@show');
     Route::post('grocery-list', 'GroceryListController@store');
-    Route::post('grocery-list/{grocerylist}/delete', 'GroceryListController@delete');
+    Route::post('grocery-list/{grocerylist}', 'GroceryListController@delete');
     Route::patch('grocery-list/{grocerylist}', 'GroceryListController@update');
 
     Route::post('grocery-list-item', 'GroceryListItemController@store');
+    Route::delete('grocery-list-item', 'GroceryListItemController@delete');
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
     // vue-router will handle any other requests

@@ -16,7 +16,7 @@ class DeleteGroceryListsTest extends TestCase
     {
         $grocerylist = factory(GroceryList::class)->create();
 
-        $response = $this->post('/api/v1/grocery-list/' . $grocerylist->getKey() . '/delete');
+        $response = $this->post('/api/v1/grocery-list/' . $grocerylist->getKey());
 
         $response->assertStatus(200);
         $this->assertNull($grocerylist->fresh());
