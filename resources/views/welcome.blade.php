@@ -17,25 +17,25 @@
         h2, h3, h4, h5, h6, p, a {
             font-family: 'Roboto', sans-serif;
         }
-        .full-height {
-            min-height: 100vh;
-            background-image: url("/img/pepperrodeo_background_img.jpg");
-            -webkit-background-size: cover;
-            background-size: cover;
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
+            background: #fff4f0;
+        }
+        .main-wrapper {
+            display: flex;
+            width:40%;
+            margin-top: 10%;
         }
 
-        .brand{
-            font-family: 'Dancing Script', cursive;
-            font-weight: 700;
-            font-size: 5em;
-            color: #ff4b2e;
+        .picture-section {
+            width: 60%;
+            background: #ff4b2e;
         }
 
-        .links {
-            padding: 1em 1em 5em 1em;
+        .sign-in-section {
+            display: flex;
             text-align: right;
             width: 35%;
             background: rgba(255,255,255,.8);
@@ -47,6 +47,26 @@
             align-items: center;
         }
 
+        .brand{
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: 3em;
+            color: #ff4b2e;
+        }
+
+        .links {
+            text-align: right;
+            width: 100%;
+            background: rgba(255,255,255,.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40%;
+        }
+
         .links a {
             text-decoration: none;
             background: rgba(255,255,255,.4);
@@ -55,7 +75,7 @@
             font-weight: 500;
             cursor: pointer;
             width: 60%;
-            height: 75%;
+            height: 35%;
             text-align: center;
             padding: 10px;
             margin: 10px;
@@ -68,17 +88,30 @@
             color: #ff4b2e;
             text-decoration: none;
         }
+        .line {
+            width: 100%;
+            height: 10px;
+            background: #ff4b2e;
+            align-self: flex-end;
+        }
     </style>
 </head>
 <body>
     @if(!Auth::check())
-        <div class="full-height">
-            <nav class="links">
-            <h1 class="brand">Pepper Rodeo</h1>
-                <a href="/login">Login</a>
+        <div class="main-wrapper">
+            <div class="sign-in-section">
+                <h1 class="brand">Pepper Rodeo</h1>
+                <nav class="links">
+                    <a href="/login">Login</a>
 
-                <a href="/register">Sign Up</a>
-            </nav>
+                    <a href="/register">Sign Up</a>
+                </nav>
+
+                <span class="line"></span>
+            </div>
+            <div class="picture-section">
+
+            </div>
         </div>
 
     @else

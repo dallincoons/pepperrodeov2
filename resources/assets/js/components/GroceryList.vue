@@ -11,7 +11,6 @@
                     <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span></li>
             </ul>
         </div>
-
     </div>
 </template>
 
