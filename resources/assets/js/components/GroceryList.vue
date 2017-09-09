@@ -1,20 +1,17 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Grocery List Component</div>
-
-                    <div class="panel-body">
-                        <input title="description" v-model="description" @keyup.enter="saveItem">
-                        <h2>{{listTitle}}</h2>
-                        <ul>
-                            <li v-for="item in listitems"><span @click="toggleItem(item.id)" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span> <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="container-heading"><h2>{{listTitle}}</h2></div>
+        <div class="container-body">
+            <div class="add-item">
+                <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
             </div>
+            <ul class="list-items">
+                <li v-for="item in listitems" class="list-item">
+                    <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span><span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
+                    <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span></li>
+            </ul>
         </div>
+
     </div>
 </template>
 
@@ -95,3 +92,94 @@
 
     }
 </script>
+
+<style>
+
+    body {
+        width: 100%;
+        background: #fff4f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container {
+        width: 60%;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        -webkit-box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
+        -moz-box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
+        box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
+        margin-bottom: 40px;
+
+    }
+
+    .container-heading {
+        background: #ff4b2e;
+        margin: 0 -15px;
+        border-radius: 10px 10px 0 0;
+        color: #fff;
+        padding: 0 0 0 2%;
+    }
+
+    .container-heading h2 {
+        font-weight: 200;
+        margin-top: 11px;
+    }
+
+    .container-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .add-item {
+        width: 90%;
+        margin: 10px 0;
+    }
+
+    .add-item input {
+        width: 100%;
+        background: #ebebeb;
+        border: none;
+        padding: 1%;
+        font-size: 1.5em;
+    }
+
+    .list-items {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .list-item {
+        width: 100%;
+        -webkit-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
+        -moz-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
+        box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
+        margin: 10px 0;
+        font-size: 1.5em;
+        display: flex;
+        border-radius: 5px;
+        border-top: 1px solid rgba(27,26,26,.1);
+        padding: 5px;
+        align-items: center;
+    }
+
+    .checkbox {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #555555;
+        display: flex;
+        margin: 0;
+    }
+
+    .item {
+        padding-left: 10px;
+    }
+
+
+</style>
