@@ -6,6 +6,8 @@
 
 @section('content')
 <spark-register-braintree inline-template>
+
+
     <div>
         <div class="spark-screen container">
             <!-- Common Register Form Contents -->

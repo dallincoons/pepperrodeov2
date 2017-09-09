@@ -10,8 +10,8 @@
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700|Roboto:300,400,500" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700" rel="stylesheet">
 
     <style>
         h2, h3, h4, h5, h6, p, a {

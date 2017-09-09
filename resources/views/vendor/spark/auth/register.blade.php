@@ -3,3 +3,4 @@
 @else
     @include('spark::auth.register-braintree')
 @endif
+

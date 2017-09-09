@@ -1,61 +1,83 @@
 @extends('spark::layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
+    <div class="main-wrapper">
+        <div class="sign-in-section">
+            <h1 class="brand">Pepper Rodeo</h1>
+            <div class="auth-form">
+                @include('spark::shared.errors')
+                <form class="form-horizontal" role="form" method="POST" action="/login">
+                    {{ csrf_field() }}
+                    <input type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
 
-                <div class="panel-body">
-                    @include('spark::shared.errors')
+                    <label>
+                        <input type="checkbox" name="remember"> Remember Me
+                    </label>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa m-r-xs fa-sign-in"></i>Login
+                    </button>
 
-                    <form class="form-horizontal" role="form" method="POST" action="/login">
-                        {{ csrf_field() }}
-
-                        <!-- E-Mail Address -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
-                            </div>
-                        </div>
-
-                        <!-- Password -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
-                            </div>
-                        </div>
-
-                        <!-- Remember Me -->
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Login Button -->
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa m-r-xs fa-sign-in"></i>Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
+                </form>
             </div>
+
+            <span class="line"></span>
+        </div>
+        <div class="picture-section">
+
         </div>
     </div>
-</div>
+
+    <style>
+        body {
+            width: 100%;
+            background: #fff4f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h2, h3, h4, h5, h6, p, a {
+            font-family: 'Roboto', sans-serif;
+        }
+        .main-wrapper {
+            display: flex;
+            width:40%;
+            margin-top: 10%;
+        }
+
+        .picture-section {
+            width: 60%;
+            background: #ff4b2e;
+        }
+
+        .sign-in-section {
+            display: flex;
+            text-align: right;
+            width: 35%;
+            background: rgba(255,255,255,.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .brand{
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: 3em;
+            color: #ff4b2e;
+        }
+
+        .line {
+            width: 100%;
+            height: 10px;
+            background: #ff4b2e;
+            align-self: flex-end;
+        }
+    </style>
+
 @endsection
+
+
