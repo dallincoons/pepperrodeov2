@@ -23,8 +23,3 @@ require('./filters');
  * Load the Spark form utilities.
  */
 require('./forms/bootstrap');
-
-/* Load the router */
-import VueRouter from 'vue-router';
-
-Vue.use(VueRouter);

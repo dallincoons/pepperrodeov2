@@ -1,5 +1,3 @@
-import VueRouter from 'vue-router';
-
 import GroceryLists from './components/GroceryLists.vue';
 import GroceryList from './components/GroceryList.vue';
 import GroceryListCreate from './components/GroceryListCreate.vue';
@@ -19,7 +17,4 @@ let routes = [
         'name' : 'grocery-list',
     }
 ];
-
-export default new VueRouter({
-    routes
-});
+export default routes;
