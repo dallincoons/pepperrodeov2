@@ -1,37 +1,4 @@
 <form class="form-horizontal" role="form">
-    @if (Spark::usesTeams() && Spark::onlyTeamPlans())
-        <!-- Team Name -->
-        <div class="form-group" :class="{'has-error': registerForm.errors.has('team')}" v-if=" ! invitation">
-            <label class="col-md-4 control-label">{{ ucfirst(Spark::teamString()) }} Name</label>
-
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="team" v-model="registerForm.team" autofocus>
-
-                <span class="help-block" v-show="registerForm.errors.has('team')">
-                    @{{ registerForm.errors.get('team') }}
-                </span>
-            </div>
-        </div>
-
-        @if (Spark::teamsIdentifiedByPath())
-            <!-- Team Slug (Only Shown When Using Paths For Teams) -->
-            <div class="form-group" :class="{'has-error': registerForm.errors.has('team_slug')}" v-if=" ! invitation">
-                <label class="col-md-4 control-label">{{ ucfirst(Spark::teamString()) }} Slug</label>
-
-                <div class="col-md-6">
-                    <input type="text" class="form-control" name="team_slug" v-model="registerForm.team_slug" autofocus>
-
-                    <p class="help-block" v-show=" ! registerForm.errors.has('team_slug')">
-                        This slug is used to identify your {{ Spark::teamString() }} in URLs.
-                    </p>
-
-                    <span class="help-block" v-show="registerForm.errors.has('team_slug')">
-                        @{{ registerForm.errors.get('team_slug') }}
-                    </span>
-                </div>
-            </div>
-        @endif
-    @endif
 
     <!-- Name -->
     <div class="form-group" :class="{'has-error': registerForm.errors.has('name')}">

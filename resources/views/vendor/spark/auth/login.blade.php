@@ -2401,7 +2401,7 @@
         justify-content: center;
         align-items: center;
     }
-    h2, h3, h4, h5, h6, p, a {
+    h2, h3, h4, h5, h6, p, a, input, button {
         font-family: 'Roboto', sans-serif;
     }
     #spark-app {
@@ -2455,6 +2455,7 @@
         font-size:1.5em;
         margin: 5% 0;
         padding-left: 1%;
+        font-weight: 200;
     }
 
     .forgot-pass {
@@ -2462,6 +2463,8 @@
         display: block;
         align-self: flex-end;
         margin: -4% 0 25% 0;
+        font-family: 'Roboto', sans-serif;
+        text-decoration: none;
     }
 
     .forgot-pass:hover {
@@ -2477,6 +2480,7 @@
         border: none;
         margin-bottom: 50%;
         transition: background 3s;
+        padding: 2% 0;
     }
 
     .pr-button:hover {
@@ -2489,6 +2493,7 @@
         text-align: left;
         margin-bottom: 0;
         display: block;
+        font-family: 'Roboto', sans-serif;
     }
 
 
