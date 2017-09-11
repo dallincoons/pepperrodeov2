@@ -44,6 +44,7 @@
         -moz-box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
         box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
         margin-bottom: 40px;
+        margin-top: 50px;
 
     }
 

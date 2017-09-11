@@ -23,6 +23,83 @@
             align-items: center;
             background: #fff4f0;
         }
+
+        #spark-app {
+            display: flex;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            flex-direction: column;
+            padding-right: 5%;
+            text-align: center;
+            width: 20%;
+            margin-top: 11px;
+
+        }
+
+        .nav-links {
+            background: #ffffff;
+            margin-top: 1%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-align: left;
+            padding-left: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
+            -moz-box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
+            box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
+        }
+
+        .nav-links a {
+            color: #4f4f4f;
+            font-size: 1.2em;
+            padding: 2% 2% 4% 2%;
+        }
+
+        .nav-links a:hover {
+            color: #4f4f4f;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        .nav-brand {
+            font-family: 'Dancing Script', cursive;
+            color: #ff4b2e;
+            margin-bottom: -1%;
+            z-index: 2;
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        .nav-link {
+            color: #4f4f4f;
+            font-size: 1.2em;
+            border-bottom: 1px solid #4f4f4f;
+            width: 80%;
+            padding: 2%;
+            transition: border-bottom 2ms;
+        }
+
+        .nav-link:hover {
+            border-bottom: 2px solid #ff4b2e;
+            color: #4f4f4f;
+            text-decoration: none;
+            transition: border-bottom 2ms;
+        }
+
+        .nav-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            width: 100%;
+            background-color: #ff4b2e;
+            border-radius: 0 0 10px 10px;
+        }
+
         .main-wrapper {
             display: flex;
             width:40%;
@@ -95,6 +172,20 @@
             align-self: flex-end;
             position: absolute;
             bottom: 0;
+        }
+
+        .edit-item {
+            background: #ffffff;
+            margin-top: 25%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-align: left;
+            padding-left: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
+            -moz-box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
+            box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
         }
     </style>
 </head>
@@ -2475,8 +2566,21 @@
         @extends('spark::layouts.app')
 
         @section('content')
-            <router-link to="/grocery-lists">Grocery Lists</router-link>
-            <router-link to="/grocery-list/create">Create Grocery List</router-link>
+
+            <div class="nav-wrapper">
+                <h1 class="nav-brand">Pepper Rodeo</h1>
+                <div class="nav-links">
+                    <router-link to="/grocery-lists" class="nav-link">Grocery Lists</router-link>
+                    <router-link to="/grocery-list/create" class="nav-link">Create Grocery List</router-link>
+                    <a>Log Out</a>
+                    <div class="nav-line"></div>
+                </div>
+                <div class="edit-item">
+                    <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span>
+                    <div class="nav-line"></div>
+                </div>
+            </div>
+
             <router-view></router-view>
         @endsection
     @endif

@@ -6,12 +6,16 @@
                 <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
             </div>
             <ul class="list-items">
-                <li v-for="item in listitems" class="list-item">
-                    <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span><span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
-                    <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span></li>
+                <li v-for="item in listitems" class="list-item" @dblclick="editItem(item.id)">
+                    <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
+                    <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
+
+                </li>
+
             </ul>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -21,7 +25,8 @@
                 listId : '',
                 listTitle : '',
                 listitems : '',
-                description : ''
+                description : '',
+                editingItem : ''
             }
         },
         mounted() {
@@ -87,6 +92,11 @@
                     this.getList();
                 })
             },
+
+            editItem(itemId) {
+                alert(itemId);
+            }
+
         }
 
     }
@@ -111,6 +121,7 @@
         -moz-box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
         box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
         margin-bottom: 40px;
+        margin-top: 50px;
 
     }
 
@@ -176,8 +187,20 @@
         margin: 0;
     }
 
+    .checkmark {
+        background: rgba(25, 25, 25, .3);
+    }
+
     .item {
         padding-left: 10px;
+    }
+
+    .edit-item-hidden {
+        display: none;
+    }
+
+    .edit-item {
+
     }
 
 
