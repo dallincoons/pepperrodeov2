@@ -83,18 +83,21 @@
         box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
         font-size: 1.5em;
         margin: 2% 0;
+        transition: border-left 1s;
     }
 
     .grocery-list a {
         color: #4f4f4f;
-        transition: font-size 3s;
     }
 
     .grocery-list a:hover {
         color: #4f4f4f;
         text-decoration: none;
-        font-size: 1.1em;
-        transition: font-size 3s;
+    }
+
+    .grocery-list:hover {
+        border-left: 7px solid #BF3822;
+        transition: border-left 1s;
     }
 
     </style>

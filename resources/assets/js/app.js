@@ -28,6 +28,8 @@ let router = new VueRouter({
     routes
 });
 
+window.EventBus = new Vue();
+
 var app = new Vue({
     mixins: [require('spark')],
 

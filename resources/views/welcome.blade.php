@@ -84,7 +84,7 @@
         }
 
         .nav-link:hover {
-            border-bottom: 2px solid #ff4b2e;
+            border-bottom: 1px solid #ff4b2e;
             color: #4f4f4f;
             text-decoration: none;
             transition: border-bottom 2ms;
@@ -2575,10 +2575,8 @@
                     <a>Log Out</a>
                     <div class="nav-line"></div>
                 </div>
-                <div class="edit-item">
-                    <span @click="showUpdateItem(item.id)">Update</span> <span @click="deleteItem(item.id)">Delete</span>
-                    <div class="nav-line"></div>
-                </div>
+                <router-view name="navigation"></router-view>
+
             </div>
 
             <router-view></router-view>

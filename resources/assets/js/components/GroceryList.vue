@@ -36,6 +36,10 @@
                 this.listTitle = responseData.title;
                 this.listitems = responseData.items;
             });
+
+            EventBus.$on('deleteItem', (prams) => {
+                this.deleteItem(prams.id);
+            });
         },
         methods: {
             getList() {
@@ -45,6 +49,7 @@
                     this.listitems = responseData.items;
                 });
             },
+
             toggleItem(itemId) {
                 axios.post('/api/v1/grocery-list-item-completion/'+itemId).then((response)=>{
                     let itemToUpdate = this.listitems.find(function(item){
@@ -53,12 +58,14 @@
                     itemToUpdate.is_checked = response.data.is_checked;
                 });
             },
+
             saveItem() {
                 axios.post('/api/v1/grocery-list-item', {grocery_list_id : this.listId, description : this.description}).then((response) => {
                         this.getList();
                         this.description = '';
                 })
             },
+
             deleteItem(itemId) {
                 axios.delete('/api/v1/grocery-list-item/'+itemId).then((response) => {
                     this.getList();
@@ -87,6 +94,7 @@
 
                     });
             },
+
             updateItem(itemId, inputValue) {
                 axios.patch('/api/v1/grocery-list-item/'+itemId, {description : inputValue}).then((response) => {
                     this.getList();
@@ -94,11 +102,9 @@
             },
 
             editItem(itemId) {
-                alert(itemId);
+                EventBus.$emit('grocerylist.update.show', {id : itemId});
             }
-
         }
-
     }
 </script>
 
