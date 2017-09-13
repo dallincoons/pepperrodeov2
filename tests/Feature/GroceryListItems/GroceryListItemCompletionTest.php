@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\GroceryListItems;
 
 use App\Entities\GroceryListItem;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
