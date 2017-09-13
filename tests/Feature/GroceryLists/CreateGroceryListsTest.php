@@ -138,8 +138,6 @@ class CreateGroceryListsTest extends TestCase
     /** @test */
     public function it_allows_item_quantity_to_be_nullable()
     {
-//        $this->withExceptionHandling();
-
         $response = $this->post('/api/v1/grocery-list', [
             'title' => 'check',
             'items' => [[

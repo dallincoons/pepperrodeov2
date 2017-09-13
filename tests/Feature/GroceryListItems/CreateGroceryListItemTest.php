@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\GroceryListItems;
 
+use App\Entities\Department;
 use App\Entities\GroceryList;
 use Tests\TestCase;
 
@@ -70,6 +71,23 @@ class CreateGroceryListItemTest extends TestCase
 
         $response->assertStatus(400);
         $this->assertCount(0, $this->grocerylist->fresh()->items);
+    }
+
+    /** @test */
+    public function it_creates_item_with_department()
+    {
+        $department = factory(Department::class)->create([
+            'name' => 'Prodeuce'
+        ]);
+
+        $response = $this->createGroceryListItem([
+            'department_id' => $department->getKey()
+        ]);
+
+        $newDepartment = $this->grocerylist->items()->first()->department->getKey();
+
+        $response->assertStatus(201);
+        $this->assertEquals($department->getKey(), $newDepartment);
     }
 
     protected function createGroceryListItem($overrides = [])
