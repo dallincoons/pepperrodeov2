@@ -5,6 +5,10 @@
             <div class="add-item">
                 <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
             </div>
+            <select v-model="department">
+                <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+            </select>
+            <button @click="saveItem">Save</button>
             <ul class="list-items">
                 <li v-for="item in listitems" class="list-item" @dblclick="editItem(item.id)">
                     <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
@@ -26,7 +30,9 @@
                 listTitle : '',
                 listitems : '',
                 description : '',
-                editingItem : ''
+                editingItem : '',
+                departments: '',
+                department: ''
             }
         },
         mounted() {
@@ -39,6 +45,10 @@
 
             EventBus.$on('deleteItem', (prams) => {
                 this.deleteItem(prams.id);
+            });
+            axios.get('/api/v1/departments').then((response) => {
+                this.departments = response.data;
+                console.log(departmentsInfo);
             });
         },
         methods: {
@@ -60,9 +70,10 @@
             },
 
             saveItem() {
-                axios.post('/api/v1/grocery-list-item', {grocery_list_id : this.listId, description : this.description}).then((response) => {
+                axios.post('/api/v1/grocery-list-item', {grocery_list_id : this.listId, description : this.description, department_id : this.department}).then((response) => {
                         this.getList();
                         this.description = '';
+                        this.department = '';
                 })
             },
 
