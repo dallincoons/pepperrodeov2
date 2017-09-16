@@ -16,12 +16,12 @@
                 grocerylists : []
             }
         },
+
         mounted() {
             axios.get('/api/v1/grocery-lists').then((response) => {
                 this.grocerylists = response.data.data;
             });
         }
-
     }
 </script>
 

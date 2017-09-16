@@ -9,14 +9,17 @@
                 <option v-for="department in departments" :value="department.id">{{department.name}}</option>
             </select>
             <button @click="saveItem">Save</button>
-            <ul class="list-items">
-                <li v-for="item in listitems" class="list-item" @dblclick="editItem(item.id)">
-                    <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
-                    <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
+            <div class="department-container" v-for="(itemGroup, department_name) in itemsGroup">{{department_name}}
+                <ul class="list-items">
+                    <li v-for="item in listitems" class="list-item" @dblclick="editItem(item.id)">
+                        <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
+                        <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
 
-                </li>
+                    </li>
 
-            </ul>
+                </ul>
+            </div>
+
         </div>
     </div>
 
@@ -32,24 +35,33 @@
                 description : '',
                 editingItem : '',
                 departments: '',
-                department: ''
+                department: '',
+                itemsGroup: ''
             }
         },
         mounted() {
+
             this.listId = this.$route.params.id;
             axios.get('/api/v1/grocery-list/'+this.listId).then((response) => {
                 let responseData = response.data;
                 this.listTitle = responseData.title;
                 this.listitems = responseData.items;
-            });
 
+                this.itemsGroup = _.chain(this.listitems)
+                    .sortBy(function(item){
+                        return item.department.name;
+                    })
+                    .groupBy(function(item){
+                        return item.department.name;
+                    }).value();
+            });
             EventBus.$on('deleteItem', (prams) => {
                 this.deleteItem(prams.id);
             });
             axios.get('/api/v1/departments').then((response) => {
                 this.departments = response.data;
-                console.log(departmentsInfo);
             });
+
         },
         methods: {
             getList() {
@@ -70,7 +82,8 @@
             },
 
             saveItem() {
-                axios.post('/api/v1/grocery-list-item', {grocery_list_id : this.listId, description : this.description, department_id : this.department}).then((response) => {
+            let itemDetails = {grocery_list_id : this.listId, description : this.description, department_id : this.department};
+                axios.post('/api/v1/grocery-list-item', itemDetails).then((response) => {
                         this.getList();
                         this.description = '';
                         this.department = '';
