@@ -3,7 +3,7 @@
         <div class="container-heading"><h2>My Grocery Lists</h2></div>
         <div class="container-body">
             <ul class="list-container">
-                <li v-for="list in grocerylists" class="grocery-list"><router-link :to="{ name: 'grocery-list', params: { id: list.id }}" >{{list.title}}</router-link></li>
+                <li v-for="list in grocerylists" class="grocery-list grow"><router-link :to="{ name: 'grocery-list', params: { id: list.id }}" >{{list.title}}</router-link></li>
             </ul>>
         </div>
     </div>

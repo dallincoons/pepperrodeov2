@@ -1,17 +1,22 @@
 <template>
     <div class="container">
         <div class="container-heading"><h2>{{listTitle}}</h2></div>
+
         <div class="container-body">
-            <div class="add-item">
-                <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
+            <div class="add-item-wrapper">
+                <div class="add-item">
+                    <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
+                </div>
+                <select v-model="department" class="dept-options">
+                    <option value="" disabled selected style="display: none;">Department</option>
+                    <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                </select>
+                <button @click="saveItem" @enter="saveItem" class="save"><span>Save Item</span></button>
             </div>
-            <select v-model="department">
-                <option v-for="department in departments" :value="department.id">{{department.name}}</option>
-            </select>
-            <button @click="saveItem">Save</button>
-            <div class="department-container" v-for="(itemGroup, department_name) in itemsGroup">{{department_name}}
+
+            <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                 <ul class="list-items">
-                    <li v-for="item in listitems" class="list-item" @dblclick="editItem(item.id)">
+                    <li v-for="item in items" class="list-item" @dblclick="editItem(item)">
                         <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
                         <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
 
@@ -36,9 +41,21 @@
                 editingItem : '',
                 departments: '',
                 department: '',
-                itemsGroup: ''
             }
         },
+
+        computed: {
+            itemsGrouped : function() {
+                return _.chain(this.listitems)
+                    .sortBy(function(item){
+                        return item.department.name;
+                    })
+                    .groupBy(function(item){
+                        return item.department.name;
+                    }).value();
+            }
+        },
+
         mounted() {
 
             this.listId = this.$route.params.id;
@@ -47,19 +64,19 @@
                 this.listTitle = responseData.title;
                 this.listitems = responseData.items;
 
-                this.itemsGroup = _.chain(this.listitems)
-                    .sortBy(function(item){
-                        return item.department.name;
-                    })
-                    .groupBy(function(item){
-                        return item.department.name;
-                    }).value();
             });
             EventBus.$on('deleteItem', (prams) => {
                 this.deleteItem(prams.id);
             });
             axios.get('/api/v1/departments').then((response) => {
                 this.departments = response.data;
+            });
+
+
+            EventBus.$on('updateItem', (prams) => {
+                    axios.patch('/api/v1/grocery-list-item/'+prams.id, {description : prams.description}).then((response) => {
+                    this.getList();
+                })
             });
 
         },
@@ -90,44 +107,11 @@
                 })
             },
 
-            deleteItem(itemId) {
-                axios.delete('/api/v1/grocery-list-item/'+itemId).then((response) => {
-                    this.getList();
-                })
+            editItem(item) {
+                EventBus.$emit('grocerylist.update.show', {item : item});
             },
 
-            showUpdateItem(itemId) {
-                swal({
-                        title: "An input!",
-                        text: "Write something interesting:",
-                        type: "input",
-                        showCancelButton: true,
-                        closeOnConfirm: true,
-                        animation: "slide-from-top",
-                        inputPlaceholder: "Write something"
-                    },
-                    (inputValue) => {
-                        if (inputValue === false) return false;
 
-                        if (inputValue === "") {
-                            swal.showInputError("You need to write something!");
-                            return false
-                        }
-
-                        this.updateItem(itemId, inputValue);
-
-                    });
-            },
-
-            updateItem(itemId, inputValue) {
-                axios.patch('/api/v1/grocery-list-item/'+itemId, {description : inputValue}).then((response) => {
-                    this.getList();
-                })
-            },
-
-            editItem(itemId) {
-                EventBus.$emit('grocerylist.update.show', {id : itemId});
-            }
         }
     }
 </script>
@@ -174,9 +158,42 @@
         justify-content: center;
         align-items: center;
     }
+    .add-item-wrapper {
+        width: 100%;
+        display: flex;
+    }
+
+    .dept-options {
+        margin: 10px;
+        display: flex;
+        color: #757575;
+        font-size: 1.2em;
+        border-radius: 0;
+        border: none;
+        background: #ebebeb;
+        width: 20%;
+    }
+
+    .save {
+        display: flex;
+        border: none;
+        color: #757575;
+        font-size: 1.2em;
+        background: #ebebeb;
+        margin: 10px 0;
+        width:10%;
+        transition: background 2s;
+        justify-content: center;
+        align-items: center;
+    }
+    .save:hover {
+        background: #D1D1D1;
+        transition: background 2s;
+        cursor: pointer;
+    }
 
     .add-item {
-        width: 90%;
+        width: 70%;
         margin: 10px 0;
     }
 
@@ -185,14 +202,25 @@
         background: #ebebeb;
         border: none;
         padding: 1%;
-        font-size: 1.5em;
+        font-size: 1.2em;
     }
 
     .list-items {
-        width: 90%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         padding: 0;
+    }
+    .department-container {
+        width: 100%;
+    }
+
+    .dept_heading {
+        background: #ff4b2e;
+        color: #ffffff;
+        font-size: 1.5em;
+        margin: 0 -15px;
+        padding: 0 0 0 2%;
     }
 
     .list-item {
@@ -201,7 +229,7 @@
         -moz-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
         box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
         margin: 10px 0;
-        font-size: 1.5em;
+        font-size: 1.2em;
         display: flex;
         border-radius: 5px;
         border-top: 1px solid rgba(27,26,26,.1);
