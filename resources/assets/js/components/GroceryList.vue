@@ -1,5 +1,10 @@
 <template>
     <div class="container">
+        <button @click="showModal = true">Show Modal</button>
+        <modal v-if="showModal" @close="showModal = false">
+           <h2>hey there</h2>
+        </modal>
+
         <div class="container-heading"><h2>{{listTitle}}</h2></div>
 
         <div class="container-body">
@@ -31,9 +36,15 @@
 </template>
 
 <script>
+    import Modal from './Modal.vue';
+
     export default {
+        components : {
+            'modal' : Modal
+        },
         data(){
             return {
+                showModal : false,
                 listId : '',
                 listTitle : '',
                 listitems : '',
