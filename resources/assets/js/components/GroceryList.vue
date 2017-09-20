@@ -1,8 +1,55 @@
 <template>
     <div class="container">
-        <button @click="showModal = true">Show Modal</button>
-        <modal v-if="showModal" @close="showModal = false">
-           <h2>hey there</h2>
+        <modal v-if="showModal" @close="displayModal">
+
+            <span class="close-modal" @click="displayModal" transition="modal">x</span>
+                <h3 class="modal-header">Edit Item</h3>
+                <div class="modal-edit-section">
+                    <input class="modal-edit-input">
+                    <button class="modal-button">Save</button>
+
+                </div>
+           <div class="modal-edit-footer">
+               <span class="modal-delete-img"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 59 59" style="enable-background:new 0 0 59 59;" xml:space="preserve" width="16px" height="16px">
+<g>
+	<path d="M29.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C28.5,50.553,28.948,51,29.5,51z" fill="#ff4b2e"/>
+	<path d="M19.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C18.5,50.553,18.948,51,19.5,51z" fill="#ff4b2e"/>
+	<path d="M39.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C38.5,50.553,38.948,51,39.5,51z" fill="#ff4b2e"/>
+	<path d="M52.5,6H38.456c-0.11-1.25-0.495-3.358-1.813-4.711C35.809,0.434,34.751,0,33.499,0H23.5c-1.252,0-2.31,0.434-3.144,1.289   C19.038,2.642,18.653,4.75,18.543,6H6.5c-0.552,0-1,0.447-1,1s0.448,1,1,1h2.041l1.915,46.021C10.493,55.743,11.565,59,15.364,59   h28.272c3.799,0,4.871-3.257,4.907-4.958L50.459,8H52.5c0.552,0,1-0.447,1-1S53.052,6,52.5,6z M21.792,2.681   C22.24,2.223,22.799,2,23.5,2h9.999c0.701,0,1.26,0.223,1.708,0.681c0.805,0.823,1.128,2.271,1.24,3.319H20.553   C20.665,4.952,20.988,3.504,21.792,2.681z M46.544,53.979C46.538,54.288,46.4,57,43.636,57H15.364   c-2.734,0-2.898-2.717-2.909-3.042L10.542,8h37.915L46.544,53.979z" fill="#ff4b2e"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg></span><span class="modal-delete">Delete Item</span>
+           </div>
+            <div class="modal-line"></div>
         </modal>
 
         <div class="container-heading"><h2>{{listTitle}}</h2></div>
@@ -21,7 +68,7 @@
 
             <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                 <ul class="list-items">
-                    <li v-for="item in items" class="list-item" @dblclick="editItem(item)">
+                    <li v-for="item in items" class="list-item" @dblclick="showModal = true">
                         <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
                         <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
 
@@ -92,6 +139,11 @@
 
         },
         methods: {
+
+            displayModal() {
+                this.showModal = false;
+            },
+
             getList() {
                 axios.get('/api/v1/grocery-list/'+this.listId).then((response) => {
                     let responseData = response.data;
@@ -264,13 +316,83 @@
         padding-left: 10px;
     }
 
-    .edit-item-hidden {
-        display: none;
+    .modal-line {
+        height: 5px;
+        background-color: #ff4b2e;
+        border-radius: 0 0 5px 5px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+
     }
 
-    .edit-item {
-
+    .modal-header {
+        margin-top: 0;
+        color: #4f4f4f;
+        text-align: center;
+        font-weight: 300;
     }
+
+    .modal-edit-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 15px;
+    }
+
+    .modal-button {
+        background: #ff4b2e;
+        color: #FFFFFF;
+        margin: 15px 0;
+        border: 0;
+        border-radius: 5px;
+        padding: 5px 20px;
+        font-weight: 700;
+        font-size: 1.2em;
+    }
+
+    .modal-button:hover {
+        background: #BF3822;
+        transition: background 2s;
+    }
+
+    .modal-edit-input {
+        width: 100%;
+        background: #ebebeb;
+        border: none;
+        font-size: 1.2em;
+        padding: 5px 20px;
+    }
+
+    .modal-edit-footer {
+        align-self: flex-end;
+        text-align: right;
+        color: #ff4b2e;
+        padding: 2px;
+        margin-left: 15px;
+    }
+
+    .modal-edit-footer:hover {
+        cursor: pointer;
+    }
+
+    .modal-delete {
+        margin: 0 15px 0 2px;
+    }
+    .close-modal {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-weight: 700;
+        font-size: 1.2em;
+        margin-right: 5px;
+    }
+
+    .close-modal:hover {
+        cursor: pointer;
+    }
+
+
 
 
 </style>

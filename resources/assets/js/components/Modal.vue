@@ -28,71 +28,73 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, .5);
+        background-color: rgba(54, 54, 54, .4);
         transition: opacity .3s ease;
     }
 
     .modal-container {
         width: 300px;
-        margin: 40px auto 0;
-        padding: 20px 30px;
+        margin: 150px auto 0;
         background-color: #fff;
-        border-radius: 2px;
+        border-radius: 5px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
         transition: all .3s ease;
-        font-family: Helvetica, Arial, sans-serif;
+        position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
-    .modal-header h3 {
-        margin-top: 0;
-        color: #42b983;
-    }
+    /*.modal-header h3 {*/
 
-    .modal-body {
-        margin: 20px 0;
-    }
+    /*}*/
 
-    .text-right {
-        text-align: right;
-    }
+    /*.modal-body {*/
+        /*margin: 20px 0;*/
+    /*}*/
 
-    .form-label {
-        display: block;
-        margin-bottom: 1em;
-    }
+    /*.text-right {*/
+        /*text-align: right;*/
+    /*}*/
 
-    .form-label > .form-control {
-        margin-top: 0.5em;
-    }
+    /*.form-label {*/
+        /*display: block;*/
+        /*margin-bottom: 1em;*/
+    /*}*/
 
-    .form-control {
-        display: block;
-        width: 100%;
-        padding: 0.5em 1em;
-        line-height: 1.5;
-        border: 1px solid #ddd;
-    }
+    /*.form-label > .form-control {*/
+        /*margin-top: 0.5em;*/
+    /*}*/
 
-    /*
-     * The following styles are auto-applied to elements with
-     * transition="modal" when their visibility is toggled
-     * by Vue.js.
-     *
-     * You can easily play with the modal transition by editing
-     * these styles.
-     */
+    /*.form-control {*/
+        /*display: block;*/
+        /*width: 100%;*/
+        /*padding: 0.5em 1em;*/
+        /*line-height: 1.5;*/
+        /*border: 1px solid #ddd;*/
+    /*}*/
 
-    .modal-enter {
-        opacity: 0;
-    }
+    /*!**/
+     /** The following styles are auto-applied to elements with*/
+     /** transition="modal" when their visibility is toggled*/
+     /** by Vue.js.*/
+     /***/
+     /** You can easily play with the modal transition by editing*/
+     /** these styles.*/
+     /**!*/
 
-    .modal-leave-active {
-        opacity: 0;
-    }
+    /*.modal-enter {*/
+        /*opacity: 0;*/
+    /*}*/
 
-    .modal-enter .modal-container,
-    .modal-leave-active .modal-container {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
+    /*.modal-leave-active {*/
+        /*opacity: 0;*/
+    /*}*/
+
+    /*.modal-enter .modal-container,*/
+    /*.modal-leave-active .modal-container {*/
+        /*-webkit-transform: scale(1.1);*/
+        /*transform: scale(1.1);*/
+    /*}*/
+
+
 </style>
