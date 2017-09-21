@@ -1,15 +1,36 @@
 <template>
     <div class="container">
-        <modal v-if="showModal" @close="displayModal">
 
-            <span class="close-modal" @click="displayModal" transition="modal">x</span>
-                <h3 class="modal-header">Edit Item</h3>
-                <div class="modal-edit-section">
-                    <input class="modal-edit-input">
-                    <button class="modal-button">Save</button>
+        <div class="container-heading"><h2>{{listTitle}}</h2></div>
 
+        <div class="container-body">
+            <div class="add-item-wrapper">
+                <div class="add-item">
+                    <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
                 </div>
-           <div class="modal-edit-footer">
+                <select v-model="department" class="dept-options">
+                    <option value="" disabled selected style="display: none;">Department</option>
+                    <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                </select>
+                <button @click="saveItem" @enter="saveItem" class="save"><span>Save Item</span></button>
+            </div>
+
+            <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
+                <ul class="list-items">
+                    <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
+                        <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
+                        <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
+
+                        <modal v-if="showModal" @close="displayModal">
+
+                            <span class="close-modal" @click="displayModal" transition="modal">x</span>
+                            <h3 class="modal-header">Edit Item</h3>
+                            <div class="modal-edit-section">
+                                <input class="modal-edit-input" :value="itemToUpdate.description" v-model="itemToUpdate.description">
+                                <button class="modal-button" @click="updateItem(item)">Save</button>
+
+                            </div>
+                            <div class="modal-edit-footer">
                <span class="modal-delete-img"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 59 59" style="enable-background:new 0 0 59 59;" xml:space="preserve" width="16px" height="16px">
 <g>
 	<path d="M29.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C28.5,50.553,28.948,51,29.5,51z" fill="#ff4b2e"/>
@@ -47,30 +68,10 @@
 </g>
 <g>
 </g>
-</svg></span><span class="modal-delete">Delete Item</span>
-           </div>
-            <div class="modal-line"></div>
-        </modal>
-
-        <div class="container-heading"><h2>{{listTitle}}</h2></div>
-
-        <div class="container-body">
-            <div class="add-item-wrapper">
-                <div class="add-item">
-                    <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
-                </div>
-                <select v-model="department" class="dept-options">
-                    <option value="" disabled selected style="display: none;">Department</option>
-                    <option v-for="department in departments" :value="department.id">{{department.name}}</option>
-                </select>
-                <button @click="saveItem" @enter="saveItem" class="save"><span>Save Item</span></button>
-            </div>
-
-            <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
-                <ul class="list-items">
-                    <li v-for="item in items" class="list-item" @dblclick="showModal = true">
-                        <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
-                        <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
+</svg></span><span class="modal-delete" @click="deleteItem(item)">Delete Item</span>
+                            </div>
+                            <div class="modal-line"></div>
+                        </modal>
 
                     </li>
 
@@ -91,24 +92,25 @@
         },
         data(){
             return {
-                showModal : false,
-                listId : '',
-                listTitle : '',
-                listitems : '',
+                showModal   : false,
+                listId      : '',
+                listTitle   : '',
+                listitems   : '',
                 description : '',
                 editingItem : '',
-                departments: '',
-                department: '',
+                departments : '',
+                department  : '',
+                itemToUpdate : ''
             }
         },
 
-        computed: {
-            itemsGrouped : function() {
+        computed : {
+            itemsGrouped : function () {
                 return _.chain(this.listitems)
-                    .sortBy(function(item){
+                    .sortBy(function (item) {
                         return item.department.name;
                     })
-                    .groupBy(function(item){
+                    .groupBy(function (item) {
                         return item.department.name;
                     }).value();
             }
@@ -117,35 +119,28 @@
         mounted() {
 
             this.listId = this.$route.params.id;
-            axios.get('/api/v1/grocery-list/'+this.listId).then((response) => {
+            axios.get('/api/v1/grocery-list/' + this.listId).then((response) => {
                 let responseData = response.data;
                 this.listTitle = responseData.title;
                 this.listitems = responseData.items;
 
             });
-            EventBus.$on('deleteItem', (prams) => {
-                this.deleteItem(prams.id);
-            });
+
+
             axios.get('/api/v1/departments').then((response) => {
                 this.departments = response.data;
             });
 
 
-            EventBus.$on('updateItem', (prams) => {
-                    axios.patch('/api/v1/grocery-list-item/'+prams.id, {description : prams.description}).then((response) => {
-                    this.getList();
-                })
-            });
-
         },
-        methods: {
+        methods    : {
 
             displayModal() {
                 this.showModal = false;
             },
 
             getList() {
-                axios.get('/api/v1/grocery-list/'+this.listId).then((response) => {
+                axios.get('/api/v1/grocery-list/' + this.listId).then((response) => {
                     let responseData = response.data;
                     this.listTitle = responseData.title;
                     this.listitems = responseData.items;
@@ -153,8 +148,8 @@
             },
 
             toggleItem(itemId) {
-                axios.post('/api/v1/grocery-list-item-completion/'+itemId).then((response)=>{
-                    let itemToUpdate = this.listitems.find(function(item){
+                axios.post('/api/v1/grocery-list-item-completion/' + itemId).then((response) => {
+                    let itemToUpdate        = this.listitems.find(function (item) {
                         return item.id == itemId;
                     });
                     itemToUpdate.is_checked = response.data.is_checked;
@@ -162,17 +157,44 @@
             },
 
             saveItem() {
-            let itemDetails = {grocery_list_id : this.listId, description : this.description, department_id : this.department};
+                let itemDetails = {
+                    grocery_list_id : this.listId,
+                    description     : this.description,
+                    department_id   : this.department
+                };
                 axios.post('/api/v1/grocery-list-item', itemDetails).then((response) => {
-                        this.getList();
-                        this.description = '';
-                        this.department = '';
+                    this.getList();
+                    this.description = '';
+                    this.department  = '';
                 })
             },
 
             editItem(item) {
                 EventBus.$emit('grocerylist.update.show', {item : item});
             },
+
+            updateItem() {
+                this.showModal = false;
+                axios.patch('/api/v1/grocery-list-item/' + this.itemToUpdate.id, {description : this.itemToUpdate.description}).then((response) => {
+                    this.getList();
+                });
+
+
+            },
+
+            openEditItem(item) {
+                this.showModal = true;
+                this.itemToUpdate = item;
+
+
+            },
+
+            deleteItem() {
+                this.showModal = false;
+                axios.delete('/api/v1/grocery-list-item/' + this.itemToUpdate.id).then((response) => {
+                    this.getList();
+                });
+            }
 
 
         }

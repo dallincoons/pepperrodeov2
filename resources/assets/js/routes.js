@@ -1,7 +1,7 @@
 import GroceryLists from './components/GroceryLists.vue';
 import GroceryList from './components/GroceryList.vue';
 import GroceryListCreate from './components/GroceryListCreate.vue';
-import GroceryListNavigation from './components/GroceryListNavigation.vue';
+
 
 let routes = [
     {
@@ -16,7 +16,6 @@ let routes = [
         'path' : '/grocery-list/:id',
         'components' : {
             default :  GroceryList,
-            navigation : GroceryListNavigation
         },
         'name' : 'grocery-list',
     }
