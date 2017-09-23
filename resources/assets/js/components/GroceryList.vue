@@ -4,16 +4,7 @@
         <div class="container-heading"><h2>{{list.title}}</h2></div>
 
         <div class="container-body">
-            <div class="add-item-wrapper">
-                <div class="add-item">
-                    <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
-                </div>
-                <select v-model="department" class="dept-options">
-                    <option value="" disabled selected style="display: none;">Department</option>
-                    <option v-for="department in departments" :value="department.id">{{department.name}}</option>
-                </select>
-                <button @click="saveItem" @enter="saveItem" class="save"><span>Save Item</span></button>
-            </div>
+            <new-item-form @updated="getList" :departments="departments"></new-item-form>
 
             <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                 <ul class="list-items">
@@ -24,6 +15,7 @@
                         <edit-item-modal
                             v-if="showModal"
                             :itemToUpdate="itemToUpdate"
+                            :departments="departments"
                             @close="hideModal"
                             @update="updateItem"
                             @delete="deleteItem"
@@ -40,11 +32,13 @@
 
 <script>
     import EditItemModal from './GroceryList/EditItemModal.vue';
+    import NewItemForm from './GroceryList/NewItemForm.vue';
 
     export default {
-        
+
         components : {
-            EditItemModal
+            EditItemModal,
+            NewItemForm
         },
 
         data(){
@@ -54,7 +48,6 @@
                 listId      : '',
                 description : '',
                 departments : '',
-                department  : '',
                 itemToUpdate : ''
             }
         },
@@ -107,26 +100,9 @@
                 });
             },
 
-            saveItem() {
-                let itemDetails = {
-                    grocery_list_id : this.listId,
-                    description     : this.description,
-                    department_id   : this.department
-                };
-                axios.post('/api/v1/grocery-list-item', itemDetails).then((response) => {
-                    this.getList();
-                    this.clearForm();
-                })
-            },
-
-            clearForm() {
-                this.description = '';
-                this.department  = '';
-            },
-
             updateItem(itemToUpdate) {
                 this.hideModal();
-                axios.patch('/api/v1/grocery-list-item/' + itemToUpdate.id, {description : itemToUpdate.description}).then((response) => {
+                axios.patch('/api/v1/grocery-list-item/' + itemToUpdate.id, {description : itemToUpdate.description, department_id : itemToUpdate.department_id}).then((response) => {
                     this.getList();
                 });
             },

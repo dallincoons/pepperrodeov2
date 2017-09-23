@@ -5,6 +5,9 @@
         <h3 class="modal-header">Edit Item</h3>
         <div class="modal-edit-section">
             <input class="modal-edit-input" :value="itemToUpdate.description" v-model="itemToUpdate.description">
+            <select v-model="itemToUpdate.department_id" class="dept-options">
+                <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+            </select>
             <button class="modal-button" @click="updateItem">Save</button>
         </div>
         <div class="modal-edit-footer">
@@ -20,17 +23,17 @@
     import TrashCan from '../assets/trashcan.vue';
 
     export default {
-        props : ['itemToUpdate'],
+        props : ['itemToUpdate', 'departments'],
         components : {
             'modal' : Modal,
             TrashCan
         },
         mounted() {
-
+            this.department = this.itemToUpdate.department_id;
         },
         data() {
             return {
-
+                department : 0
             }
         },
         methods : {

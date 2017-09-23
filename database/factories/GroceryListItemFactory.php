@@ -10,7 +10,9 @@ $factory->define(GroceryListItem::class, function (Faker\Generator $faker) {
     return [
         'grocery_list_id' => $groceryList->getKey(),
         'department_id' => function () {
-            return $department = Department::get()->random()->getKey();
+            $department = Department::first();
+            $department = $department ? $department : factory(Department::class)->create();
+            return $department = $department->getKey();
         },
         'description' => $faker->sentence(5),
         'quantity' => $faker->randomDigit(),
