@@ -5,7 +5,7 @@ import GroceryListCreate from './components/GroceryListCreate.vue';
 
 let routes = [
     {
-        'path' : '/grocery-lists',
+        'path' : '/',
         'component' : GroceryLists
     },
     {

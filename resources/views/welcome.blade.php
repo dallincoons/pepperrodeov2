@@ -199,11 +199,10 @@
             <div class="nav-links">
                 <router-link to="/grocery-lists" class="nav-link">Grocery Lists</router-link>
                 <router-link to="/grocery-list/create" class="nav-link">Create Grocery List</router-link>
-                <a>Log Out</a>
+                <a href="/logout">Log Out</a>
                 <div class="nav-line"></div>
             </div>
             <router-view name="navigation"></router-view>
-
         </div>
 
         <router-view></router-view>
