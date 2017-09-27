@@ -5,7 +5,7 @@
         <h3 class="modal-header">Edit Item</h3>
         <div class="modal-edit-section">
             <input class="modal-edit-input" :value="itemToUpdate.description" v-model="itemToUpdate.description">
-            <select v-model="itemToUpdate.department_id" class="dept-options">
+            <select v-model="itemToUpdate.department_id" class="edit-dept-options">
                 <option v-for="department in departments" :value="department.id">{{department.name}}</option>
             </select>
             <button class="modal-button" @click="updateItem">Save</button>
@@ -99,6 +99,7 @@
         border: none;
         font-size: 1.2em;
         padding: 5px 20px;
+        margin-bottom: 10px;
     }
 
     .modal-edit-footer {
@@ -127,5 +128,13 @@
 
     .close-modal:hover {
         cursor: pointer;
+    }
+
+    .edit-dept-options {
+        width: 100%;
+        background: #ebebeb;
+        border: none;
+        font-size: 1.2em;
+        padding: 5px 20px;
     }
 </style>
