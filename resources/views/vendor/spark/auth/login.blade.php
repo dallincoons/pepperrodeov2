@@ -9,9 +9,9 @@
     <div class="main-wrapper">
         <div class="sign-in-section">
             <h1 class="brand">Pepper Rodeo</h1>
-            <div class="sign-in-form">
+            <div class="sign-in-form-wrapper">
                 @include('spark::shared.errors')
-                <form class="form-horizontal" role="form" method="POST" action="/login">
+                <form class="sign-in-form" role="form" method="POST" action="/login">
                     {{ csrf_field() }}
                     <input type="email" class="auth-input" name="email" placeholder="Email Address" value="{{ old('email') }}" autofocus>
                     <input type="password" class="auth-input" name="password" placeholder="Password">
@@ -2434,12 +2434,19 @@
         position: relative;
     }
 
-    .sign-in-form {
+    .sign-in-form-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        width: 35%;
+        width: 60%;
+    }
+
+    .sign-in-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
     }
 
     .brand{
@@ -2447,12 +2454,14 @@
         font-weight: 700;
         font-size: 3em;
         color: #ff4b2e;
+        margin-bottom: 10%;
     }
 
     .auth-input {
-        border: 1px solid #a6a6a6;
+        border: none;
+        border-bottom: 2px solid #ff4b2e;
         border-radius: 0;
-        font-size:1.5em;
+        font-size:1.2em;
         margin: 5% 0;
         padding-left: 1%;
         font-weight: 200;

@@ -17,9 +17,6 @@
 </script>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
     .modal-mask {
         position: fixed;
