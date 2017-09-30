@@ -2467,6 +2467,11 @@
         font-weight: 200;
     }
 
+    .auth-input:focus {
+        outline: none;
+        border-bottom: 2px solid #BF3822;
+    }
+
     .forgot-pass {
         color: #ff4b2e;
         display: block;

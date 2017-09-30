@@ -187,6 +187,8 @@
             -moz-box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
             box-shadow: 0 0 10px 2px rgba(27,26,26,0.14);
         }
+
+
     </style>
 </head>
 <body>
@@ -199,10 +201,12 @@
             <div class="nav-links">
                 <router-link to="/grocery-lists" class="nav-link">Grocery Lists</router-link>
                 <router-link to="/grocery-list/create" class="nav-link">Create Grocery List</router-link>
+
                 <a href="/logout">Log Out</a>
                 <div class="nav-line"></div>
             </div>
             <router-view name="navigation"></router-view>
+
         </div>
 
         <router-view></router-view>
