@@ -3,6 +3,7 @@
 namespace Tests\Feature\GroceryList;
 
 use App\Entities\GroceryList;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 /**
@@ -34,5 +35,25 @@ class RetrieveGroceryListTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals($grocerylist->toArray(), $response->decodeResponseJson());
         $this->assertEquals($grocerylist->items->toArray(), $response->decodeResponseJson()['items']);
+    }
+
+    /** @test */
+    public function lists_are_displayed_from_newest_to_youngest()
+    {
+        $newest = factory(GroceryList::class)->create([
+            'created_at' => Carbon::now()
+        ]);
+        $second = factory(GroceryList::class)->create([
+            'created_at' => Carbon::now()->subDay()
+        ]);
+        $oldest = factory(GroceryList::class)->create([
+            'created_at' => Carbon::now()->subWeek()
+        ]);
+
+        $response = $this->get('/api/v1/grocery-lists')->decodeResponseJson()['data'];
+
+        $this->assertEquals($newest->title, $response[0]['title']);
+        $this->assertEquals($second->title, $response[1]['title']);
+        $this->assertEquals($oldest->title, $response[2]['title']);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\GroceryListItem;
+use App\Scopes\OrderByLatest;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
@@ -15,6 +16,13 @@ class GroceryList extends Model implements Transformable
     protected $fillable = [
         'title', 'user_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new OrderByLatest);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
