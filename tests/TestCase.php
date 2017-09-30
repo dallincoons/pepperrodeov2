@@ -17,6 +17,9 @@ abstract class TestCase extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
+
+//        putenv('SCOUT_DRIVER=null');
+
         $this->disableExceptionHandling();
 
         $this->user = factory(User::class)->create();

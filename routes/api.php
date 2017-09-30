@@ -15,6 +15,8 @@ Route::group([
     'middleware' => 'auth:api',
     'prefix'     => 'v1'
 ], function () {
+    Route::get('grocery-lists/search', 'GroceryListSearchController@index');
+
     Route::get('grocery-lists', 'GroceryListController@all');
     Route::get('grocery-list/{grocerylist}', 'GroceryListController@show');
     Route::post('grocery-list', 'GroceryListController@store');

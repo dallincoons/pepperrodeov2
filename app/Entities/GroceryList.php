@@ -4,12 +4,13 @@ namespace App\Entities;
 
 use App\Entities\GroceryListItem;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 class GroceryList extends Model implements Transformable
 {
-    use TransformableTrait;
+    use TransformableTrait, Searchable;
 
     protected $fillable = [
         'title', 'user_id'

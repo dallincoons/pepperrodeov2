@@ -9,6 +9,10 @@ let routes = [
         'component' : GroceryLists
     },
     {
+        'path' : '/grocery-lists',
+        'component': GroceryLists
+    },
+    {
         'path' : '/grocery-list/create',
         'component': GroceryListCreate
     },
