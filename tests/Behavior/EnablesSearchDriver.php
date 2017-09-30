@@ -2,17 +2,20 @@
 
 namespace Tests\Behavior;
 
+use App\Entities\GroceryList;
+use Laravel\Scout\ModelObserver;
+
 trait EnablesSearchDriver
 {
     /** @before */
     public function enabledSearch()
     {
-        putenv('SCOUT_DRIVER=algolia');
+        ModelObserver::enableSyncingFor(GroceryList::class);
     }
 
     /** @after */
     public function disableSearch()
     {
-        putenv('SCOUT_DRIVER=null');
+        ModelObserver::disableSyncingFor(GroceryList::class);
     }
 }

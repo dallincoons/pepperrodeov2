@@ -2,11 +2,13 @@
 
 namespace Tests;
 
+use App\Entities\GroceryList;
 use App\Exceptions\Handler;
 use App\User;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Laravel\Scout\ModelObserver;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -18,7 +20,10 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-//        putenv('SCOUT_DRIVER=null');
+        putenv('ALGOLIA_APP_ID=' . env('ALGOLIA_APP_ID_TESTING'));
+        putenv('ALGOLIA_SECRET=' . env('ALGOLIA_SECRET_TESTING'));
+
+        ModelObserver::disableSyncingFor(GroceryList::class);
 
         $this->disableExceptionHandling();
 
