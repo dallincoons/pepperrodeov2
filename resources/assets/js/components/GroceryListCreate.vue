@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h2 class="container-heading">Name Your List</h2>
-        <form v-on:submit.prevent>
+        <form v-on:submit.prevent class="create-form">
             <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveTitle()" class="title-input" placeholder="List Title">
             <button type="button" @click="saveTitle()" class="save-button">Save</button>
         </form>
