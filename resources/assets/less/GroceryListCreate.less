@@ -27,29 +27,44 @@ body {
   padding: 0 0 0 2%;
 }
 
+.container-create {
+  display: flex;
+  width: 100%;
+  margin: 10px 0;
+}
+
 .create-form {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .title-input {
   width: 80%;
-  border: 1px solid #4f4f4f;
+  border: none;
+  border-bottom: 2px solid #ff4b2e;
   padding: .5%;
   font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.title-input:focus {
+  border-bottom: 2px solid #bf3822;
+  outline: none;
 }
 
 .save-button {
-  background: #ff4b2e;
-  color: #FFFFFF;
-  border: 1px solid #ff4b2e;
-  padding: .5%;
+  background: #ffffff;
+  color: #ff4b2e;
+  border: 2px solid #ff4b2e;
+  padding: 5px 10px;
+  border-radius: 2px;
   font-size: 1.2em;
-  transition: background 2s;
+  transition: border 2s;
 }
 
 .save-button:hover {
-  border: 1px solid #BF3822;
-  background: #BF3822;
-  transition: background 2s;
+  border: 2px solid #BF3822;
+  color: #BF3822;
+  transition: border 2s;
 }
