@@ -15,7 +15,7 @@ $factory->define(GroceryListItem::class, function (Faker\Generator $faker) {
             return $department = $department->getKey();
         },
         'description' => $faker->sentence(5),
-        'quantity' => $faker->randomDigit(),
+        'quantity' => $faker->randomDigit,
         'is_checked' => 0
     ];
 });

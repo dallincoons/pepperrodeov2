@@ -2,25 +2,28 @@
 
 namespace App\Entities;
 
-use App\Observers\ExtractsQtyField;
+use App\Entities\Behavior\DescriptionParsers\DescriptionParserFactory;
 use App\Repositories\GroceryListItemRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class GroceryListItem extends Model
 {
     protected $fillable = [
-        'grocery_list_id', 'description', 'quantity', 'is_checked', 'department_id'
+        'grocery_list_id', 'description',
+        'description', 'quantity',
+        'is_checked', 'department_id'
     ];
 
     protected $casts = [
         'is_checked' => 'integer'
     ];
 
-    public static function boot()
+    public function setMagicDescriptionAttribute($description)
     {
-        static::creating(function ($model) {
-            ExtractsQtyField::apply($model);
-        });
+        $parser = DescriptionParserFactory::make($description);
+
+        $this->attributes['description'] = $parser->getDescription();
+        $this->attributes['quantity'] = $parser->getQuantity();
     }
 
     public function department()

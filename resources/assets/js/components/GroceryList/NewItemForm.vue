@@ -30,7 +30,7 @@
             saveItem() {
                 let itemDetails = {
                     grocery_list_id : this.listId,
-                    description     : this.description,
+                    magic_description : this.description,
                     department_id   : this.department
                 };
                 axios.post('/api/v1/grocery-list-item', itemDetails).then((response) => {
@@ -43,9 +43,6 @@
                 this.description = '';
                 this.department  = '';
             },
-
         }
-
-
     }
 </script>

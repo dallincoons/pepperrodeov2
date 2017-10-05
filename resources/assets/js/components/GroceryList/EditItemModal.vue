@@ -4,8 +4,8 @@
         <span class="close-modal" @click="displayModal" transition="modal">x</span>
         <h3 class="modal-header">Edit Item</h3>
         <div class="modal-edit-section">
-            <input class="modal-edit-input" :value="itemToUpdate.description" v-model="itemToUpdate.description">
-            <select v-model="itemToUpdate.department_id" class="edit-dept-options">
+            <input class="modal-edit-input" :value="description" v-model="description">
+            <select v-model="department" class="edit-dept-options">
                 <option v-for="department in departments" :value="department.id">{{department.name}}</option>
             </select>
             <button class="modal-button" @click="updateItem">Save</button>
@@ -30,10 +30,12 @@
         },
         mounted() {
             this.department = this.itemToUpdate.department_id;
+            this.description = this.itemToUpdate.quantity + ' ' + this.itemToUpdate.description;
         },
         data() {
             return {
-                department : 0
+                department : 0,
+                description : ''
             }
         },
         methods : {
@@ -42,11 +44,17 @@
             },
 
             updateItem() {
-                this.$emit('update', this.itemToUpdate);
+                this.$emit('update', {
+                    id : this.itemToUpdate.id,
+                    description : this.description,
+                    department_id : this.department
+                });
             },
 
             deleteItem() {
-                this.$emit('delete', this.itemToUpdate);
+                this.$emit('delete', {
+                    id : this.itemToUpdate.id
+                });
             }
         }
     }

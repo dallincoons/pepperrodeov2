@@ -95,7 +95,7 @@ class CreateGroceryListItemTest extends TestCase
     public function it_creates_item_with_quantity()
     {
         $this->createGroceryListItem([
-            'description' => '12 check'
+            'magic_description' => '12 check'
         ]);
 
         $groceryListItem = GroceryListItem::first();
@@ -107,14 +107,14 @@ class CreateGroceryListItemTest extends TestCase
     /** @test */
     public function it_extracts_quantity_from_description()
     {
-        $grocerylist = factory(GroceryListItem::class)->create([
-            'description' => '2 round squishy things'
+        $groceryListItem = factory(GroceryListItem::class)->create([
+            'magic_description' => '2 round squishy things'
         ]);
 
-        $grocerylist->refresh();
+        $groceryListItem->refresh();
 
-        $this->assertEquals(2, $grocerylist->quantity);
-        $this->assertEquals('round squishy things', $grocerylist->description);
+        $this->assertEquals(2, $groceryListItem->quantity);
+        $this->assertEquals('round squishy things', $groceryListItem->description);
     }
 
     /** @test */

@@ -3,6 +3,7 @@
 namespace Tests\Feature\GroceryList;
 
 use App\Entities\GroceryList;
+use App\Entities\GroceryListItem;
 use Carbon\Carbon;
 use Tests\TestCase;
 
@@ -29,12 +30,15 @@ class RetrieveGroceryListTest extends TestCase
     public function it_gets_a_single_grocery_lists()
     {
         $grocerylist = factory(GroceryList::class)->create()->load('items');
+        $item = factory(GroceryListItem::class)->create();
+        $grocerylist->items()->save($item);
+        $grocerylist->refresh();
 
         $response = $this->get('/api/v1/grocery-list/' . $grocerylist->getKey());
 
         $response->assertStatus(200);
-        $this->assertEquals($grocerylist->toArray(), $response->decodeResponseJson());
-        $this->assertEquals($grocerylist->items->toArray(), $response->decodeResponseJson()['items']);
+        $this->assertEquals($grocerylist->id, $response->decodeResponseJson()['id']);
+        $this->assertEquals($grocerylist->items->first()->description, $response->decodeResponseJson()['items'][0]['description']);
     }
 
     /** @test */

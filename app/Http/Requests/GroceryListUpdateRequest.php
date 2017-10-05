@@ -24,7 +24,9 @@ class GroceryListUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'grocery_list_id' => 'integer',
+            'description'     => 'string',
+            'quantity'        => 'integer',
         ];
     }
 }

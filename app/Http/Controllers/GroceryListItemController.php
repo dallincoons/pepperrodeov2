@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGroceryListItemRequest;
+use App\Http\Requests\UpdateGroceryListItemRequest;
 use App\Repositories\GroceryListItemRepository;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class GroceryListItemController extends Controller
         return response()->json($item, 201);
     }
 
-    public function update(Request $request, $groceryListItemId)
+    public function update(UpdateGroceryListItemRequest $request, $groceryListItemId)
     {
         $item = $this->repository->update($request->all(), $groceryListItemId);
 

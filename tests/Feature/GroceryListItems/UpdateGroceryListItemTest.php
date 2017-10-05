@@ -20,7 +20,7 @@ class UpdateGroceryListItemTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $this->assertEquals($item->fresh()->description, $item->description . 'altered');
+        $this->assertEquals($item->fresh()->description,$item->description . 'altered');
     }
 
     /** @test */

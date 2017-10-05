@@ -49,12 +49,10 @@ class CreateGroceryListsTest extends TestCase
 
         $items = [
             [
-                'description' => 'banana',
-                'quantity'      => 2
+                'description' => '2 banana',
             ],
             [
-                'description' => 'banana',
-                'quantity'      => 2
+                'description' => '2 banana',
             ]
         ];
 

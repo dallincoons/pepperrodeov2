@@ -17,7 +17,7 @@ class CreateGroceryListItemsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('grocery_list_id');
             $table->unsignedInteger('department_id')->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('quantity')->nullable();
             $table->boolean('is_checked')->default(0);
             $table->timestamps();
