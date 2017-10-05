@@ -4,6 +4,7 @@ namespace Tests\Feature\GroceryListItems;
 
 use App\Entities\Department;
 use App\Entities\GroceryList;
+use App\Entities\GroceryListItem;
 use Tests\TestCase;
 
 class CreateGroceryListItemTest extends TestCase
@@ -90,12 +91,65 @@ class CreateGroceryListItemTest extends TestCase
         $this->assertEquals($department->getKey(), $newDepartment);
     }
 
+    /** @test */
+    public function it_creates_item_with_quantity()
+    {
+        $this->createGroceryListItem([
+            'description' => '12 check'
+        ]);
+
+        $groceryListItem = GroceryListItem::first();
+
+        $this->assertEquals(12, $groceryListItem->quantity);
+        $this->assertEquals('check', $groceryListItem->description);
+    }
+
+    /** @test */
+    public function it_extracts_quantity_from_description()
+    {
+        $grocerylist = factory(GroceryListItem::class)->create([
+            'description' => '2 round squishy things'
+        ]);
+
+        $grocerylist->refresh();
+
+        $this->assertEquals(2, $grocerylist->quantity);
+        $this->assertEquals('round squishy things', $grocerylist->description);
+    }
+
+    /** @test */
+    public function it_does_not_extract_non_numeric_description()
+    {
+        $grocerylist = factory(GroceryListItem::class)->create([
+            'description' => 'round squishy things',
+            'quantity'    => null
+        ]);
+
+        $grocerylist->refresh();
+
+        $this->assertEquals(null, $grocerylist->quantity);
+        $this->assertEquals('round squishy things', $grocerylist->description);
+    }
+
+    /** @test */
+    public function it_does_not_extract_numeric_characters_in_other_parts_of_description()
+    {
+        $grocerylist = factory(GroceryListItem::class)->create([
+            'description' => 'round 12 squishy 13 things',
+            'quantity'    => null
+        ]);
+
+        $grocerylist->refresh();
+
+        $this->assertEquals(null, $grocerylist->quantity);
+        $this->assertEquals('round 12 squishy 13 things', $grocerylist->description);
+    }
+
     protected function createGroceryListItem($overrides = [])
     {
         $response = $this->post('/api/v1/grocery-list-item', array_merge([
             'grocery_list_id' => $this->grocerylist->getKey(),
             'description' => 'Big box of donuts',
-            'quantity'    => 13
         ], $overrides));
 
         return $response;

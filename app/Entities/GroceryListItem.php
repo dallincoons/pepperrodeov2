@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Observers\ExtractsQtyField;
 use App\Repositories\GroceryListItemRepository;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,13 @@ class GroceryListItem extends Model
     protected $casts = [
         'is_checked' => 'integer'
     ];
+
+    public static function boot()
+    {
+        static::creating(function ($model) {
+            ExtractsQtyField::apply($model);
+        });
+    }
 
     public function department()
     {

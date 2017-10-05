@@ -19,14 +19,6 @@ class GroceryListItemRepositoryEloquent extends BaseRepository implements Grocer
         return GroceryListItem::class;
     }
 
-    /**
-     * @return string
-     */
-    public function presenter()
-    {
-//        return GroceryListItemPresenter::class;
-    }
-
     public function validator()
     {
         return GroceryListItemValidator::class;

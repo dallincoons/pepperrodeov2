@@ -36,7 +36,7 @@ class GroceryListController
         $grocerylist = $this->repository->create([
             'title'   => $request->title,
             'user_id' => \Auth::user()->getKey(),
-            'items' => $request->items
+            'items'   => $request->items
         ]);
 
         return response()->json($grocerylist, 201);
