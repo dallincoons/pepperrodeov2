@@ -20,7 +20,7 @@
                     <label class="remember-me">
                         <input type="checkbox" name="remember"> Remember Me
                     </label>
-                    <button type="submit" class="pr-button">
+                    <button name="login_submit" class="pr-button">
                         Login
                     </button>
 
