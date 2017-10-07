@@ -49,4 +49,13 @@ abstract class TestCase extends BaseTestCase
         $this->app->instance(ExceptionHandler::class, $this->oldExceptionHandler);
         return $this;
     }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    protected function api(string $url)
+    {
+        return '/api/v1/' . $url;
+    }
 }
