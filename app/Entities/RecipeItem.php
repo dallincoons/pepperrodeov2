@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Recipe extends Model
+class RecipeItem extends Model
 {
     protected $fillable = [
-        'title'
+        'recipe_id', 'quantity'
     ];
 }

@@ -2,16 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Recipe;
-use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Contracts\RepositoryInterface;
 
-class RecipeRepository extends BaseRepository
+interface RecipeRepository extends RepositoryInterface
 {
-    /**
-     * @return string
-     */
-    public function model()
-    {
-        return Recipe::class;
-    }
+
 }

@@ -9,15 +9,17 @@ class RecipeController extends Controller
 {
     private $repository;
 
-    public function __construct(RecipeRepository $recipeRepository)
+    public function __construct(RecipeRepository $repository)
     {
-        $this->repository = $recipeRepository;
+        $this->repository = $repository;
     }
 
     public function store(Request $request)
     {
         $recipe = $this->repository->create([
-           'title' => $request->title
+            'title' => $request->title,
+            'user_id' => \Auth::user()->getKey(),
+            'items' => $request->items
         ]);
 
         return response()->json($recipe, 201);
