@@ -9,6 +9,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Scout\ModelObserver;
+use Tests\Fakers\GroceryListFaker;
 
 abstract class TestCase extends BaseTestCase
 {
