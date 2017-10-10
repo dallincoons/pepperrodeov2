@@ -13,7 +13,8 @@ class GroceryList extends Model implements Transformable
     use TransformableTrait, Searchable, OrderByLatest;
 
     protected $fillable = [
-        'title', 'user_id'
+        'title',
+        'user_id'
     ];
 
     /**
@@ -24,4 +25,21 @@ class GroceryList extends Model implements Transformable
         return $this->hasMany(GroceryListItem::class);
     }
 
+    public function addRecipe($recipe)
+    {
+        foreach ($recipe->items as $item) {
+            if ($item->listable) {
+                $this->items()->save($this->translateRecipeItem($item, $recipe));
+            }
+        }
+    }
+
+    public function translateRecipeItem(RecipeItem $recipeItem, Recipe $recipe)
+    {
+        return new GroceryListItem([
+            'description' => $recipeItem->description,
+            'quantity'    => $recipeItem->quantity,
+            'recipe_id'   => $recipe->getKey()
+        ]);
+    }
 }

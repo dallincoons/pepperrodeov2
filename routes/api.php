@@ -28,6 +28,8 @@ Route::group([
     Route::patch('grocery-list-item/{groceryListItem}', 'GroceryListItemController@update');
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
+    Route::post('recipe/create', 'RecipeController@store');
+
     Route::get('departments', 'DepartmentController@all');
 
     // vue-router will handle any other requests
