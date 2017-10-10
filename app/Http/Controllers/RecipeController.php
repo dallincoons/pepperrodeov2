@@ -14,6 +14,13 @@ class RecipeController extends Controller
         $this->repository = $repository;
     }
 
+    public function index()
+    {
+        $recipes = $this->repository->all();
+
+        return response()->json($recipes, 200);
+    }
+
     public function store(Request $request)
     {
         $recipe = $this->repository->create([

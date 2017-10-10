@@ -28,6 +28,7 @@ Route::group([
     Route::patch('grocery-list-item/{groceryListItem}', 'GroceryListItemController@update');
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
+    Route::get('recipes', 'RecipeController@index');
     Route::post('recipe/create', 'RecipeController@store');
 
     Route::get('departments', 'DepartmentController@all');
