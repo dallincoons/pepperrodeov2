@@ -20,15 +20,21 @@ class CreatesRecipesTest extends TestCase
     public function it_creates_a_recipe_with_items()
     {
         $response = $this->createRecipe([
-            'items'  => [[
-                'quantity' => 2
-            ]]
+            'items' => [
+                [
+                    'quantity'    => 2,
+                    'description' => 'jazz music',
+                    'listable'    => 1
+                ]
+            ]
         ]);
 
         $response->assertStatus(201);
         $this->assertEquals(1, Recipe::count());
         $this->assertArraySubset([
-            'quantity' => 2
+            'quantity'    => 2,
+            'description' => 'jazz music',
+            'listable'    => 1
         ], Recipe::first()->items->first()->toArray());
     }
 

@@ -15,6 +15,8 @@ class CreateRecipeItemsTable extends Migration
     {
         Schema::create('recipe_items', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('description');
+            $table->boolean('listable');
             $table->unsignedInteger('recipe_id');
             $table->unsignedInteger('quantity');
             $table->timestamps();
