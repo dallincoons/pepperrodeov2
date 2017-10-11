@@ -39,4 +39,11 @@ class RecipeController extends Controller
 
         return response()->json($recipe, 201);
     }
+
+    public function delete(Recipe $recipe)
+    {
+        $recipe->delete();
+
+        return response()->json('Recipe with id: ' . $recipe->getKey() . ' has been deleted', 200);
+    }
 }

@@ -26,7 +26,7 @@ class RetrievesRecipeTest extends TestCase
     {
         $recipe = RecipeFaker::withItems();
 
-        $response = $this->get($this->api('recipe/' . $recipe->getKey()));
+        $response = $this->get($this->api('recipes/' . $recipe->getKey()));
 
         $responseRecipe = $response->decodeResponseJson();
 
