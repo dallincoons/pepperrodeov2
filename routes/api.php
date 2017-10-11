@@ -30,6 +30,7 @@ Route::group([
 
     Route::get('recipes', 'RecipeController@index');
     Route::post('recipe/create', 'RecipeController@store');
+    Route::get('recipe/{recipe}', 'RecipeController@show');
 
     Route::get('departments', 'DepartmentController@all');
 

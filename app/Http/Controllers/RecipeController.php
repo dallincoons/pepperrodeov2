@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Recipe;
 use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,13 @@ class RecipeController extends Controller
         $recipes = $this->repository->all();
 
         return response()->json($recipes, 200);
+    }
+
+    public function show(Recipe $recipe)
+    {
+        $recipe->load(['items']);
+
+        return response()->json($recipe, 200);
     }
 
     public function store(Request $request)
