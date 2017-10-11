@@ -16,6 +16,7 @@
         "laravel/spark": "*@dev",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.17.0",
+        "phospr/fraction": "^1.2",
         "prettus/l5-repository": "^2.6",
         "spatie/laravel-backup": "^5.0"
     },
