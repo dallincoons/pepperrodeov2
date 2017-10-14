@@ -18,7 +18,7 @@ class CreateRecipeItemsTable extends Migration
             $table->string('description');
             $table->boolean('listable');
             $table->unsignedInteger('recipe_id');
-            $table->unsignedInteger('quantity');
+            $table->string('quantity');
             $table->timestamps();
 
             $table->foreign('recipe_id')->references('id')->on('recipe')->onDelete('cascade');
