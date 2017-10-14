@@ -9,6 +9,7 @@ use Tests\TestCase;
 /**
  * @group grocery-list-tests
  * @group create-grocery-lists-tests
+ * @group feature-tests
  */
 class CreateGroceryListsTest extends TestCase
 {

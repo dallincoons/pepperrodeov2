@@ -7,7 +7,10 @@ use App\Entities\Recipe;
 use App\Entities\RecipeItem;
 use Tests\TestCase;
 
-class RecipeToGroceryListTest extends TestCase
+/**
+ * @group feature-tests
+ */
+class AddRecipeToGroceryListTest extends TestCase
 {
     /** @test */
     public function it_adds_all_listable_recipe_items_to_list()

@@ -6,6 +6,9 @@ use App\Entities\GroceryList;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
+/**
+ * @group feature-tests
+ */
 class RetrievesGroceryListItemsTest extends TestCase
 {
     /** @test */

@@ -5,6 +5,9 @@ namespace Tests\Feature\Recipe;
 use App\Entities\Recipe;
 use Tests\TestCase;
 
+/**
+ * @group feature-tests
+ */
 class DeleteRecipeTest extends TestCase
 {
     /** @test */

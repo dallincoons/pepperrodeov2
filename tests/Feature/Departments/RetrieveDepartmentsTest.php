@@ -5,6 +5,9 @@ namespace Tests\Feature\Departments;
 use App\Entities\Department;
 use Tests\TestCase;
 
+/**
+ * @group feature-tests
+ */
 class RetrieveDepartmentsTest extends TestCase
 {
     /** @test */

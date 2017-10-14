@@ -8,6 +8,7 @@ use Tests\TestCase;
 /**
  * @group grocery-list-tests
  * @group update-grocery-lists-tests
+ * @group feature-tests
  */
 class UpdateGroceryListsTest extends TestCase
 {
