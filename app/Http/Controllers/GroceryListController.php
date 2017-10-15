@@ -24,9 +24,11 @@ class GroceryListController
         return response()->json($grocerylists, 200);
     }
 
-    public function show(GroceryList $grocerylist)
+    public function show(Request $request, GroceryList $grocerylist)
     {
         $grocerylist->load(['items', 'items.department']);
+
+        $grocerylist->append('combinedItems');
 
         return response()->json($grocerylist, 200);
     }
