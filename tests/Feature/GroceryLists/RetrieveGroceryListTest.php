@@ -5,11 +5,13 @@ namespace Tests\Feature\GroceryList;
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use Carbon\Carbon;
+use Tests\Fakers\GroceryListFaker;
 use Tests\TestCase;
 
 /**
  * @group grocery-list-tests
  * @group retrieve-grocery-lists-tests
+ * @group feature-tests
  */
 class RetrieveGroceryListTest extends TestCase
 {
@@ -39,6 +41,31 @@ class RetrieveGroceryListTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals($grocerylist->id, $response->decodeResponseJson()['id']);
         $this->assertEquals($grocerylist->items->first()->description, $response->decodeResponseJson()['items'][0]['description']);
+    }
+
+    /** @test */
+    public function it_retrieves_grocery_list_with_combined_items()
+    {
+        $grocerylist = GroceryListFaker::withItems([
+            [
+                'description' => 'AAA',
+                'quantity' => '1/4',
+            ],
+            [
+                'description' => 'AAA',
+                'quantity' => '2/4',
+            ],
+            [
+                'description' => 'BBB',
+                'quantity' => 1,
+            ]
+        ]);
+
+        $response = $this->get($this->api('grocery-list/' . $grocerylist->getKey()));
+
+        $response->assertSuccessful();
+        $this->assertCount(3, $response->decodeResponseJson()['items']);
+        $this->assertCount(2, $response->decodeResponseJson()['combinedItems']);
     }
 
     /** @test */

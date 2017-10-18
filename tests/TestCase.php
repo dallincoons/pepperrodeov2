@@ -57,6 +57,6 @@ abstract class TestCase extends BaseTestCase
      */
     protected function api(string $url)
     {
-        return '/api/v1/' . $url;
+        return '/api/v1' . str_start($url, '/');
     }
 }

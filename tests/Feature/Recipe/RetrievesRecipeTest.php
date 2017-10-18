@@ -7,6 +7,9 @@ use App\Entities\RecipeItem;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
+/**
+ * @group feature-tests
+ */
 class RetrievesRecipeTest extends TestCase
 {
     /** @test */

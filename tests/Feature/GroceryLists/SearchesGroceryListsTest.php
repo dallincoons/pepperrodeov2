@@ -10,6 +10,7 @@ use Tests\TestCase;
  * @group grocery-list-tests
  * @group searches-grocery-list-tests
  * @group integration-tests
+ * @group feature-tests
  */
 class SearchesGroceryListsTest extends TestCase
 {

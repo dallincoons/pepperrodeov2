@@ -6,6 +6,9 @@ use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use Tests\TestCase;
 
+/**
+ * @group feature-tests
+ */
 class DeleteGroceryListItemsTest extends TestCase
 {
     /** @test */

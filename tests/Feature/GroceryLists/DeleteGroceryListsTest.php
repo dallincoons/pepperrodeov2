@@ -8,6 +8,7 @@ use Tests\TestCase;
 /**
  * @group grocery-list-tests
  * @group delete-grocery-lists-tests
+ * @group feature-tests
  */
 class DeleteGroceryListsTest extends TestCase
 {

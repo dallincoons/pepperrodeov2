@@ -37,7 +37,12 @@ class GroceryList extends Model implements Transformable
         }
     }
 
-    public function combinedItems()
+    public function getCombinedItemsAttribute()
+    {
+        return $this->getCombinedItems();
+    }
+
+    public function getCombinedItems()
     {
         $items = app(GroceryItemCombine::class)->combine($this);
 

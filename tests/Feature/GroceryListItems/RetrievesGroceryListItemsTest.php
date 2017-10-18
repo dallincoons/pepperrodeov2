@@ -6,10 +6,13 @@ use App\Entities\GroceryList;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
+/**
+ * @group feature-tests
+ */
 class RetrievesGroceryListItemsTest extends TestCase
 {
     /** @test */
-    public function it_gets_combined_grocery_list_items()
+    public function it_combines_grocery_list_items()
     {
         $grocerylist = factory(GroceryList::class)->create();
         $recipe = RecipeFaker::withItems([
@@ -42,7 +45,7 @@ class RetrievesGroceryListItemsTest extends TestCase
 
         $grocerylist->addRecipe($recipe);
 
-        $items = $grocerylist->combinedItems();
+        $items = $grocerylist->getCombinedItems();
 
         $result = $items->pluck('quantity');
 

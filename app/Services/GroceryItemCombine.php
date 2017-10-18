@@ -30,7 +30,7 @@ class GroceryItemCombine
     public function combine(GroceryList $grocerylist)
     {
         $this->grocerylist = $grocerylist;
-        $items                 = $this->grocerylist->items;
+        $items                 = clone $this->grocerylist->items;
         $duplicates = $items->duplicates('description');
 
         foreach ($duplicates->groupBy('description') as $key => $duplicateItems) {
