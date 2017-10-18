@@ -24,7 +24,7 @@ class CreatesRecipesTest extends TestCase
     public function it_creates_a_recipe_with_ingredients()
     {
         $response = $this->createRecipe([
-            'items' => [
+            'ingredients' => [
                 [
                     'quantity'    => 2,
                     'description' => 'jazz music',

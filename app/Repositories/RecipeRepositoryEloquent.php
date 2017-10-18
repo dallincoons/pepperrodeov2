@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Entities\Ingredient;
 use App\Entities\Recipe;
-use App\Entities\RecipeItem;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepository
@@ -17,12 +16,12 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
     {
         $recipe = parent::create($attributes);
 
-        $items = array_get($attributes, 'items') ?: [];
+        $ingredients = array_get($attributes, 'ingredients') ?: [];
 
-        foreach($items as $item){
+        foreach($ingredients as $ingredient){
             Ingredient::create([
                     'recipe_id' => $recipe->getKey()
-                ] + $item);
+                ] + $ingredient);
         }
 
         return $recipe;

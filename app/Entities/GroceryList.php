@@ -30,7 +30,7 @@ class GroceryList extends Model implements Transformable
     {
         foreach ($recipe->ingredients as $ingredients) {
             if ($ingredients->listable) {
-                $this->items()->save($this->translateRecipeItem($ingredients, $recipe));
+                $this->items()->save($this->translateIngredient($ingredients, $recipe));
             }
         }
     }
@@ -47,11 +47,11 @@ class GroceryList extends Model implements Transformable
         return $items;
     }
 
-    public function translateRecipeItem(Ingredient $recipeItem, Recipe $recipe)
+    public function translateIngredient(Ingredient $ingredient, Recipe $recipe)
     {
         return new GroceryListItem([
-            'description' => $recipeItem->description,
-            'quantity'    => $recipeItem->quantity,
+            'description' => $ingredient->description,
+            'quantity'    => $ingredient->quantity,
             'recipe_id'   => $recipe->getKey()
         ]);
     }

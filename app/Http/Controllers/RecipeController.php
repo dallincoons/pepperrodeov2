@@ -34,7 +34,7 @@ class RecipeController extends Controller
         $recipe = $this->repository->create([
             'title' => $request->title,
             'user_id' => \Auth::user()->getKey(),
-            'items' => $request->items
+            'ingredients' => $request->ingredients
         ]);
 
         return response()->json($recipe, 201);
