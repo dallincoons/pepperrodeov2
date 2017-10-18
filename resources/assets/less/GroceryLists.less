@@ -24,7 +24,7 @@ ul {
 }
 
 .container-heading {
-  background: #ff4b2e;
+  background: @pr-brand-color;
   margin: 0 -15px;
   border-radius: 10px 10px 0 0;
   color: #fff;
@@ -52,7 +52,7 @@ ul {
   width: 90%;
   padding: 1%;
   background: #ffffff;
-  border-left: 7px solid #ff4b2e;
+  border-left: 7px solid @pr-brand-color;
   border-top: 1px solid rgba(27,26,26,.1);
   border-radius: 5px;
   -webkit-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
@@ -103,7 +103,7 @@ ul {
 }
 
 .search-button {
-  background: #ff4b2e;
+  background: @pr-brand-color;
   border: none;
   border-radius: 2px;
   display: flex;
@@ -114,4 +114,8 @@ ul {
 .search-button:hover {
   background: #BF3822;
   transition: background 2s;
+}
+
+.toggleSearchInput {
+  display: none;
 }

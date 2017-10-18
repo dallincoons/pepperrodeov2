@@ -2,7 +2,7 @@
     <div class="container">
         <div class="container-heading"><h2>My Grocery Lists</h2>
             <div class="search-container">
-                <input v-model="searchQuery" class="searchInput" @keyup.enter="searchGroceryLists"><button class="search-button" type="button" @click="searchGroceryLists" @keyup.enter="searchGroceryLists">
+                <input v-model="searchQuery" class="searchInput" @keyup.enter="searchGroceryLists" v-bind:class="{toggleSearchInput : searchClosed}"><button class="search-button" type="button" @click="toggleSearch" @keyup.enter="searchGroceryLists">
 
                 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="20px" height="20px">
@@ -55,7 +55,8 @@
         data(){
             return {
                 grocerylists : [],
-                searchQuery : ''
+                searchQuery : '',
+                searchClosed : true
             }
         },
 
@@ -69,6 +70,15 @@
                axios.get('/api/v1/grocery-lists/search?query='+this.searchQuery).then((response) => {
                     this.grocerylists = response.data;
                });
+            },
+
+            toggleSearch() {
+                if(this.searchClosed === true) {
+                    this.searchClosed = false;
+                } else {
+                    this.searchGroceryLists();
+                }
+
             }
         }
     }
