@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Recipe;
 
+use App\Entities\Ingredient;
 use App\Entities\Recipe;
-use App\Entities\RecipeItem;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
@@ -16,7 +16,7 @@ class RetrievesRecipeTest extends TestCase
     public function it_retrieves_all_recipes()
     {
         $recipes = factory(Recipe::class, 2)->create();
-        $recipes->first()->items()->save(factory(RecipeItem::class)->make());
+        $recipes->first()->ingredients()->save(factory(Ingredient::class)->make());
 
         $response = $this->get($this->api('recipes'));
 
@@ -25,7 +25,7 @@ class RetrievesRecipeTest extends TestCase
     }
 
     /** @test */
-    public function it_retrieves_a_single_recipe_with_items()
+    public function it_retrieves_a_single_recipe_with_ingredients()
     {
         $recipe = RecipeFaker::withItems();
 
@@ -34,6 +34,6 @@ class RetrievesRecipeTest extends TestCase
         $responseRecipe = $response->decodeResponseJson();
 
         $response->assertSuccessful();
-        $this->assertArrayHasKey('items', $responseRecipe);
+        $this->assertArrayHasKey('ingredients', $responseRecipe);
     }
 }

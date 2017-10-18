@@ -2,8 +2,8 @@
 
 namespace Tests\Fakers;
 
+use App\Entities\Ingredient;
 use App\Entities\Recipe;
-use App\Entities\RecipeItem;
 
 class RecipeFaker
 {
@@ -25,10 +25,10 @@ class RecipeFaker
         $recipe = factory(Recipe::class)->create();
 
         foreach(range(1, $count) as $i) {
-            $item = factory(RecipeItem::class)->create([
+            $ingredient = factory(Ingredient::class)->create([
                 'recipe_id' => $recipe->getKey()
             ]);
-            $recipe->items()->save($item);
+            $recipe->ingredients()->save($ingredient);
         }
 
         return $recipe;
@@ -46,8 +46,8 @@ class RecipeFaker
             $itemData = array_merge($item, [
                 'recipe_id' => $recipe->getKey(),
             ]);
-            $item = factory(RecipeItem::class)->create($itemData);
-            $recipe->items()->save($item);
+            $item = factory(Ingredient::class)->create($itemData);
+            $recipe->ingredients()->save($item);
         }
 
         return $recipe;

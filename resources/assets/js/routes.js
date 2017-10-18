@@ -1,6 +1,7 @@
 import GroceryLists from './components/GroceryLists.vue';
 import GroceryList from './components/GroceryList.vue';
 import GroceryListCreate from './components/GroceryListCreate.vue';
+import RecipeCreate from './components/RecipeCreate.vue';
 
 
 let routes = [
@@ -22,6 +23,10 @@ let routes = [
             default :  GroceryList,
         },
         'name' : 'grocery-list',
+    },
+    {
+        'path' : '/recipe/create',
+        'component' : RecipeCreate,
     }
 ];
 export default routes;

@@ -5,7 +5,7 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Phospr\Fraction;
 
-class RecipeItem extends Model
+class Ingredient extends Model
 {
     protected $casts = [
         'quantity' => 'string'

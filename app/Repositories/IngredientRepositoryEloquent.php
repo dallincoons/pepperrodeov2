@@ -3,15 +3,13 @@
 namespace App\Repositories;
 
 use App\Entities\Ingredient;
-use App\Entities\Recipe;
-use App\Entities\RecipeItem;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepository
+class IngredientRepositoryEloquent extends BaseRepository implements IngredientRepository
 {
     /**
      * @param array $attributes
-     * @return Recipe
+     * @return Ingredient
      */
     public function create(array $attributes)
     {
@@ -33,6 +31,6 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
      */
     public function model()
     {
-        return Recipe::class;
+        return Ingredient::class;
     }
 }

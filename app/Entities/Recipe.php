@@ -10,9 +10,9 @@ class Recipe extends Model
         'title', 'user_id'
     ];
 
-    public function items()
+    public function ingredients()
     {
-        return $this->hasMany(RecipeItem::class);
+        return $this->hasMany(Ingredient::class);
     }
 }
 
