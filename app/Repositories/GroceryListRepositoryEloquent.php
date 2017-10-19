@@ -5,12 +5,22 @@ namespace App\Repositories;
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use App\Presenters\GroceryListPresenter;
+use Illuminate\Foundation\Application;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class GroceryListRepositoryEloquent extends BaseRepository implements GroceryListRepository
 {
+    private $groceryListItemRepository;
+
+    public function __construct(Application $app, GroceryListItemRepository $groceryListItemRepository)
+    {
+        parent::__construct($app);
+
+        $this->groceryListItemRepository = $groceryListItemRepository;
+    }
+
     /**
      * @throws ValidatorException
      *
@@ -25,7 +35,7 @@ class GroceryListRepositoryEloquent extends BaseRepository implements GroceryLis
         $items = array_get($attributes, 'items') ?: [];
 
         foreach($items as $item){
-            GroceryListItem::create([
+            $this->groceryListItemRepository->create([
                 'grocery_list_id' => array_get($grocerylist, 'data.id')
             ] + $item);
         }
