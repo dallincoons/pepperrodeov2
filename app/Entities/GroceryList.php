@@ -5,9 +5,7 @@ namespace App\Entities;
 use App\Entities\Behavior\OrderByLatest;
 use App\Services\GroceryItemCombine;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
-use Phospr\Fraction;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -30,9 +28,9 @@ class GroceryList extends Model implements Transformable
 
     public function addRecipe($recipe)
     {
-        foreach ($recipe->items as $item) {
-            if ($item->listable) {
-                $this->items()->save($this->translateRecipeItem($item, $recipe));
+        foreach ($recipe->ingredients as $ingredients) {
+            if ($ingredients->listable) {
+                $this->items()->save($this->translateIngredient($ingredients, $recipe));
             }
         }
     }
@@ -49,11 +47,11 @@ class GroceryList extends Model implements Transformable
         return $items;
     }
 
-    public function translateRecipeItem(RecipeItem $recipeItem, Recipe $recipe)
+    public function translateIngredient(Ingredient $ingredient, Recipe $recipe)
     {
         return new GroceryListItem([
-            'description' => $recipeItem->description,
-            'quantity'    => $recipeItem->quantity,
+            'description' => $ingredient->description,
+            'quantity'    => $ingredient->quantity,
             'recipe_id'   => $recipe->getKey()
         ]);
     }

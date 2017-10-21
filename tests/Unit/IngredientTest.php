@@ -2,21 +2,21 @@
 
 namespace Tests\Unit;
 
-use App\Entities\RecipeItem;
+use App\Entities\Ingredient;
 use Tests\TestCase;
 
-class RecipeItemTest extends TestCase
+class IngredientTest extends TestCase
 {
     /** @test */
-    public function it_makes_recipe_listable()
+    public function it_makes_ingredient_listable()
     {
-        $recipe = factory(RecipeItem::class)->create();
+        $ingredient = factory(Ingredient::class)->create();
 
-        $this->assertSame(0, $recipe->listable);
+        $this->assertSame(0, $ingredient->listable);
 
-        $recipe->toggleListable()->save();
+        $ingredient->toggleListable()->save();
 
-        $this->assertEquals(1, $recipe->fresh()->listable);
+        $this->assertEquals(1, $ingredient->fresh()->listable);
     }
 
     /**
@@ -26,7 +26,7 @@ class RecipeItemTest extends TestCase
      */
     public function it_handles_fractions_to_be_set_in_quantity_field($fraction, $expected)
     {
-        $item = factory(RecipeItem::class)->create([
+        $item = factory(Ingredient::class)->create([
             'quantity' => $fraction
         ]);
 

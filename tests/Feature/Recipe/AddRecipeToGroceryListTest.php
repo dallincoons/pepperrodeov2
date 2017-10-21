@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Entities\GroceryList;
+use App\Entities\Ingredient;
 use App\Entities\Recipe;
-use App\Entities\RecipeItem;
 use Tests\TestCase;
 
 /**
@@ -18,10 +18,10 @@ class AddRecipeToGroceryListTest extends TestCase
         $grocerylist = factory(GroceryList::class)->create();
 
         $listableRecipe = factory(Recipe::class)->create();
-        $recipeItem = factory(RecipeItem::class)->create(['listable' => 0]);
-        $recipeItem2 = factory(RecipeItem::class)->create(['listable' => 1]);
+        $ingredient = factory(Ingredient::class)->create(['listable' => 0]);
+        $ingredient2 = factory(Ingredient::class)->create(['listable' => 1]);
 
-        $listableRecipe->items()->saveMany([$recipeItem, $recipeItem2]);
+        $listableRecipe->ingredients()->saveMany([$ingredient, $ingredient2]);
 
         $grocerylist->addRecipe($listableRecipe);
 

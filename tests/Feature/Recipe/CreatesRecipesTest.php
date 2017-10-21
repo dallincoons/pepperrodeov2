@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recipe;
 
+use App\Entities\Ingredient;
 use App\Entities\Recipe;
 use Tests\TestCase;
 
@@ -20,10 +21,10 @@ class CreatesRecipesTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_recipe_with_items()
+    public function it_creates_a_recipe_with_ingredients()
     {
         $response = $this->createRecipe([
-            'items' => [
+            'ingredients' => [
                 [
                     'quantity'    => 2,
                     'description' => 'jazz music',
@@ -33,12 +34,12 @@ class CreatesRecipesTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $this->assertEquals(1, Recipe::count());
+        $this->assertEquals(1, Ingredient::count());
         $this->assertArraySubset([
             'quantity'    => 2,
             'description' => 'jazz music',
             'listable'    => 1
-        ], Recipe::first()->items->first()->toArray());
+        ], Recipe::first()->ingredients->first()->toArray());
     }
 
     private function createRecipe($overrides = [])

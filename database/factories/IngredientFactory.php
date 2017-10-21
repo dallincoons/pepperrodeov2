@@ -3,7 +3,7 @@
 use App\Entities\Recipe;
 use App\Entities\RecipeItem;
 
-$factory->define(RecipeItem::class, function (Faker\Generator $faker) {
+$factory->define(\App\Entities\Ingredient::class, function (Faker\Generator $faker) {
     return [
         'description' => $faker->sentence,
         'listable' => 0,

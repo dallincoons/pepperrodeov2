@@ -2,12 +2,22 @@
 
 namespace App\Repositories;
 
+use App\Entities\Ingredient;
 use App\Entities\Recipe;
-use App\Entities\RecipeItem;
+use Illuminate\Foundation\Application;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepository
 {
+    private $ingredientRepository;
+
+    public function __construct(Application $app, IngredientRepositoryEloquent $repository)
+    {
+        parent::__construct($app);
+
+        $this->ingredientRepository = $repository;
+    }
+
     /**
      * @param array $attributes
      * @return Recipe
@@ -16,15 +26,20 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
     {
         $recipe = parent::create($attributes);
 
-        $items = array_get($attributes, 'items') ?: [];
+        $ingredients = array_get($attributes, 'ingredients') ?: [];
 
-        foreach($items as $item){
-            RecipeItem::create([
+        foreach($ingredients as $ingredient){
+            $this->ingredientRepository->create([
                     'recipe_id' => $recipe->getKey()
-                ] + $item);
+                ] + $ingredient);
         }
 
         return $recipe;
+    }
+
+    public function addIngredient(array $ingredients)
+    {
+        $this->ingredientRepository->create($ingredients);
     }
 
     /**

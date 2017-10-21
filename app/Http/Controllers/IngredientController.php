@@ -6,7 +6,7 @@ use App\Entities\Recipe;
 use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 
-class RecipeController extends Controller
+class IngredientController extends Controller
 {
     private $repository;
 
@@ -24,18 +24,16 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        $recipe->load(['ingredients']);
+        $recipe->load(['items']);
 
         return response()->json($recipe, 200);
     }
 
-    public function store(Request $request)
+    public function store(Recipe $recipe, Request $request)
     {
-        $recipe = $this->repository->create([
-            'title' => $request->title,
-            'user_id' => \Auth::user()->getKey(),
-            'ingredients' => $request->ingredients
-        ]);
+        foreach($request->ingredients as $ingredient) {
+            $this->repository->addIngredient($ingredient);
+        }
 
         return response()->json($recipe, 201);
     }

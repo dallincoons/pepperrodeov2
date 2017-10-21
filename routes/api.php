@@ -33,6 +33,8 @@ Route::group([
     Route::get('recipes/{recipe}', 'RecipeController@show');
     Route::delete('recipes/{recipe}', 'RecipeController@delete');
 
+    Route::post('recipe/{recipe}/add-ingredients', 'IngredientController@store');
+
     Route::get('departments', 'DepartmentController@all');
 
     // vue-router will handle any other requests
