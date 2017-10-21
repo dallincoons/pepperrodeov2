@@ -1,5 +1,6 @@
 <template>
-    <div class="add-item-wrapper">
+<div class="add-item-wrapper">
+
         <div class="add-item">
             <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
         </div>
@@ -9,6 +10,7 @@
         </select>
         <button @click="saveItem" @enter="saveItem" class="save"><span>Save Item</span></button>
     </div>
+</div>
 </template>
 
 <script>
@@ -18,7 +20,7 @@
             return {
                 description : '',
                 department  : '',
-                listId : ''
+                listId : '',
             }
         },
 

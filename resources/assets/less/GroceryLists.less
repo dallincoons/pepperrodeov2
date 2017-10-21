@@ -77,48 +77,6 @@ ul {
   transition: border-left 1s;
 }
 
-.search-container {
-  align-self: center;
-  margin-right: 2%;
-  display: flex;
-}
-
-.searchInput {
-  background: #BF3822;
-  border: none;
-  border-radius: 2px;
-  font-size: 1.2em;
-  -webkit-box-shadow: inset 2px 2px 15px 0px rgba(127,37,23,1);
-  -moz-box-shadow: inset 2px 2px 15px 0px rgba(127,37,23,1);
-  box-shadow: inset 2px 2px 15px 0px rgba(127,37,23,1);
-  color: #ffffff;
-  padding-left: 5px;
-  opacity: .5;
-  transition: opacity 2s;
-}
-
-.searchInput:focus {
-  opacity: 1;
-  transition: opacity 2s;
-}
-
-.search-button {
-  background: @pr-brand-color;
-  border: none;
-  border-radius: 2px;
-  display: flex;
-  padding: 5px;
-  transition: background 2s;
-}
-
-.search-button:hover {
-  background: #BF3822;
-  transition: background 2s;
-}
-
-.toggleSearchInput {
-  display: none;
-}
 @media only screen
 and (max-device-width: 1050px) {
   .container {
@@ -134,18 +92,11 @@ and (max-device-width: 1050px) {
     background: #ffffff;
     color: @pr-brand-color;
     display: flex;
-    flex-direction: column;
+   flex-direction: column;
+
   }
   .list-container {
     padding: 0;
   }
-  .search-container {
-    align-self: flex-start;
-  }
-  .searchInput {
-    border: 3px solid @pr-brand-color;
-    background: #ffffff;
-    box-shadow: none;
-    color: #4f4f4f;
-  }
+
 }

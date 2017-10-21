@@ -1,10 +1,16 @@
 <template>
     <div class="container">
 
-        <div class="container-heading"><h2>{{list.title}}</h2></div>
+        <div class="container-heading list-heading">
+            <h2>{{list.title}}</h2>
+        </div>
 
         <div class="container-body">
-            <new-item-form @updated="getList" :departments="departments"></new-item-form>
+            <div class="add-item-section" @click="toggleAddItemSection">
+                <span class="add-item-text">Add Item</span>
+                <new-item-form @updated="getList" :departments="departments" v-bind:class="{showy : addItemFormOpened, hidey : !addItemFormOpened}"></new-item-form>
+            </div>
+
 
             <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                 <ul class="list-items">
@@ -48,7 +54,8 @@
                 listId      : '',
                 description : '',
                 departments : '',
-                itemToUpdate : ''
+                itemToUpdate : '',
+                addItemFormOpened : false
             }
         },
 
@@ -81,8 +88,10 @@
 
             getList() {
                 axios.get('/api/v1/grocery-list/' + this.listId).then((response) => {
-                    console.log(response.data);
                     this.list = response.data;
+                    if( ! this.list.items.length) {
+                        this.addItemFormOpened = true;
+                    }
                 });
             },
 
@@ -118,6 +127,10 @@
                 axios.delete('/api/v1/grocery-list-item/' + itemToUpdate.id).then((response) => {
                     this.getList();
                 });
+            },
+
+            toggleAddItemSection() {
+                this.addItemFormOpened = ! this.addItemFormOpened;
             }
         }
     }
