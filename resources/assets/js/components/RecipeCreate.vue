@@ -4,7 +4,7 @@
         <div class="container-create">
             <form v-on:submit.prevent>
                 <input title="Recipe Title" class="title-input" placeholder="Recipe Title" v-model="recipeTitle">
-                <input title="recipe ingredients" placeholder="Ingredients" v-model="recipeItem">
+                <input title="recipe ingredients" placeholder="Ingredients" v-model="recipeDescription">
                 <textarea placeholder="Directions"></textarea>
                 <button type="button" class="save-button" @click="saveRecipe">Save</button>
             </form>
@@ -18,12 +18,12 @@
         data() {
             return {
                 recipeTitle : '',
-                recipeItem : ''
+                recipeDescription : ''
             }
         },
         methods : {
             saveRecipe() {
-                axios.post('/api/v1/recipes/create', {title : this.recipeTitle, items : [{description : this.recipeItem, listable : 1}]}).then((response) => {
+                axios.post('/api/v1/recipes/create', {title : this.recipeTitle, ingredients : [{description : this.recipeDescription, listable : 1}]}).then((response) => {
                     console.log(response);
                 });
             }
