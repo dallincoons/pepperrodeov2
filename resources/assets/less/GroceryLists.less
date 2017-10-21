@@ -122,6 +122,30 @@ ul {
 @media only screen
 and (max-device-width: 1050px) {
   .container {
-    width: 90%;
+    width: 100%;
+    box-shadow: none;
+    border-radius: none;
+  }
+  .grocery-list {
+    width: 100%;
+    margin: 4% 0;
+  }
+  .container-heading {
+    background: #ffffff;
+    color: @pr-brand-color;
+    display: flex;
+    flex-direction: column;
+  }
+  .list-container {
+    padding: 0;
+  }
+  .search-container {
+    align-self: flex-start;
+  }
+  .searchInput {
+    border: 3px solid @pr-brand-color;
+    background: #ffffff;
+    box-shadow: none;
+    color: #4f4f4f;
   }
 }
