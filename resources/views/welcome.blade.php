@@ -15,13 +15,13 @@
 
 
 </head>
-<body>
+<body class="small-screens-background">
     @extends('spark::layouts.app')
 
     @section('content')
 
         <div class="nav-wrapper">
-            <h1 class="nav-brand">Pepper Rodeo</h1>
+            <h1 class="nav-brand"><device-nav></device-nav>Pepper Rodeo</h1>
             <div class="nav-links">
                 <router-link to="/grocery-lists" class="nav-link">Grocery Lists</router-link>
                 <router-link to="/grocery-list/create" class="nav-link">Create Grocery List</router-link>
@@ -36,4 +36,7 @@
         <router-view></router-view>
     @endsection
 </body>
+
 </html>
+
+

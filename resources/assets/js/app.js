@@ -20,6 +20,8 @@ require('./components/bootstrap');
 
 import routes from './routes';
 
+import DeviceNav from './components/DeviceNav.vue';
+
 import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
@@ -31,6 +33,10 @@ let router = new VueRouter({
 window.EventBus = new Vue();
 
 var app = new Vue({
+    components : {
+        DeviceNav
+    },
+
     mixins: [require('spark')],
 
     router : router
