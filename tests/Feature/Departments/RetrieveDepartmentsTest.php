@@ -17,6 +17,7 @@ class RetrieveDepartmentsTest extends TestCase
 
         $response = $this->get('/api/v1/departments');
 
-        $this->assertEquals(2, count($response->decodeResponseJson()));
+        //adds an additional department because of initial default
+        $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 }
