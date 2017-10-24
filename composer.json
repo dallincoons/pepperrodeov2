@@ -9,6 +9,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
+        "ajthinking/tinx": "^0.6.1",
         "algolia/algoliasearch-client-php": "^1.20",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.5.*",
