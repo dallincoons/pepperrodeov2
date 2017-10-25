@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\Behavior\OrderByLatest;
+use App\Repositories\GroceryListItemRepository;
 use App\Services\GroceryItemCombine;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -26,11 +27,19 @@ class GroceryList extends Model implements Transformable
         return $this->hasMany(GroceryListItem::class);
     }
 
-    public function addRecipe($recipe)
+    /**
+     * @param Recipe $recipe
+     */
+    public function addRecipe(Recipe $recipe)
     {
+        $itemRepository = app(GroceryListItemRepository::class);
+
         foreach ($recipe->ingredients as $ingredients) {
             if ($ingredients->listable) {
-                $this->items()->save($this->translateIngredient($ingredients, $recipe));
+                $itemRepository->create(
+                    $this->translateIngredient($ingredients, $recipe)
+                     + ['grocery_list_id' => $this->getKey()]
+                );
             }
         }
     }
@@ -49,10 +58,10 @@ class GroceryList extends Model implements Transformable
 
     public function translateIngredient(Ingredient $ingredient, Recipe $recipe)
     {
-        return new GroceryListItem([
+        return [
             'description' => $ingredient->description,
             'quantity'    => $ingredient->quantity,
             'recipe_id'   => $recipe->getKey()
-        ]);
+        ];
     }
 }

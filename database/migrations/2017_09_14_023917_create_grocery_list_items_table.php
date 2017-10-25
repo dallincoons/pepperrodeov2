@@ -16,7 +16,7 @@ class CreateGroceryListItemsTable extends Migration
         Schema::create('grocery_list_items', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('grocery_list_id');
-            $table->unsignedInteger('department_id')->nullable();
+            $table->unsignedInteger('department_id');
             $table->string('description')->nullable();
             $table->string('quantity')->nullable();
             $table->boolean('is_checked')->default(0);

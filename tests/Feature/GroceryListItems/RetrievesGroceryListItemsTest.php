@@ -14,6 +14,7 @@ class RetrievesGroceryListItemsTest extends TestCase
     /** @test */
     public function it_combines_grocery_list_items()
     {
+        /** @var $grocerylist GroceryList */
         $grocerylist = factory(GroceryList::class)->create();
         $recipe = RecipeFaker::withItems([
             [
