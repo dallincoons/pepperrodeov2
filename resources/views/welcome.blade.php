@@ -25,6 +25,8 @@
             <div class="nav-links">
                 <router-link to="/grocery-lists" class="nav-link">Grocery Lists</router-link>
                 <router-link to="/grocery-list/create" class="nav-link">Create Grocery List</router-link>
+                <router-link to="/recipes" class="nav-link">Recipes</router-link>
+                <router-link to="/recipe/create" class="nav-link">Add a Recipe</router-link>
 
                 <a href="/logout">Log Out</a>
                 <div class="nav-line"></div>

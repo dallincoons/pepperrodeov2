@@ -14,6 +14,8 @@
         <ul id="menu">
           <li @click="closeNav"><router-link to="/grocery-lists" class="nav-link" >My Grocery Lists</router-link></li>
           <li @click="closeNav"><router-link to="/grocery-list/create" class="nav-link">Create a Grocery List</router-link></li>
+          <li @click="closeNav"><router-link to="/recipes" class="nav-link">Recipes</router-link></li>
+          <li @click="closeNav"><router-link to="/recipe/create" class="nav-link">Add a Recipe</router-link></li>
           <a href="/logout" class="nav-link" @click="closeNav">Logout</a>
         </ul>
     </div>
