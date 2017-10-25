@@ -12,6 +12,9 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 class GroceryListRepositoryEloquent extends BaseRepository implements GroceryListRepository
 {
+    /**
+     * @var GroceryListItemRepositoryEloquent
+     */
     private $groceryListItemRepository;
 
     public function __construct(Application $app, GroceryListItemRepository $groceryListItemRepository)

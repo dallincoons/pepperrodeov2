@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\Department;
 use App\Entities\GroceryListItem;
 use App\Validators\GroceryListItemValidator;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -9,6 +10,15 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class GroceryListItemRepositoryEloquent extends BaseRepository implements GroceryListItemRepository
 {
+    public function create(array $attributes)
+    {
+        if (!array_get($attributes, 'department_id')) {
+            $attributes['department_id'] = Department::default()->getKey();
+        }
+
+        return parent::create($attributes);
+    }
+
     /**
      * Specify Model class name
      *
