@@ -22,12 +22,14 @@
             <p>First cook the stuff. Then eat the stuff.</p>
         </div>
 
+
     </div>
 
 </div>
 
 </template>
 <script>
+
     export default {
         data () {
            return {
