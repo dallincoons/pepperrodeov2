@@ -26,4 +26,12 @@ class RegistersNewUserTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals(1, User::count());
     }
+
+    /** @test */
+    public function it_adds_default_categories_after_user_registration()
+    {
+        $this->registerNew();
+
+        $this->assertGreaterThan(0, count(\Auth::user()->categories));
+    }
 }

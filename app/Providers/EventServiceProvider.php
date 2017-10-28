@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Laravel\Spark\Events\Auth\UserRegistered;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class EventServiceProvider extends ServiceProvider
         // User Related Events...
         'Laravel\Spark\Events\Auth\UserRegistered' => [
             'Laravel\Spark\Listeners\Subscription\CreateTrialEndingNotification',
+            'App\Listeners\CreateDefaultCategories'
         ],
 
         'Laravel\Spark\Events\Subscription\UserSubscribed' => [

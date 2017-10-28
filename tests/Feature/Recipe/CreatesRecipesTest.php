@@ -14,10 +14,18 @@ class CreatesRecipesTest extends TestCase
     /** @test */
     public function it_creates_a_recipe_without_items()
     {
-        $response = $this->createRecipe();
+        $response = $this->createRecipe([
+            'title' => 'foo bar',
+            'directions' => 'cook things'
+        ]);
 
         $response->assertSuccessful();
         $this->assertEquals(1, Recipe::count());
+
+        $recipe = Recipe::first();
+
+        $this->assertEquals('foo bar', $recipe->title);
+        $this->assertEquals('cook things', $recipe->directions);
     }
 
     /** @test */
@@ -49,8 +57,6 @@ class CreatesRecipesTest extends TestCase
 
     private function validParams($overrides = [])
     {
-        return array_merge([
-            'title' => 'Twelve Squishy Soup',
-        ], $overrides);
+        return array_merge(factory(Recipe::class)->raw(), $overrides);
     }
 }
