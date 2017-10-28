@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Criteria\AuthUserCriteria;
 use App\Entities\GroceryList;
 use App\Http\Requests\GroceryListCreateRequest;
 use App\Repositories\GroceryListRepository;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 
 class GroceryListController
 {
+
     private $repository;
 
     public function __construct(GroceryListRepository $groceryListRepository)
@@ -19,6 +21,8 @@ class GroceryListController
 
     public function all()
     {
+        $this->repository->pushCriteria(new AuthUserCriteria());
+
         $grocerylists =  $this->repository->all();
 
         return response()->json($grocerylists, 200);

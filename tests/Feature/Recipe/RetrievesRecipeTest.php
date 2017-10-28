@@ -4,6 +4,7 @@ namespace Tests\Feature\Recipe;
 
 use App\Entities\Ingredient;
 use App\Entities\Recipe;
+use App\User;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
@@ -15,7 +16,9 @@ class RetrievesRecipeTest extends TestCase
     /** @test */
     public function it_retrieves_all_recipes()
     {
-        $recipes = factory(Recipe::class, 2)->create();
+        $recipes = factory(Recipe::class, 2)->create(['user_id' => $this->user->getKey()]);
+        factory(Recipe::class)->create(['user_id' => factory(User::class)->create()]);
+
         $recipes->first()->ingredients()->save(factory(Ingredient::class)->make());
 
         $response = $this->get($this->api('recipes'));

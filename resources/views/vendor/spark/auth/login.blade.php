@@ -28,7 +28,7 @@
                 </form>
 
             </div>
-            <a class="register-link">Create an account</a>
+            <a href="/register" class="register-link">Create an account</a>
             <span class="line"></span>
         </div>
         <div class="picture-section">

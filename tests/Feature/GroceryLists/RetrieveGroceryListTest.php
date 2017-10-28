@@ -4,6 +4,7 @@ namespace Tests\Feature\GroceryList;
 
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
+use App\User;
 use Carbon\Carbon;
 use Tests\Fakers\GroceryListFaker;
 use Tests\TestCase;
@@ -16,9 +17,10 @@ use Tests\TestCase;
 class RetrieveGroceryListTest extends TestCase
 {
     /** @test */
-    public function it_gets_all_grocery_lists()
+    public function it_gets_all_grocery_lists_belonging_to_user()
     {
-        $grocerylists = factory(GroceryList::class, 2)->create();
+        $grocerylists = factory(GroceryList::class, 2)->create(['user_id' => $this->user->getKey()]);
+        factory(GroceryList::class, 1)->create(['user_id' => factory(User::class)->create()]);
 
         $response = $this->get('/api/v1/grocery-lists');
         $contents = $response->decodeResponseJson()['data'];

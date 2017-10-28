@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Criteria\AuthUserCriteria;
 use App\Entities\Recipe;
 use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
+    /**
+     * @var RecipeRepository
+     */
     private $repository;
 
     public function __construct(RecipeRepository $repository)
@@ -17,6 +21,8 @@ class RecipeController extends Controller
 
     public function index()
     {
+        $this->repository->pushCriteria(new AuthUserCriteria());
+
         $recipes = $this->repository->all();
 
         return response()->json($recipes, 200);

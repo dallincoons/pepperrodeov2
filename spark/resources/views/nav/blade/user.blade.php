@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="spark-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                {{--@includeIf('spark::nav.user-left')--}}
+                @includeIf('spark::nav.user-left')
             </ul>
 
             <!-- Right Side Of Navbar -->

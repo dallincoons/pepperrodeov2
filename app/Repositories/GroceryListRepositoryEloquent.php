@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use App\Presenters\GroceryListPresenter;
+use App\User;
 use Illuminate\Foundation\Application;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
