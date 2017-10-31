@@ -36,6 +36,7 @@ Route::group([
     Route::post('recipe/{recipe}/add-ingredients', 'IngredientController@store');
 
     Route::get('departments', 'DepartmentController@all');
+    Route::get('categories', 'CategoryController@all');
 
     // vue-router will handle any other requests
     Route::get('/{vue_capture?}', function () {

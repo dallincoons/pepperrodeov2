@@ -1,25 +1,38 @@
 <template>
     <div>
-    <h2>{{recipeTitle}}</h2>
-    <h4>{{recipeCat}}</h4>
-        <form>
-            <label for="ingredients">Ingredients</label>
-            <input title="recipe ingredients" id="ingredients" v-model="ingredientDescription"> <span @click="addIngredient">+</span>
-            <div class="saved-ingredients">
-                <ul>
-                    <li v-for="(ingredient, index) in ingredients">{{ingredient.description}}<span @click="deleteIngredient(index)">x</span></li>
-                </ul>
-            </div>
-            <div class="need-to-buy">
-                <h3>Need to Buy</h3>
-                <ul>
-                    <li v-for="(needToBuy, index) in needToBuys"><input :value="needToBuy.description" v-model="needToBuy.description"><span @click="deleteNeedToBuy(index)">x</span></li>
-                </ul>
-            </div>
-            <label for="directions">Directions</label>
-            <textarea id="directions" v-model="directions"></textarea>
-            <button>Save</button>
-        </form>
+        <div class="heading-section">
+            <h2>{{recipeTitle}}</h2>
+            <h5>{{recipeCat}}</h5>
+        </div>
+        <div class="add-ingredient-section">
+            <form class="add-ingredient-form">
+                <div class="ingredient-section">
+                <h4 class="add-ingredient-headings">Ingredients</h4>
+                    <input title="recipe ingredients" id="ingredients" v-model="ingredientDescription" class="ingredients-input"> <span @click="addIngredient" class="add-ingredient">+</span>
+                    <div class="saved-ingredients">
+                        <ul class="list-of-ingredients">
+                            <li v-for="(ingredient, index) in ingredients" class="ingredient-item"><span class="ingredient-description">{{ingredient.description}}</span><span @click="deleteIngredient(index)" class="remove-item">x</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="need-to-buy">
+                    <h4 class="add-ingredient-headings">Need to Buy</h4>
+                    <ul class="buy-item-list">
+                        <li v-for="(needToBuy, index) in needToBuys"><input :value="needToBuy.description" v-model="needToBuy.description" class="buy-item"><span @click="deleteNeedToBuy(index)" class="remove-item">x</span></li>
+                    </ul>
+                </div>
+                <div class="directions">
+                    <label for="directions" class="add-ingredient-headings">Directions</label>
+                    <textarea id="directions" v-model="directions" class="directions-input"></textarea>
+                </div>
+                <div class="save-section">
+                    <button class="recipe-save save-button">Save</button>
+                </div>
+
+            </form>
+        </div>
+
     </div>
 </template>
 
