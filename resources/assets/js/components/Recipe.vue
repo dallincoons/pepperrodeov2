@@ -1,31 +1,37 @@
 <template>
 <div class="container">
-    <div class="recipe-heading">
+    <div class="heading-section recipe-heading">
         <h2>{{recipeTitle}}</h2>
-        <h4>Category</h4>
+        <h5>Category</h5>
     </div>
-    <div class="container-body">
-        <div class="ingredients-section">
-            <h4>Ingredients</h4>
-            <ul>
-                <li v-for="ingredient in recipeIngredients">{{ingredient.description}}</li>
-            </ul>
+    <div class="recipe-container">
+        <div class="recipe-items-section">
+            <div class="ingredients-section">
+                <h4 class="add-ingredient-headings">Ingredients</h4>
+                <div class="all-ingredients">
+                    <ul class="saved-list-of-ingredients">
+                        <li v-for="ingredient in recipeIngredients" class="ingredient-items">{{ingredient.description}}</li>
+                    </ul>
+                </div>
+            </div>
+
+                <div class="need-to-buys-section">
+                    <h4 class="add-ingredient-headings">Need to Buy</h4>
+                    <ul class="saved-buy-item-list">
+                        <li v-for="ingredient in recipeIngredients" class="buy-items">{{ingredient.description}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="saved-directions">
+                <h4 class="add-ingredient-headings">Directions</h4>
+                <p>First cook the stuff. Then eat the stuff.</p>
+            </div>
         </div>
-        <div class="need-to-buy-section">
-            <h4>Need to Buy</h4>
-            <ul>
-                <li v-for="ingredient in recipeIngredients">{{ingredient.description}}</li>
-            </ul>
-        </div>
-        <div class="directions-section">
-            <h4>Directions</h4>
-            <p>First cook the stuff. Then eat the stuff.</p>
-        </div>
+
 
 
     </div>
 
-</div>
 
 </template>
 <script>
