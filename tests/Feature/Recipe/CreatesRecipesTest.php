@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recipe;
 
+use App\Category;
 use App\Entities\Ingredient;
 use App\Entities\Recipe;
 use Tests\TestCase;
@@ -12,10 +13,10 @@ use Tests\TestCase;
 class CreatesRecipesTest extends TestCase
 {
     /** @test */
-    public function it_creates_a_recipe_without_items()
+    public function it_creates_a_recipe_without_ingredients()
     {
         $response = $this->createRecipe([
-            'title' => 'foo bar',
+            'title'      => 'foo bar',
             'directions' => 'cook things'
         ]);
 
@@ -32,11 +33,13 @@ class CreatesRecipesTest extends TestCase
     public function it_creates_a_recipe_with_ingredients()
     {
         $response = $this->createRecipe([
+            'title'       => 'foo bar',
+            'directions'  => 'cook things',
+            'category_id'    => factory(Category::class)->create()->getKey(),
             'ingredients' => [
                 [
                     'quantity'    => 2,
                     'description' => 'jazz music',
-                    'listable'    => 1
                 ]
             ]
         ]);

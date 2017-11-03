@@ -17,6 +17,7 @@ class CreateRecipeTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('directions');
+            $table->unsignedInteger('category_id');
             $table->unsignedInteger('user_id');
             $table->timestamps();
 

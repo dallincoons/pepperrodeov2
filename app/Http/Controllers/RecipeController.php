@@ -30,7 +30,7 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        $recipe->load(['ingredients']);
+        $recipe->load(['ingredients', 'category']);
 
         return response()->json($recipe, 200);
     }
@@ -40,8 +40,9 @@ class RecipeController extends Controller
         $recipe = $this->repository->create([
             'title' => $request->title,
             'directions' => $request->directions,
+            'category_id' => $request->category_id,
             'user_id' => \Auth::user()->getKey(),
-            'ingredients' => $request->ingredients
+            'ingredients' => $request->ingredients,
         ]);
 
         return response()->json($recipe, 201);
