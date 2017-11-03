@@ -39,4 +39,17 @@ class RetrievesRecipeTest extends TestCase
         $response->assertSuccessful();
         $this->assertArrayHasKey('ingredients', $responseRecipe);
     }
+
+    /** @test */
+    public function it_retrieves_a_single_recipe_with_a_category()
+    {
+        $recipe = RecipeFaker::withItems();
+
+        $response = $this->get($this->api('recipes/' . $recipe->getKey()));
+
+        $responseRecipe = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $this->assertArrayHasKey('category', $responseRecipe);
+    }
 }
