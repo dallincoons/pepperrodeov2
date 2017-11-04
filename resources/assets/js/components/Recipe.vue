@@ -22,6 +22,7 @@
                 <p>{{recipe.directions}}</p>
             </div>
         </div>
+        <button @click="deleteRecipe">Delete</button>
     </div>
 
 </template>
@@ -30,7 +31,7 @@
     export default {
         data() {
             return {
-                recipe : {},
+                recipe   : {},
                 category : {}
             }
         },
@@ -41,9 +42,16 @@
         methods : {
             getRecipe() {
                 axios.get('/api/v1/recipes/' + this.recipeId).then((response) => {
-                    this.recipe = response.data;
+                    this.recipe   = response.data;
                     this.category = this.recipe.category;
                 });
+            },
+            deleteRecipe() {
+                axios.delete('/api/v1/recipes/' + this.recipeId).then(response => {
+                    if (response.status === 200) {
+                        this.$router.push({path : `/recipes`});
+                    }
+                })
             }
         }
     }
