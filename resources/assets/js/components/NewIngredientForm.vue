@@ -38,7 +38,6 @@
 
             </form>
         </div>
-
     </div>
 </template>
 
@@ -55,15 +54,9 @@
         },
         methods : {
             saveRecipe() {
-                axios.post('/api/v1/recipes/create', {
-                    title       : this.recipeTitle,
-                    directions  : this.directions,
-                    category_id    : this.recipeCat.id,
-                    ingredients : this.ingredients
-                }).then((response) => {
-                    this.$router.push({ path: `/recipe/${response.data.id}` });
-                });
+                this.$emit('save', this.directions, this.ingredients);
             },
+
             addIngredient() {
                 let newIngredient = {description : this.ingredientDescription};
                 this.ingredients.push(newIngredient);
@@ -74,11 +67,10 @@
             deleteIngredient(index) {
                 this.ingredients.splice(index, 1);
             },
+
             deleteNeedToBuy(index) {
                 this.needToBuys.splice(index, 1);
             }
         }
-
     }
-
 </script>

@@ -14,7 +14,7 @@
                 </button>
             </form>
         </div>
-        <new-ingredient-form v-else :recipeTitle="recipeTitle" :recipeCat="selectedCategory"></new-ingredient-form>
+        <new-ingredient-form v-else :recipeTitle="recipeTitle" :recipeCat="selectedCategory" @save="saveRecipe"></new-ingredient-form>
     </div>
 </template>
 
@@ -40,12 +40,16 @@
             });
         },
         methods    : {
-            saveRecipe() {
-                axios.post('/api/v1/recipes/create', {title : this.recipeTitle}).then((response) => {
-                    console.log(response);
+            saveRecipe(description, ingredients) {
+                axios.post('/api/v1/recipes/create', {
+                    title       : this.recipeTitle,
+                    category_id : this.selectedCategory.id,
+                    directions  : description,
+                    ingredients : ingredients
+                }).then((response) => {
+                    this.$router.push({path : `/recipe/${response.data.id}`});
                 });
-
-            }
+            },
         }
     }
 
