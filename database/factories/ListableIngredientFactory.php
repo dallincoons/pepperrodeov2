@@ -2,7 +2,7 @@
 
 use App\Entities\Recipe;
 
-$factory->define(\App\Entities\Ingredient::class, function (Faker\Generator $faker) {
+$factory->define(\App\Entities\ListableIngredient::class, function (Faker\Generator $faker) {
     return [
         'description' => $faker->sentence,
         'quantity' => $faker->randomDigit,
@@ -11,3 +11,4 @@ $factory->define(\App\Entities\Ingredient::class, function (Faker\Generator $fak
         },
     ];
 });
+

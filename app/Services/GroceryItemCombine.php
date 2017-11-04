@@ -30,8 +30,8 @@ class GroceryItemCombine
     public function combine(GroceryList $grocerylist)
     {
         $this->grocerylist = $grocerylist;
-        $items                 = clone $this->grocerylist->items;
-        $duplicates = $items->duplicates('description');
+        $items             = clone $this->grocerylist->items;
+        $duplicates        = $items->duplicates('description');
 
         foreach ($duplicates->groupBy('description') as $key => $duplicateItems) {
             $combinedItem = $this->mapToNewItem($duplicateItems);
@@ -46,7 +46,7 @@ class GroceryItemCombine
 
     protected function combineFractions(Collection $items): string
     {
-        return (string) $items->reduce(function ($original, $dupe) {
+        return (string)$items->reduce(function ($original, $dupe) {
             return $original->add(Fraction::fromString($dupe->quantity));
         }, new Fraction(0));
     }

@@ -16,31 +16,26 @@ class RetrievesGroceryListItemsTest extends TestCase
     {
         /** @var $grocerylist GroceryList */
         $grocerylist = factory(GroceryList::class)->create();
-        $recipe = RecipeFaker::withItems([
+        $recipe = RecipeFaker::withListableItems([
             [
                 'description' => 'test123',
                 'quantity'    => '1/3',
-                'listable'    => 1
             ],
             [
                 'description' => 'test123',
                 'quantity'    => '1/3',
-                'listable'    => 1
             ],
             [
                 'description' => '456',
                 'quantity'    => '1 1/6',
-                'listable'    => 1
             ],
             [
                 'description' => '456',
                 'quantity'    => '3/4',
-                'listable'    => 1
             ],
             [
                 'description' => '789',
                 'quantity'    => '3/4',
-                'listable'    => 1
             ],
         ]);
 

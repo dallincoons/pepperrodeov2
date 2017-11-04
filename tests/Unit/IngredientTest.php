@@ -7,18 +7,6 @@ use Tests\TestCase;
 
 class IngredientTest extends TestCase
 {
-    /** @test */
-    public function it_makes_ingredient_listable()
-    {
-        $ingredient = factory(Ingredient::class)->create();
-
-        $this->assertSame(0, $ingredient->listable);
-
-        $ingredient->toggleListable()->save();
-
-        $this->assertEquals(1, $ingredient->fresh()->listable);
-    }
-
     /**
      * @test
      *

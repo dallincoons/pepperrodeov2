@@ -49,7 +49,6 @@ class CreatesRecipesTest extends TestCase
         $this->assertArraySubset([
             'quantity'    => 2,
             'description' => 'jazz music',
-            'listable'    => 1
         ], Recipe::first()->ingredients->first()->toArray());
     }
 

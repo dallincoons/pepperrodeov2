@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIngredientTable extends Migration
+class CreateListableIngredientsTable extends Migration
 {
+    const TABLE = 'listable_ingredients';
+
     public function up()
     {
-        Schema::create('ingredients', function (Blueprint $table) {
+        Schema::create(self::TABLE, function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
             $table->unsignedInteger('recipe_id');
@@ -21,7 +23,6 @@ class CreateIngredientTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('recipe_items');
+        Schema::dropIfExists(self::TABLE);
     }
 }
-

@@ -33,14 +33,11 @@ class GroceryList extends Model implements Transformable
     public function addRecipe(Recipe $recipe)
     {
         $itemRepository = app(GroceryListItemRepository::class);
-
-        foreach ($recipe->ingredients as $ingredients) {
-            if ($ingredients->listable) {
-                $itemRepository->create(
-                    $this->translateIngredient($ingredients, $recipe)
-                     + ['grocery_list_id' => $this->getKey()]
-                );
-            }
+        foreach ($recipe->listableIngredients as $ingredients) {
+            $itemRepository->create(
+                $this->translateIngredient($ingredients, $recipe)
+                 + ['grocery_list_id' => $this->getKey()]
+            );
         }
     }
 
@@ -56,7 +53,7 @@ class GroceryList extends Model implements Transformable
         return $items;
     }
 
-    public function translateIngredient(Ingredient $ingredient, Recipe $recipe)
+    public function translateIngredient(ListableIngredient $ingredient, Recipe $recipe)
     {
         return [
             'description' => $ingredient->description,

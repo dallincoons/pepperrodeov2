@@ -2,7 +2,7 @@
 
 namespace Tests\Fakers;
 
-use App\Entities\Ingredient;
+use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 
 class RecipeFaker
@@ -20,12 +20,25 @@ class RecipeFaker
         return $list;
     }
 
+    public static function withListableItems($param = 1)
+    {
+        if (is_numeric($param)) {
+            $list = self::withItemCount($param);
+        } elseif (is_array($param)) {
+            $list = self::withItemArray($param);
+        } else {
+            $list = factory(Recipe::class)->create();
+        }
+
+        return $list;
+    }
+
     public static function withItemCount($count)
     {
         $recipe = factory(Recipe::class)->create();
 
         foreach(range(1, $count) as $i) {
-            $ingredient = factory(Ingredient::class)->create([
+            $ingredient = factory(ListableIngredient::class)->create([
                 'recipe_id' => $recipe->getKey()
             ]);
             $recipe->ingredients()->save($ingredient);
@@ -46,7 +59,7 @@ class RecipeFaker
             $itemData = array_merge($item, [
                 'recipe_id' => $recipe->getKey(),
             ]);
-            $item = factory(Ingredient::class)->create($itemData);
+            $item = factory(ListableIngredient::class)->create($itemData);
             $recipe->ingredients()->save($item);
         }
 
