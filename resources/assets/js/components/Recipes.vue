@@ -20,7 +20,7 @@
             }
         },
         mounted() {
-            Recipes.get().then((response) => {
+            Recipes.all().then((response) => {
                 this.recipes = response.data;
             });
         }

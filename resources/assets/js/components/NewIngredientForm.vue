@@ -54,7 +54,7 @@
         },
         methods : {
             saveRecipe() {
-                this.$emit('save', this.directions, this.ingredients);
+                this.$emit('save', this.directions, this.ingredients, this.needToBuys);
             },
 
             addIngredient() {
