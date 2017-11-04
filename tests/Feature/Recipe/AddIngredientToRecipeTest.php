@@ -3,6 +3,7 @@
 namespace Tests\Feature\Recipe;
 
 use App\Entities\Ingredient;
+use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Tests\TestCase;
 
@@ -18,5 +19,17 @@ class AddIngredientToRecipeTest extends TestCase
         ]]);
 
         $this->assertCount(1, $recipe->ingredients);
+    }
+
+    /** @test */
+    public function add_listable_ingredients_to_recipe()
+    {
+        $recipe = factory(Recipe::class)->create();
+
+        $this->post($this->api('recipe/' . $recipe->getKey() .'/add-ingredients'), [ 'listable_ingredients' => [
+            factory(ListableIngredient::class)->raw()
+        ]]);
+
+        $this->assertCount(1, $recipe->listableIngredients);
     }
 }

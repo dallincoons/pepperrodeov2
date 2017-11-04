@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Criteria\AuthUserCriteria;
 use App\Entities\Recipe;
 use App\Repositories\RecipeRepository;
+use App\Repositories\RecipeRepositoryEloquent;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
     /**
-     * @var RecipeRepository
+     * @var RecipeRepositoryEloquent
      */
     private $repository;
 
@@ -38,11 +39,12 @@ class RecipeController extends Controller
     public function store(Request $request)
     {
         $recipe = $this->repository->create([
-            'title' => $request->title,
-            'directions' => $request->directions,
-            'category_id' => $request->category_id,
-            'user_id' => \Auth::user()->getKey(),
-            'ingredients' => $request->ingredients,
+            'title'                => $request->title,
+            'directions'           => $request->directions,
+            'category_id'          => $request->category_id,
+            'user_id'              => \Auth::user()->getKey(),
+            'ingredients'          => $request->ingredients,
+            'listable_ingredients' => $request->listable_ingredients,
         ]);
 
         return response()->json($recipe, 201);

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Ingredient;
+use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Illuminate\Foundation\Application;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -27,9 +28,16 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         $recipe = parent::create($attributes);
 
         $ingredients = array_get($attributes, 'ingredients') ?: [];
+        $listableIngredients = array_get($attributes, 'listable_ingredients') ?: [];
 
         foreach($ingredients as $ingredient){
             $this->ingredientRepository->create([
+                    'recipe_id' => $recipe->getKey()
+                ] + $ingredient);
+        }
+
+        foreach($listableIngredients as $ingredient){
+            ListableIngredient::create([
                     'recipe_id' => $recipe->getKey()
                 ] + $ingredient);
         }
@@ -39,7 +47,12 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
 
     public function addIngredient(array $ingredients)
     {
-        $this->ingredientRepository->create($ingredients);
+        Ingredient::create($ingredients);
+    }
+
+    public function addListableIngredient(array $ingredients)
+    {
+        ListableIngredient::create($ingredients);
     }
 
     /**

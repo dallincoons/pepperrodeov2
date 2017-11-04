@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Entities\Recipe;
 use App\Repositories\RecipeRepository;
+use App\Repositories\RecipeRepositoryEloquent;
 use Illuminate\Http\Request;
 
 class IngredientController extends Controller
 {
+    /**
+     * @var RecipeRepositoryEloquent
+     */
     private $repository;
 
     public function __construct(RecipeRepository $repository)
@@ -31,8 +35,12 @@ class IngredientController extends Controller
 
     public function store(Recipe $recipe, Request $request)
     {
-        foreach($request->ingredients as $ingredient) {
+        foreach($request->get('ingredients', []) as $ingredient) {
             $this->repository->addIngredient($ingredient);
+        }
+
+        foreach($request->get('listable_ingredients', []) as $ingredient) {
+            $this->repository->addListableIngredient($ingredient);
         }
 
         return response()->json($recipe, 201);

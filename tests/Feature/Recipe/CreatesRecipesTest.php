@@ -4,6 +4,7 @@ namespace Tests\Feature\Recipe;
 
 use App\Category;
 use App\Entities\Ingredient;
+use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Tests\TestCase;
 
@@ -41,15 +42,26 @@ class CreatesRecipesTest extends TestCase
                     'quantity'    => 2,
                     'description' => 'jazz music',
                 ]
+            ],
+            'listable_ingredients' => [
+                [
+                    'quantity'    => 3,
+                    'description' => 'jazz music2',
+                ]
             ]
         ]);
 
         $response->assertStatus(201);
         $this->assertEquals(1, Ingredient::count());
+        $this->assertEquals(1, ListableIngredient::count());
         $this->assertArraySubset([
             'quantity'    => 2,
             'description' => 'jazz music',
         ], Recipe::first()->ingredients->first()->toArray());
+        $this->assertArraySubset([
+            'quantity'    => 3,
+            'description' => 'jazz music2',
+        ], Recipe::first()->listableIngredients->first()->toArray());
     }
 
     private function createRecipe($overrides = [])
