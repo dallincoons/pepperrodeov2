@@ -11,6 +11,8 @@
 </template>
 
 <script>
+    import Recipes from './resources/Recipes.js';
+
     export default {
         data() {
             return {
@@ -18,10 +20,9 @@
             }
         },
         mounted() {
-            axios.get('/api/v1/recipes').then((response) => {
+            Recipes.get().then((response) => {
                 this.recipes = response.data;
             });
-
         }
 
     }

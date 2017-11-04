@@ -11,6 +11,8 @@
 </template>
 
 <script>
+    import GroceryLists from './resources/GroceryLists';
+
     export default {
         data(){
             return {
@@ -21,11 +23,11 @@
         },
 
         mounted() {
-            axios.get('/api/v1/grocery-lists').then((response) => {
+            GroceryLists.get().then((response) => {
                 this.grocerylists = response.data.data;
             });
-
         },
+
         methods : {
             searchGroceryLists() {
                axios.get('/api/v1/grocery-lists/search?query='+this.searchQuery).then((response) => {
@@ -39,7 +41,6 @@
                 } else {
                     this.searchGroceryLists();
                 }
-
             }
         }
     }

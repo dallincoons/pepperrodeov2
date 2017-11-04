@@ -1,0 +1,7 @@
+const getEndpoint = '/api/v1/grocery-lists';
+
+export default {
+    get() {
+        return axios.get(getEndpoint);
+    }
+}
