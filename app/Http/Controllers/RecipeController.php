@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Criteria\AuthUserCriteria;
 use App\Entities\Recipe;
+use App\Http\Requests\UpdateRecipeRequest;
 use App\Repositories\RecipeRepository;
 use App\Repositories\RecipeRepositoryEloquent;
 use Illuminate\Http\Request;
@@ -48,6 +49,13 @@ class RecipeController extends Controller
         ]);
 
         return response()->json($recipe, 201);
+    }
+
+    public function update(UpdateRecipeRequest $request, Recipe $recipe)
+    {
+        $this->repository->update($request->all(), $recipe->getKey());
+
+        return response()->json($recipe->fresh(), 200);
     }
 
     public function delete(Recipe $recipe)

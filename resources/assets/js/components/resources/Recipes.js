@@ -11,5 +11,9 @@ export default {
 
     delete(recipeId) {
         return axios.delete(endpoint + recipeId);
+    },
+
+    update(recipeId, data) {
+        return axios.patch(endpoint + recipeId, data);
     }
 }
