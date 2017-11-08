@@ -2,6 +2,7 @@
 
 namespace Tests\Fakers;
 
+use App\Entities\Ingredient;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 
@@ -38,6 +39,9 @@ class RecipeFaker
         $recipe = factory(Recipe::class)->create();
 
         foreach(range(1, $count) as $i) {
+            $ingredient = factory(Ingredient::class)->create([
+                'recipe_id' => $recipe->getKey()
+            ]);
             $ingredient = factory(ListableIngredient::class)->create([
                 'recipe_id' => $recipe->getKey()
             ]);
@@ -59,8 +63,8 @@ class RecipeFaker
             $itemData = array_merge($item, [
                 'recipe_id' => $recipe->getKey(),
             ]);
-            $item = factory(ListableIngredient::class)->create($itemData);
-            $recipe->ingredients()->save($item);
+            $recipe->ingredients()->save(factory(Ingredient::class)->create($itemData));
+            $recipe->listableIngredients()->save(factory(ListableIngredient::class)->create($itemData));
         }
 
         return $recipe;

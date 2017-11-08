@@ -45,6 +45,24 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         return $recipe;
     }
 
+    /**
+     * @param array $attributes
+     * @param $recipeKey
+     * @return Recipe
+     */
+    public function update(array $attributes, $recipeKey)
+    {
+        $recipe = parent::update($attributes, $recipeKey);
+
+        $ingredients = array_get($attributes, 'ingredients', []);
+
+        foreach($ingredients as $ingredient) {
+            $this->ingredientRepository->update($ingredient, $ingredient['id']);
+        }
+
+        return $recipe;
+    }
+
     public function addIngredient(array $ingredients)
     {
         Ingredient::create($ingredients);
