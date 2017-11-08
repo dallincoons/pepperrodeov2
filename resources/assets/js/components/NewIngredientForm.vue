@@ -58,6 +58,10 @@
             },
 
             addIngredient() {
+                if (this.ingredientDescription === '') {
+                    return;
+                }
+
                 let newIngredient = {description : this.ingredientDescription};
                 this.ingredients.push(newIngredient);
                 this.needToBuys.push(Object.assign({}, newIngredient));

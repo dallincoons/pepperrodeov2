@@ -42,13 +42,6 @@
         },
         methods    : {
             saveRecipe(description, ingredients, needToBuys) {
-                console.log({
-                    title                : this.recipeTitle,
-                    category_id          : this.selectedCategory.id,
-                    directions           : description,
-                    ingredients          : ingredients,
-                    listable_ingredients : needToBuys
-                });
                 axios.post('/api/v1/recipes/create', {
                     title                : this.recipeTitle,
                     category_id          : this.selectedCategory.id,
