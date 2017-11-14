@@ -41,8 +41,6 @@ class UpdateRecipeTest extends TestCase
     /** @test */
     public function it_updates_recipe_ingredients()
     {
-//        $this->withExceptionHandling();
-
         $recipe = RecipeFaker::withItems();
         $ingredient = $recipe->ingredients->first();
 
@@ -51,12 +49,33 @@ class UpdateRecipeTest extends TestCase
                 [
                     'id' => $ingredient->getKey(),
                     'description' => $ingredient->description . 'altered',
+                    'quantity' => null
                 ]
             ]
         ]);
 
         $response->assertStatus(200);
         $this->assertEquals($recipe->fresh()->ingredients->first()->description, $ingredient->description . 'altered');
+    }
+
+    /** @test */
+    public function it_updates_recipe_listable_ingredients()
+    {
+        $recipe = RecipeFaker::withItems();
+        $ingredient = $recipe->listableIngredients->first();
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'listable_ingredients' => [
+                [
+                    'id' => $ingredient->getKey(),
+                    'description' => $ingredient->description . 'altered',
+                    'quantity' => null
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertEquals($recipe->fresh()->listableIngredients->first()->description, $ingredient->description . 'altered');
     }
 
     /** @test */

@@ -10,13 +10,22 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepository
 {
+    /**
+     * @var IngredientRepositoryEloquent
+     */
     private $ingredientRepository;
 
-    public function __construct(Application $app, IngredientRepositoryEloquent $repository)
+    /**
+     * @var ListableIngredientRepositoryEloquent
+     */
+    private $listableIngredientRepository;
+
+    public function __construct(Application $app, IngredientRepositoryEloquent $repository, ListableIngredientRepositoryEloquent $listableIngredientRepository)
     {
         parent::__construct($app);
 
         $this->ingredientRepository = $repository;
+        $this->listableIngredientRepository = $listableIngredientRepository;
     }
 
     /**
@@ -55,9 +64,14 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         $recipe = parent::update($attributes, $recipeKey);
 
         $ingredients = array_get($attributes, 'ingredients', []);
+        $listableIngredients = array_get($attributes, 'listable_ingredients', []);
 
         foreach($ingredients as $ingredient) {
-            $this->ingredientRepository->update($ingredient, $ingredient['id']);
+            $this->ingredientRepository->update(array_filter($ingredient), $ingredient['id']);
+        }
+
+        foreach($listableIngredients as $ingredient) {
+            $this->listableIngredientRepository->update(array_filter($ingredient), $ingredient['id']);
         }
 
         return $recipe;

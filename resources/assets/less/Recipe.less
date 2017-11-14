@@ -1,33 +1,41 @@
-.recipe-container {
+.recipe-wrapper {
   display: flex;
-  width: 80%;
-  margin: 0 auto;
-}
-
-.recipe-heading h2 {
-  color: @pr-brand-color;
-}
-
-.recipe-items-section {
-  display: flex;
-  width: 30%;
-  flex-direction: column;
+  width: 65%;
+  min-height: 45%;
+  margin: 5% auto;
   background: lighten(@pr-brand-color, 40%);
-  margin: 0 2% 5% 0;
-  padding-left:2%;
+  box-shadow: 0 0 15px 5px rgba(27,26,26,0.05);
 }
-.ingredients-section {
-  width: 100%;
-}
-.need-to-buys-section {
-  width: 100%;
+.side-section {
+  width: 45%;
+  background: lighten(@pr-brand-color, 20%);
+  color: #f7f4f4;
+  padding: 2% 1% 0 1%;
 }
 .saved-list-of-ingredients {
   padding: 0;
 }
+.ingredient-items {
+  margin-top: 3%;
+}
 .saved-buy-item-list {
   padding: 0;
 }
-.saved-directions {
-  width: 70%;
+
+.main-section {
+  padding: 2% 0 0 1%;
+}
+.recipe-heading {
+  margin-bottom: 7%;
+}
+.recipe-title {
+  margin: 0;
+  font-weight: 300;
+}
+.recipe-category {
+  font-style: italic;
+  font-weight: 300;
+}
+.need-to-buys-section {
+  margin-top: 5%;
 }
