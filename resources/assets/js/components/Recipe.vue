@@ -84,6 +84,7 @@
                     }
                 })
             },
+
             updateRecipe() {
                 Recipe.update(this.recipeId, {
                     title       : this.recipe.title,

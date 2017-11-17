@@ -2,9 +2,14 @@
     <div class="container">
         <div class="container-heading"><h2>My Recipes</h2></div>
         <div class="container-body">
-            <ul class="list-container">
-                <li class="recipe-ingredient" v-for="recipe in recipes"><router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link></li>
-            </ul>
+            <div v-for="(recipeGroup, categoryName) in groupedRecipes">
+                <h2>{{categoryName}}</h2>
+                <ul class="list-container">
+                    <li class="recipe-ingredient" v-for="recipe in recipeGroup">
+                        <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
+                    </li>
+                </ul>
+            </div>
         </div>
 
     </div>
@@ -12,6 +17,7 @@
 
 <script>
     import Recipes from './resources/Recipes.js';
+    import _ from 'lodash';
 
     export default {
         data() {
@@ -19,6 +25,13 @@
                 recipes : []
             }
         },
+
+        computed : {
+            groupedRecipes() {
+                return _.groupBy(this.recipes, 'category.title');
+            }
+        },
+
         mounted() {
             Recipes.all().then((response) => {
                 this.recipes = response.data;

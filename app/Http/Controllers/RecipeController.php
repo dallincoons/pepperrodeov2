@@ -25,7 +25,7 @@ class RecipeController extends Controller
     {
         $this->repository->pushCriteria(new AuthUserCriteria());
 
-        $recipes = $this->repository->all();
+        $recipes = $this->repository->with('category')->all();
 
         return response()->json($recipes, 200);
     }
