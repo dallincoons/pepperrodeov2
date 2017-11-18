@@ -40,7 +40,11 @@
                     <p><span v-if="nonEditable">{{recipe.directions}}</span><input :value="recipe.directions" v-else v-model="recipe.directions"></p>
                 </div>
             </div>
-    </div>
+        </div>
+
+        <button @click="deleteRecipe">Delete</button>
+        <button v-if="nonEditable" @click="nonEditable=false">Edit Recipe</button>
+        <button v-else @click="updateRecipe">Save</button>
     </div>
 
 
