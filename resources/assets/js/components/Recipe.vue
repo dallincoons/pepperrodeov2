@@ -8,7 +8,10 @@
                     <ul class="saved-list-of-ingredients">
                         <li v-for="ingredient in recipe.ingredients" class="ingredient-items">
                             <span v-if="nonEditable">{{ingredient.description}}</span>
-                            <input v-else :value="ingredient.description" v-model="ingredient.description">
+                            <div v-else>
+                                <input :value="ingredient.description" v-model="ingredient.description">
+                                <span v-if="ingredient.id" @click="deleteIngredient(ingredient.id)">X</span>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -19,7 +22,10 @@
                     <ul class="saved-buy-item-list">
                         <li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">
                             <span v-if="nonEditable">{{listable_ingredient.description}}</span>
-                            <input :value="listable_ingredient.description" v-else v-model="listable_ingredient.description">
+                            <div v-else>
+                                <input :value="listable_ingredient.description" v-model="listable_ingredient.description">
+                                <span v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)">X</span>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -58,6 +64,8 @@
 
     import Recipe from './resources/Recipes.js';
     import Categories from './resources/Categories.js';
+    import Ingredients from './resources/Ingredients.js';
+    import ListableIngredients from './resources/ListableIngredients.js';
 
     export default {
         data() {
@@ -113,6 +121,18 @@
 
             addBlankListableIngredients() {
                 this.recipe.listable_ingredients.push({});
+            },
+
+            deleteIngredient(id) {
+                Ingredients.delete(id).then(response => {
+                    this.getRecipe();
+                });
+            },
+
+            deleteListableIngredient(id) {
+                ListableIngredients.delete(id).then(response => {
+                    this.getRecipe();
+                });
             }
         }
     }

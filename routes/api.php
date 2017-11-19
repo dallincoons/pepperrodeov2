@@ -36,6 +36,7 @@ Route::group([
 
     Route::post('recipe/{recipe}/add-ingredients', 'IngredientController@store');
     Route::delete('ingredients/{ingredient}', 'IngredientController@delete');
+    Route::delete('listable_ingredients/{ingredient}', 'ListableIngredientController@delete');
 
     Route::get('departments', 'DepartmentController@all');
     Route::get('categories', 'CategoryController@all');

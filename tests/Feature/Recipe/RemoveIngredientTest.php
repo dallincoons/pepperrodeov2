@@ -18,4 +18,16 @@ class RemoveIngredientTest extends TestCase
 
         $this->assertCount(1, $recipe->fresh()->ingredients);
     }
+
+    /** @test */
+    public function it_removes_listable_ingredient_from_recipe()
+    {
+        $recipe = RecipeFaker::withListableItems(2);
+
+        $ingredient = $recipe->ingredients->first();
+
+        $this->delete($this->api('listable_ingredients/' . $ingredient->getKey()));
+
+        $this->assertCount(1, $recipe->fresh()->listableIngredients);
+    }
 }

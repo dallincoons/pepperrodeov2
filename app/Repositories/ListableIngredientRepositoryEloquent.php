@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Entities\ListableIngredient;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class ListableIngredientRepositoryEloquent extends BaseRepository implements IngredientRepository
+class ListableIngredientRepositoryEloquent extends BaseRepository implements ListableIngredientRepository
 {
     /**
      * @return string
