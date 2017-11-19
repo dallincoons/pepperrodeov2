@@ -78,6 +78,55 @@ class UpdateRecipeTest extends TestCase
         $this->assertEquals($recipe->fresh()->listableIngredients->first()->description, $ingredient->description . 'altered');
     }
 
+
+    /** @test */
+    public function add_ingredients_to_recipe_as_part_of_update()
+    {
+        $recipe = RecipeFaker::withItems();
+        $ingredient = $recipe->ingredients->first();
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'ingredients' => [
+                [
+                    'id' => $ingredient->getKey(),
+                    'description' => $ingredient->description . 'altered',
+                    'quantity' => null
+                ],
+                [
+                    'description' => 'beat on the brat',
+                    'quantity' => 101
+                ],
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $recipe->fresh()->ingredients);
+    }
+
+    /** @test */
+    public function add_listable_ingredients_to_recipe_as_part_of_update()
+    {
+        $recipe = RecipeFaker::withItems();
+        $ingredient = $recipe->listableIngredients->first();
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'listable_ingredients' => [
+                [
+                    'id' => $ingredient->getKey(),
+                    'description' => $ingredient->description . 'altered',
+                    'quantity' => null
+                ],
+                [
+                    'description' => 'beat on the brat',
+                    'quantity' => 101
+                ],
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $recipe->fresh()->listableIngredients);
+    }
+
     /** @test */
     public function updating_title_requires_string()
     {

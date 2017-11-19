@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Ingredient;
 use App\Entities\Recipe;
 use App\Repositories\RecipeRepository;
 use App\Repositories\RecipeRepositoryEloquent;
@@ -46,10 +47,10 @@ class IngredientController extends Controller
         return response()->json($recipe, 201);
     }
 
-    public function delete(Recipe $recipe)
+    public function delete(Ingredient $ingredient)
     {
-        $recipe->delete();
+        $ingredient->delete();
 
-        return response()->json('Recipe with id: ' . $recipe->getKey() . ' has been deleted', 200);
+        return response()->json('Ingredient with id: ' . $ingredient->getKey() . ' has been deleted', 200);
     }
 }

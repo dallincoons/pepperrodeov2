@@ -6,6 +6,7 @@ use App\Entities\Ingredient;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Illuminate\Foundation\Application;
+use PhpOption\Option;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepository
@@ -67,11 +68,21 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         $listableIngredients = array_get($attributes, 'listable_ingredients', []);
 
         foreach($ingredients as $ingredient) {
-            $this->ingredientRepository->update(array_filter($ingredient), $ingredient['id']);
+            $keyOption = Option::fromValue(array_get($ingredient, 'id'));
+            if($keyOption->isEmpty()) {
+                $this->ingredientRepository->create(array_filter($ingredient) + ['recipe_id' => $recipeKey]);
+            } else {
+                $this->ingredientRepository->update(array_filter($ingredient), $keyOption->get());
+            }
         }
 
         foreach($listableIngredients as $ingredient) {
-            $this->listableIngredientRepository->update(array_filter($ingredient), $ingredient['id']);
+            $keyOption = Option::fromValue(array_get($ingredient, 'id'));
+            if($keyOption->isEmpty()) {
+                $this->listableIngredientRepository->create(array_filter($ingredient) + ['recipe_id' => $recipeKey]);
+            } else {
+                $this->listableIngredientRepository->update(array_filter($ingredient), $keyOption->get());
+            }
         }
 
         return $recipe;
