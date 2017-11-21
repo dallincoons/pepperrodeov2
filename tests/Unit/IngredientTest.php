@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Entities\Department;
 use App\Entities\Ingredient;
 use Tests\TestCase;
 
@@ -19,6 +20,16 @@ class IngredientTest extends TestCase
         ]);
 
         $this->assertEquals($expected, $item->quantity);
+    }
+
+    /**
+     * @test
+     */
+    public function an_ingredient_can_have_a_department()
+    {
+        $item = factory(Ingredient::class)->create();
+
+        $this->assertInstanceOf(Department::class, $item->department);
     }
 
     public function recipeQtyProvider()

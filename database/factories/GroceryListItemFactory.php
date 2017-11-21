@@ -10,8 +10,7 @@ $factory->define(GroceryListItem::class, function (Faker\Generator $faker) {
     return [
         'grocery_list_id' => $groceryList->getKey(),
         'department_id' => function () {
-            $department = Department::first();
-            $department = $department ? $department : factory(Department::class)->create();
+            $department = Department::first() ?: factory(Department::class)->create();
             return $department = $department->getKey();
         },
         'description' => $faker->sentence(5),
