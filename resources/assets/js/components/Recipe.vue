@@ -4,10 +4,10 @@
             <div class="side-section">
                 <h4 class="add-ingredient-headings">Ingredients</h4>
                 <div class="all-ingredients">
-                    <button @click="addBlankIngredient" v-if="!nonEditable">Add</button>
+                    <button @click="addBlankIngredient" v-if="editable">Add</button>
                     <ul class="saved-list-of-ingredients">
                         <li v-for="ingredient in recipe.ingredients" class="ingredient-items">
-                            <span v-if="nonEditable">{{ingredient.description}}</span>
+                            <span v-if="!editable">{{ingredient.description}}</span>
                             <div v-else>
                                 <input :value="ingredient.description" v-model="ingredient.description">
                                 <span v-if="ingredient.id" @click="deleteIngredient(ingredient.id)">X</span>
@@ -18,10 +18,10 @@
 
                 <div class="need-to-buys-section">
                     <h4 class="add-ingredient-headings">Need to Buy</h4>
-                    <button @click="addBlankListableIngredients" v-if="!nonEditable">Add</button>
+                    <button @click="addBlankListableIngredients" v-if="editable">Add</button>
                     <ul class="saved-buy-item-list">
                         <li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">
-                            <span v-if="nonEditable">{{listable_ingredient.description}}</span>
+                            <span v-if="!editable">{{listable_ingredient.description}}</span>
                             <div v-else>
                                 <input :value="listable_ingredient.description" v-model="listable_ingredient.description">
                                 <span v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)">X</span>
@@ -33,11 +33,11 @@
             <div class="main-section">
                 <div class="recipe-heading">
                     <h3 class="recipe-title">
-                        <span v-if="nonEditable">{{recipe.title}}</span>
+                        <span v-if="!editable">{{recipe.title}}</span>
                         <input :value="recipe.title" v-else v-model="recipe.title">
                     </h3>
                     <h4 class="recipe-category">
-                        <span v-if="nonEditable">{{category.title}}</span>
+                        <span v-if="!editable">{{category.title}}</span>
                         <select v-model="recipe.category.id" v-else>
                             <option v-for="category in categories" :value="category.id">{{category.title}}</option>
                         </select>
@@ -46,7 +46,7 @@
                 <div class="saved-directions">
                     <h4 class="add-ingredient-headings">Directions</h4>
                     <p>
-                        <span v-if="nonEditable">{{recipe.directions}}</span>
+                        <span v-if="!editable">{{recipe.directions}}</span>
                         <input v-else :value="recipe.directions" v-model="recipe.directions">
                     </p>
                 </div>
@@ -54,8 +54,9 @@
         </div>
 
         <button @click="deleteRecipe">Delete</button>
-        <button v-if="nonEditable" @click="nonEditable=false">Edit Recipe</button>
-        <button v-else @click="updateRecipe">Save</button>
+        <button v-if="!editable" @click="editable=true">Edit Recipe</button>
+        <button v-if="editable" @click="updateRecipe">Save</button>
+        <button v-if="editable" @click="editable=false">Cancel</button>
     </div>
 
 
@@ -72,7 +73,7 @@
             return {
                 recipe      : {},
                 category    : {},
-                nonEditable : true,
+                editable : false,
                 categories  : [],
             }
         },
@@ -111,7 +112,7 @@
                     listable_ingredients : this.recipe.listable_ingredients
                 }).then((response) => {
                     this.getRecipe();
-                    this.nonEditable = true;
+                    this.editable = false;
                 });
             },
 
