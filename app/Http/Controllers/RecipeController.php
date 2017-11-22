@@ -32,7 +32,7 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        $recipe->load(['ingredients', 'listableIngredients', 'category']);
+        $recipe->load(['ingredients', 'ingredients.department', 'listableIngredients', 'category']);
 
         return response()->json($recipe, 200);
     }

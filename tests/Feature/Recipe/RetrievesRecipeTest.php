@@ -41,6 +41,19 @@ class RetrievesRecipeTest extends TestCase
     }
 
     /** @test */
+    public function ingredients_have_departments_loaded()
+    {
+        $recipe = RecipeFaker::withItems();
+
+        $response = $this->get($this->api('recipes/' . $recipe->getKey()));
+
+        $responseRecipe = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $this->assertInternalType('array', array_get($responseRecipe, 'ingredients.0.department'));
+    }
+
+    /** @test */
     public function it_retrieves_a_single_recipe_with_listable_ingredients()
     {
         $recipe = RecipeFaker::withItems();
