@@ -9,6 +9,10 @@ export default {
         return axios.get(endpoint + recipeId);
     },
 
+    save(recipeData) {
+        return axios.post(endpoint + 'create', recipeData);
+    },
+
     delete(recipeId) {
         return axios.delete(endpoint + recipeId);
     },

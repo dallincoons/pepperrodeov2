@@ -23,6 +23,9 @@
 <script>
     import NewIngredientForm from './NewIngredientForm.vue';
 
+    import Categories from './resources/Categories.js';
+    import Recipes from './resources/Recipes.js';
+
     export default {
         components : {
             NewIngredientForm
@@ -36,13 +39,13 @@
             }
         },
         mounted() {
-            axios.get('/api/v1/categories').then((response) => {
+            Categories.all().then((response) => {
                 this.categories = response.data;
             });
         },
         methods    : {
             saveRecipe(description, ingredients, needToBuys) {
-                axios.post('/api/v1/recipes/create', {
+                Recipes.save({
                     title                : this.recipeTitle,
                     category_id          : this.selectedCategory.id,
                     directions           : description,
