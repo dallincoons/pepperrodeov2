@@ -1,5 +1,4 @@
 <template>
-    <div class="container">
         <div class="recipe-wrapper">
             <div class="side-section">
                 <h4 class="add-ingredient-headings">Ingredients</h4>
@@ -51,13 +50,16 @@
                     </p>
                 </div>
             </div>
+            <div class="recipe-buttons">
+                <button @click="deleteRecipe">Delete</button>
+                <button v-if="!editable" @click="editable=true">Edit Recipe</button>
+                <button v-if="editable" @click="updateRecipe">Save</button>
+                <button v-if="editable" @click="editable=false">Cancel</button>
+            </div>
+
         </div>
 
-        <button @click="deleteRecipe">Delete</button>
-        <button v-if="!editable" @click="editable=true">Edit Recipe</button>
-        <button v-if="editable" @click="updateRecipe">Save</button>
-        <button v-if="editable" @click="editable=false">Cancel</button>
-    </div>
+
 
 
 </template>

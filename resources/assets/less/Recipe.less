@@ -1,16 +1,18 @@
 .recipe-wrapper {
   display: flex;
-  width: 65%;
-  min-height: 45%;
-  margin: 5% auto;
   background: lighten(@pr-brand-color, 40%);
   box-shadow: 0 0 15px 5px rgba(27,26,26,0.05);
+  width: 80%;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  margin-top: 50px;
 }
 .side-section {
-  width: 45%;
+  width: 35%;
   background: lighten(@pr-brand-color, 20%);
   color: #f7f4f4;
   padding: 2% 1% 0 1%;
+  border-radius: 10px 0 0 10px;
 }
 .saved-list-of-ingredients {
   padding: 0;
@@ -38,4 +40,19 @@
 }
 .need-to-buys-section {
   margin-top: 5%;
+}
+@media (min-width: 1200px) {
+  .recipe-wrapper {
+    width: 1170px;
+  }
+}
+@media (max-width: 992px) {
+  .recipe-wrapper {
+    width: 970px;
+  }
+}
+@media (max-width: 768px) {
+  .recipe-wrapper {
+    width: 750px;
+  }
 }
