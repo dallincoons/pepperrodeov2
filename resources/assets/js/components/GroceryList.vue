@@ -88,6 +88,7 @@
 
             getList() {
                 axios.get('/api/v1/grocery-list/' + this.listId).then((response) => {
+                    console.log(response.data);
                     this.list = response.data;
                     if( ! this.list.items.length) {
                         this.addItemFormOpened = true;
