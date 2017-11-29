@@ -10,6 +10,8 @@ use Tests\TestCase;
 
 /**
  * @group feature-tests
+ * @group recipe-tests
+ * @group creates-recipes-tests
  */
 class CreatesRecipesTest extends TestCase
 {

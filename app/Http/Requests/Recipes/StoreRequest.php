@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Recipes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateGroceryListItemRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,12 @@ class CreateGroceryListItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'grocery_list_id'   => 'required|integer',
-            'magic_description' => 'string',
-            'description'       => 'string',
-            'quantity'          => 'integer',
+            'title'                => 'string',
+            'directions'           => 'string',
+            'category_id'          => 'integer',
+            'user_id'              => 'integer',
+            'ingredients'          => 'array',
+            'listable_ingredients' => 'array',
         ];
     }
 }

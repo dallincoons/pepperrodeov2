@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Criteria\AuthUserCriteria;
 use App\Entities\Recipe;
+use App\Http\Requests\Recipes\StoreRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Repositories\RecipeRepository;
 use App\Repositories\RecipeRepositoryEloquent;
@@ -37,7 +38,7 @@ class RecipeController extends Controller
         return response()->json($recipe, 200);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $recipe = $this->repository->create([
             'title'                => $request->title,
