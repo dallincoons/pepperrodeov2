@@ -38,8 +38,8 @@ Route::group([
     Route::delete('ingredients/{ingredient}', 'IngredientController@delete');
     Route::delete('listable_ingredients/{ingredient}', 'ListableIngredientController@delete');
 
-    Route::get('departments', 'DepartmentController@all');
-    Route::get('categories', 'CategoryController@all');
+    Route::get('departments', 'DepartmentController@index');
+    Route::get('categories', 'CategoryController@index');
 
     // vue-router will handle any other requests
     Route::get('/{vue_capture?}', function () {

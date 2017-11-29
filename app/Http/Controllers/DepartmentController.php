@@ -6,7 +6,7 @@ use App\Entities\Department;
 
 class DepartmentController extends Controller
 {
-    public function all()
+    public function index()
     {
         return response()->json(Department::all(), 200);
     }
