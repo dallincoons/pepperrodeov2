@@ -6,29 +6,33 @@
   border-radius: 10px;
   margin-bottom: 40px;
   margin-top: 50px;
+  font-size: 1.2em;
 }
 .side-section {
-  width: 35%;
+  width: 30%;
   background: lighten(@pr-brand-color, 20%);
   color: #f7f4f4;
   padding: 2% 1% 0 1%;
   border-radius: 10px 0 0 10px;
 }
 .saved-list-of-ingredients {
-  padding: 0;
+  padding: 0 0 0 19px;
+  list-style-type: circle;
 }
 .ingredient-items {
   margin-top: 3%;
 }
 .saved-buy-item-list {
-  padding: 0;
+  padding: 0 0 0 19px;
+  list-style-type: circle;
 }
 
 .main-section {
   padding: 2% 0 0 1%;
+  width: 60%;
 }
 .recipe-heading {
-  margin-bottom: 7%;
+  margin-bottom: 3%;
 }
 .recipe-title {
   margin: 0;
@@ -37,10 +41,28 @@
 .recipe-category {
   font-style: italic;
   font-weight: 300;
+  margin-top: 5px;
 }
 .need-to-buys-section {
   margin-top: 5%;
 }
+.recipe-buttons {
+  width: 10%;
+  align-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.modify-button {
+  padding: 0 5px;
+  opacity: .4;
+}
+.modify-button:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
 @media (min-width: 1200px) {
   .recipe-wrapper {
     width: 1170px;
