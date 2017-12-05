@@ -1,0 +1,15 @@
+ parameters:
+     git_dir: .
+     bin_dir: vendor/bin
+     tasks:
+         phpcsfixer2:
+           allow_risky: true
+           diff: true
+           rules:
+               'psr0': true
+               '@PSR1': true
+               '@PSR2': true
+               'psr4': true
+               no_unused_imports: true
+               array_syntax:
+                 syntax: short
