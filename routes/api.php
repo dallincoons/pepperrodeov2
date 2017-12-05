@@ -17,6 +17,8 @@ Route::group([
 ], function () {
     Route::get('grocery-lists/search', 'GroceryListSearchController@index');
 
+    Route::post('grocery-list/{grocerylist}/add/recipes', 'GroceryListRecipeController@post');
+
     Route::get('grocery-lists', 'GroceryListController@all');
     Route::get('grocery-list/{grocerylist}', 'GroceryListController@show');
     Route::post('grocery-list', 'GroceryListController@store');
