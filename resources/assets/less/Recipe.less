@@ -11,25 +11,26 @@
 .side-section {
   width: 30%;
   background: lighten(@pr-brand-color, 20%);
-  color: #f7f4f4;
+  color: #ffffff;
   padding: 2% 1% 0 1%;
   border-radius: 10px 0 0 10px;
 }
 .saved-list-of-ingredients {
   padding: 0 0 0 19px;
-  list-style-type: circle;
 }
 .ingredient-items {
   margin-top: 3%;
 }
 .saved-buy-item-list {
   padding: 0 0 0 19px;
-  list-style-type: circle;
 }
 
 .main-section {
   padding: 2% 0 0 1%;
-  width: 60%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 .recipe-heading {
   margin-bottom: 3%;
@@ -47,10 +48,12 @@
   margin-top: 5%;
 }
 .recipe-buttons {
-  width: 10%;
+  width: 80%;
   align-self: flex-end;
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
 
 }
 
@@ -63,6 +66,62 @@
   opacity: .7;
 }
 
+//Edit Recipe
+.edit-heading {
+  border: 0;
+  border-bottom: 2px solid @pr-brand-color;
+  background: none;
+  width: 80%;
+}
+.edit-directions {
+  width: 80%;
+  border: 0;
+}
+
+.edit-category {
+  border: 0;
+  border-radius: 0;
+  background-color: #ffffff;
+  width: 80%;
+}
+.edit-ingredient-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.edit-ingredient-input {
+  border: 0;
+  border-bottom: 2px solid #ffffff;
+  background: none;
+  width: 85%;
+}
+.delete-ingredient {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.add-ingredient-button {
+  margin-left: 2%;
+}
+.add-ingredient-button:hover {
+  cursor: pointer;
+}
+
+.add-ingredient-headings {
+  display: flex;
+}
+
+.edit-button {
+  padding: 0 5px;
+  opacity: .6;
+}
+
+.edit-button:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+//Media Queries
 @media (min-width: 1200px) {
   .recipe-wrapper {
     width: 1170px;
