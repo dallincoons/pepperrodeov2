@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="container-heading"><h2>My Recipes</h2></div>
-        <div class="container-body">
+        <div class="container-body recipes-wrapper">
             <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
                 <h3 class="category-heading">{{categoryName}}</h3>
                 <ul class="list-container">

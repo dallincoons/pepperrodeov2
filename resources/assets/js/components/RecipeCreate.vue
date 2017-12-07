@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2 class="container-heading">Add a Recipe</h2>
+        <h2 class="container-heading create-heading">Add a Recipe</h2>
         <div class="container-create" v-if="titleSectionOpen">
             <form v-on:submit.prevent class="recipe-create-form">
                 <label for="recipe-title" class="recipe-label" v-model="recipeTitle">Title</label>

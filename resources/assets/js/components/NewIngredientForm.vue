@@ -20,9 +20,9 @@
                 </div>
 
                 <div class="need-to-buy">
-                    <h4 class="add-ingredient-headings">Need to Buy</h4>
+                    <h4 class="add-ingredient-headings buy-heading">Need to Buy</h4>
                     <ul class="buy-item-list">
-                        <li v-for="(needToBuy, index) in needToBuys"><input :value="needToBuy.description"
+                        <li v-for="(needToBuy, index) in needToBuys" class="need-buy-list-items"><input :value="needToBuy.description"
                                                                             v-model="needToBuy.description"
                                                                             class="buy-item"><span
                                 @click="deleteNeedToBuy(index)" class="remove-item">x</span></li>
