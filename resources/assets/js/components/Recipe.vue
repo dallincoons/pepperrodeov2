@@ -1,12 +1,62 @@
 <template>
         <div class="recipe-wrapper">
+            <div class="recipe-heading sm-scrn">
+                <h3 class="recipe-title">
+                    <span v-if="!editable">{{recipe.title}}</span>
+                    <input :value="recipe.title" v-else v-model="recipe.title" class="edit-heading">
+                </h3>
+                <h5 class="recipe-category">
+                    <span v-if="!editable">{{category.title}}</span>
+                    <select v-model="recipe.category.id" v-else class="edit-category">
+                        <option v-for="category in categories" :value="category.id">{{category.title}}</option>
+                    </select>
+                </h5>
+            </div>
             <div class="side-section">
                 <h4 class="add-ingredient-headings">Ingredients
-                    <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button">
+                    <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 311.539 311.539" style="enable-background:new 0 0 311.539 311.539;" xml:space="preserve" width="18px" height="18px">
 <g>
 	<polygon points="175.77,96.937 135.77,96.937 135.77,135.77 96.937,135.77 96.937,175.77 135.77,175.77 135.77,214.603    175.77,214.603 175.77,175.77 214.603,175.77 214.603,135.77 175.77,135.77  " fill="#FFFFFF"/>
 	<path d="M155.77,0C69.74,0,0,69.74,0,155.77s69.74,155.77,155.77,155.77s155.77-69.74,155.77-155.77S241.799,0,155.77,0z    M155.77,271.539C91.785,271.539,40,219.761,40,155.77C40,91.784,91.778,40,155.77,40c63.985,0,115.77,51.778,115.77,115.77   C271.539,219.755,219.761,271.539,155.77,271.539z" fill="#FFFFFF"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                    </span>
+                    <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 311.539 311.539" style="enable-background:new 0 0 311.539 311.539;" xml:space="preserve" width="18px" height="18px" class="svg-sm">
+<g>
+	<polygon points="175.77,96.937 135.77,96.937 135.77,135.77 96.937,135.77 96.937,175.77 135.77,175.77 135.77,214.603    175.77,214.603 175.77,175.77 214.603,175.77 214.603,135.77 175.77,135.77  " fill="#ff4b2e"/>
+	<path d="M155.77,0C69.74,0,0,69.74,0,155.77s69.74,155.77,155.77,155.77s155.77-69.74,155.77-155.77S241.799,0,155.77,0z    M155.77,271.539C91.785,271.539,40,219.761,40,155.77C40,91.784,91.778,40,155.77,40c63.985,0,115.77,51.778,115.77,115.77   C271.539,219.755,219.761,271.539,155.77,271.539z" fill="#ff4b2e"/>
 </g>
 <g>
 </g>
@@ -47,13 +97,53 @@
                             <span v-if="!editable">{{ingredient.description}}</span>
                             <div v-else class="edit-ingredient-wrapper">
                                 <input :value="ingredient.description" v-model="ingredient.description" class="edit-ingredient-input">
-                                <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient">
+                                <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 59 59" style="enable-background:new 0 0 59 59;" xml:space="preserve" width="20px" height="20px">
 <g>
 	<path d="M29.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C28.5,50.553,28.948,51,29.5,51z" fill="#ffffff"/>
 	<path d="M19.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C18.5,50.553,18.948,51,19.5,51z" fill="#ffffff"/>
 	<path d="M39.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C38.5,50.553,38.948,51,39.5,51z" fill="#ffffff"/>
 	<path d="M52.5,6H38.456c-0.11-1.25-0.495-3.358-1.813-4.711C35.809,0.434,34.751,0,33.499,0H23.5c-1.252,0-2.31,0.434-3.144,1.289   C19.038,2.642,18.653,4.75,18.543,6H6.5c-0.552,0-1,0.447-1,1s0.448,1,1,1h2.041l1.915,46.021C10.493,55.743,11.565,59,15.364,59   h28.272c3.799,0,4.871-3.257,4.907-4.958L50.459,8H52.5c0.552,0,1-0.447,1-1S53.052,6,52.5,6z M21.792,2.681   C22.24,2.223,22.799,2,23.5,2h9.999c0.701,0,1.26,0.223,1.708,0.681c0.805,0.823,1.128,2.271,1.24,3.319H20.553   C20.665,4.952,20.988,3.504,21.792,2.681z M46.544,53.979C46.538,54.288,46.4,57,43.636,57H15.364   c-2.734,0-2.898-2.717-2.909-3.042L10.542,8h37.915L46.544,53.979z" fill="#ffffff"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                                </div>
+                                <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 59 59" style="enable-background:new 0 0 59 59;" xml:space="preserve" width="20px" height="20px">
+<g>
+	<path d="M29.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C28.5,50.553,28.948,51,29.5,51z" fill="#ff4b2e"/>
+	<path d="M19.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C18.5,50.553,18.948,51,19.5,51z" fill="#ff4b2e"/>
+	<path d="M39.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C38.5,50.553,38.948,51,39.5,51z" fill="#ff4b2e"/>
+	<path d="M52.5,6H38.456c-0.11-1.25-0.495-3.358-1.813-4.711C35.809,0.434,34.751,0,33.499,0H23.5c-1.252,0-2.31,0.434-3.144,1.289   C19.038,2.642,18.653,4.75,18.543,6H6.5c-0.552,0-1,0.447-1,1s0.448,1,1,1h2.041l1.915,46.021C10.493,55.743,11.565,59,15.364,59   h28.272c3.799,0,4.871-3.257,4.907-4.958L50.459,8H52.5c0.552,0,1-0.447,1-1S53.052,6,52.5,6z M21.792,2.681   C22.24,2.223,22.799,2,23.5,2h9.999c0.701,0,1.26,0.223,1.708,0.681c0.805,0.823,1.128,2.271,1.24,3.319H20.553   C20.665,4.952,20.988,3.504,21.792,2.681z M46.544,53.979C46.538,54.288,46.4,57,43.636,57H15.364   c-2.734,0-2.898-2.717-2.909-3.042L10.542,8h37.915L46.544,53.979z" fill="#ff4b2e"/>
 </g>
 <g>
 </g>
@@ -94,11 +184,49 @@
 
                 <div class="need-to-buys-section">
                     <h4 class="add-ingredient-headings">Need to Buy
-                        <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button">
+                        <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 311.539 311.539" style="enable-background:new 0 0 311.539 311.539;" xml:space="preserve" width="18px" height="18px">
 <g>
 	<polygon points="175.77,96.937 135.77,96.937 135.77,135.77 96.937,135.77 96.937,175.77 135.77,175.77 135.77,214.603    175.77,214.603 175.77,175.77 214.603,175.77 214.603,135.77 175.77,135.77  " fill="#FFFFFF"/>
 	<path d="M155.77,0C69.74,0,0,69.74,0,155.77s69.74,155.77,155.77,155.77s155.77-69.74,155.77-155.77S241.799,0,155.77,0z    M155.77,271.539C91.785,271.539,40,219.761,40,155.77C40,91.784,91.778,40,155.77,40c63.985,0,115.77,51.778,115.77,115.77   C271.539,219.755,219.761,271.539,155.77,271.539z" fill="#FFFFFF"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                        </span>
+                        <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 311.539 311.539" style="enable-background:new 0 0 311.539 311.539;" xml:space="preserve" width="18px" height="18px">
+<g>
+	<polygon points="175.77,96.937 135.77,96.937 135.77,135.77 96.937,135.77 96.937,175.77 135.77,175.77 135.77,214.603    175.77,214.603 175.77,175.77 214.603,175.77 214.603,135.77 175.77,135.77  " fill="#ff4b2e"/>
+	<path d="M155.77,0C69.74,0,0,69.74,0,155.77s69.74,155.77,155.77,155.77s155.77-69.74,155.77-155.77S241.799,0,155.77,0z    M155.77,271.539C91.785,271.539,40,219.761,40,155.77C40,91.784,91.778,40,155.77,40c63.985,0,115.77,51.778,115.77,115.77   C271.539,219.755,219.761,271.539,155.77,271.539z" fill="#ff4b2e"/>
 </g>
 <g>
 </g>
@@ -138,7 +266,7 @@
                             <span v-if="!editable">{{listable_ingredient.description}}</span>
                             <div v-else class="edit-ingredient-wrapper">
                                 <input :value="listable_ingredient.description" v-model="listable_ingredient.description" class="edit-ingredient-input">
-                                <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient">
+                                <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 59 59" style="enable-background:new 0 0 59 59;" xml:space="preserve" width="20px" height="20px">
 <g>
 	<path d="M29.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C28.5,50.553,28.948,51,29.5,51z" fill="#ffffff"/>
@@ -178,13 +306,53 @@
 </g>
 </svg>
                                 </div>
+                                <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 59 59" style="enable-background:new 0 0 59 59;" xml:space="preserve" width="20px" height="20px">
+<g>
+	<path d="M29.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C28.5,50.553,28.948,51,29.5,51z" fill="#ff4b2e"/>
+	<path d="M19.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C18.5,50.553,18.948,51,19.5,51z" fill="#ff4b2e"/>
+	<path d="M39.5,51c0.552,0,1-0.447,1-1V17c0-0.553-0.448-1-1-1s-1,0.447-1,1v33C38.5,50.553,38.948,51,39.5,51z" fill="#ff4b2e"/>
+	<path d="M52.5,6H38.456c-0.11-1.25-0.495-3.358-1.813-4.711C35.809,0.434,34.751,0,33.499,0H23.5c-1.252,0-2.31,0.434-3.144,1.289   C19.038,2.642,18.653,4.75,18.543,6H6.5c-0.552,0-1,0.447-1,1s0.448,1,1,1h2.041l1.915,46.021C10.493,55.743,11.565,59,15.364,59   h28.272c3.799,0,4.871-3.257,4.907-4.958L50.459,8H52.5c0.552,0,1-0.447,1-1S53.052,6,52.5,6z M21.792,2.681   C22.24,2.223,22.799,2,23.5,2h9.999c0.701,0,1.26,0.223,1.708,0.681c0.805,0.823,1.128,2.271,1.24,3.319H20.553   C20.665,4.952,20.988,3.504,21.792,2.681z M46.544,53.979C46.538,54.288,46.4,57,43.636,57H15.364   c-2.734,0-2.898-2.717-2.909-3.042L10.542,8h37.915L46.544,53.979z" fill="#ff4b2e"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="main-section">
-                <div class="recipe-heading">
+                <div class="recipe-heading lg-scrn">
                     <h3 class="recipe-title">
                         <span v-if="!editable">{{recipe.title}}</span>
                         <input :value="recipe.title" v-else v-model="recipe.title" class="edit-heading">
