@@ -366,7 +366,7 @@
                 </div>
                 <div class="saved-directions">
                     <h4 class="add-ingredient-headings">Directions</h4>
-                    <p>
+                    <p class="directions-text">
                         <span v-if="!editable">{{recipe.directions}}</span>
                         <textarea v-else :value="recipe.directions" v-model="recipe.directions" class="edit-directions"></textarea>
                     </p>
