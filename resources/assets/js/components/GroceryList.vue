@@ -6,9 +6,9 @@
         </div>
 
         <div class="container-body">
-            <div class="add-item-section" @click="toggleAddItemSection">
+            <div class="add-item-section">
                 <span class="add-item-text">Add Item</span>
-                <new-item-form @updated="getList" :departments="departments" v-bind:class="{showy : addItemFormOpened, hidey : !addItemFormOpened}"></new-item-form>
+                <new-item-form @updated="getList" :departments="departments"></new-item-form>
             </div>
 
 
@@ -55,7 +55,6 @@
                 description : '',
                 departments : '',
                 itemToUpdate : '',
-                addItemFormOpened : false
             }
         },
 
@@ -90,9 +89,6 @@
                 axios.get('/api/v1/grocery-list/' + this.listId).then((response) => {
                     console.log(response.data);
                     this.list = response.data;
-                    if( ! this.list.items.length) {
-                        this.addItemFormOpened = true;
-                    }
                 });
             },
 
@@ -129,10 +125,6 @@
                     this.getList();
                 });
             },
-
-            toggleAddItemSection() {
-                this.addItemFormOpened = ! this.addItemFormOpened;
-            }
         }
     }
 </script>
