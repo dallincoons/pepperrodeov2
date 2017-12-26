@@ -1,16 +1,74 @@
 {
     "openapi": "3.0.1",
     "swagger": "2.0",
+    "servers": [
+      {
+        "url": "http://pepperrodeov2.test/api/v1/"
+      }
+    ],
     "info": {
         "title": "Pepper Rodeo API",
         "version": "0.1"
     },
+    "basePath": {
+      "default": "v2"
+    },
     "paths": {
-        "/api/v1/grocery-lists": {
+        "/grocery-lists": {
             "get": {
+                "tags" : [
+                    "grocery-list"
+                ],
                 "responses": {
                     "200": {
-                        "description": "An example resource"
+                        "description": "All grocery lists"
+                    }
+                }
+            }
+        },
+      "/grocery-list": {
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroceryList",
+                },
+                "required": [
+                  "title"
+                ]
+              }
+            }
+          },
+          "tags" : [
+            "grocery-list"
+          ],
+          "responses": {
+            "201": {
+              "description": "A grocery list was created"
+            }
+          }
+        }
+      },
+        "/grocery-list/{key}": {
+            "get": {
+                "parameters" : [
+                    {
+                        "in": "path",
+                        "name": "key",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "description": "Numeric key of the grocery list to use"
+                    }
+                ],
+                "tags" : [
+                    "grocery-list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A single grocery list"
                     }
                 }
             }
@@ -23,6 +81,22 @@
                 "in": "query",
                 "name": "api_token"
             }
+        },
+        "schemas": {
+          "GroceryList": {
+            "properties" : {
+              "id": {
+                "type": "integer",
+                "readOnly": true
+              },
+              "title": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "integer"
+              }
+            }
+          }
         }
     },
     "security": [
