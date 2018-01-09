@@ -45,32 +45,38 @@ paths:
           description: A single grocery list
     delete:
       parameters:
-       - in: path
-         name: key
-         schema:
-           type: integer
-         required: true
-         description: Numeric key of the grocery list to use
-         tags:
-         - grocery-lists
-         responses:
-           '200':
-             description: 'Grocery list with id: {id} has been deleted'
+      - in: path
+        name: key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the grocery list to use
+      tags:
+      - grocery-lists
+      responses:
+        '200':
+          description: 'Grocery list with id: {id} has been deleted'
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GroceryList"
     patch:
       parameters:
-       - in: path
-         name: key
-         schema:
-           type: integer
-         required: true
-         description: Numeric key of the grocery list to use
-         responses:
-          '200':
-            description: A single grocery list
-            content:
-              application/json:
-                schema:
-                  "$ref": "#/components/schemas/GroceryList"
+      - in: path
+        name: key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the grocery list to use
+      tags:
+      - grocery-lists
+      responses:
+        '200':
+          description: A single grocery list
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GroceryList"
       requestBody:
               content:
                 application/json:
@@ -78,6 +84,26 @@ paths:
                     "$ref": "#/components/schemas/GroceryList"
                   required:
                   - title
+  "/recipes":
+    get:
+      tags:
+      - recipes
+      responses:
+        '200':
+          description: All recipes
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Recipe"
+            required:
+            - title
+      tags:
+      - recipes
+      responses:
+        '201':
+          description: A recipe was created
 components:
   securitySchemes:
     APIKey:
@@ -92,6 +118,19 @@ components:
           readOnly: true
         title:
           type: string
+        user_id:
+          type: integer
+    Recipe:
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+        directions:
+          type: string
+        category_id:
+          type: integer
         user_id:
           type: integer
 security:

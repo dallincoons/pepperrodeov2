@@ -10,7 +10,7 @@ export default {
     },
 
     save(recipeData) {
-        return axios.post(endpoint + 'create', recipeData);
+        return axios.post(endpoint, recipeData);
     },
 
     delete(recipeId) {

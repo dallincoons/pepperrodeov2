@@ -68,7 +68,7 @@ class CreatesRecipesTest extends TestCase
 
     private function createRecipe($overrides = [])
     {
-        return $this->post($this->api('recipes/create'), $this->validParams($overrides));
+        return $this->post($this->api('recipes'), $this->validParams($overrides));
     }
 
     private function validParams($overrides = [])

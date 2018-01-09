@@ -31,7 +31,7 @@ Route::group([
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
     Route::get('recipes', 'RecipeController@index');
-    Route::post('recipes/create', 'RecipeController@store');
+    Route::post('recipes', 'RecipeController@store');
     Route::get('recipes/{recipe}', 'RecipeController@show');
     Route::patch('recipes/{recipe}', 'RecipeController@update');
     Route::delete('recipes/{recipe}', 'RecipeController@delete');
