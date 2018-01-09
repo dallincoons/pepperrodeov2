@@ -43,6 +43,41 @@ paths:
       responses:
         '200':
           description: A single grocery list
+    delete:
+      parameters:
+       - in: path
+         name: key
+         schema:
+           type: integer
+         required: true
+         description: Numeric key of the grocery list to use
+         tags:
+         - grocery-lists
+         responses:
+           '200':
+             description: 'Grocery list with id: {id} has been deleted'
+    patch:
+      parameters:
+       - in: path
+         name: key
+         schema:
+           type: integer
+         required: true
+         description: Numeric key of the grocery list to use
+         responses:
+          '200':
+            description: A single grocery list
+            content:
+              application/json:
+                schema:
+                  "$ref": "#/components/schemas/GroceryList"
+      requestBody:
+              content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/GroceryList"
+                  required:
+                  - title
 components:
   securitySchemes:
     APIKey:
