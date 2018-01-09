@@ -20,8 +20,8 @@
         },
         methods : {
             saveTitle() {
-                axios.post('/api/v1/grocery-list', {title : this.listTitle}).then((response) => {
-                    this.$router.push({ path: `/grocery-list/${response.data.data.id}` });
+                axios.post('/api/v1/grocery-lists', {title : this.listTitle}).then((response) => {
+                    this.$router.push({ path: `/grocery-lists/${response.data.data.id}` });
                 });
             }
         }

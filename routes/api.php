@@ -17,13 +17,13 @@ Route::group([
 ], function () {
     Route::get('grocery-lists/search', 'GroceryListSearchController@index');
 
-    Route::post('grocery-list/{grocerylist}/add/recipes', 'GroceryListRecipeController@post');
+    Route::post('grocery-lists/{grocerylist}/add/recipes', 'GroceryListRecipeController@post');
 
     Route::get('grocery-lists', 'GroceryListController@all');
-    Route::get('grocery-list/{grocerylist}', 'GroceryListController@show');
-    Route::post('grocery-list', 'GroceryListController@store');
-    Route::post('grocery-list/{grocerylist}', 'GroceryListController@delete');
-    Route::patch('grocery-list/{grocerylist}', 'GroceryListController@update');
+    Route::get('grocery-lists/{grocerylist}', 'GroceryListController@show');
+    Route::post('grocery-lists', 'GroceryListController@store');
+    Route::delete('grocery-lists/{grocerylist}', 'GroceryListController@delete');
+    Route::patch('grocery-lists/{grocerylist}', 'GroceryListController@update');
 
     Route::post('grocery-list-item', 'GroceryListItemController@store');
     Route::delete('grocery-list-item/{groceryListItem}', 'GroceryListItemController@delete');

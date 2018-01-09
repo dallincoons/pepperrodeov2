@@ -24,7 +24,7 @@ describe('stuff', () => {
     });
 
     it('dsfdsfsdf', (done)=> {
-        moxios.stubRequest('/api/v1/grocery-list/1', {
+        moxios.stubRequest('/api/v1/grocery-lists/1', {
             status: 200,
             responseText: 'test'
         });

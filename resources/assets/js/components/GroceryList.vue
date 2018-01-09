@@ -86,7 +86,7 @@
             },
 
             getList() {
-                axios.get('/api/v1/grocery-list/' + this.listId).then((response) => {
+                axios.get('/api/v1/grocery-lists/' + this.listId).then((response) => {
                     console.log(response.data);
                     this.list = response.data;
                 });

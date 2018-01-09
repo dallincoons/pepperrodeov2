@@ -20,7 +20,7 @@ class CreatesGroceryListUsingRecipesTest extends TestCase
 
         $this->assertCount(0, $grocerylist->items);
 
-        $this->post($this->api("grocery-list/{$grocerylist->getKey()}/add/recipes"), ['recipes' => [
+        $this->post($this->api("grocery-lists/{$grocerylist->getKey()}/add/recipes"), ['recipes' => [
             $recipe->getKey(), $recipe2->getKey()
         ]]);
 

@@ -15,15 +15,15 @@ let routes = [
         'component': GroceryLists
     },
     {
-        'path' : '/grocery-list/create',
+        'path' : '/grocery-lists/create',
         'component': GroceryListCreate
     },
     {
-        'path' : '/grocery-list/:id',
+        'path' : '/grocery-lists/:id',
         'components' : {
             default :  GroceryList,
         },
-        'name' : 'grocery-list',
+        'name' : 'grocery-lists',
     },
     {
         'path' : '/recipe/create',

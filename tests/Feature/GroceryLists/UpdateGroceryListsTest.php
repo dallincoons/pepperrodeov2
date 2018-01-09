@@ -19,7 +19,7 @@ class UpdateGroceryListsTest extends TestCase
             'title' => 'Banana sandwhich'
         ]);
 
-        $this->patch('/api/v1/grocery-list/' . $grocerylist->getKey(), ['title' => 'Banana pie']);
+        $this->patch('/api/v1/grocery-lists/' . $grocerylist->getKey(), ['title' => 'Banana pie']);
 
         $this->assertEquals($grocerylist->fresh()->title, 'Banana pie');
     }

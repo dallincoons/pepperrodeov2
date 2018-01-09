@@ -1,0 +1,64 @@
+---
+openapi: 3.0.1
+swagger: '2.0'
+servers:
+- url: http://pepperrodeov2.test/api/v1/
+info:
+  title: Pepper Rodeo API
+  version: '0.1'
+basePath:
+  default: v2
+paths:
+  "/grocery-lists":
+    get:
+      tags:
+      - grocery-lists
+      responses:
+        '200':
+          description: All grocery lists
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/GroceryList"
+            required:
+            - title
+      tags:
+      - grocery-lists
+      responses:
+        '201':
+          description: A grocery list was created
+  "/grocery-lists/{key}":
+    get:
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the grocery list to use
+      tags:
+      - grocery-lists
+      responses:
+        '200':
+          description: A single grocery list
+components:
+  securitySchemes:
+    APIKey:
+      type: apiKey
+      in: query
+      name: api_token
+  schemas:
+    GroceryList:
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+        user_id:
+          type: integer
+security:
+- APIKey: []
+definitions: {}

@@ -38,7 +38,7 @@ class RetrieveGroceryListTest extends TestCase
         $grocerylist->items()->save($item);
         $grocerylist->refresh();
 
-        $response = $this->get('/api/v1/grocery-list/' . $grocerylist->getKey());
+        $response = $this->get('/api/v1/grocery-lists/' . $grocerylist->getKey());
 
         $response->assertStatus(200);
         $this->assertEquals($grocerylist->id, $response->decodeResponseJson()['id']);
@@ -63,7 +63,7 @@ class RetrieveGroceryListTest extends TestCase
             ]
         ]);
 
-        $response = $this->get($this->api('grocery-list/' . $grocerylist->getKey()));
+        $response = $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
 
         $response->assertSuccessful();
         $this->assertCount(3, $response->decodeResponseJson()['items']);
