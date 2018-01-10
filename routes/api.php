@@ -25,19 +25,22 @@ Route::group([
     Route::delete('grocery-lists/{grocerylist}', 'GroceryListController@delete');
     Route::patch('grocery-lists/{grocerylist}', 'GroceryListController@update');
 
-    Route::post('grocery-list-item', 'GroceryListItemController@store');
-    Route::delete('grocery-list-item/{groceryListItem}', 'GroceryListItemController@delete');
-    Route::patch('grocery-list-item/{groceryListItem}', 'GroceryListItemController@update');
-    Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
-
     Route::get('recipes', 'RecipeController@index');
     Route::post('recipes', 'RecipeController@store');
     Route::get('recipes/{recipe}', 'RecipeController@show');
     Route::patch('recipes/{recipe}', 'RecipeController@update');
     Route::delete('recipes/{recipe}', 'RecipeController@delete');
 
+    Route::post('grocery-list-item', 'GroceryListItemController@store');
+    Route::delete('grocery-list-item/{groceryListItem}', 'GroceryListItemController@delete');
+    Route::patch('grocery-list-item/{groceryListItem}', 'GroceryListItemController@update');
+    Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
+
+    Route::post('grocerylist/{grocerylist}/add-recipe/{recipe}', 'AddRecipeToGrocerylistController@store');
+
     Route::post('recipe/{recipe}/add-ingredients', 'IngredientController@store');
     Route::delete('ingredients/{ingredient}', 'IngredientController@delete');
+
     Route::delete('listable_ingredients/{ingredient}', 'ListableIngredientController@delete');
 
     Route::get('departments', 'DepartmentController@index');
