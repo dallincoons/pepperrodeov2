@@ -2,7 +2,7 @@
         <div class="recipe-wrapper">
             <div class="recipe-heading sm-scrn">
                 <h3 class="recipe-title">
-                    <span v-if="!editable">{{recipe.title}}</span>
+                    <span v-if="!editable">{{recipe.title}} </span>
                     <input :value="recipe.title" v-else v-model="recipe.title" class="edit-heading">
                 </h3>
                 <h5 class="recipe-category">
@@ -11,6 +11,9 @@
                         <option v-for="category in categories" :value="category.id">{{category.title}}</option>
                     </select>
                 </h5>
+                <select v-model="groceryListId">
+                    <option v-for="list in lists" :value="list.id">{{list.title}}</option>
+                </select>  <span @click="addToList">Add to List</span>
             </div>
             <div class="side-section">
                 <h4 class="add-ingredient-headings">Ingredients
@@ -573,6 +576,9 @@
                 category    : {},
                 editable : false,
                 categories  : [],
+                groceryListId : '',
+                recipeId : '',
+                lists : []
             }
         },
 
@@ -583,6 +589,12 @@
             Categories.all().then((response) => {
                 this.categories = response.data;
             });
+
+            axios.get('/api/v1/grocery-lists').then((response) => {
+                this.lists = response.data.data;
+                console.log(this.lists);
+            });
+
         },
 
         methods : {
@@ -632,6 +644,10 @@
                 ListableIngredients.delete(id).then(response => {
                     this.getRecipe();
                 });
+            },
+            addToList() {
+                console.log(this.groceryListId);
+                axios.post('api/v1/grocerylist/'+this.groceryListId+'/add-recipe/'+this.recipeId);
             }
         }
     }
