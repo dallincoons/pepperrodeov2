@@ -104,6 +104,61 @@ paths:
       responses:
         '201':
           description: A recipe was created
+  "/recipes/{key}":
+    get:
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the grocery list to use
+      tags:
+      - recipes
+      responses:
+        '200':
+          description: A single recipes
+    patch:
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the recipe to use
+      tags:
+      - recipes
+      responses:
+        '200':
+          description: A single recipe
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Recipe"
+      requestBody:
+              content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/Recipe"
+                  required:
+                  - title
+    delete:
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the recipe to use
+      tags:
+      - recipes
+      responses:
+        '200':
+          description: 'Recipe with id: {id} has been deleted'
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Recipe"
 components:
   securitySchemes:
     APIKey:
