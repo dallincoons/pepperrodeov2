@@ -159,6 +159,26 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Recipe"
+  "/grocerylist/{grocerylist-key}/add-recipe/{recipe-key}":
+    post:
+      parameters:
+      - in: path
+        name: grocerylist-key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the grocery list to use
+      - in: path
+        name: recipe-key
+        schema:
+          type: integer
+        required: true
+        description: Numeric key of the recipe to use
+      tags:
+      - add-recipe-to-list
+      responses:
+        '200':
+          description: A recipe was added to grocery list
 components:
   securitySchemes:
     APIKey:

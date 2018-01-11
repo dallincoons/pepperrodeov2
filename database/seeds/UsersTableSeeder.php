@@ -7,16 +7,20 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(User::class)->create([
-            'name' => 'Dallin',
-            'email' => 'dallinis@hotmail.com',
-            'password' => bcrypt('coondog62')
-        ]);
+        if( ! User::where('email', 'dallinis@hotmail.com')->exists()) {
+            factory(User::class)->create([
+                'name'     => 'Dallin',
+                'email'    => 'dallinis@hotmail.com',
+                'password' => bcrypt('coondog62')
+            ]);
+        }
 
-        factory(User::class)->create([
-            'name' => 'Emily',
-            'email' => 'emilylimabean@gmail.com',
-            'password' => bcrypt('itsasunnyday2')
-        ]);
+        if( ! User::where('email', 'emilylimabean@gmail.com')->exists()) {
+            factory(User::class)->create([
+                'name'     => 'Emily',
+                'email'    => 'emilylimabean@gmail.com',
+                'password' => bcrypt('itsasunnyday2')
+            ]);
+        }
     }
 }
