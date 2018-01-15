@@ -2,7 +2,7 @@
     <div class="container">
 
         <div class="container-heading list-heading">
-            <h2>{{list.title}}</h2>
+            <h2 v-if="!editable">{{list.title}}</h2><span @click="updateListTitle">Edit Title</span>
         </div>
 
         <div class="container-body">
@@ -123,6 +123,15 @@
                 this.hideModal();
                 axios.delete('/api/v1/grocery-list-item/' + itemToUpdate.id).then((response) => {
                     this.getList();
+                });
+            },
+
+            updateListTitle() {
+                axios.patch('/api/v1/grocery-list/' + this.listId, {
+                    title       : this.list.title,
+                }).then((response) => {
+                    this.getList();
+                    this.editable = false;
                 });
             },
         }
