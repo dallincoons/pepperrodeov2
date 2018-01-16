@@ -15,7 +15,8 @@ class ListableIngredient extends Model
         'recipe_id',
         'quantity',
         'description',
-        'listable'
+        'listable',
+        'department_id'
     ];
 
     public function setQuantityAttribute($quantity)

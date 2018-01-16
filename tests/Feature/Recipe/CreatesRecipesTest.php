@@ -3,6 +3,7 @@
 namespace Tests\Feature\Recipe;
 
 use App\Category;
+use App\Entities\Department;
 use App\Entities\Ingredient;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
@@ -63,6 +64,36 @@ class CreatesRecipesTest extends TestCase
         $this->assertArraySubset([
             'quantity'    => 3,
             'description' => 'jazz music2',
+        ], Recipe::first()->listableIngredients->first()->toArray());
+    }
+
+    /** @test */
+    public function it_creates_a_recipe_with_departmentalized_ingredients()
+    {
+        $department = factory(Department::class)->create();
+
+        $response = $this->createRecipe([
+            'title'       => 'foo bar',
+            'directions'  => 'cook things',
+            'category_id'    => factory(Category::class)->create()->getKey(),
+            'ingredients' => [
+                [
+                    'quantity'    => 2,
+                    'description' => 'jazz music',
+                ]
+            ],
+            'listable_ingredients' => [
+                [
+                    'quantity'    => 3,
+                    'description' => 'jazz music2',
+                    'department_id' => 2
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertArraySubset([
+            'department_id' => $department->getKey(),
         ], Recipe::first()->listableIngredients->first()->toArray());
     }
 

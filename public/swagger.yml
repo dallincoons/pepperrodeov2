@@ -179,6 +179,13 @@ paths:
       responses:
         '200':
           description: A recipe was added to grocery list
+  "/departments":
+    get:
+      tags:
+      - departments
+      responses:
+        '200':
+          description: All departments
 components:
   securitySchemes:
     APIKey:

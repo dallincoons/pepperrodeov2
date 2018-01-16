@@ -47,7 +47,7 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         }
 
         foreach($listableIngredients as $ingredient){
-            ListableIngredient::create([
+            $this->listableIngredientRepository->create([
                     'recipe_id' => $recipe->getKey()
                 ] + $ingredient);
         }

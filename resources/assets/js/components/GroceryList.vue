@@ -2,7 +2,9 @@
     <div class="container">
 
         <div class="container-heading list-heading">
-            <h2 v-if="!editable">{{list.title}}</h2><span @click="updateListTitle">Edit Title</span>
+            <h2 v-if="!editable">{{list.title}}</h2><input v-else v-model="list.title" style="color: #3f3f3f">
+             <span v-if="!editable" @click="editable = true">Edit Title</span>
+            <span @click="updateListTitle" v-else>Save Title</span>
         </div>
 
         <div class="container-body">
@@ -127,7 +129,7 @@
             },
 
             updateListTitle() {
-                axios.patch('/api/v1/grocery-list/' + this.listId, {
+                axios.patch('/api/v1/grocery-lists/' + this.listId, {
                     title       : this.list.title,
                 }).then((response) => {
                     this.getList();

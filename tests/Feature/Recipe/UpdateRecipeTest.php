@@ -114,11 +114,11 @@ class UpdateRecipeTest extends TestCase
                 [
                     'id' => $ingredient->getKey(),
                     'description' => $ingredient->description . 'altered',
-                    'quantity' => null
+                    'quantity' => null,
                 ],
                 [
                     'description' => 'beat on the brat',
-                    'quantity' => 101
+                    'quantity' => 101,
                 ],
             ]
         ]);

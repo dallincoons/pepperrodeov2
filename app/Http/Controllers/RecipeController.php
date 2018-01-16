@@ -8,7 +8,6 @@ use App\Http\Requests\Recipes\StoreRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Repositories\RecipeRepository;
 use App\Repositories\RecipeRepositoryEloquent;
-use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
