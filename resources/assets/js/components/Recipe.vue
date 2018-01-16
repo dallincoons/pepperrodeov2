@@ -55,6 +55,9 @@
                             <span v-if="!editable">{{listable_ingredient.description}}</span>
                             <div v-else class="edit-ingredient-wrapper">
                                 <input :value="listable_ingredient.description" v-model="listable_ingredient.description" class="edit-ingredient-input">
+                                <select style="background-color: #3f3f3f" :value="listable_ingredient.department_id" v-model="listable_ingredient.department_id">
+                                    <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                                </select>
                                 <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-lg">
                                     <trash-icon-white></trash-icon-white>
                                 </div>
@@ -80,7 +83,7 @@
                     </h5>
                 </div>
                 <div class="saved-directions">
-                    <!--<h4 class="add-ingredient-headings">Directions</h4>-->
+                    <h4 class="add-ingredient-headings">Directions</h4>
                     <p class="directions-text">
                         <span v-if="!editable">{{recipe.directions}}</span>
                         <textarea v-else :value="recipe.directions" v-model="recipe.directions" class="edit-directions"></textarea>
@@ -149,7 +152,8 @@
                 categories  : [],
                 groceryListId : '',
                 recipeId : '',
-                lists : []
+                lists : [],
+                departments : ''
             }
         },
 
@@ -164,6 +168,10 @@
             axios.get('/api/v1/grocery-lists').then((response) => {
                 this.lists = response.data.data;
                 console.log(this.lists);
+            });
+
+            axios.get('/api/v1/departments').then((response) => {
+                this.departments = response.data;
             });
 
         },

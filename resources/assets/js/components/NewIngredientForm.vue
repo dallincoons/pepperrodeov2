@@ -24,8 +24,11 @@
                     <ul class="buy-item-list">
                         <li v-for="(needToBuy, index) in needToBuys" class="need-buy-list-items"><input :value="needToBuy.description"
                                                                             v-model="needToBuy.description"
-                                                                            class="buy-item"><span
-                                @click="deleteNeedToBuy(index)" class="remove-item">x</span></li>
+                                                                            class="buy-item">
+                        <select v-model="needToBuy.department_id">
+                            <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                        </select>
+                        <span @click="deleteNeedToBuy(index)" class="remove-item">x</span></li>
                     </ul>
                 </div>
                 <div class="directions">
@@ -50,8 +53,16 @@
                 ingredients           : [],
                 needToBuys            : [],
                 directions            : '',
+                departments           : ''
             }
         },
+        mounted() {
+            axios.get('/api/v1/departments').then((response) => {
+                this.departments = response.data;
+                console.log(this.departments);
+            });
+        },
+
         methods : {
             saveRecipe() {
                 this.$emit('save', this.directions, this.ingredients, this.needToBuys);
