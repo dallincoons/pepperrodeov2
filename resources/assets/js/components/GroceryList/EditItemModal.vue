@@ -11,7 +11,9 @@
             <button class="modal-button" @click="updateItem">Save</button>
         </div>
         <div class="modal-edit-footer">
-            <trash-can></trash-can>
+            <span class="modal-delete-img">
+                <trash-can width="16" height="16"></trash-can>
+            </span>
             <span class="modal-delete" @click="deleteItem">Delete Item</span>
         </div>
         <div class="modal-line"></div>
