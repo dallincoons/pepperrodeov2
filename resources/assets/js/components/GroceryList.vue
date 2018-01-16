@@ -11,7 +11,6 @@
                 <new-item-form @updated="getList" :departments="departments"></new-item-form>
             </div>
 
-
             <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                 <ul class="list-items">
                     <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
@@ -55,6 +54,7 @@
                 description : '',
                 departments : '',
                 itemToUpdate : '',
+                editable     : false
             }
         },
 

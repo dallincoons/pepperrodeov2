@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Entities\Department;
 use App\Entities\Ingredient;
+use App\Entities\ListableIngredient;
+use App\Entities\Recipe;
 use Tests\TestCase;
 
 class IngredientTest extends TestCase
@@ -41,5 +43,14 @@ class IngredientTest extends TestCase
             ['2/4', '1/2'],
             ['2/5', '2/5']
         ];
+    }
+
+    /** @test */
+    public function it_casts_null_quantity_to_zero()
+    {
+        $recipe = factory(Recipe::class)->create();
+        $ingredient = factory(ListableIngredient::class)->create(['recipe_id' => $recipe, 'quantity' => null, 'description' => 'cats']);
+
+        $this->assertEquals(0, $ingredient->quantity);
     }
 }

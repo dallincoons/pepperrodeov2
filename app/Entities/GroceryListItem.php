@@ -15,7 +15,8 @@ class GroceryListItem extends Model
     ];
 
     protected $casts = [
-        'is_checked' => 'integer'
+        'is_checked' => 'integer',
+        'quantity' => 'integer',
     ];
 
     public function setMagicDescriptionAttribute($description)
@@ -24,6 +25,11 @@ class GroceryListItem extends Model
 
         $this->attributes['description'] = $parser->getDescription();
         $this->attributes['quantity'] = $parser->getQuantity();
+    }
+
+    public function getQuantityAttribute()
+    {
+        return $this->attributes['quantity'] ?? 0;
     }
 
     public function department()

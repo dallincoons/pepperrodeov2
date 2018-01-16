@@ -44,13 +44,6 @@ class GroceryItemCombine
         return $items;
     }
 
-    protected function combineFractions(Collection $items): string
-    {
-        return (string)$items->reduce(function ($original, $dupe) {
-            return $original->add(Fraction::fromString($dupe->quantity));
-        }, new Fraction(0));
-    }
-
     /**
      * @param $duplicateItems
      * @return GroceryListItem
@@ -64,5 +57,12 @@ class GroceryItemCombine
             'is_checked'      => 0,
         ]);
         return $combinedItem;
+    }
+
+    protected function combineFractions(Collection $items): string
+    {
+        return (string)$items->reduce(function ($original, $dupe) {
+            return $original->add(Fraction::fromString($dupe->quantity));
+        }, new Fraction(0));
     }
 }

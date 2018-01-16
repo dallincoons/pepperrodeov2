@@ -20,6 +20,8 @@ class ListableIngredient extends Model
 
     public function setQuantityAttribute($quantity)
     {
-        $this->attributes['quantity'] = Fraction::fromString($quantity);
+        $validString = empty($quantity) ? 0 : $quantity;
+
+        $this->attributes['quantity'] = Fraction::fromString($validString);
     }
 }
