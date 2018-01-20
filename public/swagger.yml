@@ -186,6 +186,13 @@ paths:
       responses:
         '200':
           description: All departments
+  "/categories":
+    get:
+      tags:
+      - categories
+      responses:
+        '200':
+          description: All categories
 components:
   securitySchemes:
     APIKey:
