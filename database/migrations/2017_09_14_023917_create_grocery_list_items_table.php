@@ -16,6 +16,7 @@ class CreateGroceryListItemsTable extends Migration
         Schema::create('grocery_list_items', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('grocery_list_id');
+            $table->unsignedInteger('grocery_list_group_id')->nullable();
             $table->unsignedInteger('department_id');
             $table->string('description')->nullable();
             $table->string('quantity')->nullable();
@@ -24,6 +25,7 @@ class CreateGroceryListItemsTable extends Migration
 
             $table->foreign('grocery_list_id')->references('id')->on('grocery_lists')->onDelete('cascade');
             $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('grocery_list_group_id')->references('id')->on('grocery_list_group');
         });
     }
 

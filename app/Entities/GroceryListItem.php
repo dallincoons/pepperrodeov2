@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class GroceryListItem extends Model
 {
     protected $fillable = [
-        'grocery_list_id', 'description',
+        'grocery_list_id', 'grocery_list_group_id',
         'description', 'quantity',
         'is_checked', 'department_id'
     ];
@@ -35,6 +35,11 @@ class GroceryListItem extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(GroceryListItemGroup::class, 'grocery_list_group_id');
     }
 
     public function toggleComplete()

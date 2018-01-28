@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Entities\GroceryList;
+use App\Entities\GroceryListItemGroup;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Tests\TestCase;
@@ -45,5 +46,29 @@ class AddRecipeToGroceryListTest extends TestCase
         $grocerylist->addRecipe($recipe);
 
         $this->assertCount(count($recipe->listableIngredients) * 2, $grocerylist->fresh()->items);
+    }
+
+    /** @test */
+    public function grocery_list_items_are_grouped_by_recipe_added()
+    {
+        /** @var $grocerylist GroceryList */
+        $grocerylist = factory(GroceryList::class)->create();
+
+        $recipe = factory(Recipe::class)->create();
+        factory(ListableIngredient::class)->create(['recipe_id' => $recipe]);
+
+        $this->assertCount(0, $grocerylist->items);
+
+        $grocerylist->addRecipe($recipe);
+        $grocerylist->addRecipe($recipe);
+
+        $this->assertEquals(2, GroceryListItemGroup::count());
+
+        $firstItem = $grocerylist->fresh()->items->first();
+        $lastItem = $grocerylist->fresh()->items->last();
+
+        $this->assertNotEquals($firstItem->group->getKey(), $lastItem->group->getKey());
+        $this->assertEquals($recipe->getKey(), $firstItem->group->recipe_id);
+        $this->assertEquals($recipe->getKey(), $lastItem->group->recipe_id);
     }
 }
