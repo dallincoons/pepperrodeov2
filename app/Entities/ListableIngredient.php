@@ -7,6 +7,8 @@ use Phospr\Fraction;
 
 class ListableIngredient extends Model
 {
+    const DEFAULT_QUANTITY = 1;
+
     protected $casts = [
         'quantity' => 'string'
     ];
@@ -21,7 +23,7 @@ class ListableIngredient extends Model
 
     public function setQuantityAttribute($quantity)
     {
-        $validString = empty($quantity) ? 0 : $quantity;
+        $validString = empty($quantity) ? self::DEFAULT_QUANTITY : $quantity;
 
         $this->attributes['quantity'] = Fraction::fromString($validString);
     }

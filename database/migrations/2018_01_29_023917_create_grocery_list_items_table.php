@@ -25,7 +25,7 @@ class CreateGroceryListItemsTable extends Migration
 
             $table->foreign('grocery_list_id')->references('id')->on('grocery_lists')->onDelete('cascade');
             $table->foreign('department_id')->references('id')->on('departments');
-            $table->foreign('grocery_list_group_id')->references('id')->on('grocery_list_group');
+            $table->foreign('grocery_list_group_id')->references('id')->on('grocery_list_item_groups');
         });
     }
 

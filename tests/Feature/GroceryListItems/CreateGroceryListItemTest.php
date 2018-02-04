@@ -130,7 +130,7 @@ class CreateGroceryListItemTest extends TestCase
 
         $grocerylist->refresh();
 
-        $this->assertEquals(null, $grocerylist->quantity);
+        $this->assertEquals(1, $grocerylist->quantity);
         $this->assertEquals('round squishy things', $grocerylist->description);
     }
 
@@ -144,7 +144,7 @@ class CreateGroceryListItemTest extends TestCase
 
         $grocerylist->refresh();
 
-        $this->assertEquals(null, $grocerylist->quantity);
+        $this->assertEquals(1, $grocerylist->quantity);
         $this->assertEquals('round 12 squishy 13 things', $grocerylist->description);
     }
 

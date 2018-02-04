@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GroceryListItem extends Model
 {
+    const DEFAULT_QUANTITY = 1;
+
     protected $fillable = [
         'grocery_list_id', 'grocery_list_group_id',
         'description', 'quantity',
@@ -29,7 +31,7 @@ class GroceryListItem extends Model
 
     public function getQuantityAttribute()
     {
-        return $this->attributes['quantity'] ?? 0;
+        return $this->attributes['quantity'] ?? self::DEFAULT_QUANTITY;
     }
 
     public function department()

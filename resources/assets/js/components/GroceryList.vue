@@ -11,6 +11,14 @@
             <div class="add-item-section">
                 <span class="add-item-text">Add Item</span>
                 <new-item-form @updated="getList" :departments="departments"></new-item-form>
+                <div @click="viewRecipes">Add Recipe(s)</div>
+                <div>
+                    <ul>
+
+                        <li v-for="recipe in recipes"><input type="checkbox" :value="recipe.id" v-model="checkedRecipes">{{recipe.title}}</li>
+                    </ul>
+                    <button @click="addRecipesToList">Add these to my list please</button>
+                </div>
             </div>
 
             <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
@@ -56,7 +64,9 @@
                 description : '',
                 departments : '',
                 itemToUpdate : '',
-                editable     : false
+                editable     : false,
+                recipes      : [],
+                checkedRecipes : []
             }
         },
 
@@ -76,6 +86,7 @@
             this.listId = this.$route.params.id;
             this.getList();
             this.getDepartments();
+            this.getRecipes();
         },
         methods    : {
 
@@ -97,6 +108,12 @@
             getDepartments() {
                 axios.get('/api/v1/departments').then((response) => {
                     this.departments = response.data;
+                });
+            },
+
+            getRecipes() {
+                axios.get('/api/v1/recipes').then((response) => {
+                    this.recipes = response.data;
                 });
             },
 
@@ -136,6 +153,19 @@
                     this.editable = false;
                 });
             },
+
+            viewRecipes() {
+
+            },
+
+            addRecipesToList() {
+                console.log(this.checkedRecipes);
+                axios.post('/api/v1/grocerylist/' + this.listId + '/add-recipes', {
+                    recipes : this.checkedRecipes
+                }).then((response) => {
+                    this.getList();
+                });
+            }
         }
     }
 </script>

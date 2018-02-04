@@ -46,11 +46,11 @@ class IngredientTest extends TestCase
     }
 
     /** @test */
-    public function it_casts_null_quantity_to_zero()
+    public function it_casts_null_quantity_to_one()
     {
         $recipe = factory(Recipe::class)->create();
         $ingredient = factory(ListableIngredient::class)->create(['recipe_id' => $recipe, 'quantity' => null, 'description' => 'cats']);
 
-        $this->assertEquals(0, $ingredient->quantity);
+        $this->assertEquals(1, $ingredient->quantity);
     }
 }
