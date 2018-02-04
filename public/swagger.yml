@@ -163,11 +163,15 @@ paths:
     post:
       parameters:
       - in: path
-        name: recipe-key
+        name: grocerylist-key
         schema:
           type: integer
         required: true
         description: Numeric key of the recipe to use
+      - in: body
+        name: recipes
+        schema:
+          "$ref": "#/components/schemas/Recipes"
       tags:
       - add-recipes-to-list
       responses:
@@ -287,6 +291,12 @@ components:
           required: true
         quantity:
           type: integer
+    Recipes:
+      properties:
+        recipes:
+          type: array
+          items:
+            type: integer
 security:
 - APIKey: []
 definitions: {}
