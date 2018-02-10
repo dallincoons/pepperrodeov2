@@ -53,9 +53,7 @@ class GroceryList extends Model implements Transformable
 
     public function getCombinedItems()
     {
-        $items = app(GroceryItemCombine::class)->combine($this);
-
-        return $items;
+        return app(GroceryItemCombine::class)->combine($this)->load('department');
     }
 
     public function translateIngredient(ListableIngredient $ingredient, Recipe $recipe)

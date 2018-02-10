@@ -72,7 +72,7 @@
 
         computed : {
             itemsGrouped : function () {
-                return _.chain(this.list.items)
+                return _.chain(this.list.combinedItems)
                     .sortBy(function (item) {
                         return item.department.name;
                     })
@@ -159,7 +159,6 @@
             },
 
             addRecipesToList() {
-                console.log(this.checkedRecipes);
                 axios.post('/api/v1/grocerylist/' + this.listId + '/add-recipes', {
                     recipes : this.checkedRecipes
                 }).then((response) => {

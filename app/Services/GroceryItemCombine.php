@@ -53,6 +53,7 @@ class GroceryItemCombine
         $combinedItem = new GroceryListItem([
             'grocery_list_id' => $this->grocerylist->getKey(),
             'description'     => $duplicateItems->first()->description,
+            'department_id'   => $duplicateItems->first()->department_id,
             'quantity'        => $this->combineFractions($duplicateItems),
             'is_checked'      => 0,
         ]);

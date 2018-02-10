@@ -1,18 +1,40 @@
 <?php
 
-namespace Tests\Feature\GroceryListItems;
+namespace Tests\Unit\Services;
 
+use App\Services\GroceryItemCombine;
+use Tests\Fakers\GroceryListFaker;
+use Tests\TestCase;
 use App\Entities\GroceryList;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Tests\Fakers\RecipeFaker;
-use Tests\TestCase;
 
-/**
- * @group feature-tests
- */
-class RetrievesGroceryListItemsTest extends TestCase
+class GroceryItemCombinerTest extends TestCase
 {
+    /** @test */
+    public function combined_items_have_departments()
+    {
+        $groceryList = GroceryListFaker::withItems([
+            [
+                'description' => 'test123',
+                'quantity'    => '1/3',
+            ],
+            [
+                'description' => 'test123',
+                'quantity'    => '1/3',
+            ]
+        ]);
+
+        /** @var GroceryItemCombine $combiner */
+        $combiner = app(GroceryItemCombine::class);
+
+        $items = $combiner->combine($groceryList);
+
+        $this->assertEquals($items->first()->department_id, $groceryList->items->first()->department_id);
+        $this->assertEquals($items->first()->department, $groceryList->items->first()->department);
+    }
+
     /** @test */
     public function it_combines_grocery_list_items()
     {
