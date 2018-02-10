@@ -50,7 +50,7 @@ class GroceryItemCombine
      */
     private function mapToNewItem($duplicateItems): GroceryListItem
     {
-        $combinedItem = $this->repository->create([
+        $combinedItem = new GroceryListItem([
             'grocery_list_id' => $this->grocerylist->getKey(),
             'description'     => $duplicateItems->first()->description,
             'quantity'        => $this->combineFractions($duplicateItems),
