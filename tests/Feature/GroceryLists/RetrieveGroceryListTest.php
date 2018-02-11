@@ -71,6 +71,27 @@ class RetrieveGroceryListTest extends TestCase
     }
 
     /** @test */
+    public function retrieving_grocery_list_with_combined_items_is_idempotent()
+    {
+        $grocerylist = GroceryListFaker::withItems([
+            [
+                'description' => 'AAA',
+                'quantity' => '1/4',
+            ],
+            [
+                'description' => 'AAA',
+                'quantity' => '2/4',
+            ]
+        ]);
+
+        $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
+        $response = $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
+
+        $this->assertCount(2, $response->decodeResponseJson()['items']);
+        $this->assertCount(1, $response->decodeResponseJson()['combinedItems']);
+    }
+
+    /** @test */
     public function lists_are_displayed_from_newest_to_youngest()
     {
         $newest = factory(GroceryList::class)->create([
