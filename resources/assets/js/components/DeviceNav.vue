@@ -1,32 +1,25 @@
 <template>
-  <span class="hamburger-menu">
-    <nav role="navigation">
-      <div id="menuToggle">
-    <!--
-    A fake / hidden checkbox is used as click reciever,
-    so you can use the :checked selector on it.
-    -->
-        <input type="checkbox" v-model="checked"/>
-          <span></span>
-          <span></span>
-          <span></span>
-
-        <ul id="menu">
-          <li @click="closeNav"><router-link to="/grocery-lists" class="nav-link" >My Grocery Lists</router-link></li>
-          <li @click="closeNav"><router-link to="/grocery-lists/create" class="nav-link">Create a Grocery List</router-link></li>
-          <li @click="closeNav"><router-link to="/recipes" class="nav-link">Recipes</router-link></li>
-          <li @click="closeNav"><router-link to="/recipe/create" class="nav-link">Add a Recipe</router-link></li>
-          <a href="/logout" class="nav-link" @click="closeNav">Logout</a>
-        </ul>
-    </div>
-  </nav>
-</span>
+  <div class="device-nav-wrapper">
+    <router-link to="/grocery-lists" class="device-icon"><lists></lists></router-link>
+    <router-link to="/recipes" class="device-icon"><recipes></recipes></router-link>
+    <a href="/logout" class="device-icon"><settings></settings></a>
+  </div>
 
 </template>
 
 <script>
 
+  //Assets
+  import Settings from './assets/settings.vue';
+  import Recipes from './assets/recipes.vue';
+  import Lists from './assets/lists.vue';
+
     export default {
+      components : {
+        Settings,
+        Recipes,
+        Lists
+      },
       data() {
         return {
           checked : false
