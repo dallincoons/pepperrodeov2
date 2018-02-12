@@ -1,8 +1,9 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 311.539 311.539" style="enable-background:new 0 0 311.539 311.539;" xml:space="preserve" width="18px" height="18px" class="svg-sm">
+	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="25px" height="25px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
 <g>
-	<polygon points="175.77,96.937 135.77,96.937 135.77,135.77 96.937,135.77 96.937,175.77 135.77,175.77 135.77,214.603    175.77,214.603 175.77,175.77 214.603,175.77 214.603,135.77 175.77,135.77  " fill="#ff4b2e"/>
-	<path d="M155.77,0C69.74,0,0,69.74,0,155.77s69.74,155.77,155.77,155.77s155.77-69.74,155.77-155.77S241.799,0,155.77,0z    M155.77,271.539C91.785,271.539,40,219.761,40,155.77C40,91.784,91.778,40,155.77,40c63.985,0,115.77,51.778,115.77,115.77   C271.539,219.755,219.761,271.539,155.77,271.539z" fill="#ff4b2e"/>
+	<g id="add-circle-outline">
+		<path d="M280.5,127.5h-51v102h-102v51h102v102h51v-102h102v-51h-102V127.5z M255,0C114.75,0,0,114.75,0,255s114.75,255,255,255    s255-114.75,255-255S395.25,0,255,0z M255,459c-112.2,0-204-91.8-204-204S142.8,51,255,51s204,91.8,204,204S367.2,459,255,459z" fill="#3f3f3f"/>
+	</g>
 </g>
 <g>
 </g>
@@ -35,19 +36,5 @@
 <g>
 </g>
 </svg>
-</template>
 
-<script>
-    export default {
-        props : {
-            width: {
-                type    : String,
-                'default' : '18'
-            },
-            height: {
-                type    : String,
-                'default' : '18'
-            }
-        },
-    }
-</script>
+</template>

@@ -1,102 +1,85 @@
-body {
-  width: 100%;
-  background: @pr-brand-white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-ul {
-  list-style: none;
-}
 .container {
   width: 60%;
   background: #fff;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  -webkit-box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
-  -moz-box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
-  box-shadow: 0 0 15px 5px rgba(27,26,26,0.14);
-  margin-bottom: 40px;
-  margin-top: 50px;
 
 }
 
 .container-heading {
-  background: @pr-brand-color;
-  margin: 0 -15px;
-  border-radius: 10px 10px 0 0;
-  color: #fff;
-  padding: 0 0 0 2%;
+  color: @pr-brand-dark;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.container-heading h2 {
-  font-weight: 200;
-  margin-top: 11px;
-}
 
 .container-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+.button-wrapper {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+}
+.sq-button {
+  background: @pr-brand-grey;
+  border-bottom: 2px solid rgba(0, 0, 0, .04);
+  border-radius: 5px;
+  width: 20rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  color: @pr-brand-dark;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.button-icon {
+  margin: 0 1rem 0 0;
+}
 .list-container {
   width: 100%;
 }
 .grocery-list {
-  width: 90%;
-  padding: 1%;
-  background: #ffffff;
-  border-left: 7px solid @pr-brand-color;
-  border-top: 1px solid rgba(27,26,26,.1);
-  border-radius: 5px;
-  -webkit-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  -moz-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  font-size: 1.5em;
-  margin: 2% 0;
-  transition: border-left 1s;
+  border: 1px solid @pr-brand-dark;
+  width: 100%;
+  padding: 2rem;
 }
 
 .grocery-list a {
-  color: #4f4f4f;
+  color: @pr-brand-dark;
+  font-size: 1.5rem;
 }
 
-.grocery-list a:hover {
-  color: #4f4f4f;
-  text-decoration: none;
-}
 
-.grocery-list:hover {
-  border-left: 7px solid #BF3822;
-  transition: border-left 1s;
-}
-
-@media only screen
-and (max-device-width: 1050px) {
+@media  (max-width: 1050px) {
   .container {
     width: 100%;
     box-shadow: none;
     border-radius: none;
   }
-  .grocery-list {
-    width: 100%;
-    margin: 4% 0;
-  }
-  .container-heading {
-    background: #ffffff;
-    color: @pr-brand-color;
-    display: flex;
-   flex-direction: column;
-
+  .grocery-list a {
+    font-size: 2rem;
   }
   .list-container {
     padding: 0;
+  }
+  .button-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
+  .sq-button {
+    margin: 0 0 2rem 1rem;
   }
 
 }
