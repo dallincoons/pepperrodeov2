@@ -2,6 +2,7 @@
 @pr-brand-white: #ffffff;
 @pr-brand-grey: #acaead;
 @pr-brand-dark: #3f3f3f;
+@pr-brand-light-grey: #ebebeb;
 
 h2, h3, h4, h5, h6, p, a {
   font-family: 'Lato', sans-serif;
@@ -24,6 +25,36 @@ ul {
   flex-direction: column;
   width: 100%;
 }
+
+.container {
+  width: 60%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.container-heading {
+  color: @pr-brand-dark;
+  display: flex;
+  flex-direction: column;
+  margin: 4rem 0 0 0;
+}
+
+
+.container-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.small-screen {
+  display: none;
+}
+
+
 
 @import "./../../../node_modules/hover.css/less/hover";
 
@@ -51,3 +82,31 @@ ul {
 
 // @import "./spark/spark";
 @import "./../../../vendor/laravel/spark/resources/assets/less/spark";
+
+
+@media (max-width: 1050px) {
+  .container {
+    width: 100%;
+    box-shadow: none;
+    align-items: center;
+  }
+
+  .drop-wrapper {
+    width: 100%;
+  }
+
+  .drop-caret {
+    right: 10rem;
+  }
+}
+
+
+
+
+@media (max-width: 800px) {
+  .small-screen {
+    display: flex;
+    justify-content: center;
+    color: @pr-brand-dark;
+  }
+}
