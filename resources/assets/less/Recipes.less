@@ -6,34 +6,31 @@
   font-weight: 300;
 }
 
+.recipes-wrapper {
+  border: 1px solid @pr-brand-grey;
+}
+
+.recipes-list {
+  padding: 0;
+  margin: 0;
+}
+
 .recipe-ingredient {
-  width: 90%;
-  padding: 1%;
-  background: #ffffff;
-  border-left: 7px solid @pr-brand-color;
-  border-top: 1px solid rgba(27,26,26,.1);
-  border-radius: 5px;
-  //-webkit-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  //-moz-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  //box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
+  width: 100%;
   font-size: 1.5em;
-  margin: 2% 0;
-  transition: border-left 1s;
+  border-bottom: 1px solid @pr-brand-grey;
+  padding: 1rem;
 }
 
 .recipe-ingredient a {
-  color: #4f4f4f;
+  color: @pr-brand-dark;
 }
 
 .recipe-ingredient a:hover {
-  color: #4f4f4f;
+  color: @pr-brand-dark;
   text-decoration: none;
 }
 
-.recipe-ingredient:hover {
-  border-left: 7px solid #BF3822;
-  transition: border-left 1s;
-}
 
 @media only screen
 and (max-device-width: 1050px) {
