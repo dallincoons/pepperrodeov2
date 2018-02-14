@@ -8,7 +8,7 @@
             <option value="" disabled selected style="display: none;">Department</option>
             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
         </select>
-        <button @click="saveItem" @enter="saveItem" class="save"><span>Save Item</span></button>
+        <button @click="saveItem" @enter="saveItem" class="save">Add Item</button>
     </div>
 </div>
 </template>

@@ -3,14 +3,22 @@
 
         <div class="container-heading list-heading">
             <h2 v-if="!editable">{{list.title}}</h2><input v-else v-model="list.title" style="color: #3f3f3f">
-             <span v-if="!editable" @click="editable = true">Edit Title</span>
-            <span @click="updateListTitle" v-else>Save Title</span>
+            <div class="button-wrapper">
+                <button class="sq-button" @click="toggleAddItems"> Add Item</button>
+                <button class="sq-button">Add Recipe(s)</button>
+            </div>
+             <!--<span v-if="!editable" @click="editable = true">Edit Title</span>-->
+            <!--<span @click="updateListTitle" v-else>Save Title</span>-->
+            <div class="drop-wrapper" id="drop-wrapper">
+                <caret class="add-item-caret drop-caret"></caret>
+                <new-item-form @updated="getList" :departments="departments"></new-item-form>
+            </div>
         </div>
 
         <div class="container-body">
             <div class="add-item-section">
-                <span class="add-item-text">Add Item</span>
-                <new-item-form @updated="getList" :departments="departments"></new-item-form>
+                <!--<span class="add-item-text">Add Item</span>-->
+                <!--<new-item-form @updated="getList" :departments="departments"></new-item-form>-->
                 <div @click="viewRecipes">Add Recipe(s)</div>
                 <div>
                     <ul>
@@ -20,24 +28,25 @@
                     <button @click="addRecipesToList">Add these to my list please</button>
                 </div>
             </div>
+            <div class="list-wrapper" id="list-wrapper">
+                <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
+                    <ul class="list-items">
+                        <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
+                            <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
+                            <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
 
-            <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
-                <ul class="list-items">
-                    <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
-                        <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
-                        <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
+                            <edit-item-modal
+                                    v-if="showModal"
+                                    :itemToUpdate="itemToUpdate"
+                                    :departments="departments"
+                                    @close="hideModal"
+                                    @update="updateItem"
+                                    @delete="deleteItem"
+                            ></edit-item-modal>
+                        </li>
 
-                        <edit-item-modal
-                            v-if="showModal"
-                            :itemToUpdate="itemToUpdate"
-                            :departments="departments"
-                            @close="hideModal"
-                            @update="updateItem"
-                            @delete="deleteItem"
-                        ></edit-item-modal>
-                    </li>
-
-                </ul>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -48,12 +57,14 @@
 <script>
     import EditItemModal from './GroceryList/EditItemModal.vue';
     import NewItemForm from './GroceryList/NewItemForm.vue';
+    import Caret from './assets/caret.vue';
 
     export default {
 
         components : {
             EditItemModal,
-            NewItemForm
+            NewItemForm,
+            Caret
         },
 
         data(){
@@ -66,7 +77,8 @@
                 itemToUpdate : '',
                 editable     : false,
                 recipes      : [],
-                checkedRecipes : []
+                checkedRecipes : [],
+                dropOpen : false
             }
         },
 
@@ -164,7 +176,22 @@
                 }).then((response) => {
                     this.getList();
                 });
-            }
+            },
+
+            toggleAddItems() {
+                let listWrapper = document.getElementById("list-wrapper");
+                let dropWrapper = document.getElementById("drop-wrapper");
+                if(this.dropOpen === false) {
+                    this.dropOpen = true;
+                    listWrapper.classList.add("margin-transition");
+                    dropWrapper.classList.add("show-box");
+                } else {
+                    this.dropOpen = false;
+                    listWrapper.classList.remove("margin-transition");
+                    dropWrapper.classList.remove("show-box");
+                }
+
+            },
         }
     }
 </script>

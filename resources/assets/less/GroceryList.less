@@ -41,30 +41,33 @@ body {
 .add-item-wrapper {
   width: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .dept-options {
-  margin: 10px;
+  margin: 10px 0;
   display: flex;
-  color: #757575;
+  color: @pr-brand-dark;
   font-size: 1.2em;
   border-radius: 0;
   border: none;
-  background: #ebebeb;
-  width: 20%;
+  background: @pr-brand-white;
+  width: 95%;
+  height: 25%;
 }
 
 .save {
   display: flex;
   border: none;
-  color: #757575;
+  color: @pr-brand-dark;
   font-size: 1.2em;
-  background: #ebebeb;
-  margin: 10px 0;
-  width:10%;
+  background: @pr-brand-grey;
   transition: background 2s;
   justify-content: center;
   align-items: center;
+  align-self: flex-end;
+  margin: 10px 5% 10px 0;
+  padding: 1rem 1rem 1.5rem 1rem;
 }
 .save:hover {
   background: #D1D1D1;
@@ -73,16 +76,17 @@ body {
 }
 
 .add-item {
-  width: 70%;
+  width: 95%;
   margin: 10px 0;
 }
 
 .add-item input {
   width: 100%;
-  background: #ebebeb;
+  background: @pr-brand-white;
   border: none;
   padding: 1%;
   font-size: 1.2em;
+  color: @pr-brand-dark;
 }
 
 .list-items {
@@ -90,31 +94,28 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0;
+  margin: 0;
 }
 .department-container {
   width: 100%;
 }
 
 .dept_heading {
-  background: @pr-brand-color;
-  color: #ffffff;
+  background: @pr-brand-grey;
+  color: @pr-brand-dark;
   font-size: 1.5em;
-  margin: 0 -15px;
-  padding: 0 0 0 2%;
+  font-weight: 700;
+  padding: 1rem;
+  margin: 0;
 }
 
 .list-item {
   width: 100%;
-  //-webkit-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  //-moz-box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  //box-shadow: 1px 3px 2px 1px rgba(27,26,26,0.1);
-  margin: 10px 0;
   font-size: 1.2em;
   display: flex;
-  border-radius: 5px;
-  border-top: 1px solid rgba(27,26,26,.1);
-  padding: 5px;
   align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid @pr-brand-grey;
 }
 
 .checkbox {
@@ -156,7 +157,14 @@ body {
 .hidey {
   display: flex;
 }
-
+.add-item-caret {
+  right: 0;
+  left: 8rem;
+}
+.list-wrapper {
+  width: 100%;
+  border: 1px solid @pr-brand-grey;
+}
 @media only screen
 and (max-device-width: 1050px) {
   .add-item-wrapper {
