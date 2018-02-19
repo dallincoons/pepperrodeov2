@@ -31,40 +31,41 @@ body {
   display: flex;
   width: 100%;
   margin: 10px 0;
+  justify-content: center;
 }
 
 .create-form {
   display: flex;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  width: 80%;
 }
 
 .title-input {
-  width: 80%;
+  width: 100%;
   border: none;
-  border-bottom: 2px solid @pr-brand-color;
+  border-bottom: 2px solid @pr-brand-dark;
   padding: .5%;
   font-size: 1.2em;
   margin-right: 10px;
 }
 
 .title-input:focus {
-  border-bottom: 2px solid #bf3822;
-  outline: none;
+  //border-bottom: 2px solid #bf3822;
+  //outline: none;
 }
 
-.save-button {
-  background: #ffffff;
-  color: @pr-brand-color;
-  border: 2px solid @pr-brand-color;
+.dk-modal-button {
+  background: @pr-brand-grey;
+  color: @pr-brand-dark;
+  border: none;
   padding: 5px 10px;
   border-radius: 2px;
   font-size: 1.2em;
-  transition: border 2s;
+  margin: 2rem 0;
 }
 
 .save-button:hover {
-  border: 2px solid #BF3822;
-  color: #BF3822;
-  transition: border 2s;
+  //border: 2px solid #BF3822;
+  //color: #BF3822;
+  //transition: border 2s;
 }

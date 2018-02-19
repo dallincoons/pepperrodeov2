@@ -1,11 +1,34 @@
 <template>
     <div class="container">
+        <full-screen-modal
+                v-if="addRecipesModalShown"
+                @close="addRecipesModalShown = !addRecipesModalShown"
+        >
+            <div class="fs-header">
+                <h4 class="fs-heading">Add Recipe(s)</h4>
+                <button @click="addRecipesToList" class="fs-button">Add</button>
+            </div>
+
+            <div>
+                <ul class="fs-list">
+
+                    <li v-for="recipe in recipes" class="fs-list-item">
+                        <div class="fs-checkbox">
+                            <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
+                            <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
+                        </div>
+
+                    </li>
+                </ul>
+
+            </div>
+        </full-screen-modal>
 
         <div class="container-heading list-heading">
             <h2 v-if="!editable">{{list.title}}</h2><input v-else v-model="list.title" style="color: #3f3f3f">
             <div class="button-wrapper">
                 <button class="sq-button" @click="toggleAddItems"> Add Item</button>
-                <button class="sq-button">Add Recipe(s)</button>
+                <button class="sq-button" @click="viewRecipes">Add Recipe(s)</button>
             </div>
              <!--<span v-if="!editable" @click="editable = true">Edit Title</span>-->
             <!--<span @click="updateListTitle" v-else>Save Title</span>-->
@@ -15,18 +38,12 @@
             </div>
         </div>
 
-        <div class="container-body">
+        <div class="container-body ex-neg-margin" id="body-container">
             <div class="add-item-section">
                 <!--<span class="add-item-text">Add Item</span>-->
                 <!--<new-item-form @updated="getList" :departments="departments"></new-item-form>-->
-                <div @click="viewRecipes">Add Recipe(s)</div>
-                <div>
-                    <ul>
 
-                        <li v-for="recipe in recipes"><input type="checkbox" :value="recipe.id" v-model="checkedRecipes">{{recipe.title}}</li>
-                    </ul>
-                    <button @click="addRecipesToList">Add these to my list please</button>
-                </div>
+
             </div>
             <div class="list-wrapper" id="list-wrapper">
                 <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
@@ -58,13 +75,15 @@
     import EditItemModal from './GroceryList/EditItemModal.vue';
     import NewItemForm from './GroceryList/NewItemForm.vue';
     import Caret from './assets/caret.vue';
+    import FullScreenModal from './FullScreenModal.vue';
 
     export default {
 
         components : {
             EditItemModal,
             NewItemForm,
-            Caret
+            Caret,
+            FullScreenModal
         },
 
         data(){
@@ -78,7 +97,8 @@
                 editable     : false,
                 recipes      : [],
                 checkedRecipes : [],
-                dropOpen : false
+                dropOpen : false,
+                addRecipesModalShown : false
             }
         },
 
@@ -166,28 +186,32 @@
                 });
             },
 
-            viewRecipes() {
 
+            viewRecipes() {
+                this.addRecipesModalShown = true;
+                console.log(this.addRecipesModalShown);
             },
 
             addRecipesToList() {
                 axios.post('/api/v1/grocerylist/' + this.listId + '/add-recipes', {
                     recipes : this.checkedRecipes
                 }).then((response) => {
+                    this.addRecipesModalShown = false;
                     this.getList();
+                    this.checkedRecipes = [];
                 });
             },
 
             toggleAddItems() {
-                let listWrapper = document.getElementById("list-wrapper");
+                let bodyContainer = document.getElementById("body-container");
                 let dropWrapper = document.getElementById("drop-wrapper");
                 if(this.dropOpen === false) {
                     this.dropOpen = true;
-                    listWrapper.classList.add("margin-transition");
+                    bodyContainer.classList.add("margin-transition");
                     dropWrapper.classList.add("show-box");
                 } else {
                     this.dropOpen = false;
-                    listWrapper.classList.remove("margin-transition");
+                    bodyContainer.classList.remove("margin-transition");
                     dropWrapper.classList.remove("show-box");
                 }
 

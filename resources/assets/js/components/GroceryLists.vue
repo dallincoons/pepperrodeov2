@@ -1,8 +1,18 @@
 <template>
     <div class="container">
-        <div class="mod-container" id="newListModal">
-            <div>Modal Thing</div>
-        </div>
+        <modal
+            v-if="newGroceryListModalShown"
+            @close="newGroceryListModalShown = !newGroceryListModalShown"
+        >
+            <span slot="close" class="modal-close">X</span>
+            <h4 class="modal-heading">Add New List</h4>
+            <div class="container-create">
+                <form v-on:submit.prevent class="create-form">
+                    <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveTitle()" class="title-input" placeholder="List Title">
+                    <button type="button" @click="saveTitle()" class="dk-modal-button">Next</button>
+                </form>
+            </div>
+        </modal>
 
         <div class="container-heading">
             <h2 class="small-screen">Lists</h2>
@@ -20,14 +30,11 @@
                 </div>
             </div>
 
-
-
         </div>
 
+        <div class="container-body" id="body-container">
 
-        <div class="container-body">
-
-            <ul class="list-container" id="list-container">
+            <ul class="list-container">
                 <li v-for="list in grocerylists" class="grocery-list grow"><router-link :to="{ name: 'grocery-lists', params: { id: list.id }}" >{{list.title}}</router-link></li>
             </ul>
             <add-icon-dark></add-icon-dark>
@@ -42,7 +49,7 @@
     import Search from './assets/search.vue';
     import Caret from './assets/caret.vue';
     import EditItemModal from './GroceryList/EditItemModal.vue';
-
+    import Modal from './Modal.vue';
 
     export default {
         components : {
@@ -50,14 +57,16 @@
             Search,
             Caret,
             EditItemModal,
-
+            Modal
         },
         data(){
             return {
-                grocerylists : [],
-                searchQuery : '',
-                searchOpen : false,
-                showModal   : false
+                grocerylists: [],
+                searchQuery: '',
+                searchOpen: false,
+                showModal: false,
+                newGroceryListModalShown: false,
+                listTitle : '',
             }
         },
 
@@ -68,28 +77,39 @@
         },
 
         methods : {
+
             searchGroceryLists() {
                axios.get('/api/v1/grocery-lists/search?query='+this.searchQuery).then((response) => {
                     this.grocerylists = response.data;
                });
             },
+
             toggleSearch() {
-                let listContainer = document.getElementById("list-container");
+                let bodyContainer = document.getElementById("body-container");
                 let searchBox = document.getElementById("searchBox");
                 if(this.searchOpen === false) {
                     this.searchOpen = true;
-                    listContainer.classList.add("margin-transition");
+                    bodyContainer.classList.add("margin-transition");
                     searchBox.classList.add("show-box");
                 } else {
                     this.searchOpen = false;
-                    listContainer.classList.remove("margin-transition");
+                    bodyContainer.classList.remove("margin-transition");
                     searchBox.classList.remove("show-box");
                 }
 
             },
+
             newListModal() {
-                let newListModal = document.getElementById("newListModal");
-                newListModal.classList.add("show-modal");
+                this.newGroceryListModalShown = true;
+            },
+
+            hideNewGroceryListModal() {
+                this.newGroceryListModalShown = false;
+            },
+            saveTitle() {
+                axios.post('/api/v1/grocery-lists', {title : this.listTitle}).then((response) => {
+                    this.$router.push({ path: `/grocery-lists/${response.data.data.id}` });
+                });
             }
 
             // toggleSearch() {

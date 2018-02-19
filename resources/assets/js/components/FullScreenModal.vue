@@ -1,10 +1,11 @@
 <template>
-    <div class="modal-mask"  @click="close" transition="modal">
-        <div :class="modalClass" class="modal-container" @click.stop>
-            <div @click="close"><slot name="close"><span class="close-modal">x</span></slot></div>
-            <slot></slot>
+        <div :class="modalClass" @click.stop>
+            <div class="fs-wrapper">
+                <div @click="close" class="fs-close-modal"><slot name="close"><span>x</span></slot></div>
+                <slot></slot>
+            </div>
+
         </div>
-    </div>
 </template>
 
 <script>
@@ -13,7 +14,7 @@
         props: {
             modalClass : {
                 type: String,
-                default: 'modal-container'
+                default: 'ol-modal-container'
             }
         },
 
@@ -30,3 +31,4 @@
         }
     }
 </script>
+
