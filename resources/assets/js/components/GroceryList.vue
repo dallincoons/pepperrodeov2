@@ -189,7 +189,6 @@
 
             viewRecipes() {
                 this.addRecipesModalShown = true;
-                console.log(this.addRecipesModalShown);
             },
 
             addRecipesToList() {
