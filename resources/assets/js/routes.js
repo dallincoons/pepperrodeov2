@@ -8,7 +8,8 @@ import Recipe from './components/Recipe.vue';
 let routes = [
     {
         'path' : '/',
-        'component' : GroceryLists
+        'component' : GroceryLists,
+        'redirect': '/grocery-lists'
     },
     {
         'path' : '/grocery-lists',

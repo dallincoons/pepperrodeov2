@@ -31,8 +31,8 @@
             <nav class="main-nav">
                 <router-link to="/" class="nav-brand tk-reklame-script">Pepper Rodeo</router-link>
                 <div class="nav-links">
-                    <router-link to="/grocery-lists" class="nav-link active">Grocery Lists</router-link>
-                    <router-link to="/recipes" class="nav-link">Recipes</router-link>
+                    <router-link to="/grocery-lists" class="nav-link" active-class="active">Grocery Lists</router-link>
+                    <router-link to="/recipes" class="nav-link" active-class="active">Recipes</router-link>
                     <a href="/logout" class="nav-link">Log Out</a>
                 </div>
 
