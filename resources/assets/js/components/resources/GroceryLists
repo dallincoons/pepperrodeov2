@@ -3,5 +3,11 @@ const getEndpoint = '/api/v1/grocery-lists';
 export default {
     get() {
         return axios.get(getEndpoint);
+    },
+
+    addRecipes(list, recipes) {
+        return axios.post('/api/v1/grocerylist/' + list + '/add-recipes', {
+            recipes : recipes
+        });
     }
 }

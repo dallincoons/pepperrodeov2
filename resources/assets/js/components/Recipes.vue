@@ -3,8 +3,15 @@
         <div class="container-heading"><h2>My Recipes</h2></div>
         <div class="button-wrapper">
             <router-link class="sq-button" to="/recipe/create"><add-icon-dark class="button-icon"></add-icon-dark> Add Recipe</router-link>
-            <button class="sq-button" @click="newListModal"><add-to-list class="button-icon"></add-to-list> Add to List</button>
+            <button class="sq-button" @click="toggleShowLists"><add-to-list class="button-icon"></add-to-list> Add to List</button>
             <button class="sq-button" @click="toggleSearch"><search class="button-icon"></search>Search</button>
+        </div>
+
+        <div v-if="showLists">
+            <select v-model="selectedList">
+                <option v-for="list in lists" :value="list.id"> {{list.title}}</option>
+            </select>
+            <button @click="addRecipesToList">Add to List</button>
         </div>
 
         <div class="drop-wrapper" id="searchBox">
@@ -21,6 +28,7 @@
                 <h3 class="dept_heading">{{categoryName}}</h3>
                 <ul class="recipes-list">
                     <li class="recipe-ingredient" v-for="recipe in recipeGroup">
+                        <input type="checkbox" v-if="showLists" :value="recipe.id" v-model="checkedRecipes">
                         <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
                     </li>
                 </ul>
@@ -31,23 +39,30 @@
 </template>
 
 <script>
-    import Recipes from './resources/Recipes.js';
+    import Recipes from './resources/Recipes';
+    import GroceryLists from './resources/GroceryLists';
     import _ from 'lodash';
     import AddIconDark from './assets/add-icon-dark.vue';
     import Search from './assets/search.vue';
     import AddToList from './assets/add-to-list.vue';
+    import Caret from './assets/caret.vue';
 
     export default {
         components : {
             AddIconDark,
             Search,
-            AddToList
+            AddToList,
+            Caret
         },
 
         data() {
             return {
-                recipes : [],
-                searchOpen : false,
+                recipes: [],
+                searchOpen: false,
+                showLists: false,
+                lists: [],
+                selectedList : '',
+                checkedRecipes: []
             }
         },
 
@@ -78,6 +93,20 @@
                 }
 
             },
+
+            toggleShowLists() {
+                this.showLists = !this.showLists;
+                GroceryLists.get().then((response) => {
+                    this.lists = response.data.data;
+                });
+            },
+
+            addRecipesToList() {
+                GroceryLists.addRecipes(this.selectedList, this.checkedRecipes).then((response) => {
+                    this.checkedRecipes = [];
+                    this.showLists = false;
+                });
+            }
         }
 
     }

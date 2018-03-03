@@ -72,6 +72,7 @@
 </template>
 
 <script>
+    import GroceryLists from './resources/GroceryLists';
     import EditItemModal from './GroceryList/EditItemModal.vue';
     import NewItemForm from './GroceryList/NewItemForm.vue';
     import Caret from './assets/caret.vue';
@@ -189,9 +190,7 @@
             },
 
             addRecipesToList() {
-                axios.post('/api/v1/grocerylist/' + this.listId + '/add-recipes', {
-                    recipes : this.checkedRecipes
-                }).then((response) => {
+                GroceryLists.addRecipes(this.listId, this.checkedRecipes).then((response) => {
                     this.addRecipesModalShown = false;
                     this.getList();
                     this.checkedRecipes = [];
