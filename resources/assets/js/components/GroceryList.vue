@@ -49,7 +49,7 @@
                 <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                     <ul class="list-items">
                         <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
-                            <span @click="toggleItem(item.id)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
+                            <span @click="toggleItem(item)" class="checkbox" v-bind:class="{checkmark : item.is_checked}"></span>
                             <span class="item" v-bind:class="{checked : item.is_checked}">{{item.quantity}} {{item.description}}</span>
 
                             <edit-item-modal
@@ -149,12 +149,9 @@
                 });
             },
 
-            toggleItem(itemId) {
-                axios.post('/api/v1/grocery-list-item-completion/' + itemId).then((response) => {
-                    let itemToUpdate = this.list.items.find(function (item) {
-                        return item.id == itemId;
-                    });
-                    itemToUpdate.is_checked = response.data.is_checked;
+            toggleItem(item) {
+                axios.post('/api/v1/grocery-list-item-completion/' + item.id).then((response) => {
+                    item.is_checked = response.data.is_checked;
                 });
             },
 
