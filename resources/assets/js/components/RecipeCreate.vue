@@ -1,21 +1,47 @@
 <template>
     <div class="container">
-        <!--<h2 class="container-heading create-heading">Add a Recipe</h2>-->
-        <div class="container-create" v-if="titleSectionOpen">
-            <form v-on:submit.prevent class="recipe-create-form">
-                <label for="recipe-title" class="recipe-label" v-model="recipeTitle">Title</label>
-                <input title="Recipe Title" class="recipe-input" id="recipe-title" v-model="recipeTitle">
-                <label for="category" class="recipe-label">Category</label>
-                <select id="category" class="recipe-input" v-model="selectedCategory">
-                    <option v-for="category in categories" :value="category">{{category.title}}</option>
-                </select>
-                <button type="button" class="recipe-save save-button" @click="titleSectionOpen = !titleSectionOpen">
-                    Next
-                </button>
-            </form>
+        <div class="main">
+            <div class="grid-heading">
+                <div class="grid-row-1">
+                    <div class="grid-item"><span class="grid-label">Title</span><input type="text" required v-model="recipeTitle"></div>
+                    <div class="grid-item"><span class="grid-label">Category</span>
+                        <select v-model="selectedCategory">
+                            <option v-for="category in  categories" :value="category.id">{{category.title}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid-row-2">
+                    <div class="grid-item"><span class="grid-label">Prep Time</span><input type="text"></div>
+                    <div class="grid-item"><span class="grid-label">Total Time</span><input type="text"></div>
+                    <div class="grid-item"><span class="grid-label">Serves</span><input type="text"></div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="toggleSection">
+                    <h4 @click="toggleIngredients = true">Ingredients</h4>
+                    <h4 @click="toggleIngredients = false">Directions</h4>
+                </div>
+                <div v-show="toggleIngredients">
+                    <input class="ingredients-input" v-model="ingredientDescription"><span @click="addIngredient">+</span>
+                    <ul>
+                        <li v-for="ingredient in ingredients">{{ingredient.description}}</li>
+                    </ul>
+                    <h5>Need to Buy</h5>
+                    <ul>
+                        <li v-for="needToBuy in needToBuys">{{needToBuy.description}}</li>
+                    </ul>
+                </div>
+
+                <div v-show="!toggleIngredients">
+                    <textarea v-model="directions"></textarea>
+                </div>
+                <div>
+                    <button @click="saveRecipe">Save</button>
+                    <button>Cancel</button>
+                </div>
+            </div>
+
         </div>
-        <new-ingredient-form v-else :recipeTitle="recipeTitle" :recipeCat="selectedCategory"
-                             @save="saveRecipe"></new-ingredient-form>
     </div>
 </template>
 
@@ -35,25 +61,53 @@
                 recipeTitle      : '',
                 titleSectionOpen : false,
                 selectedCategory : '',
-                categories       : []
+                categories       : [],
+                ingredientDescription : '',
+                ingredients           : [],
+                needToBuys            : [],
+                directions            : '',
+                departments           : '',
+                toggleIngredients     : true
             }
         },
         mounted() {
             Categories.all().then((response) => {
                 this.categories = response.data;
             });
+            axios.get('/api/v1/departments').then((response) => {
+                this.departments = response.data;
+            });
         },
         methods    : {
-            saveRecipe(description, ingredients, needToBuys) {
+            saveRecipe() {
                 Recipes.save({
                     title                : this.recipeTitle,
-                    category_id          : this.selectedCategory.id,
-                    directions           : description,
-                    ingredients          : ingredients,
-                    listable_ingredients : needToBuys
+                    category_id             : this.selectedCategory,
+                    ingredients          : this.ingredients,
+                    listable_ingredients : this.needToBuys,
+                    directions           : this.directions
                 }).then((response) => {
                     this.$router.push({path : `/recipe/${response.data.id}`});
                 });
+            },
+
+            addIngredient() {
+                if (this.ingredientDescription === '') {
+                    return;
+                }
+
+                let newIngredient = {description : this.ingredientDescription};
+                this.ingredients.push(newIngredient);
+                this.needToBuys.push(Object.assign({}, newIngredient));
+                this.ingredientDescription = '';
+            },
+
+            deleteIngredient(index) {
+                this.ingredients.splice(index, 1);
+            },
+
+            deleteNeedToBuy(index) {
+                this.needToBuys.splice(index, 1);
             },
         }
     }
