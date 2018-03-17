@@ -27,6 +27,26 @@ class GroceryList extends Model implements Transformable
         return $this->hasMany(GroceryListItem::class);
     }
 
+    public function itemGroups()
+    {
+        return $this->hasMany(GroceryListItemGroup::class);
+    }
+
+    public function getRecipesAttribute()
+    {
+        $recipeIds = $this->itemGroups()
+            ->pluck('recipe_id')
+            ->unique();
+
+        return Recipe::whereIn('id', $recipeIds)->get();
+    }
+
+    public function getUniqueRecipeCountAttribute()
+    {
+        return array_count_values($this->itemGroups()
+            ->pluck('recipe_id')->all());
+    }
+
     /**
      * @param Recipe $recipe
      */
@@ -35,6 +55,7 @@ class GroceryList extends Model implements Transformable
         $itemRepository = app(GroceryListItemRepository::class);
 
         $group = GroceryListItemGroup::create([
+            'grocery_list_id' => $this->getKey(),
             'recipe_id' => $recipe->getKey()
         ]);
 

@@ -15,10 +15,12 @@ class CreateGroceryListItemGroupsTable extends Migration
     {
         Schema::create('grocery_list_item_groups', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('grocery_list_id');
             $table->unsignedInteger('recipe_id');
             $table->timestamps();
 
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
+            $table->foreign('grocery_list_id')->references('id')->on('grocerylists')->onDelete('cascade');
         });
     }
 

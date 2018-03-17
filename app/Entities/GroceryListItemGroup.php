@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class GroceryListItemGroup extends Model
 {
     protected $fillable = [
-        'recipe_id'
+        'recipe_id', 'grocery_list_id'
     ];
 }

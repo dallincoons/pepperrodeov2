@@ -75,4 +75,40 @@ class AddRecipeToGroceryListTest extends TestCase
         $this->assertEquals($recipe->getKey(), $firstItem->group->recipe_id);
         $this->assertEquals($recipe->getKey(), $lastItem->group->recipe_id);
     }
+
+    /** @test */
+    public function gets_a_list_of_recipes_through()
+    {
+        /** @var $grocerylist GroceryList */
+        $grocerylist = factory(GroceryList::class)->create();
+
+        $recipe = factory(Recipe::class)->create();
+        $recipe2 = factory(Recipe::class)->create();
+
+        $this->assertCount(0, $grocerylist->items);
+
+        $grocerylist->addRecipe($recipe);
+        $grocerylist->addRecipe($recipe);
+        $grocerylist->addRecipe($recipe2);
+
+        $this->assertCount(2, $grocerylist->recipes);
+    }
+
+    /** @test */
+    public function get_unique_recipe_count()
+    {
+        $grocerylist = factory(GroceryList::class)->create();
+
+        $recipe = factory(Recipe::class)->create();
+        $recipe2 = factory(Recipe::class)->create();
+
+        $grocerylist->addRecipe($recipe);
+        $grocerylist->addRecipe($recipe);
+        $grocerylist->addRecipe($recipe2);
+
+        $this->assertEquals([
+            $recipe->getKey() => 2,
+            $recipe2->getKey() => 1
+        ], $grocerylist->uniqueRecipeCount);
+    }
 }
