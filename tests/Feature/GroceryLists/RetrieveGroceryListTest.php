@@ -4,7 +4,6 @@ namespace Tests\Feature\GroceryList;
 
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
-use App\Entities\GroceryListItemGroup;
 use App\Entities\Recipe;
 use App\User;
 use Carbon\Carbon;

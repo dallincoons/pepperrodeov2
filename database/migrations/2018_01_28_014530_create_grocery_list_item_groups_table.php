@@ -20,7 +20,7 @@ class CreateGroceryListItemGroupsTable extends Migration
             $table->timestamps();
 
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-            $table->foreign('grocery_list_id')->references('id')->on('grocerylists')->onDelete('cascade');
+            $table->foreign('grocery_list_id')->references('id')->on('grocery_lists')->onDelete('cascade');
         });
     }
 
