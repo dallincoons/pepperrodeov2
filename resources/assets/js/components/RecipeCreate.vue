@@ -24,11 +24,11 @@
                 <div v-show="toggleIngredients">
                     <input class="ingredients-input" v-model="ingredientDescription"><span @click="addIngredient">+</span>
                     <ul>
-                        <li v-for="ingredient in ingredients">{{ingredient.description}}</li>
+                        <li v-for="(ingredient, index) in ingredients">{{ingredient.description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
                     </ul>
                     <h5>Need to Buy</h5>
                     <ul>
-                        <li v-for="needToBuy in needToBuys">{{needToBuy.description}}</li>
+                        <li v-for="(needToBuy, index) in needToBuys">{{needToBuy.description}} <div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
                     </ul>
                 </div>
 
@@ -48,13 +48,14 @@
 
 <script>
     import NewIngredientForm from './NewIngredientForm.vue';
-
+    import TrashCan from './assets/trashcan.vue';
     import Categories from './resources/Categories.js';
     import Recipes from './resources/Recipes.js';
 
     export default {
         components : {
-            NewIngredientForm
+            NewIngredientForm,
+            TrashCan
         },
         data() {
             return {

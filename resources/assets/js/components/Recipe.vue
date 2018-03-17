@@ -167,7 +167,6 @@
 
             axios.get('/api/v1/grocery-lists').then((response) => {
                 this.lists = response.data.data;
-                console.log(this.lists);
             });
 
             axios.get('/api/v1/departments').then((response) => {
