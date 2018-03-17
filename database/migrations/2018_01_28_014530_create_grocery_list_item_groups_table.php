@@ -18,7 +18,7 @@ class CreateGroceryListItemGroupsTable extends Migration
             $table->unsignedInteger('recipe_id');
             $table->timestamps();
 
-            $table->foreign('recipe_id')->references('id')->on('recipes');
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
     }
 
