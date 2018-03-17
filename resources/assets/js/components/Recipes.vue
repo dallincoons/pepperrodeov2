@@ -14,7 +14,7 @@
             <button @click="addRecipesToList">Add to List</button>
         </div>
 
-        <div class="drop-wrapper" id="searchBox">
+        <div class="drop-wrapper" :class="{'show-box' : searchOpen}">
             <caret class="drop-caret"></caret>
             <input type="text" class="drop-input"><button class="drop-button">Search</button>
             <div class="radio-wrapper">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="container-body recipes-wrapper " id="recipes-container">
+        <div class="container-body recipes-wrapper" :class="{'margin-transition' : searchOpen}">
             <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
                 <h3 class="dept_heading">{{categoryName}}</h3>
                 <ul class="recipes-list">
@@ -80,18 +80,7 @@
 
         methods : {
             toggleSearch() {
-                let recipesContainer = document.getElementById("recipes-container");
-                let searchBox = document.getElementById("searchBox");
-                if(this.searchOpen === false) {
-                    this.searchOpen = true;
-                    recipesContainer.classList.add("margin-transition");
-                    searchBox.classList.add("show-box");
-                } else {
-                    this.searchOpen = false;
-                    recipesContainer.classList.remove("margin-transition");
-                    searchBox.classList.remove("show-box");
-                }
-
+                this.searchOpen = !this.searchOpen;
             },
 
             toggleShowLists() {
