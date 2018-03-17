@@ -5,6 +5,7 @@ namespace Tests\Feature\GroceryList;
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use App\Entities\GroceryListItemGroup;
+use App\Entities\Recipe;
 use App\User;
 use Carbon\Carbon;
 use Tests\Fakers\GroceryListFaker;
@@ -110,5 +111,19 @@ class RetrieveGroceryListTest extends TestCase
         $this->assertEquals($newest->title, $response[0]['title']);
         $this->assertEquals($second->title, $response[1]['title']);
         $this->assertEquals($oldest->title, $response[2]['title']);
+    }
+
+    /** @test */
+    public function gets_recipes_with_list()
+    {
+        $grocerylist = factory(GroceryList::class)->create();
+        $recipe = factory(Recipe::class)->create();
+
+        $grocerylist->addRecipe($recipe);
+
+        $response = $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
+
+        $this->assertArrayHasKey('recipes', $response->decodeResponseJson());
+        $this->assertArrayHasKey('uniqueRecipeCount', $response->decodeResponseJson());
     }
 }

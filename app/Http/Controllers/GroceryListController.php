@@ -32,7 +32,7 @@ class GroceryListController
     {
         $grocerylist->load(['items', 'items.department']);
 
-        $grocerylist->append('combinedItems');
+        $grocerylist->append('combinedItems', 'recipes', 'uniqueRecipeCount');
 
         return response()->json($grocerylist, 200);
     }
