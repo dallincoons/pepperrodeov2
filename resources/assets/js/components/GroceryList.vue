@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <div v-if="!viewListRecipes">
         <full-screen-modal
                 v-if="addRecipesModalShown"
                 @close="addRecipesModalShown = !addRecipesModalShown"
@@ -25,7 +26,18 @@
         </full-screen-modal>
 
         <div class="container-heading list-heading">
-            <h2 v-if="!editable">{{list.title}}</h2><input v-else v-model="list.title" style="color: #3f3f3f">
+            <h2 v-if="!editable">{{list.title}}</h2><input v-else v-model="list.title"><div @click="toggleOptions"><span>...</span></div>
+            <modal
+                v-if="optionModal"
+                @close="optionModal = !optionModal"
+                >
+                <ul>
+                    <li>Edit List</li>
+                    <li @click="toggleViewListRecipes">View Recipes on List</li>
+                    <li>Share List</li>
+                    <li>Delete List</li>
+                </ul>
+            </modal>
             <div class="button-wrapper">
                 <button class="sq-button" @click="toggleAddItems"> Add Item</button>
                 <button class="sq-button" @click="viewRecipes">Add Recipe(s)</button>
@@ -67,8 +79,11 @@
             </div>
 
         </div>
-    </div>
 
+        </div>
+
+        <recipes-on-list v-if="viewListRecipes" @close="viewListRecipes = !viewListRecipes"></recipes-on-list>
+    </div>
 </template>
 
 <script>
@@ -77,6 +92,8 @@
     import NewItemForm from './GroceryList/NewItemForm.vue';
     import Caret from './assets/caret.vue';
     import FullScreenModal from './FullScreenModal.vue';
+    import Modal from './Modal.vue';
+    import RecipesOnList from './RecipesOnList';
 
     export default {
 
@@ -84,22 +101,26 @@
             EditItemModal,
             NewItemForm,
             Caret,
-            FullScreenModal
+            FullScreenModal,
+            Modal,
+            RecipesOnList
         },
 
         data(){
             return {
-                showModal   : false,
-                list        : {},
-                listId      : '',
-                description : '',
-                departments : '',
-                itemToUpdate : '',
-                editable     : false,
-                recipes      : [],
-                checkedRecipes : [],
-                dropOpen : false,
-                addRecipesModalShown : false
+                showModal: false,
+                list: {},
+                listId: '',
+                description: '',
+                departments: '',
+                itemToUpdate: '',
+                editable: false,
+                recipes: [],
+                checkedRecipes: [],
+                dropOpen: false,
+                addRecipesModalShown: false,
+                optionModal: false,
+                viewListRecipes: false
             }
         },
 
@@ -211,6 +232,15 @@
                 }
 
             },
+
+            toggleOptions() {
+                this.optionModal = !this.optionModal;
+            },
+
+            toggleViewListRecipes() {
+                this.toggleOptions();
+                this.viewListRecipes = !this.viewListRecipes;
+            }
         }
     }
 </script>
