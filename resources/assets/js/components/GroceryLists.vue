@@ -21,7 +21,7 @@
                 <button class="sq-button" @click="toggleSearch"><search class="button-icon"></search>Search</button>
             </div>
 
-            <div class="drop-wrapper" id="searchBox">
+            <div class="drop-wrapper" :class="{'show-box' : searchOpen}">
                 <caret class="drop-caret"></caret>
                 <input type="text" class="drop-input"><button class="drop-button">Search</button>
                 <div class="radio-wrapper">
@@ -32,7 +32,7 @@
 
         </div>
 
-        <div class="container-body" id="body-container">
+        <div class="container-body" :class="{'margin-transition' : searchOpen}">
 
             <ul class="list-container">
                 <li v-for="list in grocerylists" class="grocery-list grow"><router-link :to="{ name: 'grocery-lists', params: { id: list.id }}" >{{list.title}}</router-link></li>
@@ -85,18 +85,7 @@
             },
 
             toggleSearch() {
-                let bodyContainer = document.getElementById("body-container");
-                let searchBox = document.getElementById("searchBox");
-                if(this.searchOpen === false) {
-                    this.searchOpen = true;
-                    bodyContainer.classList.add("margin-transition");
-                    searchBox.classList.add("show-box");
-                } else {
-                    this.searchOpen = false;
-                    bodyContainer.classList.remove("margin-transition");
-                    searchBox.classList.remove("show-box");
-                }
-
+                this.searchOpen = !this.searchOpen;
             },
 
             newListModal() {
@@ -111,14 +100,6 @@
                     this.$router.push({ path: `/grocery-lists/${response.data.data.id}` });
                 });
             }
-
-            // toggleSearch() {
-            //     if(this.searchClosed === true) {
-            //         this.searchClosed = false;
-            //     } else {
-            //         this.searchGroceryLists();
-            //     }
-            // }
         }
     }
 </script>
