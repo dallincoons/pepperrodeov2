@@ -35,7 +35,7 @@
                     <li>Edit List</li>
                     <li @click="toggleViewListRecipes">View Recipes on List</li>
                     <li>Share List</li>
-                    <li>Delete List</li>
+                    <li @click="deleteList">Delete List</li>
                 </ul>
             </modal>
             <div class="button-wrapper">
@@ -44,13 +44,13 @@
             </div>
              <!--<span v-if="!editable" @click="editable = true">Edit Title</span>-->
             <!--<span @click="updateListTitle" v-else>Save Title</span>-->
-            <div class="drop-wrapper" id="drop-wrapper">
+            <div class="drop-wrapper" :class="show-box">
                 <caret class="add-item-caret drop-caret"></caret>
                 <new-item-form @updated="getList" :departments="departments"></new-item-form>
             </div>
         </div>
 
-        <div class="container-body ex-neg-margin" id="body-container">
+        <div class="container-body ex-neg-margin" :class="margin-transition">
             <div class="add-item-section">
                 <!--<span class="add-item-text">Add Item</span>-->
                 <!--<new-item-form @updated="getList" :departments="departments"></new-item-form>-->
@@ -205,7 +205,6 @@
                 });
             },
 
-
             viewRecipes() {
                 this.addRecipesModalShown = true;
             },
@@ -219,18 +218,7 @@
             },
 
             toggleAddItems() {
-                let bodyContainer = document.getElementById("body-container");
-                let dropWrapper = document.getElementById("drop-wrapper");
-                if(this.dropOpen === false) {
-                    this.dropOpen = true;
-                    bodyContainer.classList.add("margin-transition");
-                    dropWrapper.classList.add("show-box");
-                } else {
-                    this.dropOpen = false;
-                    bodyContainer.classList.remove("margin-transition");
-                    dropWrapper.classList.remove("show-box");
-                }
-
+                this.dropOpen = !this.dropOopen;
             },
 
             toggleOptions() {
@@ -240,6 +228,17 @@
             toggleViewListRecipes() {
                 this.toggleOptions();
                 this.viewListRecipes = !this.viewListRecipes;
+            },
+
+            deleteList() {
+                if(confirm('do you want to do it?')) {
+
+                    GroceryLists.delete(this.listId).then(response => {
+                        this.optionModal = !this.optionModal;
+                        this.$router.push({path : `/grocery-lists`});
+                    });
+
+                }
             }
         }
     }

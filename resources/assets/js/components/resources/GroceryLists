@@ -1,8 +1,13 @@
 const getEndpoint = '/api/v1/grocery-lists';
+const deleteEndpoint = '/api/v1/grocery-lists/';
 
 export default {
     get() {
         return axios.get(getEndpoint);
+    },
+
+    delete(id) {
+        return axios.delete(deleteEndpoint + id);
     },
 
     addRecipes(list, recipes) {
