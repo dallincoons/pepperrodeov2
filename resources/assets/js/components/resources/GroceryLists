@@ -6,6 +6,10 @@ export default {
         return axios.get(getEndpoint);
     },
 
+    save(listTitle) {
+        return axios.post('/api/v1/grocery-lists', {title : listTitle});
+    },
+
     delete(id) {
         return axios.delete(deleteEndpoint + id);
     },

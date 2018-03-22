@@ -8,8 +8,8 @@
             <h4 class="modal-heading">Add New List</h4>
             <div class="container-create">
                 <form v-on:submit.prevent class="create-form">
-                    <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveTitle()" class="title-input" placeholder="List Title">
-                    <button type="button" @click="saveTitle()" class="dk-modal-button">Next</button>
+                    <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">
+                    <button type="button" @click="saveList()" class="dk-modal-button">Next</button>
                 </form>
             </div>
         </modal>
@@ -95,8 +95,8 @@
             hideNewGroceryListModal() {
                 this.newGroceryListModalShown = false;
             },
-            saveTitle() {
-                axios.post('/api/v1/grocery-lists', {title : this.listTitle}).then((response) => {
+            saveList() {
+                GroceryLists.save(this.listTitle).then((response) => {
                     this.$router.push({ path: `/grocery-lists/${response.data.data.id}` });
                 });
             }

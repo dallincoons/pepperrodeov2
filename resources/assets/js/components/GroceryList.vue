@@ -44,13 +44,13 @@
             </div>
              <!--<span v-if="!editable" @click="editable = true">Edit Title</span>-->
             <!--<span @click="updateListTitle" v-else>Save Title</span>-->
-            <div class="drop-wrapper" :class="show-box">
+            <div class="drop-wrapper" :class="{'show-box' : dropOpen}">
                 <caret class="add-item-caret drop-caret"></caret>
                 <new-item-form @updated="getList" :departments="departments"></new-item-form>
             </div>
         </div>
 
-        <div class="container-body ex-neg-margin" :class="margin-transition">
+        <div class="container-body ex-neg-margin" :class="{'margin-transition' : dropOpen}">
             <div class="add-item-section">
                 <!--<span class="add-item-text">Add Item</span>-->
                 <!--<new-item-form @updated="getList" :departments="departments"></new-item-form>-->
@@ -218,7 +218,7 @@
             },
 
             toggleAddItems() {
-                this.dropOpen = !this.dropOopen;
+                this.dropOpen = !this.dropOpen;
             },
 
             toggleOptions() {

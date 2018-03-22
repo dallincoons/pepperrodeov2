@@ -11,7 +11,20 @@
             <select v-model="selectedList">
                 <option v-for="list in lists" :value="list.id"> {{list.title}}</option>
             </select>
-            <button @click="addRecipesToList">Add to List</button>
+            <button @click="addRecipesToList">Add to List</button><button @click="toggleNewList">New List</button>
+            <modal
+                    v-if="newGroceryListModalShown"
+                    @close="newGroceryListModalShown = !newGroceryListModalShown"
+            >
+                <span slot="close" class="modal-close">X</span>
+                <h4 class="modal-heading">Add New List</h4>
+                <div class="container-create">
+                    <form v-on:submit.prevent class="create-form">
+                        <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">
+                        <button type="button" @click="saveList()" class="dk-modal-button">Next</button>
+                    </form>
+                </div>
+            </modal>
         </div>
 
         <div class="drop-wrapper" :class="{'show-box' : searchOpen}">
@@ -46,13 +59,15 @@
     import Search from './assets/search.vue';
     import AddToList from './assets/add-to-list.vue';
     import Caret from './assets/caret.vue';
+    import Modal from './Modal.vue'
 
     export default {
         components : {
             AddIconDark,
             Search,
             AddToList,
-            Caret
+            Caret,
+            Modal
         },
 
         data() {
@@ -62,7 +77,9 @@
                 showLists: false,
                 lists: [],
                 selectedList : '',
-                checkedRecipes: []
+                checkedRecipes: [],
+                newGroceryListModalShown : false,
+                listTitle : ''
             }
         },
 
@@ -76,6 +93,7 @@
             Recipes.all().then((response) => {
                 this.recipes = response.data;
             });
+
         },
 
         methods : {
@@ -85,6 +103,10 @@
 
             toggleShowLists() {
                 this.showLists = !this.showLists;
+                this.getLists();
+            },
+
+            getLists() {
                 GroceryLists.get().then((response) => {
                     this.lists = response.data.data;
                 });
@@ -94,6 +116,17 @@
                 GroceryLists.addRecipes(this.selectedList, this.checkedRecipes).then((response) => {
                     this.checkedRecipes = [];
                     this.showLists = false;
+                });
+            },
+
+            toggleNewList() {
+                this.newGroceryListModalShown = !this.newGroceryListModalShown;
+            },
+
+            saveList() {
+                this.toggleNewList();
+                GroceryLists.save(this.listTitle).then((response) => {
+                    this.getLists();
                 });
             }
         }
