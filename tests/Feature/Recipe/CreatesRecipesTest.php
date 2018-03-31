@@ -21,7 +21,10 @@ class CreatesRecipesTest extends TestCase
     {
         $response = $this->createRecipe([
             'title'      => 'foo bar',
-            'directions' => 'cook things'
+            'directions' => 'cook things',
+            'prep_time'  => '15 minute hours',
+            'total_time'  => '26 seconds plus 1 day',
+            'serves'      => 'ur mom',
         ]);
 
         $response->assertSuccessful();
@@ -31,6 +34,9 @@ class CreatesRecipesTest extends TestCase
 
         $this->assertEquals('foo bar', $recipe->title);
         $this->assertEquals('cook things', $recipe->directions);
+        $this->assertEquals('15 minute hours', $recipe->prep_time);
+        $this->assertEquals('26 seconds plus 1 day', $recipe->total_time);
+        $this->assertEquals('ur mom', $recipe->serves);
     }
 
     /** @test */

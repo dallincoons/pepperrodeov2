@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Recipe extends Model
 {
     protected $fillable = [
-        'title', 'directions', 'category_id', 'user_id'
+        'title', 'directions',
+        'category_id', 'prep_time',
+        'total_time', 'serves',
+        'user_id'
     ];
 
     public function ingredients()

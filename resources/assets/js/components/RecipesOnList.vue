@@ -2,7 +2,7 @@
     <div>
         <button @click="back">Back</button>
         <ul>
-            <li v-for="recipe in recipes">{{recipe.title}}</li>
+            <li v-for="recipe in recipes"><a :href="'#/recipe/' + recipe.id">{{recipe.title}}</a></li>
         </ul>
     </div>
 </template>

@@ -11,9 +11,9 @@
                     </div>
                 </div>
                 <div class="grid-row-2">
-                    <div class="grid-item"><span class="grid-label">Prep Time</span><input type="text"></div>
-                    <div class="grid-item"><span class="grid-label">Total Time</span><input type="text"></div>
-                    <div class="grid-item"><span class="grid-label">Serves</span><input type="text"></div>
+                    <div class="grid-item"><span class="grid-label">Prep Time</span><input type="text" v-model="prepTime"></div>
+                    <div class="grid-item"><span class="grid-label">Total Time</span><input type="text" v-model="totalTime"></div>
+                    <div class="grid-item"><span class="grid-label">Serves</span><input type="text" v-model="serves"></div>
                 </div>
             </div>
             <div class="main-content">
@@ -68,7 +68,10 @@
                 needToBuys            : [],
                 directions            : '',
                 departments           : '',
-                toggleIngredients     : true
+                toggleIngredients     : true,
+                prepTime             : '',
+                totalTime            : '',
+                serves            : '',
             }
         },
         mounted() {
@@ -86,7 +89,10 @@
                     category_id             : this.selectedCategory,
                     ingredients          : this.ingredients,
                     listable_ingredients : this.needToBuys,
-                    directions           : this.directions
+                    directions           : this.directions,
+                    prep_time           : this.prepTime,
+                    total_time          : this.totalTime,
+                    serves              : this.serves
                 }).then((response) => {
                     this.$router.push({path : `/recipe/${response.data.id}`});
                 });

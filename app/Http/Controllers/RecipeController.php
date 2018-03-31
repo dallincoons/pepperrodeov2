@@ -42,6 +42,9 @@ class RecipeController extends Controller
         $recipe = $this->repository->create([
             'title'                => $request->title,
             'directions'           => $request->directions,
+            'prep_time'            => $request->prep_time,
+            'total_time'           => $request->total_time,
+            'serves'               => $request->serves,
             'category_id'          => $request->category_id,
             'user_id'              => \Auth::user()->getKey(),
             'ingredients'          => $request->ingredients,
