@@ -184,6 +184,11 @@
             },
 
             deleteRecipe() {
+                let deleteConfirm = confirm("Are you sure you want to delete " + this.recipe.title);
+                if (deleteConfirm === false) {
+                    return;
+                }
+
                 Recipe.delete(this.recipeId).then(response => {
                     if (response.status === 200) {
                         this.$router.push({path : `/recipes`});
