@@ -26,13 +26,17 @@
         </full-screen-modal>
 
         <div class="container-heading list-heading">
-            <h2 v-if="!editable">{{list.title}}</h2><input v-else v-model="list.title"><div @click="toggleOptions"><span>...</span></div>
+            <h2 v-if="!editable" @dblclick="editable = true">{{list.title}}</h2>
+            <div v-else>
+                <input v-model="list.title">
+                <span @click="updateListTitle">Save Title</span>
+            </div>
+            <div @click="toggleOptions"><span>...</span></div>
             <modal
                 v-if="optionModal"
                 @close="optionModal = !optionModal"
                 >
                 <ul>
-                    <li>Edit List</li>
                     <li @click="toggleViewListRecipes">View Recipes on List</li>
                     <li>Share List</li>
                     <li @click="deleteList">Delete List</li>
@@ -42,8 +46,7 @@
                 <button class="sq-button" @click="toggleAddItems"> Add Item</button>
                 <button class="sq-button" @click="viewRecipes">Add Recipe(s)</button>
             </div>
-             <!--<span v-if="!editable" @click="editable = true">Edit Title</span>-->
-            <!--<span @click="updateListTitle" v-else>Save Title</span>-->
+
             <div class="drop-wrapper" :class="{'show-box' : dropOpen}">
                 <caret class="add-item-caret drop-caret"></caret>
                 <new-item-form @updated="getList" :departments="departments"></new-item-form>
