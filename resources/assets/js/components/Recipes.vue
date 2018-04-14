@@ -21,7 +21,7 @@
                 <div class="container-create">
                     <form v-on:submit.prevent class="create-form">
                         <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">
-                        <button type="button" @click="saveList()" class="dk-modal-button">Next</button>
+                        <button type="button" @click="saveList()" class="dk-modal-button">Save</button>
                     </form>
                 </div>
             </modal>
@@ -127,6 +127,7 @@
                 this.toggleNewList();
                 GroceryLists.save(this.listTitle).then((response) => {
                     this.getLists();
+                    this.selectedList = response.data.data.id;
                 });
             }
         }
