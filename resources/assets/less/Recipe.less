@@ -1,13 +1,82 @@
 .recipe-wrapper {
   display: flex;
-  background: lighten(@pr-brand-color, 40%);
-  //box-shadow: 0 0 15px 5px rgba(27,26,26,0.05);
-  width: 80%;
-  border-radius: 10px;
-  margin-bottom: 40px;
-  margin-top: 50px;
-  font-size: 1.2em;
+  flex-direction: column;
+  align-self: center;
+  border: 1px solid @pr-brand-grey;
 }
+
+.recipeHeader {
+  //display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  border-bottom: 2px solid @pr-brand-grey;
+}
+
+.recipeTitleCat {
+  //flex: 2 2;
+  margin: .5rem;
+
+
+}
+
+.recipe-title {
+  margin: 0;
+  font-weight: 700;
+}
+.recipe-category {
+  font-style: italic;
+  font-weight: 300;
+  margin-top: 5px;
+}
+
+.recipeExtraInfo {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  justify-content: flex-end;
+  align-content: flex-end;
+  grid-column: 2;
+}
+
+.recipeInfo {
+  display: flex;
+  margin: .5rem;
+  width: 100%;
+}
+
+.recipeInfoTitle {
+  width: 30%;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0;
+  flex: 1 1;
+}
+
+.recipeInfoDetail {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 700;
+  flex: 1 1;
+}
+
+.recipeActions {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  justify-items: center;
+}
+
+.recipeAction {
+  width: 4.5rem;
+  height: 4.5rem;
+  background: @pr-brand-grey;
+  border-radius: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
 .side-section {
   width: 30%;
   background: lighten(@pr-brand-color, 20%);
@@ -35,15 +104,7 @@
 .recipe-heading {
   margin-bottom: 3%;
 }
-.recipe-title {
-  margin: 0;
-  font-weight: 300;
-}
-.recipe-category {
-  font-style: italic;
-  font-weight: 300;
-  margin-top: 5px;
-}
+
 .need-to-buys-section {
   margin-top: 5%;
 }

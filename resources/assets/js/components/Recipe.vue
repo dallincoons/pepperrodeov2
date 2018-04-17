@@ -1,5 +1,61 @@
 <template>
         <div class="recipe-wrapper">
+            <div class="recipeHeader">
+                <div class="recipeTitleCat">
+                    <h3 class="recipe-title">
+                        <span v-if="!editable">{{recipe.title}} </span>
+                        <input :value="recipe.title" v-else v-model="recipe.title" class="edit-heading">
+                    </h3>
+                    <h5 class="recipe-category">
+                        <span v-if="!editable">{{category.title}}</span>
+                        <select v-model="recipe.category.id" v-else class="edit-category">
+                            <option v-for="category in categories" :value="category.id">{{category.title}}</option>
+                        </select>
+                    </h5>
+                </div>
+                <div class="recipeExtraInfo">
+                    <div class="recipeInfo">
+                        <h4 class="recipeInfoTitle">Prep Time </h4><h4 class="recipeInfoDetail">15 min</h4>
+                    </div>
+                    <div class="recipeInfo">
+                        <h4 class="recipeInfoTitle">Total Time </h4><h4 class="recipeInfoDetail">45 min</h4>
+                    </div>
+                    <div class="recipeInfo">
+                        <h4 class="recipeInfoTitle">Serves </h4><h4 class="recipeInfoDetail">5 - 6</h4>
+                    </div>
+                </div>
+                <div class="recipeActions">
+                    <span class="recipeAction">
+                        <addToList></addToList>
+                    </span>
+                    <span class="recipeAction">
+                        <editIcon></editIcon>
+                    </span>
+                    <span class="recipeAction">
+                        <span>SH</span>
+                    </span>
+                    <span class="recipeAction">
+                        <trashIcon></trashIcon>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1 can of bs</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Need to Buy</h3>
+                    </div>
+                </div>
+                <div>
+                    <h3>Directions</h3>
+                    <p>Do stuff</p>
+                </div>
+            </div>
             <div class="recipe-heading sm-scrn">
                 <h3 class="recipe-title">
                     <span v-if="!editable">{{recipe.title}} </span>
@@ -132,6 +188,7 @@
     import AddIcon from './assets/add-icon.vue';
     import AddIconDark from './assets/add-icon-dark.vue';
     import EditIcon from './assets/edit-icon.vue';
+    import AddToList from './assets/add-to-list.vue';
 
     export default {
         components : {
@@ -141,7 +198,8 @@
             TrashIconWhite,
             AddIcon,
             AddIconDark,
-            EditIcon
+            EditIcon,
+            AddToList
         },
 
         data() {
