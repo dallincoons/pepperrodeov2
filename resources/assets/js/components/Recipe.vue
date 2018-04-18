@@ -25,18 +25,24 @@
                     </div>
                 </div>
                 <div class="recipeActions">
-                    <span class="recipeAction">
+                    <div class="recipeAction" @click="toggleAddToList">
                         <addToList></addToList>
-                    </span>
-                    <span class="recipeAction">
+                    </div>
+                    <div class="recipeDropWrapper" :class="{'show-box' : addToListVisible}">
+                        <select v-model="groceryListId">
+                            <option v-for="list in lists" :value="list.id">{{list.title}}</option>
+                        </select>
+                        <span @click="addToList">Add to List</span>
+                    </div>
+                    <div class="recipeAction">
                         <editIcon></editIcon>
-                    </span>
-                    <span class="recipeAction">
+                    </div>
+                    <div class="recipeAction">
                         <span>SH</span>
-                    </span>
-                    <span class="recipeAction">
+                    </div>
+                    <div class="recipeAction">
                         <trashIcon></trashIcon>
-                    </span>
+                    </div>
                 </div>
             </div>
             <div>
@@ -67,9 +73,7 @@
                         <option v-for="category in categories" :value="category.id">{{category.title}}</option>
                     </select>
                 </h5>
-                <select v-model="groceryListId">
-                    <option v-for="list in lists" :value="list.id">{{list.title}}</option>
-                </select>  <span @click="addToList">Add to List</span>
+
             </div>
             <div class="side-section">
                 <h4 class="add-ingredient-headings">Ingredients
@@ -211,7 +215,8 @@
                 groceryListId : '',
                 recipeId : '',
                 lists : [],
-                departments : ''
+                departments : '',
+                addToListVisible : false
             }
         },
 
@@ -290,6 +295,11 @@
             addToList() {
                 console.log(this.groceryListId);
                 axios.post('api/v1/grocerylist/'+this.groceryListId+'/add-recipe/'+this.recipeId);
+            },
+
+            toggleAddToList(){
+                this.addToListVisible = !this.addToListVisible;
+                console.log(this.addToListVisible);
             }
         }
     }
