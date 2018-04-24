@@ -54,7 +54,9 @@
                 </div>
             </div>
             <div class="recipeBody">
-                <div class="recipeItems">
+                <h4 @click="toggleRecipeView" class="sm-scrn recipeIngredientSubheading">Ingredients</h4>
+                <h4 @click="toggleRecipeView" class="sm-scrn recipeDirectionsSubheading">Directions</h4>
+                <div class="recipeItems" :class="{'viewIngredients' : toggleIngredients}">
                     <div class="ingredientsWrapper">
                         <h4 class="add-ingredient-headings">Ingredients
                             <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">
@@ -83,7 +85,7 @@
                     </div>
                     <div class="needToBuyWrapper">
                         <div class="need-to-buys-section">
-                            <h4 class="add-ingredient-headings">Need to Buy
+                            <h4 class="add-ingredient-headings sm-scrn-heading">Need to Buy
                                 <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-lg">
                             <add-icon height="18" width="18"></add-icon>
                         </span>
@@ -111,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="directionsWrapper">
+                <div class="directionsWrapper" :class="{'viewDirections' : toggleDirections}">
                     <div class="saved-directions">
                         <h4 class="add-ingredient-headings">Directions</h4>
                         <p class="directions-text">
@@ -167,7 +169,9 @@
                 recipeId : '',
                 lists : [],
                 departments : '',
-                addToListVisible : false
+                addToListVisible : false,
+                toggleIngredients : true,
+                toggleDirections : false
             }
         },
 
@@ -251,6 +255,11 @@
             toggleAddToList(){
                 this.addToListVisible = !this.addToListVisible;
                 console.log(this.addToListVisible);
+            },
+
+            toggleRecipeView(){
+                this.toggleIngredients = !this.toggleIngredients;
+                this.toggleDirections = !this.toggleDirections;
             }
         }
     }
