@@ -228,7 +228,13 @@
   .recipe-wrapper {
     width: 85%;
     min-width: 350px;
+    border: none;
   }
+
+  .recipeHeader {
+    border-bottom: none;
+  }
+
   .recipeBody {
     grid-template-columns: .5fr 1fr 1fr .5fr;
   }
@@ -245,12 +251,12 @@
 
   .recipeIngredientSubheading {
       grid-column-start:2 ;
-      text-align: center;
+      //text-align: center;
   }
 
   .recipeDirectionsSubheading {
     grid-column-start:3 ;
-    text-align: center;
+    //text-align: center;
   }
   .sm-scrn {
     display: grid;
@@ -272,5 +278,13 @@
   }
   .sm-scrn-heading {
     display: flex;
+  }
+
+  .saved-list-of-ingredients {
+    padding: 0;
+  }
+
+  .saved-buy-item-list {
+    padding: 0;
   }
 }
