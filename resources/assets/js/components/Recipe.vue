@@ -1,7 +1,7 @@
 <template>
         <div class="recipe-wrapper">
-            <div class="recipeHeader">
-                <div class="recipeTitleCat">
+            <div class="recipe-header">
+                <div class="recipe-title-cat">
                     <h3 class="recipe-title">
                         <span v-if="!editable">{{recipe.title}} </span>
                         <input :value="recipe.title" v-else v-model="recipe.title" class="edit-heading">
@@ -13,39 +13,39 @@
                         </select>
                     </h5>
                 </div>
-                <div class="recipeExtraInfo">
-                    <div class="recipeInfo">
-                        <h4 class="recipeInfoTitle">Prep Time </h4><h4 class="recipeInfoDetail">15 min</h4>
+                <div class="recipe-extra-info">
+                    <div class="recipe-info">
+                        <h4 class="recipe-info-title">Prep Time </h4><h4 class="recipe-info-detail">15 min</h4>
                     </div>
-                    <div class="recipeInfo">
-                        <h4 class="recipeInfoTitle">Total Time </h4><h4 class="recipeInfoDetail">45 min</h4>
+                    <div class="recipe-info">
+                        <h4 class="recipe-info-title">Total Time </h4><h4 class="recipe-info-detail">45 min</h4>
                     </div>
-                    <div class="recipeInfo">
-                        <h4 class="recipeInfoTitle">Serves </h4><h4 class="recipeInfoDetail">5 - 6</h4>
+                    <div class="recipe-info">
+                        <h4 class="recipe-info-title">Serves </h4><h4 class="recipe-info-detail">5 - 6</h4>
                     </div>
                 </div>
-                <div class="recipeActions">
-                    <div class="recipeAction" @click="toggleAddToList">
+                <div class="recipe-actions">
+                    <div class="recipe-action" @click="toggleAddToList">
                         <addToList></addToList>
                     </div>
-                    <div class="recipeAction" v-if="!editable" @click="editable=true">
+                    <div class="recipe-action" v-if="!editable" @click="editable=true">
                         <editIcon></editIcon>
                     </div>
-                    <div v-if="editable" @click="updateRecipe" class="recipeAction">
+                    <div v-if="editable" @click="updateRecipe" class="recipe-action">
                         <save-icon></save-icon>
                     </div>
-                    <div v-if="editable" @click="editable=false" class="recipeAction">
+                    <div v-if="editable" @click="editable=false" class="recipe-action">
                         <cancel-icon></cancel-icon>
                     </div>
-                    <div class="recipeAction">
+                    <div class="recipe-action">
                         <span>SH</span>
                     </div>
-                    <div class="recipeAction" @click="deleteRecipe">
+                    <div class="recipe-action" @click="deleteRecipe">
                         <trashIcon></trashIcon>
                     </div>
                 </div>
-                <div class="recipeOptions" :class="{'show-options' : addToListVisible}">
-                    <div class="recipeDropWrapper" :class="{'show-box' : addToListVisible}">
+                <div class="recipe-options" :class="{'show-options' : addToListVisible}">
+                    <div class="recipe-drop-wrapper" :class="{'show-box' : addToListVisible}">
                         <select v-model="groceryListId">
                             <option v-for="list in lists" :value="list.id">{{list.title}}</option>
                         </select>
@@ -53,11 +53,11 @@
                     </div>
                 </div>
             </div>
-            <div class="recipeBody">
-                <h4 @click="toggleRecipeView" class="sm-scrn recipeIngredientSubheading">Ingredients</h4>
-                <h4 @click="toggleRecipeView" class="sm-scrn recipeDirectionsSubheading">Directions</h4>
-                <div class="recipeItems" :class="{'viewIngredients' : toggleIngredients}">
-                    <div class="ingredientsWrapper">
+            <div class="recipe-body">
+                <h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
+                <h4 @click="toggleRecipeView" class="sm-scrn recipe-directions-subheading">Directions</h4>
+                <div class="recipe-items" :class="{'viewIngredients' : toggleIngredients}">
+                    <div class="ingredients-wrapper">
                         <h4 class="add-ingredient-headings">Ingredients
                             <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">
                                 <add-icon></add-icon>
@@ -83,7 +83,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="needToBuyWrapper">
+                    <div class="need-to-buys-wrapper">
                         <div class="need-to-buys-section">
                             <h4 class="add-ingredient-headings sm-scrn-heading">Need to Buy
                                 <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-lg">
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="directionsWrapper" :class="{'viewDirections' : toggleDirections}">
+                <div class="directions-wrapper" :class="{'viewDirections' : toggleDirections}">
                     <div class="saved-directions">
                         <h4 class="add-ingredient-headings">Directions</h4>
                         <p class="directions-text">

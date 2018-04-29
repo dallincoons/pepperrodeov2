@@ -1,11 +1,11 @@
 <template>
-    <div class="container">
-        <div class="main">
-            <div class="grid-heading">
+    <div class="recipe-wrapper">
+        <div class="recipe-header">
+            <div class="recipe-title-cat">
                 <div class="grid-row-1">
                     <div class="grid-item"><span class="grid-label">Title</span><input type="text" required v-model="recipeTitle"></div>
                     <div class="grid-item"><span class="grid-label">Category</span>
-                        <select v-model="selectedCategory">
+                        <select v-model="selectedCategory" class="recipe-category-select">
                             <option v-for="category in  categories" :value="category.id">{{category.title}}</option>
                         </select>
                     </div>
@@ -16,23 +16,31 @@
                     <div class="grid-item"><span class="grid-label">Serves</span><input type="text" v-model="serves"></div>
                 </div>
             </div>
-            <div class="main-content">
-                <div class="toggleSection">
-                    <h4 @click="toggleIngredients = true">Ingredients</h4>
-                    <h4 @click="toggleIngredients = false">Directions</h4>
-                </div>
-                <div v-show="toggleIngredients">
-                    <input class="ingredients-input" v-model="ingredientDescription"><span @click="addIngredient">+</span>
-                    <ul>
-                        <li v-for="(ingredient, index) in ingredients">{{ingredient.description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
-                    </ul>
-                    <h5>Need to Buy</h5>
-                    <ul>
-                        <li v-for="(needToBuy, index) in needToBuys">{{needToBuy.description}} <div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
+        </div>
+        <div class="recipe-body">
+            <h4 @click="toggleIngredients = true" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
+            <h4 @click="toggleIngredients = false" class="sm-scrn recipe-directions-subheading">Directions</h4>
+            <div class="recipe-items">
+                <div class="ingredients-wrapper">
+                    <h4 class="add-ingredient-headings">Ingredients <span @click="addIngredient">+</span></h4>
+                    <input class="ingredient-input" v-model="ingredientDescription">
+                    <ul class="saved-list-of-ingredients">
+                        <li v-for="(ingredient, index) in ingredients" class="ingredient-items">{{ingredient.description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
                     </ul>
                 </div>
+                <div class="need-to-buys-wrapper">
+                    <div class="need-to-buys-section">
+                        <h4 class="add-ingredient-headings sm-scrn-heading">Need to Buy</h4>
+                        <ul class="saved-buy-item-list">
+                            <li v-for="(needToBuy, index) in needToBuys" class="buy-items">{{needToBuy.description}}<div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
+                        </ul>
+                    </div>
 
-                <div v-show="!toggleIngredients">
+                </div>
+            </div>
+            <div class="directions-wrapper">
+                <div class="saved-directions">
+                    <h4 class="add-ingredient-headings">Directions</h4>
                     <textarea v-model="directions"></textarea>
                 </div>
                 <div>
