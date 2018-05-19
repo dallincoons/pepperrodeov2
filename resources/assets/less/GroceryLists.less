@@ -37,9 +37,30 @@
   padding: 2rem;
 }
 
+.list-heading h2 {
+  display: flex;
+}
+
+.list-options {
+  display: grid;
+  justify-items: center;
+  padding: 0 0 0 1rem;
+  cursor: pointer;
+}
+
+.list-options:hover {
+  color: @pr-brand-grey;
+}
+
 .grocery-list a {
   color: @pr-brand-dark;
   font-size: 2rem;
+  transition: all .3s ease-out;
+}
+
+.grocery-list a:hover {
+  color: @pr-brand-grey;
+  text-decoration: none;
 }
 
 .drop-wrapper {
@@ -51,7 +72,7 @@
   flex-wrap: wrap;
   position: relative;
   justify-content: center;
-  transition: all linear .8s;
+  transition: all linear .3s;
   opacity: 0;
   z-index: -1;
 }

@@ -26,18 +26,21 @@
         </full-screen-modal>
 
         <div class="container-heading list-heading">
-            <h2 v-if="!editable" @dblclick="editable = true">{{list.title}}</h2>
+            <h2 v-if="!editable" @dblclick="editable = true">{{list.title}}
+                <div @click="toggleOptions" class="list-options"><span>...</span></div>
+            </h2>
             <div v-else>
                 <input v-model="list.title">
                 <span @click="updateListTitle">Save Title</span>
             </div>
-            <div @click="toggleOptions"><span>...</span></div>
+
             <modal
                 v-if="optionModal"
                 @close="optionModal = !optionModal"
                 >
+                <h4>List Options</h4>
                 <ul>
-                    <li @click="toggleViewListRecipes">View Recipes on List</li>
+                    <li @click="toggleViewListRecipes">View Recipes added to {{list.title}}</li>
                     <li>Share List</li>
                     <li @click="deleteList">Delete List</li>
                 </ul>
@@ -54,12 +57,6 @@
         </div>
 
         <div class="container-body ex-neg-margin" :class="{'margin-transition' : dropOpen}">
-            <div class="add-item-section">
-                <!--<span class="add-item-text">Add Item</span>-->
-                <!--<new-item-form @updated="getList" :departments="departments"></new-item-form>-->
-
-
-            </div>
             <div class="list-wrapper" id="list-wrapper">
                 <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
                     <ul class="list-items">
@@ -97,10 +94,12 @@
     import FullScreenModal from './FullScreenModal.vue';
     import Modal from './Modal.vue';
     import RecipesOnList from './RecipesOnList';
+    import Trashcan from "./assets/trashcan";
 
     export default {
 
         components : {
+            Trashcan,
             EditItemModal,
             NewItemForm,
             Caret,

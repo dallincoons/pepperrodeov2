@@ -37,7 +37,6 @@
             <ul class="list-container">
                 <li v-for="list in grocerylists" class="grocery-list grow"><router-link :to="{ name: 'grocery-lists', params: { id: list.id }}" >{{list.title}}</router-link></li>
             </ul>
-            <add-icon-dark></add-icon-dark>
 
         </div>
     </div>

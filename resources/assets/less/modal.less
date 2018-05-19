@@ -18,28 +18,40 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 1.5rem 3rem 3rem 3rem;
 }
+
+.modal-container h4 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.modal-container ul {
+  font-size: 1.8rem;
+  margin: 1rem 0 0 0;
+  padding: 0;
+}
+.modal-container ul li {
+  margin: 0 0 .5rem 0;
+  cursor: pointer;
+}
+
+.modal-container ul li:hover {
+  color: @pr-brand-grey;
+}
+
 .modal-close {
   font-weight: 700;
   padding: 2rem 0 0 1rem;
   cursor: pointer;
   font-size: 2rem;
+  width: 100%;
 }
 .modal-heading {
-  margin-top: -2rem;
-  padding: 0 1rem 1rem;
   color: @pr-brand-dark;
   text-align: center;
   font-weight: 300;
-}
-.modal-line {
-  height: 5px;
-  background-color: #ff4b2e;
-  border-radius: 0 0 5px 5px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-
+  margin: 0;
 }
 
 
@@ -51,8 +63,8 @@
 }
 
 .modal-button {
-  background: #ff4b2e;
-  color: #FFFFFF;
+  background: @pr-brand-grey;
+  color: @pr-brand-dark;
   margin: 15px 0;
   border: 0;
   border-radius: 5px;
@@ -62,7 +74,8 @@
 }
 
 .modal-button:hover {
-  background: #BF3822;
+  background: @pr-brand-dark;
+  color: @pr-brand-white;
   transition: background 2s;
 }
 

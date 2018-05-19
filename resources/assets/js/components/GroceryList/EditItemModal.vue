@@ -16,7 +16,6 @@
             </span>
             <span class="modal-delete" @click="deleteItem">Delete Item</span>
         </div>
-        <div class="modal-line"></div>
     </modal>
 </template>
 
