@@ -1,7 +1,7 @@
 <template>
     <div class="recipe-wrapper">
         <div class="recipe-header">
-            <div class="recipe-title-cat">
+            <div class="recipe-title-cat-add">
                 <div class="grid-row-1">
                     <div class="grid-item"><span class="grid-label">Title</span><input type="text" required v-model="recipeTitle"></div>
                     <div class="grid-item"><span class="grid-label">Category</span>
@@ -18,12 +18,12 @@
             </div>
         </div>
         <div class="recipe-body">
-            <h4 @click="toggleIngredients = true" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
+            <h4 @click="toggleIngredients = true" class="sm-scrn recipe-ingredient-subheading">Ingredients </h4>
             <h4 @click="toggleIngredients = false" class="sm-scrn recipe-directions-subheading">Directions</h4>
-            <div class="recipe-items">
+            <div class="recipe-items" :class="{showItems : toggleIngredients}">
                 <div class="ingredients-wrapper">
-                    <h4 class="add-ingredient-headings">Ingredients <span @click="addIngredient">+</span></h4>
-                    <input class="ingredient-input" v-model="ingredientDescription">
+                    <h4 class="add-ingredient-headings">Ingredients <span @click="addIngredient" class="add-ingredient-button"><add-icon-dark></add-icon-dark></span></h4>
+                    <input class="ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" > <span @click="addIngredient" class="add-ingredient-button-sm"><add-icon-dark></add-icon-dark></span>
                     <ul class="saved-list-of-ingredients">
                         <li v-for="(ingredient, index) in ingredients" class="ingredient-items">{{ingredient.description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
                     </ul>
@@ -38,12 +38,12 @@
 
                 </div>
             </div>
-            <div class="directions-wrapper">
+            <div class="directions-wrapper" :class="[toggleIngredients ? '' : 'showItems' ]">
                 <div class="saved-directions">
                     <h4 class="add-ingredient-headings">Directions</h4>
                     <textarea v-model="directions"></textarea>
                 </div>
-                <div>
+                <div class="">
                     <button @click="saveRecipe">Save</button>
                     <button>Cancel</button>
                 </div>
@@ -59,11 +59,15 @@
     import TrashCan from './assets/trashcan.vue';
     import Categories from './resources/Categories.js';
     import Recipes from './resources/Recipes.js';
+    import AddIcon from "./assets/add-icon";
+    import AddIconDark from './assets/add-icon-dark';
 
     export default {
         components : {
+            AddIcon,
             NewIngredientForm,
-            TrashCan
+            TrashCan,
+            AddIconDark
         },
         data() {
             return {

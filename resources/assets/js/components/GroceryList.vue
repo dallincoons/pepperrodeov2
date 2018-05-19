@@ -82,7 +82,7 @@
 
         </div>
 
-        <recipes-on-list v-if="viewListRecipes" :recipes="list.recipes" @close="viewListRecipes = !viewListRecipes"></recipes-on-list>
+        <recipes-on-list v-if="viewListRecipes" :recipes="list.recipes" :list="list.title" @close="viewListRecipes = !viewListRecipes"></recipes-on-list>
     </div>
 </template>
 

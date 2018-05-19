@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="recipe-body">
-                <h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
-                <h4 @click="toggleRecipeView" class="sm-scrn recipe-directions-subheading">Directions</h4>
+                <h4 @click="toggleIngredients = true" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
+                <h4 @click="toggleDirections = true" class="sm-scrn recipe-ingredient-subheading">Directions</h4>
                 <div class="recipe-items" :class="{'viewIngredients' : toggleIngredients}">
                     <div class="ingredients-wrapper">
                         <h4 class="add-ingredient-headings">Ingredients
@@ -156,7 +156,8 @@
             AddIcon,
             AddIconDark,
             EditIcon,
-            AddToList
+            AddToList,
+
         },
 
         data() {
