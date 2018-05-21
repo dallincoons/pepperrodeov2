@@ -239,6 +239,7 @@
   .directions-text {
     padding-left: 19px;
   }
+
 }
 @media (max-width: 768px) {
   .recipe-wrapper {
@@ -339,4 +340,23 @@
   .saved-directions {
     grid-template-rows: 1fr;
   }
+
+  .view-directions {
+    display: grid;
+    grid-row: 2;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    padding: 0;
+  }
+
+  .recipe-body {
+    grid-template-columns: .5fr 1fr 1fr .5fr;
+    grid-template-rows: 50px 1fr;
+    height: 75%;
+  }
+
+  .sm-directions-heading {
+    grid-column: 3;
+  }
+
 }

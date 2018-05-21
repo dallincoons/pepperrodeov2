@@ -54,9 +54,9 @@
                 </div>
             </div>
             <div class="recipe-body">
-                <h4 @click="toggleIngredients = true" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
-                <h4 @click="toggleDirections = true" class="sm-scrn recipe-ingredient-subheading">Directions</h4>
-                <div class="recipe-items" :class="{'viewIngredients' : toggleIngredients}">
+                <h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
+                <h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading sm-directions-heading">Directions</h4>
+                <div class="recipe-items" :class="{'view-ingredients' : toggleIngredients}">
                     <div class="ingredients-wrapper">
                         <h4 class="add-ingredient-headings">Ingredients
                             <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="directions-wrapper" :class="{'viewDirections' : toggleDirections}">
+                <div class="directions-wrapper" :class="{'view-directions' : toggleDirections}">
                     <div class="saved-directions">
                         <h4 class="add-ingredient-headings">Directions</h4>
                         <p class="directions-text">
@@ -123,12 +123,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-
-
-
 </template>
 <script>
 
