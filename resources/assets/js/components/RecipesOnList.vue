@@ -7,7 +7,7 @@
 
         <div class="recipes-list-wrapper">
             <ul class="recipes-list-items">
-                <li class="recipe-list-item" v-for="recipe in recipes"><router-link :to="{'path': 'recipe', 'params': recipe.id}">{{recipe.title}}</router-link></li>
+                <li class="recipe-list-item" v-for="recipe in recipes"><router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link></li>
             </ul>
         </div>
 
