@@ -30,8 +30,11 @@
                 </div>
                 <div class="need-to-buys-wrapper">
                     <div class="need-to-buys-section">
-                        <h4 class="add-ingredient-headings sm-scrn-heading">Need to Buy</h4>
-                        <ul class="saved-buy-item-list">
+                        <h4 class="add-ingredient-headings sm-scrn-heading" @click="showNeedToBuy = !showNeedToBuy">Need to Buy
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
+                        </h4>
+
+                        <ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">
                             <li v-for="(needToBuy, index) in needToBuys" class="buy-items">{{needToBuy.description}}<div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
                         </ul>
                     </div>
@@ -84,6 +87,7 @@
                 prepTime             : '',
                 totalTime            : '',
                 serves            : '',
+                showNeedToBuy : false,
             }
         },
         mounted() {

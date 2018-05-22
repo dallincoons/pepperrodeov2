@@ -85,15 +85,16 @@
                     </div>
                     <div class="need-to-buys-wrapper">
                         <div class="need-to-buys-section">
-                            <h4 class="add-ingredient-headings sm-scrn-heading">Need to Buy
+                            <h4 class="add-ingredient-headings sm-scrn-heading" @click="showNeedToBuy = !showNeedToBuy">Need to Buy
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
                                 <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-lg">
-                            <add-icon height="18" width="18"></add-icon>
-                        </span>
+                                    <add-icon height="18" width="18"></add-icon>
+                                </span>
                                 <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-sm">
-                            <add-icon height="18" width="18"></add-icon>
-                        </span>
+                                    <add-icon height="18" width="18"></add-icon>
+                                </span>
                             </h4>
-                            <ul class="saved-buy-item-list">
+                            <ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">
                                 <li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">
                                     <span v-if="!editable">{{listable_ingredient.description}}</span>
                                     <div v-else class="edit-ingredient-wrapper">
@@ -167,7 +168,8 @@
                 departments : '',
                 addToListVisible : false,
                 toggleIngredients : true,
-                toggleDirections : false
+                toggleDirections : false,
+                showNeedToBuy : false
             }
         },
 

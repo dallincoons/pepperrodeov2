@@ -203,6 +203,30 @@
 .add-ingredient-button-sm {
   display: none;
 }
+
+.saved-buy-item-list {
+  visibility: hidden;
+  opacity: 0;
+  transition: .5s ease-in-out;
+}
+
+.buy-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.chevron {
+  fill: @pr-brand-dark;
+  width: 20px;
+  height: 20px;
+  transform: rotate(180deg);
+  transition: .5s ease-in-out;
+}
+
+.chevron-rotate {
+  transform: rotate(360deg);
+}
+
 //Media Queries
 @media (min-width: 1200px) {
   .recipe-wrapper {
