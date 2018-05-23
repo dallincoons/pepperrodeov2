@@ -71,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+
         Spark::details($this->details);
 
         Spark::sendSupportEmailsTo($this->sendSupportEmailsTo);
