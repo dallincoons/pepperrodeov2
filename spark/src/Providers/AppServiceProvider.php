@@ -2,8 +2,8 @@
 
 namespace Laravel\Spark\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Laravel\Spark\Spark;
-use Braintree_Configuration;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
