@@ -13,7 +13,7 @@ class CreateListableIngredientsTable extends Migration
         Schema::create(self::TABLE, function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
-            $table->unsignedInteger('department_id');
+            $table->unsignedInteger('department_id')->nullable();
             $table->unsignedInteger('recipe_id');
             $table->string('quantity')->nullable();
             $table->timestamps();
