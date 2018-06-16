@@ -25,6 +25,6 @@ class ListableIngredient extends Model
     {
         $validString = empty($quantity) ? self::DEFAULT_QUANTITY : $quantity;
 
-        $this->attributes['quantity'] = Fraction::fromString($validString);
+        $this->attributes['quantity'] = fractionize($validString);
     }
 }

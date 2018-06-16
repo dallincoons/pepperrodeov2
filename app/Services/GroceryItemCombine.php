@@ -62,8 +62,8 @@ class GroceryItemCombine
 
     protected function combineFractions(Collection $items): string
     {
-        return (string)$items->reduce(function ($original, $dupe) {
-            return $original->add(Fraction::fromString($dupe->quantity));
+        return (string)$items->reduce(function (Fraction $original, $dupe) {
+            return $original->add(fractionize($dupe->quantity));
         }, new Fraction(0));
     }
 }

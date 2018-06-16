@@ -20,7 +20,7 @@ class Ingredient extends Model
 
     public function setQuantityAttribute($quantity)
     {
-        $this->attributes['quantity'] = Fraction::fromString($quantity);
+        $this->attributes['quantity'] = fractionize($quantity);
     }
 
     public function department()
