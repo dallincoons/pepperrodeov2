@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Phospr\Fraction;
+use Spacegrass\Fraction;
 
 class Ingredient extends Model
 {

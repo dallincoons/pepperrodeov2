@@ -6,7 +6,7 @@ use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use App\Repositories\GroceryListItemRepository;
 use Illuminate\Support\Collection;
-use Phospr\Fraction;
+use Spacegrass\Fraction;
 
 class GroceryItemCombine
 {
