@@ -27,9 +27,14 @@ class AddIngredientToRecipeTest extends TestCase
         $recipe = factory(Recipe::class)->create();
 
         $this->post($this->api('recipe/' . $recipe->getKey() .'/add-ingredients'), [ 'listable_ingredients' => [
-            factory(ListableIngredient::class)->raw()
+            [
+                'description' => '1 can manwhich',
+                'recipe_id'   => $recipe->getKey()
+            ]
         ]]);
 
         $this->assertCount(1, $recipe->listableIngredients);
+        $this->assertEquals(1, $recipe->listableIngredients->first()->quantity);
+        $this->assertEquals('can manwhich', $recipe->listableIngredients->first()->description);
     }
 }

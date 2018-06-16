@@ -48,14 +48,12 @@ class CreatesRecipesTest extends TestCase
             'category_id'    => factory(Category::class)->create()->getKey(),
             'ingredients' => [
                 [
-                    'quantity'    => 2,
-                    'description' => 'jazz music',
+                    'description' => '2 jazz music',
                 ]
             ],
             'listable_ingredients' => [
                 [
-                    'quantity'    => 3,
-                    'description' => 'jazz music2',
+                    'description' => '3 jazz music2',
                 ]
             ]
         ]);

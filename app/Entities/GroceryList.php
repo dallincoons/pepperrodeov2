@@ -52,6 +52,7 @@ class GroceryList extends Model implements Transformable
      */
     public function addRecipe(Recipe $recipe)
     {
+        /** @var GroceryListItemRepository $itemRepository */
         $itemRepository = app(GroceryListItemRepository::class);
 
         $group = GroceryListItemGroup::create([

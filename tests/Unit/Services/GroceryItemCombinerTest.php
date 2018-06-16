@@ -51,15 +51,15 @@ class GroceryItemCombinerTest extends TestCase
                 'quantity'    => '1/3',
             ],
             [
-                'description' => '456',
+                'description' => '456test',
                 'quantity'    => '1 1/6',
             ],
             [
-                'description' => '456',
+                'description' => '456test',
                 'quantity'    => '3/4',
             ],
             [
-                'description' => '789',
+                'description' => '789test',
                 'quantity'    => '3/4',
             ],
         ]);
