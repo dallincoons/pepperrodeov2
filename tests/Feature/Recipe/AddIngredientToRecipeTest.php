@@ -28,7 +28,7 @@ class AddIngredientToRecipeTest extends TestCase
 
         $this->post($this->api('recipe/' . $recipe->getKey() .'/add-ingredients'), [ 'listable_ingredients' => [
             [
-                'description' => '1 can manwhich',
+                'full_description' => '1 can manwhich',
                 'recipe_id'   => $recipe->getKey()
             ]
         ]]);

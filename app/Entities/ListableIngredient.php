@@ -4,7 +4,6 @@ namespace App\Entities;
 
 use App\Entities\Behavior\DescriptionParsers\DescriptionParserFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spacegrass\Fraction;
 
 class ListableIngredient extends Model
 {
@@ -16,8 +15,7 @@ class ListableIngredient extends Model
 
     protected $fillable = [
         'recipe_id',
-        'quantity',
-        'description',
+        'full_description',
         'listable',
         'department_id'
     ];
@@ -29,10 +27,11 @@ class ListableIngredient extends Model
         $this->attributes['quantity'] = (string)fractionize($validString);
     }
 
-    public function setDescriptionAttribute($description)
+    public function setFullDescriptionAttribute($description)
     {
         $parser = DescriptionParserFactory::make($description);
 
+        $this->attributes['full_description'] = $description;
         $this->attributes['description'] = $parser->getDescription();
         $this->quantity = $parser->getQuantity();
     }

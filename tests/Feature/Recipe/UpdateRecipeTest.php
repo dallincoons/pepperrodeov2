@@ -49,7 +49,7 @@ class UpdateRecipeTest extends TestCase
             'ingredients' => [
                 [
                     'id' => $ingredient->getKey(),
-                    'description' => $ingredient->description . 'altered',
+                    'full_description' => $ingredient->description . 'altered',
                     'quantity' => null
                 ]
             ]
@@ -69,7 +69,7 @@ class UpdateRecipeTest extends TestCase
             'listable_ingredients' => [
                 [
                     'id' => $ingredient->getKey(),
-                    'description' => $ingredient->description . 'altered',
+                    'full_description' => $ingredient->description . 'altered',
                     'quantity' => null
                 ]
             ]
@@ -90,11 +90,11 @@ class UpdateRecipeTest extends TestCase
             'ingredients' => [
                 [
                     'id' => $ingredient->getKey(),
-                    'description' => $ingredient->description . 'altered',
+                    'full_description' => $ingredient->description . 'altered',
                     'quantity' => null
                 ],
                 [
-                    'description' => 'beat on the brat',
+                    'full_description' => 'beat on the brat',
                     'quantity' => 101
                 ],
             ]
@@ -114,11 +114,11 @@ class UpdateRecipeTest extends TestCase
             'listable_ingredients' => [
                 [
                     'id' => $ingredient->getKey(),
-                    'description' => $ingredient->description . 'altered',
+                    'full_description' => $ingredient->description . 'altered',
                     'quantity' => null,
                 ],
                 [
-                    'description' => 'beat on the brat',
+                    'full_description' => 'beat on the brat',
                     'quantity' => 101,
                 ],
             ]
@@ -140,19 +140,19 @@ class UpdateRecipeTest extends TestCase
             'listable_ingredients' => [
                 [
                     'id' => $ingredient->getKey(),
-                    'description' => $ingredient->description . 'altered',
+                    'full_description' => $ingredient->description . 'altered',
                     'quantity' => null,
                     'department_id' => $department->getKey()
                 ],
                 [
-                    'description' => 'beat on the brat',
+                    'full_description' => 'beat on the brat',
                     'quantity' => 101,
                 ],
             ]
         ]);
 
         $response->assertStatus(200);
-        $this->assertEquals($department->getKey, array_get(Recipe::first()->listableIngredients->first()->toArray(), 'deparment_id'));
+        $this->assertEquals($department->getKey(), array_get(Recipe::first()->listableIngredients->first()->toArray(), 'department_id'));
     }
 
     /** @test */

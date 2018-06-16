@@ -69,9 +69,9 @@
                         <div class="all-ingredients">
                             <ul class="saved-list-of-ingredients">
                                 <li v-for="ingredient in recipe.ingredients" class="ingredient-items">
-                                    <span v-if="!editable">{{ingredient.description}}</span>
+                                    <span v-if="!editable">{{ingredient.full_description}}</span>
                                     <div v-else class="edit-ingredient-wrapper">
-                                        <input :value="ingredient.description" v-model="ingredient.description" class="edit-ingredient-input">
+                                        <input :value="ingredient.full_description" v-model="ingredient.full_description" class="edit-ingredient-input">
                                         <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-lg">
                                             <trash-icon-white></trash-icon-white>
                                         </div>
@@ -96,9 +96,9 @@
                             </h4>
                             <ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">
                                 <li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">
-                                    <span v-if="!editable">{{listable_ingredient.description}}</span>
+                                    <span v-if="!editable">{{listable_ingredient.full_description}}</span>
                                     <div v-else class="edit-ingredient-wrapper">
-                                        <input :value="listable_ingredient.description" v-model="listable_ingredient.description" class="edit-ingredient-input">
+                                        <input :value="listable_ingredient.full_description" v-model="listable_ingredient.full_description" class="edit-ingredient-input">
                                         <select style="background-color: #3f3f3f" :value="listable_ingredient.department_id" v-model="listable_ingredient.department_id">
                                             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                         </select>
@@ -258,7 +258,7 @@
             toggleRecipeView(){
                 this.toggleIngredients = !this.toggleIngredients;
                 this.toggleDirections = !this.toggleDirections;
-            }
+            },
         }
     }
 
