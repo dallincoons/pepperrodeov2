@@ -26,7 +26,6 @@
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "laravel/dusk": "^2.0",
         "mockery/mockery": "0.9.*",
         "phpro/grumphp": "^0.12.1",
         "phpunit/phpunit": "~6.3"
