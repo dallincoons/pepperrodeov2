@@ -14,6 +14,6 @@ class PopulatesDefaultDepartment extends Migration
 
     public function down()
     {
-        Department::where('name', Department::DEFAULT_DEPT_NAME)->delete();
+//        Department::where('name', Department::DEFAULT_DEPT_NAME)->delete();
     }
 }

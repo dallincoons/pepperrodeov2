@@ -23,10 +23,10 @@ class CreateDepartmentsTable extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @re/Users/coons/Valet/pepperrodeov2/database/migrations/2017_07_22_132825_create_users_table.phpturn void
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+//        Schema::dropIfExists('departments');
     }
 }
