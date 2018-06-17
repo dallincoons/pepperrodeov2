@@ -25,7 +25,7 @@
                     <h4 class="add-ingredient-headings">Ingredients <span @click="addIngredient" class="add-ingredient-button"><add-icon-dark></add-icon-dark></span></h4>
                     <input class="ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" > <span @click="addIngredient" class="add-ingredient-button-sm"><add-icon-dark></add-icon-dark></span>
                     <ul class="saved-list-of-ingredients">
-                        <li v-for="(ingredient, index) in ingredients" class="ingredient-items">{{ingredient.description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
+                        <li v-for="(ingredient, index) in ingredients" class="ingredient-items">{{ingredient.full_description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
                     </ul>
                 </div>
                 <div class="need-to-buys-wrapper">
@@ -35,7 +35,7 @@
                         </h4>
 
                         <ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">
-                            <li v-for="(needToBuy, index) in needToBuys" class="buy-items">{{needToBuy.description}}<div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
+                            <li v-for="(needToBuy, index) in needToBuys" class="buy-items">{{needToBuy.full_description}}<div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
                         </ul>
                     </div>
 
@@ -119,7 +119,7 @@
                     return;
                 }
 
-                let newIngredient = {description : this.ingredientDescription};
+                let newIngredient = {full_description : this.ingredientDescription};
                 this.ingredients.push(newIngredient);
                 this.needToBuys.push(Object.assign({}, newIngredient));
                 this.ingredientDescription = '';
