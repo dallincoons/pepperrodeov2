@@ -49,7 +49,7 @@ class AddRecipeToGroceryListTest extends TestCase
         $grocerylist->addRecipe($recipe);
         $grocerylist->addRecipe($recipe);
 
-        $this->assertCount(count($recipe->listableIngredients) * 2, $grocerylist->fresh()->items);
+        $this->assertCount((count($recipe->listableIngredients) * 2) + 2, $grocerylist->fresh()->items);
     }
 
     /** @test */

@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class GroceryListItemController extends Controller
 {
+    /**
+     * @var GroceryListItemRepository
+     */
     private $repository;
 
     public function __construct(GroceryListItemRepository $repository)
@@ -23,9 +26,19 @@ class GroceryListItemController extends Controller
         return response()->json($item, 201);
     }
 
-    public function update(UpdateGroceryListItemRequest $request, $groceryListItemId)
+    public function update(UpdateGroceryListItemRequest $request)
     {
-        $item = $this->repository->update($request->all(), $groceryListItemId);
+        if ($request->ids !== null) {
+            $ids = $request->ids;
+            $request = $request->except(['ids', 'magic_description']);
+        } else {
+            $ids = [$request->id];
+            $request = $request->except('ids');
+        }
+
+        foreach ($ids as $id) {
+            $item = $this->repository->update($request, $id);
+        }
 
         return response()->json($item, 200);
     }

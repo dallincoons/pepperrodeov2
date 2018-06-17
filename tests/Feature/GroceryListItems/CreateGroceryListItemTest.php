@@ -98,7 +98,7 @@ class CreateGroceryListItemTest extends TestCase
     public function it_creates_item_with_quantity()
     {
         $this->createGroceryListItem([
-            'magic_description' => '12 check'
+            'description' => '12 check'
         ]);
 
         $groceryListItem = GroceryListItem::first();

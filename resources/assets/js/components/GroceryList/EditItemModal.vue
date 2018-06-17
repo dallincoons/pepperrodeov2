@@ -47,6 +47,7 @@
             updateItem() {
                 this.$emit('update', {
                     id : this.itemToUpdate.id,
+                    ids : this.itemToUpdate.ids,
                     description : this.description,
                     department_id : this.department
                 });

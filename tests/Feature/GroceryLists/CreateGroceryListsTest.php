@@ -30,8 +30,7 @@ class CreateGroceryListsTest extends TestCase
         $response = $this->post('/api/v1/grocery-lists', [
             'title' => 'Second half of June',
             'items'  => [[
-                'description' => 'blah blah',
-                'quantity' => 2
+                'description' => '2 blah blah',
             ]]
         ]);
 
@@ -64,7 +63,20 @@ class CreateGroceryListsTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertEquals('First half of July', GroceryList::first()->title);
-        $this->assertArraySubset($items, GroceryList::first()->items->toArray());
+        $this->assertArraySubset([
+            [
+                'description' => 'banana',
+                'quantity' => 2
+            ],
+            [
+                'description' => 'banana',
+                'quantity' => 4
+            ],
+            [
+                'description' => 'banana',
+                'quantity' => 2
+            ],
+        ], GroceryList::first()->items->toArray());
     }
 
     /** @test */

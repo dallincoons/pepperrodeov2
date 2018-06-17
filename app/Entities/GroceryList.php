@@ -81,7 +81,7 @@ class GroceryList extends Model implements Transformable
     public function translateIngredient(ListableIngredient $ingredient, Recipe $recipe)
     {
         return [
-            'description'   => $ingredient->description,
+            'description'   => $ingredient->full_description,
             'quantity'      => $ingredient->quantity,
             'department_id' => $ingredient->department_id,
             'recipe_id'     => $recipe->getKey()

@@ -56,7 +56,9 @@ class GroceryItemCombine
             'department_id'   => $duplicateItems->first()->department_id,
             'quantity'        => $this->combineFractions($duplicateItems),
             'is_checked'      => 0,
+            'ids'             => $duplicateItems->pluck('id')->all()
         ]);
+
         return $combinedItem;
     }
 

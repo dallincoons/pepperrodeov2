@@ -18,7 +18,8 @@ class UpdateGroceryListItemTest extends TestCase
         $list = factory(GroceryList::class)->create();
         $item = $list->items()->create(factory(GroceryListItem::class)->raw());
 
-        $response = $this->patch('/api/v1/grocery-list-item/' . $item->getKey(), [
+        $response = $this->patch('/api/v1/grocery-list-item', [
+            'id' =>  $item->getKey(),
             'description' => $item->description . 'altered'
         ]);
 
@@ -34,12 +35,32 @@ class UpdateGroceryListItemTest extends TestCase
 
         $department = factory(Department::class)->create();
 
-        $response = $this->patch('/api/v1/grocery-list-item/' . $item->getKey(), [
+        $response = $this->patch('/api/v1/grocery-list-item', [
+            'id' => $item->getKey(),
             'department_id' => $department->getKey()
         ]);
 
         $response->assertStatus(200);
         $this->assertEquals($item->fresh()->department_id, $department->getKey());
+    }
+
+    /** @test */
+    public function it_updates_multiple_grocery_list_item_departments()
+    {
+        $list = factory(GroceryList::class)->create();
+        $item = $list->items()->create(factory(GroceryListItem::class)->raw());
+        $item2 = $list->items()->create($item->toArray());
+
+        $department = factory(Department::class)->create();
+
+        $response = $this->patch('/api/v1/grocery-list-item', [
+            'ids' => [$item->getKey(), $item2->getKey()],
+            'department_id' => $department->getKey()
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertEquals($item->fresh()->department_id, $department->getKey());
+        $this->assertEquals($item2->fresh()->department_id, $department->getKey());
     }
 
     /** @test */
@@ -50,7 +71,8 @@ class UpdateGroceryListItemTest extends TestCase
         $list = factory(GroceryList::class)->create();
         $item = $list->items()->create(factory(GroceryListItem::class)->raw());
 
-        $response = $this->patch('/api/v1/grocery-list-item/' . $item->getKey(), [
+        $response = $this->patch('/api/v1/grocery-list-item', [
+            'id' =>  $item->getKey(),
             'description' => 1234
         ]);
 

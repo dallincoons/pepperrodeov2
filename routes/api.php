@@ -33,7 +33,7 @@ Route::group([
 
     Route::post('grocery-list-item', 'GroceryListItemController@store');
     Route::delete('grocery-list-item/{groceryListItem}', 'GroceryListItemController@delete');
-    Route::patch('grocery-list-item/{groceryListItem}', 'GroceryListItemController@update');
+    Route::patch('grocery-list-item', 'GroceryListItemController@update');
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
     Route::post('grocerylist/{grocerylist}/add-recipes', 'AddRecipeToGrocerylistController@store');
