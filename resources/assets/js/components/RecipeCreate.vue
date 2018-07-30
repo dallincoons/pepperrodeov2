@@ -44,9 +44,9 @@
             <div class="directions-wrapper" :class="[toggleIngredients ? '' : 'showItems' ]">
                 <div class="saved-directions">
                     <h4 class="add-ingredient-headings">Directions</h4>
-                    <textarea v-model="directions"></textarea>
+                    <textarea v-model="directions" class="directions-textarea"></textarea>
                 </div>
-                <div class="">
+                <div>
                     <button @click="saveRecipe">Save</button>
                     <button>Cancel</button>
                 </div>
