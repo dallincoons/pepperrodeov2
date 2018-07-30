@@ -17,8 +17,8 @@
                         <div class="fs-checkbox">
                             <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
                             <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
+                            <div @click="deleteRecipe(recipe.id)" class="fs-trash"><trashcan></trashcan></div>
                         </div>
-
                     </li>
                 </ul>
 
@@ -95,6 +95,7 @@
     import Modal from './Modal.vue';
     import RecipesOnList from './RecipesOnList';
     import Trashcan from "./assets/trashcan";
+    import Recipes from "./resources/Recipes"
 
     export default {
 
@@ -241,7 +242,22 @@
                     });
 
                 }
-            }
+            },
+            deleteRecipe(recipeId) {
+                console.log(recipeId);
+                let deleteConfirm = confirm("Are you sure you want to delete this recipe?" );
+                if (deleteConfirm === false) {
+                    return;
+                }
+
+                Recipes.delete(recipeId).then(response => {
+                    alert("deleted!");
+                    if (response.status === 200) {
+                        this.viewRecipes();
+                        this.addRecipesToList();
+                    }
+                })
+            },
         }
     }
 </script>

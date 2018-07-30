@@ -69,8 +69,19 @@
   padding: 1.5rem;
   font-size: 1.5rem;
 }
+.fs-checkbox {
+  //display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
+}
+
 .fs-checkbox input[type="checkbox"] {
   opacity: 0;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .fs-checkbox label {
@@ -79,6 +90,8 @@
   font-weight: 300;
   /*16px width of fake checkbox + 6px distance between fake checkbox and text*/
   padding-left: 22px;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .fs-checkbox label::before,
@@ -132,7 +145,11 @@
   outline: rgb(59, 153, 252) auto 5px;
 }
 
-
+.fs-trash {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: end;
+}
 
 
 
