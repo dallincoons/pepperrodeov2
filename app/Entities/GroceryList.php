@@ -70,7 +70,9 @@ class GroceryList extends Model implements Transformable
 
     public function getCombinedItemsAttribute()
     {
-        return $this->getCombinedItems();
+        return $this->getCombinedItems()->flatMap(function($item) {
+            return $item->toArray();
+        });
     }
 
     public function getCombinedItems()

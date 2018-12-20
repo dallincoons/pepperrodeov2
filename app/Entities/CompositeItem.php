@@ -2,10 +2,11 @@
 
 namespace App\Entities;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Spacegrass\Fraction;
 
-class CompositeItem implements \Countable
+class CompositeItem implements \Countable, Arrayable
 {
     /**
      * @var Collection
@@ -32,5 +33,15 @@ class CompositeItem implements \Countable
     public function __get($value)
     {
         return $this->{$value}();
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->items->all();
     }
 }

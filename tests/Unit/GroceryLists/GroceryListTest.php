@@ -116,6 +116,15 @@ class GroceryListTest extends TestCase
     /** @test */
     public function it_gets_combined_items()
     {
+
+       $this->assertCount(2, $grocerylist->getCombinedItems());
+       $this->assertCount(2, $grocerylist->getCombinedItems()['AAA']);
+       $this->assertCount(1, $grocerylist->getCombinedItems()['BBB']);
+    }
+
+    /** @test */
+    public function it_gets_combined_items_attributes()
+    {
         $grocerylist = GroceryListFaker::withItems([
             [
                 'description' => 'AAA',
@@ -131,8 +140,6 @@ class GroceryListTest extends TestCase
             ]
         ]);
 
-       $this->assertCount(2, $grocerylist->getCombinedItems());
-       $this->assertCount(2, $grocerylist->getCombinedItems()['AAA']);
-       $this->assertCount(1, $grocerylist->getCombinedItems()['BBB']);
+        $this->assertCount(3, $grocerylist->combined_items);
     }
 }
