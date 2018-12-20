@@ -68,7 +68,9 @@ class GroceryItemCombinerTest extends TestCase
 
         $items = $grocerylist->getCombinedItems();
 
-        $result = $items->pluck('quantity');
+        $result = $items->map(function($item){
+            return $item->quantity();
+        });
 
         $this->assertCount(3, $items);
         $this->assertContains('1 11/12', $result);

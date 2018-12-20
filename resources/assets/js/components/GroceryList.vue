@@ -17,8 +17,9 @@
                         <div class="fs-checkbox">
                             <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
                             <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
-                            <div @click="deleteRecipe(recipe.id)" class="fs-trash"><trashcan></trashcan></div>
+
                         </div>
+                        <div @click="deleteRecipe(recipe.id)" class="fs-trash"><trashcan></trashcan></div>
                     </li>
                 </ul>
 

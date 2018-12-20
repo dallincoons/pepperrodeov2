@@ -9,10 +9,8 @@ use App\Http\Requests\GroceryListUpdateRequest;
 use App\Repositories\GroceryListRepository;
 use App\Validators\GroceryListValidator;
 
-
 class GroceryListsController extends Controller
 {
-
     /**
      * @var GroceryListRepository
      */
@@ -28,7 +26,6 @@ class GroceryListsController extends Controller
         $this->repository = $repository;
         $this->validator  = $validator;
     }
-
 
     /**
      * Display a listing of the resource.
@@ -86,7 +83,6 @@ class GroceryListsController extends Controller
         }
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -108,7 +104,6 @@ class GroceryListsController extends Controller
         return view('groceryLists.show', compact('groceryList'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -124,7 +119,6 @@ class GroceryListsController extends Controller
         return view('groceryLists.edit', compact('groceryList'));
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -135,7 +129,6 @@ class GroceryListsController extends Controller
      */
     public function update(GroceryListUpdateRequest $request, $id)
     {
-
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
@@ -166,7 +159,6 @@ class GroceryListsController extends Controller
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

@@ -7,12 +7,13 @@ use App\Entities\GroceryList;
 use App\Entities\GroceryListItemGroup;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
+use Tests\Fakers\GroceryListFaker;
 use Tests\TestCase;
 
 /**
  * @group feature-tests
  */
-class AddRecipeToGroceryListTest extends TestCase
+class GroceryListTest extends TestCase
 {
     /** @test */
     public function it_adds_all_listable_recipe_ingredients_to_list()
@@ -110,5 +111,28 @@ class AddRecipeToGroceryListTest extends TestCase
             $recipe->getKey() => 2,
             $recipe2->getKey() => 1
         ], $grocerylist->uniqueRecipeCount);
+    }
+
+    /** @test */
+    public function it_gets_combined_items()
+    {
+        $grocerylist = GroceryListFaker::withItems([
+            [
+                'description' => 'AAA',
+                'quantity' => '1/4',
+            ],
+            [
+                'description' => 'AAA',
+                'quantity' => '2/4',
+            ],
+            [
+                'description' => 'BBB',
+                'quantity' => 1,
+            ]
+        ]);
+
+       $this->assertCount(2, $grocerylist->getCombinedItems());
+       $this->assertCount(2, $grocerylist->getCombinedItems()['AAA']);
+       $this->assertCount(1, $grocerylist->getCombinedItems()['BBB']);
     }
 }
