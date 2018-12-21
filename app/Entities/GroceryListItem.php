@@ -44,6 +44,11 @@ class GroceryListItem extends Model
         return $this->belongsTo(GroceryListItemGroup::class, 'grocery_list_group_id');
     }
 
+    public function getDepartmentNameAttribute()
+    {
+        return optional($this->department)->name;
+    }
+
     public function toggleComplete()
     {
         return app(GroceryListItemRepository::class)->update([

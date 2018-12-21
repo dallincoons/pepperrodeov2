@@ -42,6 +42,12 @@ class CompositeItem implements \Countable, Arrayable
      */
     public function toArray()
     {
-        return $this->items->all();
+        return [
+            'id' => $this->items->first()->getKey(), //eventually change ow this works
+            'grocery_list_id' => $this->items->first()->grocery_list_id,
+            'department' => $this->items->first()->department_name,
+            'quantity' => $this->quantity(),
+            'description' => $this->items->first()->description,
+        ];
     }
 }

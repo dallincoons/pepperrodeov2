@@ -132,10 +132,10 @@
             itemsGrouped : function () {
                 return _.chain(this.list.combinedItems)
                     .sortBy(function (item) {
-                        return item.department.name;
+                        return item.department;
                     })
                     .groupBy(function (item) {
-                        return item.department.name;
+                        return item.department;
                     }).value();
             }
         },
