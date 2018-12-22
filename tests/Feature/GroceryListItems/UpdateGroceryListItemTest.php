@@ -17,13 +17,18 @@ class UpdateGroceryListItemTest extends TestCase
     {
         $list = factory(GroceryList::class)->create();
         $item = $list->items()->create(factory(GroceryListItem::class)->raw());
+        $department = factory(Department::class)->create();
 
-        $response = $this->patch('/api/v1/grocery-list-item/' . $item->getKey(), [
-            'description' => $item->description . 'altered'
+        $response = $this->patch('/api/v1/grocery-list-item/', [
+            'new_description' => $item->description . 'altered',
+            'description' => $item->description,
+            'grocery_list_id' => $list->getKey(),
+            'department_id' => $department->getKey(),
         ]);
 
         $response->assertStatus(200);
         $this->assertEquals($item->fresh()->description,$item->description . 'altered');
+        $this->assertEquals($item->fresh()->department_id, $department->getKey());
     }
 
     /** @test */
@@ -34,7 +39,9 @@ class UpdateGroceryListItemTest extends TestCase
 
         $department = factory(Department::class)->create();
 
-        $response = $this->patch('/api/v1/grocery-list-item/' . $item->getKey(), [
+        $response = $this->patch('/api/v1/grocery-list-item', [
+            'grocery_list_id' => $list->getKey(),
+            'description' => $item->description,
             'department_id' => $department->getKey()
         ]);
 
@@ -50,8 +57,10 @@ class UpdateGroceryListItemTest extends TestCase
         $list = factory(GroceryList::class)->create();
         $item = $list->items()->create(factory(GroceryListItem::class)->raw());
 
-        $response = $this->patch('/api/v1/grocery-list-item/' . $item->getKey(), [
-            'description' => 1234
+        $response = $this->patch('/api/v1/grocery-list-item/', [
+            'new_description' => 1234,
+            'grocery_list_id' => $list->getKey(),
+            'description' => $item->description,
         ]);
 
         $response->assertStatus(400);

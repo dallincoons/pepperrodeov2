@@ -183,7 +183,12 @@
 
             updateItem(itemToUpdate) {
                 this.hideModal();
-                axios.patch('/api/v1/grocery-list-item/' + itemToUpdate.id, {magic_description : itemToUpdate.description, department_id : itemToUpdate.department_id}).then((response) => {
+                axios.patch('/api/v1/grocery-list-item', {
+                    grocery_list_id : parseInt(this.listId),
+                    new_description : itemToUpdate.new_description,
+                    description : itemToUpdate.description,
+                    department_id : itemToUpdate.department_id,
+                }).then((response) => {
                     this.getList();
                 });
             },

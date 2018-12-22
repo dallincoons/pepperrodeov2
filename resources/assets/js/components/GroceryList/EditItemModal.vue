@@ -47,7 +47,8 @@
             updateItem() {
                 this.$emit('update', {
                     id : this.itemToUpdate.id,
-                    description : this.description,
+                    new_description : this.description,
+                    description : this.itemToUpdate.description,
                     department_id : this.department
                 });
             },

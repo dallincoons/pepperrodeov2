@@ -11,7 +11,17 @@
 |
 */
 
+use App\Http\Handlers\UpdateGroceryListDepartment;
+
 Route::group([
+    'middleware' => 'auth:api',
+    'prefix'     => 'v1'
+], function () {
+    Route::patch('grocery-list/item/{groceryList}/department', UpdateGroceryListDepartment::class)->name('list.item.department.update');
+});
+
+Route::group([
+    'namespace' => 'App\Http\Controllers',
     'middleware' => 'auth:api',
     'prefix'     => 'v1'
 ], function () {
@@ -33,7 +43,7 @@ Route::group([
 
     Route::post('grocery-list-item', 'GroceryListItemController@store');
     Route::delete('grocery-list-item/{groceryListItem}', 'GroceryListItemController@delete');
-    Route::patch('grocery-list-item/{groceryListItem}', 'GroceryListItemController@update');
+    Route::patch('grocery-list-item', 'GroceryListItemController@update');
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
     Route::post('grocerylist/{grocerylist}/add-recipes', 'AddRecipeToGrocerylistController@store');

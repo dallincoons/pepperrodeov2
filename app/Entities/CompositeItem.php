@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Behavior\DescriptionParsers\DescriptionParserFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Spacegrass\Fraction;
@@ -13,6 +14,9 @@ class CompositeItem implements \Countable, Arrayable
      */
     protected $items;
 
+    /**
+     * @param Collection $item - collection of GroceryListItems
+     */
     public function __construct(Collection $item)
     {
         $this->items = $item;
@@ -25,9 +29,51 @@ class CompositeItem implements \Countable, Arrayable
         }, new Fraction(0));
     }
 
+    public function department()
+    {
+        return $this->items->first()->department_name;
+    }
+
+    public function description()
+    {
+        return $this->items->first()->description;
+    }
+
     public function count()
     {
         return count($this->items);
+    }
+
+    //@todo add a unit of work approach to make this more efficient
+    public function updateDepartment(int $departmentId)
+    {
+        $this->items->each(function (GroceryListItem $item) use ($departmentId) {
+            $item->department_id = $departmentId;
+            $item->save();
+        });
+    }
+
+    //@todo add a unit of work approach to make this more efficient
+    public function updateDescription(string $description)
+    {
+        $this->items->each(function (GroceryListItem $item) use ($description) {
+            $item->description = DescriptionParserFactory::make($description)->getDescription();
+            $item->save();
+        });
+    }
+
+    /**
+     * This probably isn't the right approach, so it can
+     * act as a placeholder until something better
+     *
+     * @param int $quantity
+     */
+    public function updateQuantity(int $quantity)
+    {
+        $newQuantity = $quantity - $this->quantity();
+        $item = $this->items->first();
+        $item->quantity = $item->quantity + $newQuantity;
+        $item->save();
     }
 
     public function __get($value)
@@ -45,7 +91,7 @@ class CompositeItem implements \Countable, Arrayable
         return [
             'id' => $this->items->first()->getKey(), //eventually change ow this works
             'grocery_list_id' => $this->items->first()->grocery_list_id,
-            'department' => $this->items->first()->department_name,
+            'department' => $this->department(),
             'quantity' => $this->quantity(),
             'description' => $this->items->first()->description,
         ];

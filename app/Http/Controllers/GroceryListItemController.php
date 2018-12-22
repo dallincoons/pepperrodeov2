@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\CompositeItem;
+use App\Entities\GroceryListItem;
 use App\Http\Requests\CreateGroceryListItemRequest;
 use App\Http\Requests\UpdateGroceryListItemRequest;
 use App\Repositories\GroceryListItemRepository;
@@ -23,9 +25,29 @@ class GroceryListItemController extends Controller
         return response()->json($item, 201);
     }
 
-    public function update(UpdateGroceryListItemRequest $request, $groceryListItemId)
+    public function update(UpdateGroceryListItemRequest $request)
     {
-        $item = $this->repository->update($request->all(), $groceryListItemId);
+        $items = GroceryListItem::where([
+            'description' => $request->description,
+            'grocery_list_id' => $request->grocery_list_id,
+        ])->get();
+
+       $item = new CompositeItem($items);
+
+       if ($request->filled('quantity'))
+       {
+//           $item->updateQuantity($request->quantity);
+       }
+
+        if ($request->filled('department_id'))
+        {
+            $item->updateDepartment($request->department_id);
+        }
+
+        if ($request->filled('new_description'))
+        {
+            $item->updateDescription($request->new_description);
+        }
 
         return response()->json($item, 200);
     }
