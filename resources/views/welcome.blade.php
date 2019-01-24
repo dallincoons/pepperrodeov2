@@ -9,12 +9,9 @@
     <title>@yield('title', config('app.name'))</title>
 
     <!-- Fonts -->
-    {{--<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>--}}
-    {{--<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">--}}
-    {{--<link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700" rel="stylesheet">--}}
     <link rel="stylesheet" href="https://use.typekit.net/skj8drm.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://use.typekit.net/skj8drm.css">
     <style>
         @import url("https://use.typekit.net/skj8drm.css");
     </style>
@@ -36,22 +33,7 @@
                     <a href="/logout" class="nav-link">Log Out</a>
                 </div>
 
-
-
             </nav>
-
-            {{--<a href="/logout">Log Out</a>--}}
-            {{--<h1 class="nav-brand">xPepper Rodeo</h1>--}}
-            {{--<div class="nav-links">--}}
-                {{--<router-link to="/grocery-lists" class="nav-link">Grocery Lists</router-link>--}}
-                {{--<router-link to="/grocery-lists/create" class="nav-link">Create Grocery List</router-link>--}}
-                {{--<router-link to="/recipes" class="nav-link">Recipes</router-link>--}}
-                {{--<router-link to="/recipe/create" class="nav-link">Add a Recipe</router-link>--}}
-
-                {{--<a href="/logout">Log Out</a>--}}
-                {{--<div class="nav-line"></div>--}}
-            {{--</div>--}}
-            {{--<router-view name="navigation"></router-view>--}}
 
         </div>
 
