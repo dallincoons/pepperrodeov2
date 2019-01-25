@@ -22,6 +22,8 @@ import routes from './routes';
 
 import DeviceNav from './components/DeviceNav.vue';
 
+import LoginAndRegister from './components/LoginAndRegister.vue';
+
 import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
@@ -34,7 +36,8 @@ window.EventBus = new Vue();
 
 var app = new Vue({
     components : {
-        DeviceNav
+        DeviceNav,
+        LoginAndRegister
     },
 
     mixins: [require('spark')],
