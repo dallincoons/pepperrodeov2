@@ -121,7 +121,7 @@
         width: 50%;
         display: flex;
         flex-direction: column;
-        margin-top: 7rem;
+        margin-top: 9rem;
         order: 2;
     }
 
@@ -144,6 +144,11 @@
         background: none;
         border-bottom: hsl(10, 80%, 58%) 4px solid;
         margin-top: 20px;
+        transition: all .2s ease-in-out;
+    }
+
+    .auth-input:hover {
+        border-bottom: hsl(10, 79%, 42%) 4px solid;
     }
 
     .auth-input:focus {
@@ -155,6 +160,14 @@
     .forgot-pass {
         text-align: right;
         color: hsl(41, 8%, 48%);
+        transition: all .2s ease-in-out;
+    }
+
+    .forgot-pass:hover {
+        cursor: pointer;
+        color: hsl(10, 79%, 42%);
+        text-decoration: none;
+        font-weight: 500;
     }
 
     .remember-me {
@@ -175,6 +188,14 @@
         align-self: flex-end;
         margin: 2rem 0;
         font-size: 18px;
+        transform: translateX(0px);
+        transition: all .2s ease-in-out;
+    }
+
+    .login-button:hover {
+        background: hsl(10, 79%, 42%);
+        transform: translateX(4px);
+        transition: all .2s ease-in-out;
     }
 
     .sign-up-teaser {
@@ -192,13 +213,17 @@
         align-content: center;
         order: 2;
         margin-right: -2rem; /*shame!*/
+        transition: transform .3s ease-out;
+        transform: translateX(0px);
     }
 
     .signup-teaser-hidden {
         width: 0;
         order: 1;
-        z-index: -1;
+        z-index: -2;
         opacity: 0;
+        transform: translateX(-700px);
+        transition: transform .3s ease-out;
     }
 
     .teaser-wrapper {
@@ -222,11 +247,22 @@
     }
 
     .teaser-button {
-        border: 4px solid hsl(40, 23%, 97%);
+        /*border: 4px solid hsl(40, 23%, 97%);*/
         border-radius: 4px;
         padding: 7px 70px;
         color: hsl(40, 23%, 97%);
         font-size: 18px;
+        box-shadow: inset 0 0 0 4px hsl(40, 23%, 97%), 0 0 1px transparent;
+        transition: all .3s ease-in-out;
+    }
+
+    .teaser-button:hover {
+        color: hsl(10, 80%, 58%);
+        font-weight: 500;
+        background: hsl(10, 79%, 94%);
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: inset 0 0 0 4px hsl(10, 80%, 58%), 0 0 1px transparent;
     }
 
     .login-teaser {
@@ -307,6 +343,11 @@
         background: none;
         outline: none;
     }
+
+    .register-auth-input:hover {
+        border-bottom: hsl(10, 79%, 42%) 4px solid;
+    }
+ 
     .register-button {
         background: hsl(10, 80%, 58%);
         border: none;
@@ -317,6 +358,12 @@
         align-self: flex-end;
         margin: 2rem 0;
         font-size: 18px;
+    }
+
+    .register-button:hover {
+        background: hsl(10, 79%, 42%);
+        transform: translateX(4px);
+        transition: all .2s ease-in-out;
     }
 
     @media (max-width: 1300px) {
@@ -383,7 +430,7 @@
         login.classList.add("signup-teaser-hidden");
 
         let signupTeaser = document.getElementById("sign-up-teaser");
-        signupTeaser.classList.add("hidden");
+        signupTeaser.classList.add("signup-teaser-hidden");
     }
     function showLogin() {
         let register = document.getElementById("register-section");
@@ -393,10 +440,10 @@
         loginTeaser.classList.remove("login-teaser-display");
 
         let login = document.getElementById("login-section");
-        login.classList.remove("hidden");
+        login.classList.remove("signup-teaser-hidden");
 
         let signupTeaser = document.getElementById("sign-up-teaser");
-        signupTeaser.classList.remove("hidden");
+        signupTeaser.classList.remove("signup-teaser-hidden");
     }
 
 </script>
