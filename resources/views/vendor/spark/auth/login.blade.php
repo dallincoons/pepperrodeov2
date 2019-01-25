@@ -8,7 +8,7 @@
 
             <div class="focused-section" id="login-section">
                 <h1 class="brand-login">Pepper Rodeo</h1>
-                <div class="login-section">
+                <div class="login-section" id="mobile-login-section">
                     <h3 class="login-message">Welcome Back!</h3>
                     @include('spark::shared.errors')
                     <form class="login-form" role="form" method="POST" action="/login">
@@ -23,10 +23,8 @@
                         <button name="login_submit" class="login-button">
                             Login
                         </button>
-
-
                     </form>
-                    <a href="/register" class="sm-screen signup-link">Create an Account</a>
+                    <a class="signup-link" onclick="showMobileRegister()" id="signup-link">Create an Account</a>
                 </div>
             </div>
 
@@ -49,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="register-section hidden" id="register-section">
+            <div class="register-section register-hidden" id="register-section">
                 <div class="register-wrapper">
                     <h3 class="register-title">Create an Account</h3>
                     <input type="email" class="register-auth-input" name="register-email" placeholder="Email Address" autofocus>
@@ -58,6 +56,7 @@
                     <button name="register-submit" class="register-button">
                         Sign Up
                     </button>
+                    <a class="mobile-account-link" id="mobile-account-link" onclick="showMobileLogin()">Already have an account?</a>
                 </div>
             </div>
 
@@ -96,6 +95,7 @@
         max-width: 1000px;
         height: 640px;
         border-bottom: hsl(10, 80%, 58%) 4px solid;
+        border-radius: 4px;
     }
     .brand-login {
         font-family: reklame-script, sans-serif;
@@ -305,6 +305,9 @@
     .login-teaser .teaser-wrapper {
         margin-top: 9rem;
     }
+    .signup-link {
+        opacity: 0;
+    }
 
     .register-section {
         background: hsl(360, 100%, 100%);
@@ -314,6 +317,10 @@
         align-items: center;
         padding: 0 2rem;
         order: 2;
+    }
+
+    .register-hidden {
+        display: none;
     }
 
     .register-wrapper {
@@ -347,7 +354,7 @@
     .register-auth-input:hover {
         border-bottom: hsl(10, 79%, 42%) 4px solid;
     }
- 
+
     .register-button {
         background: hsl(10, 80%, 58%);
         border: none;
@@ -366,6 +373,10 @@
         transition: all .2s ease-in-out;
     }
 
+    .mobile-account-link {
+        opacity: 0;
+    }
+
     @media (max-width: 1300px) {
         .login-box {
             width: 80vw;
@@ -377,6 +388,9 @@
         .login-box {
             width: 100vw;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .sign-up-teaser {
@@ -386,6 +400,10 @@
 
         .focused-section {
             width: 100%;
+        }
+
+        .focused-section-register {
+            height: 20%;
         }
 
         .brand-login {
@@ -401,6 +419,12 @@
 
         .login-button {
             width: 100%;
+            height: 36px;
+            margin: 1rem 0;
+        }
+
+        .login-teaser {
+            display: none;
         }
 
         .sm-screen {
@@ -408,10 +432,79 @@
         }
 
         .signup-link {
+        opacity: 1;
             text-align: center;
             font-size: 14px;
             font-weight: 600;
             color: hsl(10, 79%, 23%);
+        }
+
+        .signup-link:hover, .signup-link:focus {
+            color: hsl(10, 79%, 42%);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .register-section {
+            width: 80vw;
+            height: 0;
+            background: url("/img/login-background-2.png");
+            transform: translateY(900px);
+            transition: all .2s ease-in-out;
+            border-radius: 4px;
+        }
+
+        .register-hidden {
+            display: flex;
+        }
+
+        .mobile-register-transition {
+            height: 80%;
+            transform: translateY(0px);
+            transition: all .5s ease-in-out;
+        }
+
+        .register-wrapper {
+            width: 80%;
+            margin-top: 0;
+        }
+
+        .register-title {
+         color: hsl(40, 23%, 97%);
+        }
+
+        .register-auth-input {
+            border-bottom: hsl(10, 79%, 94%) 4px solid;
+        }
+
+        .register-auth-input::placeholder {
+            color: hsl(10, 79%, 94%);
+            font-weight: 500;
+        }
+
+        .register-button {
+            width: 100%;
+            background: #ffffff;
+            color: hsl(10, 79%, 42%);
+            font-weight: 500;
+        }
+
+        .register-button:hover {
+            color: hsl(10, 79%, 94%);
+        }
+
+        .mobile-account-link {
+            opacity: 1;
+            color: hsl(10, 79%, 94%);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .mobile-account-link:hover {
+            cursor: pointer;
+            color: #ffffff;
+            text-decoration: none;
         }
 
     }
@@ -421,7 +514,7 @@
 <script>
     function showRegister() {
         let register = document.getElementById("register-section");
-        register.classList.remove("hidden");
+        register.classList.remove("register-hidden");
 
         let loginTeaser = document.getElementById("login-teaser-section");
         loginTeaser.classList.add("login-teaser-display");
@@ -434,7 +527,7 @@
     }
     function showLogin() {
         let register = document.getElementById("register-section");
-        register.classList.add("hidden");
+        register.classList.add("register-hidden");
 
         let loginTeaser = document.getElementById("login-teaser-section");
         loginTeaser.classList.remove("login-teaser-display");
@@ -444,6 +537,36 @@
 
         let signupTeaser = document.getElementById("sign-up-teaser");
         signupTeaser.classList.remove("signup-teaser-hidden");
+    }
+
+    function showMobileRegister() {
+        let register = document.getElementById("register-section");
+        register.classList.add('mobile-register-transition');
+
+        let login = document.getElementById("mobile-login-section");
+        login.classList.add("hidden");
+
+        let accountLink = document.getElementById("mobile-account-link");
+        accountLink.classList.remove("hidden");
+
+        let focused = document.getElementById("login-section");
+        focused.classList.add('focused-section-register');
+
+    }
+
+    function showMobileLogin() {
+        let register = document.getElementById("register-section");
+        register.classList.remove('mobile-register-transition');
+
+        let login = document.getElementById("mobile-login-section");
+        login.classList.remove("hidden");
+
+        let accountLink = document.getElementById("mobile-account-link");
+        accountLink.classList.add("hidden");
+
+        let focused = document.getElementById("login-section");
+        focused.classList.remove('focused-section-register');
+
     }
 
 </script>
