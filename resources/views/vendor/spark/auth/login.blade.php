@@ -3,8 +3,8 @@
 @section('content')
     <link rel="stylesheet" href="https://use.typekit.net/skj8drm.css" type='text/css'>
 
-    <div class="login-wrapper">
-        <div class="login-box">
+    <div class="login-signin-main-wrapper">
+        <div class="login-signin-main-section">
 
             <div class="focused-section" id="login-section">
                 <h1 class="brand-login">Pepper Rodeo</h1>
@@ -79,7 +79,7 @@
         font-family: 'Lato', sans-serif;
     }
 
-    .login-wrapper {
+    .login-signin-main-wrapper {
         width: 100vw;
         height: 100vh;
         background: hsl(43, 13%, 90%, .4);
@@ -88,7 +88,7 @@
         justify-content: center;
     }
 
-    .login-box {
+    .login-signin-main-section {
         background: hsl(360, 100%, 100%);
         display: flex;
         width: 60vw;
@@ -378,14 +378,14 @@
     }
 
     @media (max-width: 1300px) {
-        .login-box {
+        .login-signin-main-section {
             width: 80vw;
         }
 
     }
 
     @media (max-width: 900px) {
-        .login-box {
+        .login-signin-main-section {
             width: 100vw;
             height: 100vh;
             display: flex;
