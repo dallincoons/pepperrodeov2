@@ -4,7 +4,7 @@
                 <div class="recipe-title-cat">
                     <h3 class="recipe-title">
                         <span v-if="!editable">{{recipe.title}} </span>
-                        <input :value="recipe.title" v-else v-model="recipe.title" class="edit-heading">
+                        <input v-else v-model="recipe.title" class="edit-heading">
                     </h3>
                     <h5 class="recipe-category">
                         <span v-if="!editable">{{category.title}}</span>
@@ -71,7 +71,7 @@
                                 <li v-for="ingredient in recipe.ingredients" class="ingredient-items">
                                     <span v-if="!editable">{{ingredient.full_description}}</span>
                                     <div v-else class="edit-ingredient-wrapper">
-                                        <input :value="ingredient.full_description" v-model="ingredient.full_description" class="edit-ingredient-input">
+                                        <input v-model="ingredient.full_description" class="edit-ingredient-input">
                                         <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-lg">
                                             <trash-icon-white></trash-icon-white>
                                         </div>
@@ -98,8 +98,8 @@
                                 <li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">
                                     <span v-if="!editable">{{listable_ingredient.full_description}}</span>
                                     <div v-else class="edit-ingredient-wrapper">
-                                        <input :value="listable_ingredient.full_description" v-model="listable_ingredient.full_description" class="edit-ingredient-input">
-                                        <select style="background-color: #3f3f3f" :value="listable_ingredient.department_id" v-model="listable_ingredient.department_id">
+                                        <input v-model="listable_ingredient.full_description" class="edit-ingredient-input">
+                                        <select style="background-color: #3f3f3f"  v-model="listable_ingredient.department_id">
                                             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                         </select>
                                         <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-lg">
@@ -119,7 +119,7 @@
                         <h4 class="add-ingredient-headings">Directions</h4>
                         <p class="directions-text">
                             <span v-if="!editable">{{recipe.directions}}</span>
-                            <textarea v-else :value="recipe.directions" v-model="recipe.directions" class="edit-directions"></textarea>
+                            <textarea v-else v-model="recipe.directions" class="edit-directions"></textarea>
                         </p>
                     </div>
                 </div>

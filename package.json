@@ -15,7 +15,7 @@
     "hover.css": "^2.2.1",
     "jquery": "^2.1.4",
     "js-cookie": "^2.1.0",
-    "laravel-mix": "0.*",
+    "laravel-mix": "4.*",
     "moment": "^2.10.6",
     "moxios": "^0.4.0",
     "promise": "^7.1.1",
@@ -27,11 +27,16 @@
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "browser-sync-webpack-plugin": "^2.2.2",
     "expect": "^21.2.1",
     "jsdom": "^11.4.0",
     "jsdom-global": "^3.0.2",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "mocha": "^4.0.1",
     "mocha-webpack": "^1.0.1",
+    "vue-template-compiler": "^2.6.4",
     "vue-test-utils": "^1.0.0-beta.2"
   }
 }
