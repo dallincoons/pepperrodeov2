@@ -44,7 +44,7 @@ class GroceryList extends Model implements Transformable
     public function getUniqueRecipeCountAttribute()
     {
         return array_count_values($this->itemGroups()
-            ->pluck('recipe_id')->all());
+            ->pluck('recipe_id')->filter()->all());
     }
 
     /**
