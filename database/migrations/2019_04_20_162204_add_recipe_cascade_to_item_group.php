@@ -15,6 +15,7 @@ class AddRecipeCascadeToItemGroup extends Migration
     {
         Schema::table('grocery_list_item_groups', function (Blueprint $table) {
             \DB::raw('alter table `grocery_list_item_groups` drop key `grocery_list_item_groups_recipe_id_foreign`');
+            
         });
 
         Schema::table('grocery_list_item_groups', function (Blueprint $table) {
