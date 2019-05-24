@@ -19,11 +19,6 @@
 
 </head>
 <body>
-    <script>
-        function test() {
-
-        }
-    </script>
     @extends('spark::layouts.app')
 
     @section('content')
