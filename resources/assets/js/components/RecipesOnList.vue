@@ -7,7 +7,7 @@
 
         <div class="recipes-list-wrapper">
             <ul class="recipes-list-items">
-                <li class="recipe-list-item" v-for="recipe in recipes"><router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link></li>
+                <li class="recipe-list-item" v-for="recipe in orderedRecipes"><router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link></li>
             </ul>
         </div>
 
@@ -20,6 +20,16 @@
             'recipes',
             'list'
         ],
+
+        data() {
+            return {
+                orderedRecipes: []
+            }
+        },
+
+        created() {
+            this.orderedRecipes = _.sortBy(this.recipes, 'title');
+        },
 
         methods : {
             back() {
