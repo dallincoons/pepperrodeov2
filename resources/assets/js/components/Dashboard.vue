@@ -240,8 +240,8 @@
     }
 
     .hat {
-        width: 40%;
-        right: -3rem;
-        bottom: 0;
+        width: 20%;
+        right: -15%;
+        bottom: 25%;
     }
 </style>
