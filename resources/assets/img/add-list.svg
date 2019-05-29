@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.95 85.44">
+    <defs>
+        <style>.cls-1{fill:#e9593d;}.cls-2{fill:#fff;}</style>
+    </defs>
+    <title>add-list</title>
+    <g id="add-list">
+        <g id="list">
+            <rect id="list-item" class="cls-1" x="39.73" y="32.3" width="32.3" height="6.46"/>
+            <rect id="list-item-2" data-name="list-item" class="cls-1" x="39.73" y="19.38" width="25.84" height="6.46"/>
+            <rect id="list-item-3" data-name="list-item" class="cls-1" x="39.73" y="45.22" width="32.3" height="6.46"/>
+            <path id="notepad" class="cls-1" d="M78.49,0H33.27a6.47,6.47,0,0,0-6.46,6.46V64.6a6.47,6.47,0,0,0,6.46,6.46H78.49A6.47,6.47,0,0,0,85,64.6V6.46A6.47,6.47,0,0,0,78.49,0ZM33.27,64.6V6.46H78.49V64.6Z"/>
+        </g>
+        <g id="add-icon">
+            <circle class="cls-1" cx="27.09" cy="58.34" r="27.09"/>
+            <path id="plus-sign" class="cls-2" d="M41.83,60.79H29.73V73.57H24.4V60.79h-12V55.86h12V43.12h5.33V55.86h12.1Z"/>
+        </g>
+    </g>
+</svg>

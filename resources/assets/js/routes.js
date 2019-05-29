@@ -4,12 +4,13 @@ import GroceryListCreate from './components/GroceryListCreate.vue';
 import RecipeCreate from './components/RecipeCreate.vue';
 import Recipes from './components/Recipes.vue';
 import Recipe from './components/Recipe.vue';
+import Dashboard from './components/Dashboard';
 
 let routes = [
     {
         'path' : '/',
-        'component' : GroceryLists,
-        'redirect': '/grocery-lists'
+        'component' : Dashboard,
+        // 'redirect': '/grocery-lists'
     },
     {
         'path' : '/grocery-lists',
