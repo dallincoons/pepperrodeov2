@@ -152,7 +152,6 @@
         grid-template-rows: 5rem auto;
         justify-self: center;
         width: 85%;
-        /*max-height: 70vh;*/
         border-radius: 4px;
     }
 
@@ -194,7 +193,6 @@
         grid-column: 2;
         grid-row: 3;
         display: grid;
-        /*grid-template-rows: .5fr .5fr .5fr;*/
     }
 
     .dash-action {
@@ -243,5 +241,73 @@
         width: 20%;
         right: -15%;
         bottom: 25%;
+    }
+
+    @media (max-width: 900px) {
+        .container {
+            grid-template-rows: auto;
+        }
+
+        .dash-wrapper {
+            grid-template-columns: 1fr;
+            grid-template-rows: 8rem 8rem 14rem;
+            padding: 2rem;
+            height: 90%;
+        }
+
+        .recipes-on-list-wrapper {
+            grid-column: 1;
+            grid-row: 1 ;
+            width: 100%;
+            height: 80%;
+            text-overflow: ellipsis;
+        }
+
+        .recipes {
+            display: none;
+        }
+
+        .recent-list-wrapper {
+            grid-column: 1;
+            grid-row: 2;
+            height: 80%;
+            width: 100%;
+        }
+
+        .actions-wrapper {
+            grid-column: 1;
+        }
+
+        .dash-action {
+            width: 100%;
+        }
+
+        .dash-action-text {
+            position: absolute;
+            left: 4.5rem;
+            top: .5rem;
+        }
+
+        .dash-svg {
+            left: 1.5rem;
+            top: 1rem;
+            width: 5%;
+        }
+
+        .background-svg  {
+            display: none;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .dash-svg {
+            width: 10%;
+            top: .5rem;
+        }
+
+        .dash-action-text {
+            left: 5rem;
+            top: .5rem;
+        }
     }
 </style>
