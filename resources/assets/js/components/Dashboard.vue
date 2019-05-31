@@ -1,9 +1,12 @@
 <template>
     <div class="container">
         <div class="dash-wrapper">
-            <div class="recipes-on-list-wrapper">
-                <h4 class="recipes-on-list-title">Recipes Added to June Part 1</h4>
-                <ul class="recipes">
+            <div class="recipes-on-list-wrapper" @click="isHidden = !isHidden">
+                <h4 class="recipes-on-list-title">
+                    Recipes Added to June Part 1
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : isHidden}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
+                </h4>
+                <ul class="recipes" v-bind:class="{ hidden : isHidden}">
                     <li class="recipe-title">Chicken & Rice Casserole</li>
                     <li class="recipe-title">Taco Salad</li>
                     <li class="recipe-title">BLTs</li>
@@ -115,13 +118,18 @@
 
         data() {
             return {
-                orderedRecipes: []
+                orderedRecipes: [],
+                isHidden : true
             }
         },
 
         created() {
             this.orderedRecipes = _.sortBy(this.recipes, 'title');
         },
+
+        methods : {
+
+        }
     }
 </script>
 
@@ -243,28 +251,54 @@
         bottom: 25%;
     }
 
+    .chevron {
+        display: none;
+    }
+
     @media (max-width: 900px) {
         .container {
             grid-template-rows: auto;
+            height: auto;
         }
 
         .dash-wrapper {
             grid-template-columns: 1fr;
-            grid-template-rows: 8rem 8rem 14rem;
-            padding: 2rem;
-            height: 90%;
+            grid-template-rows: auto 8rem 14rem;
+            padding: 2rem 2rem 10rem 2rem;
+            height: auto;
+            max-height: none;
         }
 
         .recipes-on-list-wrapper {
             grid-column: 1;
             grid-row: 1 ;
             width: 100%;
-            height: 80%;
+            height: auto;
             text-overflow: ellipsis;
         }
 
-        .recipes {
+        .recipes-on-list-title {
+            margin: 1.5rem 0 0 1rem;
+        }
+
+        .hidden {
             display: none;
+        }
+
+        .recipes {
+            overflow: visible;
+        }
+
+        .chevron {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            transform: rotate(360deg);
+            transition: .5s ease-in-out;
+        }
+
+        .chevron-rotate {
+            transform: rotate(180deg);
         }
 
         .recent-list-wrapper {
