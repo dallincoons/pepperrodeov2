@@ -94,6 +94,7 @@
             hideNewGroceryListModal() {
                 this.newGroceryListModalShown = false;
             },
+
             saveList() {
                 GroceryLists.save(this.listTitle).then((response) => {
                     this.$router.push({ path: `/grocery-lists/${response.data.data.id}` });

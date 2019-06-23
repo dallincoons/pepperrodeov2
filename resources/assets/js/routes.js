@@ -10,7 +10,6 @@ let routes = [
     {
         'path' : '/',
         'component' : Dashboard,
-        // 'redirect': '/grocery-lists'
     },
     {
         'path' : '/grocery-lists',

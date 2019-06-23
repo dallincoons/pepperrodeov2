@@ -1,5 +1,18 @@
 <template>
     <div class="container">
+        <modal
+                v-if="newGroceryListModalShown"
+                @close="newGroceryListModalShown = !newGroceryListModalShown"
+        >
+            <span slot="close" class="modal-close">X</span>
+            <h4 class="modal-heading">Add New List</h4>
+            <div class="container-create">
+                <form v-on:submit.prevent class="create-form">
+                    <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">
+                    <button type="button" @click="saveList()" class="dk-modal-button">Next</button>
+                </form>
+            </div>
+        </modal>
         <div class="dash-wrapper">
             <div class="recipes-on-list-wrapper" @click="isHidden = !isHidden">
                 <h4 class="recipes-on-list-title">
@@ -15,11 +28,11 @@
             </div>
             <div class="recent-list-wrapper">
                 <h4 class="recent-list-title">
-                    <router-link :to="{name: 'grocery-list', params: {id : list.id}}">{{list.title}}</router-link>
+                    <router-link :to="{name: 'grocery-lists', params: {id : list.id}}">{{list.title}}</router-link>
                 </h4>
             </div>
             <div class="actions-wrapper">
-                <button class="dash-action">
+                <button class="dash-action" @click="newListModal">
                     <span class="dash-action-text">Create a New Grocery List</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.95 85.44" class="dash-svg">
                         <g id="add-list">
@@ -71,19 +84,20 @@
 </template>
 
 <script>
+    import Modal from './Modal.vue';
+    import GroceryLists from './resources/GroceryLists';
+
     export default {
         name: "Dashboard",
-
-        props: [
-            'recipes',
-            'list'
-        ],
 
         data() {
             return {
                 orderedRecipes: [],
                 isHidden : true,
-                list: {}
+                list: {},
+                newGroceryListModalShown: false,
+                Modal,
+                GroceryLists,
             }
         },
 
@@ -96,6 +110,20 @@
             loadRecentList() {
                 axios.get('api/v1/grocery-list/recent').then(response => {
                     this.list = response.data;
+                });
+            },
+
+            newListModal() {
+                this.newGroceryListModalShown = true;
+            },
+
+            hideNewGroceryListModal() {
+                this.newGroceryListModalShown = false;
+            },
+
+            saveList() {
+                GroceryLists.save(this.listTitle).then((response) => {
+                    this.$router.push({ path: `/grocery-lists/${response.data.data.id}` });
                 });
             }
         }
