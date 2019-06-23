@@ -3,57 +3,20 @@
         <div class="dash-wrapper">
             <div class="recipes-on-list-wrapper" @click="isHidden = !isHidden">
                 <h4 class="recipes-on-list-title">
-                    Recipes Added to June Part 1
+                    Recipes Added to {{list.title}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : isHidden}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
                 </h4>
                 <ul class="recipes" v-bind:class="{ hidden : isHidden}">
-                    <li class="recipe-title">Chicken & Rice Casserole</li>
-                    <li class="recipe-title">Taco Salad</li>
-                    <li class="recipe-title">BLTs</li>
-                    <li class="recipe-title">So Simple Sausage & Gravy</li>
-                    <li class="recipe-title">Caesar Salad</li>
-                    <li class="recipe-title">Alton Brown's Mac & Cheese</li>
-                    <li class="recipe-title">Chili</li>
-                    <li class="recipe-title">Chicken & Rice Casserole</li>
-                    <li class="recipe-title">Taco Salad</li>
-                    <li class="recipe-title">BLTs</li>
-                    <li class="recipe-title">So Simple Sausage & Gravy</li>
-                    <li class="recipe-title">Caesar Salad</li>
-                    <li class="recipe-title">Alton Brown's Mac & Cheese</li>
-                    <li class="recipe-title">Chili</li>
-                    <li class="recipe-title">Chicken & Rice Casserole</li>
-                    <li class="recipe-title">Taco Salad</li>
-                    <li class="recipe-title">BLTs</li>
-                    <li class="recipe-title">So Simple Sausage & Gravy</li>
-                    <li class="recipe-title">Caesar Salad</li>
-                    <li class="recipe-title">Alton Brown's Mac & Cheese</li>
-                    <li class="recipe-title">Chili</li>
-                    <li class="recipe-title">Chicken & Rice Casserole</li>
-                    <li class="recipe-title">Taco Salad</li>
-                    <li class="recipe-title">BLTs</li>
-                    <li class="recipe-title">So Simple Sausage & Gravy</li>
-                    <li class="recipe-title">Caesar Salad</li>
-                    <li class="recipe-title">Alton Brown's Mac & Cheese</li>
-                    <li class="recipe-title">Chili</li>
-                    <li class="recipe-title">Chicken & Rice Casserole</li>
-                    <li class="recipe-title">Taco Salad</li>
-                    <li class="recipe-title">BLTs</li>
-                    <li class="recipe-title">So Simple Sausage & Gravy</li>
-                    <li class="recipe-title">Caesar Salad</li>
-                    <li class="recipe-title">Alton Brown's Mac & Cheese</li>
-                    <li class="recipe-title">Chili</li>
-                    <li class="recipe-title">Chicken & Rice Casserole</li>
-                    <li class="recipe-title">Taco Salad</li>
-                    <li class="recipe-title">BLTs</li>
-                    <li class="recipe-title">So Simple Sausage & Gravy</li>
-                    <li class="recipe-title">Caesar Salad</li>
-                    <li class="recipe-title">Alton Brown's Mac & Cheese</li>
-                    <li class="recipe-title">Chili</li>
+                    <li v-for="recipe in list.recipes" class="recipe-title">
+                        <router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link>
+                    </li>
                 </ul>
 
             </div>
             <div class="recent-list-wrapper">
-                <h4 class="recent-list-title">June Part 1</h4>
+                <h4 class="recent-list-title">
+                    <router-link :to="{name: 'grocery-list', params: {id : list.id}}">{{list.title}}</router-link>
+                </h4>
             </div>
             <div class="actions-wrapper">
                 <button class="dash-action">
@@ -119,16 +82,22 @@
         data() {
             return {
                 orderedRecipes: [],
-                isHidden : true
+                isHidden : true,
+                list: {}
             }
         },
 
         created() {
             this.orderedRecipes = _.sortBy(this.recipes, 'title');
+            this.loadRecentList()
         },
 
         methods : {
-
+            loadRecentList() {
+                axios.get('api/v1/grocery-list/recent').then(response => {
+                    this.list = response.data;
+                });
+            }
         }
     }
 </script>
