@@ -35,6 +35,8 @@ Route::group([
     Route::delete('grocery-lists/{grocerylist}', 'GroceryListController@delete');
     Route::patch('grocery-lists/{grocerylist}', 'GroceryListController@update');
 
+    Route::get('grocery-list/recent', 'RecentGroceryListController@show')->name('grocery-list.recent');
+
     Route::get('recipes', 'RecipeController@index');
     Route::post('recipes', 'RecipeController@store');
     Route::get('recipes/{recipe}', 'RecipeController@show');
