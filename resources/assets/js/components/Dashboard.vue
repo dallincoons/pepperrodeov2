@@ -19,7 +19,7 @@
                     Recipes Added to {{list.title}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : isHidden}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
                 </h4>
-                <ul class="recipes" v-bind:class="{ hidden : isHidden}">
+                <ul class="recipes" v-bind:class="{ 'dash-hidden' : isHidden}">
                     <li v-for="recipe in list.recipes" class="recipe-title">
                         <router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link>
                     </li>
@@ -278,7 +278,7 @@
             margin: 1.5rem 0 0 1rem;
         }
 
-        .hidden {
+        .dash-hidden {
             display: none;
         }
 
