@@ -73,6 +73,7 @@ class GroceryList extends Model implements Transformable
         $group = $this->itemGroups()->where('recipe_id', $recipe->getKey())->first();
 
         $this->items()->where('grocery_list_group_id', $group->getKey())->delete();
+        $group->delete();
     }
 
     public function getCombinedItemsAttribute()

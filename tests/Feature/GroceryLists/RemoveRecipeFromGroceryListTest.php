@@ -27,11 +27,15 @@ class RemoveRecipeFromGroceryListTest extends TestCase
         $grocerylist->addRecipe($recipeB);
 
         $this->assertCount(6, $grocerylist->items);
+        $this->assertCount(3, $grocerylist->itemGroups);
 
         $response = $this->delete(route('grocerylist.recipe.delete', [$grocerylist->getKey(), $recipeA->getKey()]));
 
-        $this->assertCount(4, $grocerylist->fresh()->items);
+        $grocerylist->refresh();
+
+        $this->assertCount(4, $grocerylist->items);
         $this->assertCount(2, $grocerylist->getRecipesAttribute());
+        $this->assertCount(2, $grocerylist->itemGroups);
         $response->assertSuccessful();
     }
 }

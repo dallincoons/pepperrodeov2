@@ -83,7 +83,14 @@
 
         </div>
 
-        <recipes-on-list v-if="viewListRecipes" :recipes="list.recipes" :list="list.title" @close="viewListRecipes = !viewListRecipes"></recipes-on-list>
+        <recipes-on-list
+            v-if="viewListRecipes"
+            :recipes="list.recipes"
+            :list="list"
+            @close="viewListRecipes = !viewListRecipes"
+            @deleted="recipeDeleted"
+        >
+        </recipes-on-list>
     </div>
 </template>
 
@@ -158,7 +165,6 @@
 
             getList() {
                 axios.get('/api/v1/grocery-lists/' + this.listId).then((response) => {
-                    console.log(response.data);
                     this.list = response.data;
                 });
             },
@@ -196,6 +202,10 @@
             openEditItem(item) {
                 this.itemToUpdate = item;
                 this.displayModal();
+            },
+
+            recipeDeleted() {
+                this.getList();
             },
 
             deleteItem(itemToUpdate) {
