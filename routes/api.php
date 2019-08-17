@@ -49,6 +49,7 @@ Route::group([
     Route::post('grocery-list-item-completion/{groceryListItem}', 'GroceryListItemCompletionController@store');
 
     Route::post('grocerylist/{grocerylist}/add-recipes', 'AddRecipeToGrocerylistController@store');
+    Route::delete('grocerylist/{grocerylist}/recipe/{recipe}', 'RemoveRecipeFromGrocerylistController')->name('grocerylist.recipe.delete');
 
     Route::post('recipe/{recipe}/add-ingredients', 'IngredientController@store');
     Route::delete('ingredients/{ingredient}', 'IngredientController@delete');
