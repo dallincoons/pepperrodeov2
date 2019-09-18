@@ -133,7 +133,7 @@
 <style scoped>
     .container {
         display: grid;
-        grid-template-rows: 10% auto;
+        grid-template-rows: 2% auto;
         height: 100vh;
     }
 

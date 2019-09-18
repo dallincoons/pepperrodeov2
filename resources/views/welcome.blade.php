@@ -23,7 +23,7 @@
 
     @section('content')
 
-        <div class="nav-wrapper">
+        <div class="nav-wrapper container">
 
             <nav class="main-nav">
                 <router-link to="/" class="nav-brand tk-reklame-script">Pepper Rodeo</router-link>

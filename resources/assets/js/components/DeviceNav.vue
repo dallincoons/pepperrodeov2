@@ -1,8 +1,24 @@
 <template>
   <div class="device-nav-wrapper">
-    <router-link to="/grocery-lists" class="device-icon"><lists></lists></router-link>
-    <router-link to="/recipes" class="device-icon"><recipes></recipes></router-link>
-    <a href="/logout" class="device-icon"><settings></settings></a>
+    <router-link to="/" class="device-icon" active-class="device-active" exact>
+      <div class="icon">
+        <house></house>
+      </div>
+      <span class="text">Home</span>
+    </router-link>
+    <router-link to="/grocery-lists" class="device-icon" active-class="device-active" exact>
+        <div class="icon">
+            <lists-two></lists-two>
+        </div>
+        <span class="text">Grocery Lists</span>
+    </router-link>
+    <router-link to="/recipes" class="device-icon" active-class="device-active" exact>
+    <div class="icon">
+        <recipes></recipes>
+    </div>
+    <span class="text">Recipes</span>
+    </router-link>
+    <a href="/logout" class="device-icon"><logout class="icon"></logout></a>
   </div>
 
 </template>
@@ -12,13 +28,17 @@
   //Assets
   import Settings from './assets/settings.vue';
   import Recipes from './assets/recipes.vue';
-  import Lists from './assets/lists.vue';
+  import ListsTwo from './assets/listTwo.vue';
+  import House from './assets/house.vue';
+  import Logout from './assets/logout.vue'
 
     export default {
       components : {
         Settings,
         Recipes,
-        Lists
+        ListsTwo,
+        House,
+        Logout
       },
       data() {
         return {
