@@ -175,8 +175,16 @@
     .recipe-title {
         font-size: 16px;
         font-weight: 400;
-        color: #423d33;
         padding-bottom: .5rem;
+    }
+
+    .recipe-title a {
+        color: #423d33;
+    }
+
+    .recipe-title:hover a {
+        font-weight: 600;
+        text-decoration: none;
     }
 
     .recent-list-wrapper {
@@ -190,8 +198,16 @@
     }
     .recent-list-title {
         margin: 2rem 0 0 2rem;
-        color: #27241d;
         font-size: 20px;
+    }
+
+    .recent-list-title a {
+        color: #27241d;
+    }
+
+    .recent-list-title:hover a {
+        font-weight: 600;
+        text-decoration: none;
     }
 
     .actions-wrapper {
@@ -211,6 +227,10 @@
         color: #27241d;
         font-weight: 500;
         font-size: 16px;
+    }
+
+    .dash-action:hover {
+        font-weight: 600;
     }
 
     .dash-svg {
