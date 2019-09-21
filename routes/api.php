@@ -43,6 +43,8 @@ Route::group([
     Route::patch('recipes/{recipe}', 'RecipeController@update');
     Route::delete('recipes/{recipe}', 'RecipeController@delete');
 
+    Route::get('deleted_recipes', 'DeletedRecipesController@index');
+
     Route::post('grocery-list-item', 'GroceryListItemController@store');
     Route::delete('grocery-list-item/{groceryListItem}', 'GroceryListItemController@delete');
     Route::patch('grocery-list-item', 'GroceryListItemController@update');

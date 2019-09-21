@@ -5,6 +5,7 @@ namespace Tests\Feature\Recipe;
 use App\Entities\Ingredient;
 use App\Entities\Recipe;
 use App\User;
+use Carbon\Carbon;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
@@ -77,5 +78,21 @@ class RetrievesRecipeTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertArrayHasKey('category', $responseRecipe);
+    }
+
+    /**
+     * @test
+     */
+    public function get_deleted_recipes()
+    {
+        create(Recipe::class, [
+            'deleted_at' => Carbon::now(),
+        ]);
+
+        $response = $this->get($this->api('deleted_recipes'));
+
+        $recipe = $response->decodeResponseJson();
+
+        $this->assertCount(1, $recipe);
     }
 }
