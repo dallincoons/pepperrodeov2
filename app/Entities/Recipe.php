@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Recipe extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'title', 'directions',
         'category_id', 'prep_time',

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recipe;
 
+use App\Entities\GroceryList;
 use App\Entities\GroceryListItem;
 use App\Entities\GroceryListItemGroup;
 use App\Entities\Recipe;
@@ -29,8 +30,11 @@ class DeleteRecipeTest extends TestCase
     public function it_keeps_grocery_list_items_when_recipe_is_deleted()
     {
         $recipe = factory(Recipe::class)->create();
+        $groceryList = create(GroceryList::class);
+
+        $groceryList->addRecipe($recipe);
         $group = factory(GroceryListItemGroup::class)->create(['recipe_id' => $recipe->getKey()]);
-        $item = factory(GroceryListItem::class)->create(['grocery_list_group_id' => $group->getKey()]);
+        $item = factory(GroceryListItem::class)->create(['grocery_list_group_id' => $group->getKey(), 'grocery_list_id' => $groceryList->getKey()]);
 
         $recipe->delete();
 
