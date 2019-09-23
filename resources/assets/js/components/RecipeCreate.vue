@@ -15,7 +15,7 @@
                     <span class="create-recipe-label">Category</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <span class="create-recipe-radio-button"></span>
+                            <!--<span class="create-recipe-radio-button"></span>-->
                             <input :value="category.id" type="radio" v-model="selectedCategory" id="create-recipe-radio-button" class="create-recipe-category-radio">
                             <label for="create-recipe-radio-button" class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
@@ -45,26 +45,31 @@
                 <span class="create-caret"><caret></caret></span>
             </div>
             <div class="create-recipe-body">
-                <div class="recipe-items" :class="{showItems : toggleIngredients}">
+                <div :class="{showItems : toggleIngredients}" class="create-recipe-ingredients-ntb-wrapper">
                     <div class="create-recipe-ingredients-wrapper">
-                        <label class="create-recipe-label recipe-item">Add Ingredients</label>
+                        <label class="create-recipe-label">Add Ingredients</label>
                         <div class="create-recipe-add-ingredient-section">
                             <input class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
-                            <span @click="addIngredient" class="add-ingredient-button"></span>
+                            <span @click="addIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
                         </div>
 
-                        <ul class="saved-list-of-ingredients recipe-item">
-                            <li v-for="(ingredient, index) in ingredients" class="ingredient-items">{{ingredient.full_description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>
+                        <ul class="recipe-item">
+                            <li v-for="(ingredient, index) in ingredients" class="create-ingredient-items">{{ingredient.full_description}}
+                                <div @click="deleteIngredient(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                            </li>
                         </ul>
                     </div>
                     <div class="need-to-buys-wrapper">
                         <div class="need-to-buys-section">
-                            <h4 class="add-ingredient-headings sm-scrn-heading" @click="showNeedToBuy = !showNeedToBuy">Need to Buy
+                            <label class="create-recipe-label create-recipe-need-to-buy-title" @click="showNeedToBuy = !showNeedToBuy">
+                                Need to Buy
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
-                            </h4>
+                            </label>
 
-                            <ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">
-                                <li v-for="(needToBuy, index) in needToBuys" class="buy-items">{{needToBuy.full_description}}<div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>
+
+                            <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showNeedToBuy}">
+                                <li v-for="(needToBuy, index) in needToBuys" class="create-ingredient-items">{{needToBuy.full_description}}
+                                    <div @click="deleteNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div></li>
                             </ul>
                         </div>
 
@@ -146,6 +151,8 @@
     import AddIcon from "./assets/add-icon";
     import AddIconDark from './assets/add-icon-dark';
     import Caret from './assets/caret';
+    import AddPlus from './assets/add-plus';
+    import XIcon from './assets/x-icon';
 
     export default {
         components : {
@@ -153,7 +160,9 @@
             NewIngredientForm,
             TrashCan,
             AddIconDark,
-            Caret
+            Caret,
+            AddPlus,
+            XIcon
         },
         data() {
             return {
