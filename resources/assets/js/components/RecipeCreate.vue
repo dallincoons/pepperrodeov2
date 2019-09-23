@@ -77,67 +77,21 @@
                 </div>
             </div>
         </div>
-        <!--<div class="create-recipe-header">-->
-            <!--<div class="recipe-details">-->
-                <!--<div class="create-recipe-title recipe-item">-->
-                    <!--<span class="create-recipe-label">Title</span>-->
-                    <!--<input type="text" required v-model="recipeTitle" class="create-recipe-input">-->
-                <!--</div>-->
-                <!--<div class="create-recipe-category recipe-item">-->
-                    <!--<span class="create-recipe-label">Category</span>-->
-                    <!--<ul>-->
-                        <!--<li v-for="category in  categories" ><input :value="category.id" type="radio" v-model="selectedCategory">{{category.title}}</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-                <!--<div class="create-recipe-prep recipe-item">-->
-                    <!--<span class="create-recipe-label">Prep Time</span>-->
-                    <!--<input type="text" v-model="prepTime" class="create-recipe-input">-->
-                <!--</div>-->
-                <!--<div class="create-recipe-total recipe-item">-->
-                    <!--<span class="create-recipe-label">Total Time</span>-->
-                    <!--<input type="text" v-model="totalTime" class="create-recipe-input">-->
-                <!--</div>-->
-                <!--<div class="create-recipe-serves recipe-item">-->
-                    <!--<span class="create-recipe-label">Serves</span>-->
-                    <!--<input type="text" v-model="serves" class="create-recipe-input">-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <div class="recipe-body">
-            <!--<h4 @click="toggleIngredients = true" class="sm-scrn recipe-ingredient-subheading">Ingredients </h4>-->
-            <h4 @click="toggleIngredients = false" class="sm-scrn recipe-directions-subheading">Directions</h4>
-            <div class="recipe-items" :class="{showItems : toggleIngredients}">
-                <!--<div class="ingredients-wrapper">-->
-                    <!--<h4 class="add-ingredient-headings">Ingredients <span @click="addIngredient" class="add-ingredient-button"><add-icon-dark></add-icon-dark></span></h4>-->
-                    <!--<input class="ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" > <span @click="addIngredient" class="add-ingredient-button-sm"><add-icon-dark></add-icon-dark></span>-->
-                    <!--<ul class="saved-list-of-ingredients">-->
-                        <!--<li v-for="(ingredient, index) in ingredients" class="ingredient-items">{{ingredient.full_description}} <div @click="deleteIngredient(index)"><trash-can></trash-can></div></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-                <!--<div class="need-to-buys-wrapper">-->
-                    <!--<div class="need-to-buys-section">-->
-                        <!--<h4 class="add-ingredient-headings sm-scrn-heading" @click="showNeedToBuy = !showNeedToBuy">Need to Buy-->
-                            <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>-->
-                        <!--</h4>-->
 
-                        <!--<ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">-->
-                            <!--<li v-for="(needToBuy, index) in needToBuys" class="buy-items">{{needToBuy.full_description}}<div @click="deleteNeedToBuy(index)"><trash-can></trash-can></div></li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-
-                <!--</div>-->
+        <div class="create-recipe-section-wrapper">
+            <div class="create-recipe-header">
+                <h4>{{recipeTitle}} Directions</h4>
+                <span class="create-caret"><caret></caret></span>
             </div>
-            <div class="directions-wrapper" :class="[toggleIngredients ? '' : 'showItems' ]">
-                <div class="saved-directions">
-                    <h4 class="add-ingredient-headings">Directions</h4>
-                    <textarea v-model="directions" class="directions-textarea"></textarea>
-                </div>
-                <div>
-                    <button @click="saveRecipe">Save</button>
-                    <button>Cancel</button>
+            <div class="create-recipe-body">
+                <div class="create-recipe-title recipe-item">
+                    <span class="create-recipe-label">Add Directions</span>
+                    <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
                 </div>
             </div>
-
+        </div>
+        <div class="create-recipe-section-buttons">
+            <button @click="saveRecipe" class="create-recipe-save">Save {{recipeTitle}}</button>
         </div>
     </div>
 </template>
