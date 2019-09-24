@@ -1,6 +1,14 @@
 //Page Wide Styles
 .create-recipe-wrapper {
   padding: 2rem;
+  display: grid;
+  grid-template-columns: minmax(1fr, 1fr) minmax(1fr, 1fr) minmax(1fr, 1fr);
+  grid-gap: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 1170px;
 }
 
 .create-recipe-section-wrapper {
@@ -68,6 +76,24 @@
   flex-direction: column;
   padding: 0 .5rem 1.5rem .5rem;
 }
+@media (min-width: 1200px) {
+  .create-recipe-section-wrapper {
+    width: 1170px;
+  }
+}
+
+@media (min-width: 992px) {
+  .create-recipe-section-wrapper {
+    width: 970px;
+  }
+}
+
+@media (max-width: 800px) {
+  .create-recipe-section-wrapper {
+    width: 100%;
+  }
+}
+
 @import "./Recipe Related Styling/Create Recipe/Buttons";
 
 @import "./Recipe Related Styling/Create Recipe/Details";
