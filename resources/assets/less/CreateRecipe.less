@@ -19,20 +19,42 @@
 
 .create-recipe-header {
   background: @pr-brand-color;
-  color: @pr-brand-white;
   display: flex;
   justify-content: space-between;
   padding: 0 1.5rem 0 1rem;
   border-radius: 4px 4px 0 0;
+}
+.create-recipe-header h4 {
+  color: @pr-brand-white;
 }
 
 .create-caret {
   transform: rotate(90deg);
   display: flex;
   align-items: center;
+  transition: all .1s ease-in-out;
 }
+
+.caret-svg {
+  fill: @pr-brand-white;
+}
+
+.rotate-caret {
+  transform: rotate(30deg);
+  transition: all .1s ease-in-out;
+}
+
 .create-recipe-body {
   padding: .5rem;
+  height: auto;
+  opacity: 1;
+  transition: height .3s ease-in-out;
+}
+
+.hide-info {
+  opacity: 0;
+  height: 0;
+  transition: height .3s ease-in-out;
 }
 
   .create-recipe-label {
@@ -216,6 +238,7 @@
 
 .create-recipe-textarea {
   min-height: 300px;
+  white-space: pre-wrap;
 }
 
 .create-recipe-section-buttons {

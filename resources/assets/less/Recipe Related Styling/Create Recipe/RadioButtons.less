@@ -1,0 +1,47 @@
+.create-recipe-category-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.create-recipe-radio-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  position: relative;
+  top: 10px;
+  height: 30px;
+  width: 30px;
+  border: @pr-brand-grey-6 2px solid;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-right: 7px;
+  outline: none;
+}
+
+.create-recipe-radio-button:checked::before {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  background: @pr-brand-color;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  content: ' ';
+}
+
+.create-recipe-radio-button:hover
+{
+  //border: @pr-brand-grey-6 4px solid;
+}
+
+.create-recipe-radio-button:checked
+{
+  //border: @pr-brand-grey-6 3px solid;
+}
+
+.create-recipe-radio-label {
+  color: @pr-brand-grey-4;
+  cursor: pointer;
+  font-weight: 300;
+}

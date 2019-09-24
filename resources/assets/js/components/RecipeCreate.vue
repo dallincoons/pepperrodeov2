@@ -2,11 +2,11 @@
     <div class="create-recipe-wrapper">
         <h2 class="create-recipe-page-title">Create Recipe</h2>
         <div class="create-recipe-section-wrapper">
-            <div class="create-recipe-header">
+            <div class="create-recipe-header" @click="createDetailsHidden = !createDetailsHidden">
                 <h4>Recipe Details</h4>
-                <span class="create-caret"><caret></caret></span>
+                <span class="create-caret" :class="{'rotate-caret' : createDetailsHidden}"><caret></caret></span>
             </div>
-            <div class="create-recipe-body">
+            <div class="create-recipe-body" :class="{'hide-info' : createDetailsHidden}">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Title</span>
                     <input type="text" required v-model="recipeTitle" class="create-recipe-input">
@@ -15,9 +15,8 @@
                     <span class="create-recipe-label">Category</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <!--<span class="create-recipe-radio-button"></span>-->
-                            <input :value="category.id" type="radio" v-model="selectedCategory" id="create-recipe-radio-button" class="create-recipe-category-radio">
-                            <label for="create-recipe-radio-button" class="create-recipe-radio-label">{{category.title}}</label>
+                            <input type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <label class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
                     </ul>
                 </div>
@@ -40,12 +39,12 @@
         </div>
 
         <div class="create-recipe-section-wrapper">
-            <div class="create-recipe-header">
+            <div class="create-recipe-header"  @click="createIngredientsHidden = !createIngredientsHidden">
                 <h4>{{recipeTitle}} Ingredients</h4>
-                <span class="create-caret"><caret></caret></span>
+                <span class="create-caret" :class="{'rotate-caret' : createIngredientsHidden}"><caret></caret></span>
             </div>
-            <div class="create-recipe-body">
-                <div :class="{showItems : toggleIngredients}" class="create-recipe-ingredients-ntb-wrapper">
+            <div class="create-recipe-body" :class="{'hide-info' : createIngredientsHidden}">
+                <div class="create-recipe-ingredients-ntb-wrapper">
                     <div class="create-recipe-ingredients-wrapper">
                         <label class="create-recipe-label">Add Ingredients</label>
                         <div class="create-recipe-add-ingredient-section">
@@ -79,11 +78,11 @@
         </div>
 
         <div class="create-recipe-section-wrapper">
-            <div class="create-recipe-header">
+            <div class="create-recipe-header" @click="createDirectionsHidden = !createDirectionsHidden">
                 <h4>{{recipeTitle}} Directions</h4>
-                <span class="create-caret"><caret></caret></span>
+                <span class="create-caret" :class="{'rotate-caret' : createDirectionsHidden}"><caret></caret></span>
             </div>
-            <div class="create-recipe-body">
+            <div class="create-recipe-body" :class="{'hide-info' : createDirectionsHidden}">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Add Directions</span>
                     <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
@@ -99,21 +98,15 @@
 
 <script>
     import NewIngredientForm from './NewIngredientForm.vue';
-    import TrashCan from './assets/trashcan.vue';
     import Categories from './resources/Categories.js';
     import Recipes from './resources/Recipes.js';
-    import AddIcon from "./assets/add-icon";
-    import AddIconDark from './assets/add-icon-dark';
     import Caret from './assets/caret';
     import AddPlus from './assets/add-plus';
     import XIcon from './assets/x-icon';
 
     export default {
         components : {
-            AddIcon,
             NewIngredientForm,
-            TrashCan,
-            AddIconDark,
             Caret,
             AddPlus,
             XIcon
@@ -134,6 +127,9 @@
                 totalTime            : '',
                 serves            : '',
                 showNeedToBuy : true,
+                createDetailsHidden : false,
+                createIngredientsHidden : false,
+                createDirectionsHidden : false
             }
         },
         mounted() {
