@@ -1,6 +1,5 @@
 <template>
     <div class="create-recipe-wrapper">
-        <h2 class="create-recipe-page-title">Create Recipe</h2>
         <div class="create-recipe-section-wrapper">
             <div class="create-recipe-header" @click="createDetailsHidden = !createDetailsHidden">
                 <h4>Recipe Details</h4>
