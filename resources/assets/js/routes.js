@@ -29,6 +29,7 @@ let routes = [
     {
         'path' : '/recipe/create',
         'component' : RecipeCreate,
+        'name' : 'create-recipe',
     },
     {
         'path' : '/recipes',

@@ -49,6 +49,7 @@
                         </g>
                     </svg>
                 </button>
+                <router-link :to="{name: 'create-recipe'}">
                 <button class="dash-action">
                     <span class="dash-action-text">Add a New Recipe</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89.36 86.53" class="dash-svg">
@@ -64,6 +65,7 @@
                         </g>
                     </svg>
                 </button>
+                </router-link>
 
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252.9 281.65" class="background-svg apple">
