@@ -1,88 +1,95 @@
 <template>
         <div class="recipe-wrapper">
             <div class="recipe-header">
-                <div class="recipe-title-cat">
-                    <h3 class="recipe-title">
-                        <span v-if="!editable">{{recipe.title}} </span>
-                        <input v-else v-model="recipe.title" class="edit-heading">
-                    </h3>
-                    <h5 class="recipe-category">
-                        <span v-if="!editable">{{category.title}}</span>
-                        <select v-model="recipe.category.id" v-else class="edit-category">
-                            <option v-for="category in categories" :value="category.id">{{category.title}}</option>
-                        </select>
-                    </h5>
+                <h3 class="recipe-title">{{recipe.title}}</h3>
+                <p>{{category.title}}</p>
+            </div>
+            <div class="recipe-details">
+                <div class="recipe-detail">
+                    <p class="recipe-detail-title">prep time</p>
+                    <p class="recipe-detail-info">20 mins</p>
                 </div>
-                <div class="recipe-extra-info">
-                    <div class="recipe-info">
-                        <h4 class="recipe-info-title">Prep Time </h4><h4 class="recipe-info-detail">15 min</h4>
-                    </div>
-                    <div class="recipe-info">
-                        <h4 class="recipe-info-title">Total Time </h4><h4 class="recipe-info-detail">45 min</h4>
-                    </div>
-                    <div class="recipe-info">
-                        <h4 class="recipe-info-title">Serves </h4><h4 class="recipe-info-detail">5 - 6</h4>
-                    </div>
+                <div class="recipe-detail">
+                    <p class="recipe-detail-title">total time</p>
+                    <p class="recipe-detail-info">50 mins</p>
                 </div>
-                <div class="recipe-actions">
-                    <div class="recipe-action" @click="toggleAddToList">
-                        <addToList></addToList>
-                    </div>
-                    <div class="recipe-action" v-if="!editable" @click="editable=true">
-                        <editIcon></editIcon>
-                    </div>
-                    <div v-if="editable" @click="updateRecipe" class="recipe-action">
-                        <save-icon></save-icon>
-                    </div>
-                    <div v-if="editable" @click="editable=false" class="recipe-action">
-                        <cancel-icon></cancel-icon>
-                    </div>
-                    <div class="recipe-action">
-                        <span>SH</span>
-                    </div>
-                    <div class="recipe-action" @click="deleteRecipe">
-                        <trashIcon></trashIcon>
-                    </div>
-                </div>
-                <div class="recipe-options" :class="{'show-options' : addToListVisible}">
-                    <div class="recipe-drop-wrapper" :class="{'show-box' : addToListVisible}">
-                        <select v-model="groceryListId">
-                            <option v-for="list in lists" :value="list.id">{{list.title}}</option>
-                        </select>
-                        <span @click="addToList">Add to List</span>
-                    </div>
+                <div class="recipe-detail">
+                    <p class="recipe-detail-title">serves</p>
+                    <p class="recipe-detail-info">4 - 6</p>
                 </div>
             </div>
             <div class="recipe-body">
-                <h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>
-                <h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading sm-directions-heading">Directions</h4>
+                <div class="recipe-body-header">
+                    <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleIngredients}">Ingredients</h4>
+                    <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleDirections}">Directions</h4>
+                </div>
+                <div class="recipe-body-info">
+                    <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
+                        <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                            <span v-if="!editable">{{ingredient.full_description}}</span>
+                        </li>
+                    </ul>
+                    <p class="recipe-directions" :class="{'view-directions' : toggleDirections}">
+                        {{recipe.directions}}
+                    </p>
+                </div>
+            </div>
+            <!--<div>-->
+                <!--<div class="recipe-title-categoory-section">-->
+                    <!--<h3 class="recipe-title">-->
+                        <!--<span v-if="!editable">{{recipe.title}} </span>-->
+                        <!--<input v-else v-model="recipe.title" class="edit-heading">-->
+                    <!--</h3>-->
+                    <!--<h5 class="recipe-category">-->
+                        <!--<span v-if="!editable">{{category.title}}</span>-->
+                        <!--<select v-model="recipe.category.id" v-else class="edit-category">-->
+                            <!--<option v-for="category in categories" :value="category.id">{{category.title}}</option>-->
+                        <!--</select>-->
+                    <!--</h5>-->
+                <!--</div>-->
+                <!--<div class="recipe-extra-info">-->
+                    <!--<div class="recipe-info">-->
+                        <!--<h4 class="recipe-info-title">Prep Time </h4><h4 class="recipe-info-detail">15 min</h4>-->
+                    <!--</div>-->
+                    <!--<div class="recipe-info">-->
+                        <!--<h4 class="recipe-info-title">Total Time </h4><h4 class="recipe-info-detail">45 min</h4>-->
+                    <!--</div>-->
+                    <!--<div class="recipe-info">-->
+                        <!--<h4 class="recipe-info-title">Serves </h4><h4 class="recipe-info-detail">5 - 6</h4>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+            <div class="recipe-body">
+                <!--<h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>-->
+                <!--<h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading sm-directions-heading">Directions</h4>-->
                 <div class="recipe-items" :class="{'view-ingredients' : toggleIngredients}">
-                    <div class="ingredients-wrapper">
-                        <h4 class="add-ingredient-headings">Ingredients
-                            <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">
-                                <add-icon></add-icon>
-                            </span>
-                            <span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-sm">
-                                <add-icon-dark></add-icon-dark>
-                             </span>
-                        </h4>
-                        <div class="all-ingredients">
-                            <ul class="saved-list-of-ingredients">
-                                <li v-for="ingredient in recipe.ingredients" class="ingredient-items">
-                                    <span v-if="!editable">{{ingredient.full_description}}</span>
-                                    <div v-else class="edit-ingredient-wrapper">
-                                        <input v-model="ingredient.full_description" class="edit-ingredient-input">
-                                        <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-lg">
-                                            <trash-icon-white></trash-icon-white>
-                                        </div>
-                                        <div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-sm">
-                                            <trash-icon width="20" height="20"></trash-icon>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <!--<div class="ingredients-wrapper">-->
+                        <!--<h4 class="add-ingredient-headings">Ingredients-->
+                            <!--<span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">-->
+                                <!--<add-icon></add-icon>-->
+                            <!--</span>-->
+                            <!--<span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-sm">-->
+                                <!--<add-icon-dark></add-icon-dark>-->
+                             <!--</span>-->
+                        <!--</h4>-->
+                        <!--<div class="all-ingredients">-->
+                            <!--<ul class="saved-list-of-ingredients">-->
+                                <!--<li v-for="ingredient in recipe.ingredients" class="ingredient-items">-->
+                                    <!--<span v-if="!editable">{{ingredient.full_description}}</span>-->
+                                    <!--<div v-else class="edit-ingredient-wrapper">-->
+                                        <!--<input v-model="ingredient.full_description" class="edit-ingredient-input">-->
+                                        <!--<div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-lg">-->
+                                            <!--<trash-icon-white></trash-icon-white>-->
+                                        <!--</div>-->
+                                        <!--<div v-if="ingredient.id" @click="deleteIngredient(ingredient.id)" class="delete-ingredient svg-sm">-->
+                                            <!--<trash-icon width="20" height="20"></trash-icon>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="need-to-buys-wrapper">
                         <div class="need-to-buys-section">
                             <div class="need-to-buys-title-section">
@@ -116,14 +123,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="directions-wrapper" :class="{'view-directions' : toggleDirections}">
-                    <div class="saved-directions">
-                        <h4 class="add-ingredient-headings">Directions</h4>
-                        <p class="directions-text">
-                            <span v-if="!editable">{{recipe.directions}}</span>
-                            <textarea v-else v-model="recipe.directions" class="edit-directions"></textarea>
-                        </p>
-                    </div>
+                <!--<div class="directions-wrapper" :class="{'view-directions' : toggleDirections}">-->
+                    <!--<div class="saved-directions">-->
+                        <!--<h4 class="add-ingredient-headings">Directions</h4>-->
+                        <!--<p class="directions-text">-->
+                            <!--<span v-if="!editable">{{recipe.directions}}</span>-->
+                            <!--<textarea v-else v-model="recipe.directions" class="edit-directions"></textarea>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="recipe-actions">
+                <div class="recipe-action" @click="toggleAddToList">
+                    <addToList></addToList>
+                </div>
+                <div class="recipe-action" v-if="!editable" @click="editable=true">
+                    <editIcon></editIcon>
+                </div>
+                <div v-if="editable" @click="updateRecipe" class="recipe-action">
+                    <save-icon></save-icon>
+                </div>
+                <div v-if="editable" @click="editable=false" class="recipe-action">
+                    <cancel-icon></cancel-icon>
+                </div>
+                <div class="recipe-action">
+                    <span>SH</span>
+                </div>
+                <div class="recipe-action" @click="deleteRecipe">
+                    <trashIcon></trashIcon>
+                </div>
+            </div>
+            <div class="recipe-options" :class="{'show-options' : addToListVisible}">
+                <div class="recipe-drop-wrapper" :class="{'show-box' : addToListVisible}">
+                    <select v-model="groceryListId">
+                        <option v-for="list in lists" :value="list.id">{{list.title}}</option>
+                    </select>
+                    <span @click="addToList">Add to List</span>
                 </div>
             </div>
         </div>
