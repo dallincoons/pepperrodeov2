@@ -4,7 +4,7 @@
         <span class="close-modal" @click="displayModal" transition="modal">x</span>
         <h3 class="modal-heading">Edit Item</h3>
         <div class="modal-edit-section">
-            <input class="modal-edit-input" :value="description" v-model="description">
+            <input class="modal-edit-input" v-model="description">
             <select v-model="department" class="edit-dept-options">
                 <option v-for="department in departments" :value="department.id">{{department.name}}</option>
             </select>
