@@ -1,5 +1,5 @@
 <template>
-        <div class="recipe-wrapper">
+        <div class="recipe-wrapper container">
             <div class="recipe-header">
                 <h3 class="recipe-title">{{recipe.title}}</h3>
                 <p>{{category.title}}</p>
