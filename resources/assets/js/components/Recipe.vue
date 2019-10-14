@@ -29,9 +29,40 @@
                             <span v-if="!editable">{{ingredient.full_description}}</span>
                         </li>
                     </ul>
+                    <div class="recipe-need-to-buy-wrapper" :class="{'view-ingredients' : toggleIngredients}">
+                        <h4 class="recipe-need-to-buy-title" @click="showNeedToBuy = !showNeedToBuy">
+                            Need to Buy
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="recipe-chevron" :class="{'chevron-rotate' : !showNeedToBuy}" >
+                                <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/>
+                            </svg>
+                        </h4>
+                        <ul class="recipe-need-to-buy-list" :class="{'recipe-need-to-buy-hidden' : !showNeedToBuy}">
+                            <li v-for="listable_ingredient in recipe.listable_ingredients" class="recipe-buy-items">{{listable_ingredient.full_description}}</li>
+                        </ul>
+                    </div>
                     <p class="recipe-directions" :class="{'view-directions' : toggleDirections}">
                         {{recipe.directions}}
                     </p>
+                </div>
+            </div>
+            <div class="recipe-actions">
+                <div class="recipe-action"  @click="toggleAddToList">
+                    <div class="recipe-action-icon">
+                        <addToList  width="35" height="35" fill="hsl(39, 11%, 69%)"></addToList>
+                    </div>
+                    <p class="recipe-action-title">Add to List</p>
+                </div>
+                <div class="recipe-action">
+                    <div class="recipe-action-icon">
+                        <edit-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></edit-icon>
+                    </div>
+                    <p class="recipe-action-title">Edit {{recipeTitle}}</p>
+                </div>
+                <div class="recipe-action" @click="deleteRecipe">
+                    <div class="recipe-action-icon">
+                        <trash-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></trash-icon>
+                    </div>
+                    <p class="recipe-action-title">Delete {{recipeTitle}}</p>
                 </div>
             </div>
             <!--<div>-->
@@ -60,10 +91,10 @@
                 <!--</div>-->
 
             <!--</div>-->
-            <div class="recipe-body">
+            <!--<div class="recipe-body">-->
                 <!--<h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading">Ingredients</h4>-->
                 <!--<h4 @click="toggleRecipeView" class="sm-scrn recipe-ingredient-subheading sm-directions-heading">Directions</h4>-->
-                <div class="recipe-items" :class="{'view-ingredients' : toggleIngredients}">
+                <!--<div class="recipe-items" :class="{'view-ingredients' : toggleIngredients}">-->
                     <!--<div class="ingredients-wrapper">-->
                         <!--<h4 class="add-ingredient-headings">Ingredients-->
                             <!--<span @click="addBlankIngredient" v-if="editable" class="add-ingredient-button svg-lgs">-->
@@ -90,39 +121,39 @@
                             <!--</ul>-->
                         <!--</div>-->
                     <!--</div>-->
-                    <div class="need-to-buys-wrapper">
-                        <div class="need-to-buys-section">
-                            <div class="need-to-buys-title-section">
-                                    <h4 class="add-ingredient-headings sm-scrn-heading" @click="showNeedToBuy = !showNeedToBuy">Need to Buy
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
-                                    </h4>
-                                    <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-lg">
-                                        <add-icon height="18" width="18"></add-icon>
-                                    </span>
-                                    <span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-sm">
-                                        <add-icon height="18" width="18"></add-icon>
-                                    </span>
-                            </div>
-                            <ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">
-                                <li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">
-                                    <span v-if="!editable">{{listable_ingredient.full_description}}</span>
-                                    <div v-else class="edit-ingredient-wrapper">
-                                        <input v-model="listable_ingredient.full_description" class="edit-ingredient-input">
-                                        <select style="background-color: #3f3f3f"  v-model="listable_ingredient.department_id">
-                                            <option v-for="department in departments" :value="department.id">{{department.name}}</option>
-                                        </select>
-                                        <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-lg">
-                                            <trash-icon-white></trash-icon-white>
-                                        </div>
-                                        <div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-sm">
-                                            <trash-icon></trash-icon>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                    <!--<div class="need-to-buys-wrapper">-->
+                        <!--<div class="need-to-buys-section">-->
+                            <!--<div class="need-to-buys-title-section">-->
+                                    <!--<h4 class="add-ingredient-headings sm-scrn-heading" @click="showNeedToBuy = !showNeedToBuy">Need to Buy-->
+                                        <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>-->
+                                    <!--</h4>-->
+                                    <!--<span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-lg">-->
+                                        <!--<add-icon height="18" width="18"></add-icon>-->
+                                    <!--</span>-->
+                                    <!--<span @click="addBlankListableIngredients" v-if="editable" class="add-ingredient-button svg-sm">-->
+                                        <!--<add-icon height="18" width="18"></add-icon>-->
+                                    <!--</span>-->
+                            <!--</div>-->
+                            <!--<ul class="saved-buy-item-list" :class="{'buy-visible' : showNeedToBuy}">-->
+                                <!--<li v-for="listable_ingredient in recipe.listable_ingredients" class="buy-items">-->
+                                    <!--<span v-if="!editable">{{listable_ingredient.full_description}}</span>-->
+                                    <!--<div v-else class="edit-ingredient-wrapper">-->
+                                        <!--<input v-model="listable_ingredient.full_description" class="edit-ingredient-input">-->
+                                        <!--<select style="background-color: #3f3f3f"  v-model="listable_ingredient.department_id">-->
+                                            <!--<option v-for="department in departments" :value="department.id">{{department.name}}</option>-->
+                                        <!--</select>-->
+                                        <!--<div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-lg">-->
+                                            <!--<trash-icon-white></trash-icon-white>-->
+                                        <!--</div>-->
+                                        <!--<div v-if="listable_ingredient.id" @click="deleteListableIngredient(listable_ingredient.id)" class="delete-ingredient svg-sm">-->
+                                            <!--<trash-icon></trash-icon>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <!--<div class="directions-wrapper" :class="{'view-directions' : toggleDirections}">-->
                     <!--<div class="saved-directions">-->
                         <!--<h4 class="add-ingredient-headings">Directions</h4>-->
@@ -132,35 +163,35 @@
                         <!--</p>-->
                     <!--</div>-->
                 <!--</div>-->
-            </div>
-            <div class="recipe-actions">
-                <div class="recipe-action" @click="toggleAddToList">
-                    <addToList></addToList>
-                </div>
-                <div class="recipe-action" v-if="!editable" @click="editable=true">
-                    <editIcon></editIcon>
-                </div>
-                <div v-if="editable" @click="updateRecipe" class="recipe-action">
-                    <save-icon></save-icon>
-                </div>
-                <div v-if="editable" @click="editable=false" class="recipe-action">
-                    <cancel-icon></cancel-icon>
-                </div>
-                <div class="recipe-action">
-                    <span>SH</span>
-                </div>
-                <div class="recipe-action" @click="deleteRecipe">
-                    <trashIcon></trashIcon>
-                </div>
-            </div>
-            <div class="recipe-options" :class="{'show-options' : addToListVisible}">
-                <div class="recipe-drop-wrapper" :class="{'show-box' : addToListVisible}">
-                    <select v-model="groceryListId">
-                        <option v-for="list in lists" :value="list.id">{{list.title}}</option>
-                    </select>
-                    <span @click="addToList">Add to List</span>
-                </div>
-            </div>
+            <!--</div>-->
+            <!--<div class="recipe-actions">-->
+                <!--<div class="recipe-action" @click="toggleAddToList">-->
+                    <!--<addToList></addToList>-->
+                <!--</div>-->
+                <!--<div class="recipe-action" v-if="!editable" @click="editable=true">-->
+                    <!--<editIcon></editIcon>-->
+                <!--</div>-->
+                <!--<div v-if="editable" @click="updateRecipe" class="recipe-action">-->
+                    <!--<save-icon></save-icon>-->
+                <!--</div>-->
+                <!--<div v-if="editable" @click="editable=false" class="recipe-action">-->
+                    <!--<cancel-icon></cancel-icon>-->
+                <!--</div>-->
+                <!--<div class="recipe-action">-->
+                    <!--<span>SH</span>-->
+                <!--</div>-->
+                <!--<div class="recipe-action" @click="deleteRecipe">-->
+                    <!--<trashIcon></trashIcon>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="recipe-options" :class="{'show-options' : addToListVisible}">-->
+                <!--<div class="recipe-drop-wrapper" :class="{'show-box' : addToListVisible}">-->
+                    <!--<select v-model="groceryListId">-->
+                        <!--<option v-for="list in lists" :value="list.id">{{list.title}}</option>-->
+                    <!--</select>-->
+                    <!--<span @click="addToList">Add to List</span>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 </template>
 <script>
