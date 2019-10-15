@@ -189,18 +189,18 @@
 @media (min-width: 950px ) {
   .recipe-section {
     display: grid;
-    grid-template-rows: auto 50px 50px auto;
-    grid-template-columns: .65fr .3fr;
+    grid-template-rows: auto 30px 50px auto;
+    grid-template-columns: repeat(6, auto);
     background: @pr-brand-white;
-    width: 75%;
-    margin: 0 auto;
+    margin: 1rem 4rem 2rem 4rem;
+    padding-bottom: 4rem;
   }
   .recipe-header {
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 6;
     grid-row: 1;
   }
   .recipe-details {
-    grid-column: 2;
+    grid-column: 5 / span 2;
     grid-row: 1;
     margin: 11px 0;
   }
@@ -215,15 +215,93 @@
   }
 
   .recipe-body {
-    grid-row: 2 / span 3;
-    grid-column: 1;
+    grid-row: 3 / span 3;
+    grid-column: 1 / span 5;
   }
-  .recipe-actions {
+
+  .recipe-body-header {
+    display: grid;
+    grid-template-columns: 35% 1fr;
+  }
+
+  .recipe-body-tab {
+    margin-right: 0;
+  }
+
+  .ingredients-tab {
+    background: @pr-brand-color;
+    color: @pr-brand-white;
+    font-weight: 500;
+  }
+
+  .directions-tab {
+    background: @pr-brand-white;
+    color: @pr-brand-color;
+    border: none;
+    z-index: 5;
+  }
+
+  .recipe-body-info {
+    display: grid;
+    grid-template-columns: 35% 1fr;
+    grid-template-rows: 1fr auto;
+    border: none;
+  }
+
+  .recipe-ingredients {
+    border: @pr-brand-color 2px solid;
+    border-bottom: none;
+    margin: 0;
+  }
+
+  .recipe-need-to-buy-wrapper {
+    grid-column: 1;
+    border: @pr-brand-color 2px solid;
+    border-top: none;
+    background: @pr-brand-grey-10;
+
+  }
+
+  .recipe-need-to-buy-title {
+    cursor: pointer;
+  }
+
+  .recipe-directions {
+    display: block;
+    grid-row: 1;
     grid-column: 2;
+  }
+
+  .recipe-actions {
+    grid-column: 6;
     grid-row: 3;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: 1fr;
-    width: 40%;
+    justify-self: end;
+  }
+
+  .recipe-action {
+    grid-template-rows: 1fr auto;
+    border: none;
+    font-weight: 500;
+  }
+
+  .recipe-action-title {
+      opacity: 0;
+      height: 0;
+      background: none;
+    color: @pr-brand-grey-6;
+      transition: all .4s ease-in-out;
+  }
+
+  .recipe-action:hover {
+    cursor: pointer;
+  }
+
+  .recipe-action:hover .recipe-action-title {
+    opacity: 1;
+    height: auto;
+    transition: all .4s ease-in-out;
   }
 }
 

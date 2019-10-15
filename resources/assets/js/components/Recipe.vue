@@ -21,8 +21,8 @@
                 </div>
                 <div class="recipe-body">
                     <div class="recipe-body-header">
-                        <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleIngredients}">Ingredients</h4>
-                        <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleDirections}">Directions</h4>
+                        <h4  @click="toggleRecipeView" class="recipe-body-tab ingredients-tab" :class="{'active-tab' : toggleIngredients}">Ingredients</h4>
+                        <h4  @click="toggleRecipeView" class="recipe-body-tab directions-tab" :class="{'active-tab' : toggleDirections}">Directions</h4>
                     </div>
                     <div class="recipe-body-info">
                         <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
