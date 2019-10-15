@@ -1,70 +1,73 @@
 <template>
         <div class="recipe-wrapper container">
-            <div class="recipe-header">
-                <h3 class="recipe-title">{{recipe.title}}</h3>
-                <p>{{category.title}}</p>
-            </div>
-            <div class="recipe-details">
-                <div class="recipe-detail">
-                    <p class="recipe-detail-title">prep time</p>
-                    <p class="recipe-detail-info">20 mins</p>
+            <div class="recipe-section">
+                <div class="recipe-header">
+                    <h3 class="recipe-title">{{recipe.title}}</h3>
+                    <p>{{category.title}}</p>
                 </div>
-                <div class="recipe-detail">
-                    <p class="recipe-detail-title">total time</p>
-                    <p class="recipe-detail-info">50 mins</p>
+                <div class="recipe-details">
+                    <div class="recipe-detail">
+                        <p class="recipe-detail-title">prep time</p>
+                        <p class="recipe-detail-info">20 mins</p>
+                    </div>
+                    <div class="recipe-detail">
+                        <p class="recipe-detail-title">total time</p>
+                        <p class="recipe-detail-info">50 mins</p>
+                    </div>
+                    <div class="recipe-detail">
+                        <p class="recipe-detail-title">serves</p>
+                        <p class="recipe-detail-info">4 - 6</p>
+                    </div>
                 </div>
-                <div class="recipe-detail">
-                    <p class="recipe-detail-title">serves</p>
-                    <p class="recipe-detail-info">4 - 6</p>
-                </div>
-            </div>
-            <div class="recipe-body">
-                <div class="recipe-body-header">
-                    <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleIngredients}">Ingredients</h4>
-                    <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleDirections}">Directions</h4>
-                </div>
-                <div class="recipe-body-info">
-                    <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
-                        <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
-                            <span v-if="!editable">{{ingredient.full_description}}</span>
-                        </li>
-                    </ul>
-                    <div class="recipe-need-to-buy-wrapper" :class="{'view-ingredients' : toggleIngredients}">
-                        <h4 class="recipe-need-to-buy-title" @click="showNeedToBuy = !showNeedToBuy">
-                            Need to Buy
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="recipe-chevron" :class="{'chevron-rotate' : !showNeedToBuy}" >
-                                <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/>
-                            </svg>
-                        </h4>
-                        <ul class="recipe-need-to-buy-list" :class="{'recipe-need-to-buy-hidden' : !showNeedToBuy}">
-                            <li v-for="listable_ingredient in recipe.listable_ingredients" class="recipe-buy-items">{{listable_ingredient.full_description}}</li>
+                <div class="recipe-body">
+                    <div class="recipe-body-header">
+                        <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleIngredients}">Ingredients</h4>
+                        <h4  @click="toggleRecipeView" class="recipe-body-tab" :class="{'active-tab' : toggleDirections}">Directions</h4>
+                    </div>
+                    <div class="recipe-body-info">
+                        <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
+                            <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                                <span v-if="!editable">{{ingredient.full_description}}</span>
+                            </li>
                         </ul>
+                        <div class="recipe-need-to-buy-wrapper" :class="{'view-ingredients' : toggleIngredients}">
+                            <h4 class="recipe-need-to-buy-title" @click="showNeedToBuy = !showNeedToBuy">
+                                Need to Buy
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="recipe-chevron" :class="{'chevron-rotate' : !showNeedToBuy}" >
+                                    <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/>
+                                </svg>
+                            </h4>
+                            <ul class="recipe-need-to-buy-list" :class="{'recipe-need-to-buy-hidden' : !showNeedToBuy}">
+                                <li v-for="listable_ingredient in recipe.listable_ingredients" class="recipe-buy-items">{{listable_ingredient.full_description}}</li>
+                            </ul>
+                        </div>
+                        <p class="recipe-directions" :class="{'view-directions' : toggleDirections}">
+                            {{recipe.directions}}
+                        </p>
                     </div>
-                    <p class="recipe-directions" :class="{'view-directions' : toggleDirections}">
-                        {{recipe.directions}}
-                    </p>
+                </div>
+                <div class="recipe-actions">
+                    <div class="recipe-action"  @click="toggleAddToList">
+                        <div class="recipe-action-icon">
+                            <addToList  width="35" height="35" fill="hsl(39, 11%, 69%)"></addToList>
+                        </div>
+                        <p class="recipe-action-title">Add to List</p>
+                    </div>
+                    <div class="recipe-action">
+                        <div class="recipe-action-icon">
+                            <edit-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></edit-icon>
+                        </div>
+                        <p class="recipe-action-title">Edit {{recipeTitle}}</p>
+                    </div>
+                    <div class="recipe-action" @click="deleteRecipe">
+                        <div class="recipe-action-icon">
+                            <trash-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></trash-icon>
+                        </div>
+                        <p class="recipe-action-title">Delete {{recipeTitle}}</p>
+                    </div>
                 </div>
             </div>
-            <div class="recipe-actions">
-                <div class="recipe-action"  @click="toggleAddToList">
-                    <div class="recipe-action-icon">
-                        <addToList  width="35" height="35" fill="hsl(39, 11%, 69%)"></addToList>
-                    </div>
-                    <p class="recipe-action-title">Add to List</p>
-                </div>
-                <div class="recipe-action">
-                    <div class="recipe-action-icon">
-                        <edit-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></edit-icon>
-                    </div>
-                    <p class="recipe-action-title">Edit {{recipeTitle}}</p>
-                </div>
-                <div class="recipe-action" @click="deleteRecipe">
-                    <div class="recipe-action-icon">
-                        <trash-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></trash-icon>
-                    </div>
-                    <p class="recipe-action-title">Delete {{recipeTitle}}</p>
-                </div>
-            </div>
+
             <!--<div>-->
                 <!--<div class="recipe-title-categoory-section">-->
                     <!--<h3 class="recipe-title">-->
