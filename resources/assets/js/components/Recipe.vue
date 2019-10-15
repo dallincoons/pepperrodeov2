@@ -197,6 +197,7 @@
             <!--</div>-->
         </div>
 </template>
+
 <script>
 
     import Recipe from './resources/Recipes.js';
