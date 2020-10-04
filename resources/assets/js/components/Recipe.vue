@@ -30,7 +30,7 @@
                                 <span v-if="!editable">{{ingredient.full_description}}</span>
                             </li>
                         </ul>
-                        <div class="recipe-need-to-buy-wrapper" :class="{'view-ingredients' : toggleIngredients}">
+                        <div class="recipe-need-to-buy-wrapper" :class="{'hide-need-to-buy' : toggleDirections}">
                             <h4 class="recipe-need-to-buy-title" @click="showNeedToBuy = !showNeedToBuy">
                                 Need to Buy
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="recipe-chevron" :class="{'chevron-rotate' : !showNeedToBuy}" >
@@ -53,7 +53,7 @@
                         </div>
                         <p class="recipe-action-title">Add to List</p>
                     </div>
-                    <div class="recipe-action">
+                    <div class="recipe-action" @click="editRecipe(recipeId)">
                         <div class="recipe-action-icon">
                             <edit-icon width="35" height="35" fill="hsl(39, 11%, 69%)"></edit-icon>
                         </div>
@@ -241,7 +241,8 @@
                 addToListVisible : false,
                 toggleIngredients : true,
                 toggleDirections : false,
-                showNeedToBuy : false
+                showNeedToBuy : false,
+                recipeTitle : ''
             }
         },
 
@@ -268,7 +269,12 @@
                 Recipe.get(this.recipeId).then((response) => {
                     this.recipe   = response.data;
                     this.category = this.recipe.category;
+                    this.recipeTitle = this.recipe.title;
                 });
+            },
+
+            editRecipe(recipeId) {
+                this.$router.push({path: `/recipe/${recipeId}/edit`})
             },
 
             deleteRecipe() {

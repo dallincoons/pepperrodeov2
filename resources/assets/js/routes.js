@@ -29,6 +29,12 @@ let routes = [
     {
         'path' : '/recipe/create',
         'component' : RecipeCreate,
+        props: {editing: false}
+    },
+    {
+        'path' : '/recipe/:id/edit',
+        'component' : RecipeCreate,
+        props: {editing: true}
     },
     {
         'path' : '/recipes',

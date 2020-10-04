@@ -1,14 +1,13 @@
-.recipe-need-to-buy-wrapper {
-  display: none;
-}
 
 .recipe-need-to-buy-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: @pr-brand-grey-8;
-  color: @pr-brand-grey-4;
   margin: 0;
+  color: @pr-brand-grey-4;
+  background: @pr-red-10;
+  font-weight: 500;
+  border: none;
   padding: 1.5rem;
 }
 
@@ -24,10 +23,11 @@
 }
 
 .recipe-need-to-buy-list {
-  padding: 0 0 0 1.5rem;
   font-size: 16px;
   opacity: 1;
   transition: all .2s ease-in-out;
+  padding: 0 2rem;
+  line-height: 36px;
 }
 
 .recipe-buy-items {
@@ -41,10 +41,15 @@
   transition: all .2s ease-in-out;
 }
 
+.hide-need-to-buy {
+  display: none;
+}
+
 @media (min-width: 950px ) {
   .recipe-need-to-buy-wrapper {
     grid-column: 1;
-    border: @pr-brand-grey-9 2px solid;
+    border: @pr-red-10 2px solid;
+    margin: 0;
     border-radius: 4px ;
     margin-top: 2rem;
   }
