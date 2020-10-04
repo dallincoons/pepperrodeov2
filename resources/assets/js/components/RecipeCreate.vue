@@ -52,7 +52,8 @@
                         </div>
 
                         <ul class="recipe-item">
-                            <li v-for="(ingredient, index) in ingredients" class="create-ingredient-items">{{ingredient.full_description}}
+                            <li v-for="(ingredient, index) in ingredients" class="create-ingredient-items">
+                                <input class="recipe-item-input" v-model="ingredients[index].full_description">
                                 <div @click="deleteIngredient(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                             </li>
                         </ul>
@@ -66,8 +67,13 @@
 
 
                             <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showNeedToBuy}">
-                                <li v-for="(needToBuy, index) in needToBuys" class="create-ingredient-items">{{needToBuy.full_description}}
-                                    <div @click="deleteNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div></li>
+                                <li v-for="(needToBuy, index) in needToBuys" class="create-ingredient-items">
+                                    <input class="recipe-item-input" v-model="needToBuys[index].full_description">
+                                    <select class="need-buy-department"  v-model="needToBuys[index].department_id">
+                                        <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                                    </select>
+                                    <div @click="deleteNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                </li>
                             </ul>
                         </div>
 
@@ -110,6 +116,11 @@
             AddPlus,
             XIcon
         },
+
+        props : {
+            editing: Boolean
+        },
+
         data() {
             return {
                 recipeTitle      : '',
@@ -138,10 +149,34 @@
             axios.get('/api/v1/departments').then((response) => {
                 this.departments = response.data;
             });
+
+            if (this.editing) {
+                this.populateRecipeFields()
+            }
         },
         methods    : {
             saveRecipe() {
+                if (this.editing) {
+                    this.updateRecipe();
+                    return;
+                }
+
                 Recipes.save({
+                    title                : this.recipeTitle,
+                    category_id             : this.selectedCategory,
+                    ingredients          : this.ingredients,
+                    listable_ingredients : this.needToBuys,
+                    directions           : this.directions,
+                    prep_time           : this.prepTime,
+                    total_time          : this.totalTime,
+                    serves              : this.serves
+                }).then((response) => {
+                    this.$router.push({path : `/recipe/${response.data.id}`});
+                });
+            },
+
+            updateRecipe() {
+                Recipes.update(this.$route.params.id, {
                     title                : this.recipeTitle,
                     category_id             : this.selectedCategory,
                     ingredients          : this.ingredients,
@@ -164,6 +199,7 @@
                 this.ingredients.push(newIngredient);
                 this.needToBuys.push(Object.assign({}, newIngredient));
                 this.ingredientDescription = '';
+                console.log(this.needToBuys, "need");
             },
 
             deleteIngredient(index) {
@@ -173,7 +209,22 @@
             deleteNeedToBuy(index) {
                 this.needToBuys.splice(index, 1);
             },
-        }
+
+            populateRecipeFields() {
+                Recipes.get(this.$route.params.id).then((response) => {
+                    let recipe = response.data;
+                    console.log(recipe);
+                    this.recipeTitle = recipe.title;
+                    this.directions = recipe.directions;
+                    this.selectedCategory = recipe.category_id;
+                    this.ingredients = recipe.ingredients;
+                    this.needToBuys = recipe.listable_ingredients;
+                    this.prepTime = recipe.prepTime;
+                    this.totalTime = recipe.totaltime;
+                    this.serves = recipe.serves;
+                })
+            },
+        },
     }
 
 </script>

@@ -1,0 +1,18 @@
+.recipe-header {
+  background: @pr-brand-color;
+  border-radius: 4px 4px 0 0;
+  color: @pr-brand-white;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.5rem 0 1rem;
+}
+
+.recipe-title {
+  margin: 11px 0 0 0;
+}
+@media (min-width: 950px ) {
+  .recipe-header {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+  }
+}

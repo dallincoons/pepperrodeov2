@@ -1,0 +1,28 @@
+.recipe-directions {
+  display: none;
+}
+
+.view-directions {
+  display: block;
+}
+
+.recipe-directions {
+  padding: 0.5rem 2rem;
+  line-height: 36px;
+  font-size: 16px;
+}
+
+@media (min-width: 950px ) {
+  .directions-tab {
+    background: @pr-brand-white;
+    color: @pr-brand-grey-4;
+    border: none;
+    z-index: 5;
+  }
+
+  .recipe-directions {
+    display: block;
+    grid-row: 1;
+    grid-column: 2;
+  }
+}

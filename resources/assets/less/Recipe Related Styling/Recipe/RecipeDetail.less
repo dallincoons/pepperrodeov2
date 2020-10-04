@@ -1,0 +1,41 @@
+.recipe-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 0 1.5rem 0 1rem;
+}
+
+.recipe-detail {
+  border: @pr-brand-grey-7 2px solid;
+  border-radius: 4px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.recipe-detail-title {
+  background: @pr-brand-grey-7;
+  color: @pr-brand-white;
+  padding: .2rem;
+  margin: 0;
+}
+
+.recipe-detail-info {
+  margin: 0;
+  padding: .2rem;
+}
+@media (min-width: 950px ) {
+  .recipe-details {
+    grid-column: 5 / span 2;
+    grid-row: 1;
+    margin: 11px 0;
+  }
+
+  .recipe-detail {
+    background: @pr-brand-white;
+    border: @pr-brand-white 2px solid;
+  }
+
+  .recipe-detail-title {
+    background: @pr-brand-color;
+  }
+}
