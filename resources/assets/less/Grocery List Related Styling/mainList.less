@@ -1,0 +1,52 @@
+.dept_heading {
+  background: @pr-brand-grey-10;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  height: 4rem;
+  align-items: center;
+}
+.red-accent-line {
+  background: @pr-red-6;
+  width: 4px;
+  height: 100%;
+  display: block;
+  margin-right: 1rem;
+}
+.list-item:last-child {
+  border-bottom: none;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid @pr-brand-grey-10;
+}
+
+.list-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid @pr-brand-grey-8;
+  border-radius: 2px;
+  margin: 0 1rem 0 0;
+}
+.checkmark {
+  display: inline-block;
+}
+.checkmark:after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 8px;
+  border: solid @pr-brand-grey-4;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checked {
+  text-decoration: line-through;
+}

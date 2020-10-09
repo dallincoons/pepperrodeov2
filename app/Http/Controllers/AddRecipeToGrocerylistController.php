@@ -17,8 +17,6 @@ class AddRecipeToGrocerylistController extends Controller
             $grocerylist->addRecipe($recipe);
         }
 
-        return response()->json($grocerylist, 200);
+        return response()->json(['list' => $grocerylist, 'recipes_added' => $recipes], 200);
     }
-
-
 }

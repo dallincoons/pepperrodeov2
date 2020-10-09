@@ -1,14 +1,13 @@
 <template>
 <div class="add-item-wrapper">
-
         <div class="add-item">
-            <input title="description" v-model="description" @keyup.enter="saveItem" placeholder="+ Add an Item">
+            <input class="list-add-item-input" title="description" v-model="description" @keyup.enter="saveItem" placeholder="Item">
         </div>
         <select v-model="department" class="dept-options">
             <option value="" disabled selected style="display: none;">Department</option>
             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
         </select>
-        <button @click="saveItem" @enter="saveItem" class="save">Add Item</button>
+        <button @click="saveItem" @enter="saveItem" class="add-item-save">Add Item</button>
     </div>
 </div>
 </template>
