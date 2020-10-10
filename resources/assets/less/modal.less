@@ -1,157 +1,284 @@
-.modal-mask {
+.backdrop-modal {
   position: fixed;
-  z-index: 9998;
   top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: @pr-brand-grey-9;
-  transition: opacity .3s ease;
+  right: 0;
+  background-color: rgba(66, 61, 51, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.modal-container {
-  width: 50rem;
-  margin: 150px auto 0;
-  background-color: #fff;
-  border-radius: 5px;
-  transition: all .3s ease;
-  position: relative;
+.wrapper-modal {
+  background: @pr-brand-white;
+  border-top: 4px solid @pr-red-6;
+  border-radius: 4px;
+  overflow-x: auto;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 3rem 3rem 3rem;
+  padding: 2rem;
+  width: 20%;
+}
+.modal-fade-enter,
+.modal-fade-leave-active {
+  opacity: 0;
 }
 
-.modal-container h4 {
-  margin: 0;
-  font-size: 2.2rem;
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity .5s ease
 }
-
-.modal-container ul {
-  font-size: 1.8rem;
-  margin: 1rem 0 0 0;
-  padding: 0;
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  color: @pr-brand-grey-4;
 }
-.modal-container ul li {
-  margin: 0 0 .5rem 0;
-  cursor: pointer;
+.close-modal {
+  background: none;
+  border: none;
+  width: 3rem;
+  align-self: flex-end;
 }
-
-.modal-container ul li:hover {
-  color: @pr-brand-grey;
-}
-
-.modal-close {
-  font-weight: 700;
-  padding: 2rem 0 0 1rem;
-  cursor: pointer;
-  font-size: 2rem;
-  width: 100%;
-}
-.modal-heading {
-  color: @pr-brand-dark;
-  text-align: center;
-  font-weight: 300;
-  margin: 0;
-}
-
-
 .modal-edit-section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 15px;
 }
-
+.modal-edit-input, .edit-dept-options {
+  margin-bottom: 1rem;
+  border: 2px solid @pr-brand-grey-9;
+  border-radius: 4px;
+  padding: 1rem;
+}
 .modal-button {
-  background: @pr-brand-grey;
-  color: @pr-brand-dark;
-  margin: 15px 0;
-  border: 0;
-  border-radius: 5px;
-  padding: 5px 20px;
-  font-weight: 700;
-  font-size: 1.2em;
-}
-
-.modal-button:hover {
-  background: @pr-brand-dark;
+  background: @pr-red-6;
   color: @pr-brand-white;
-  transition: background 2s;
-}
-
-.modal-edit-input {
-  width: 100%;
-  background: #ebebeb;
+  font-weight: 500;
+  border-radius: 4px;
   border: none;
-  font-size: 1.2em;
-  padding: 5px 20px;
-  margin-bottom: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
-
 .modal-edit-footer {
-  align-self: flex-end;
-  text-align: right;
-  color: #ff4b2e;
-  padding: 2px;
-  margin-left: 15px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
 }
 
-.modal-edit-footer:hover {
-  cursor: pointer;
+.modal-leave-active {
+  opacity: 0;
 }
 
-.modal-delete {
-  margin: 0 15px 0 2px;
-}
-.close-modal {
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-weight: 700;
-  font-size: 1.2em;
-  margin-right: 5px;
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 
-.close-modal:hover {
-  cursor: pointer;
-}
 
-.edit-dept-options {
-  width: 100%;
-  background: #ebebeb;
-  border: none;
-  font-size: 1.2em;
-  padding: 5px 20px;
-}
+//.modal-backdrop-test {
+//  position: fixed;
+//  top: 0;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+//  width: 100%;
+//  height: 100%;
+//  background-color: rgba(0, 0, 0, 0.3);
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//}
+//
+//.modal-wrapper-test {
+//  background: #FFFFFF;
+//  box-shadow: 2px 2px 20px 1px;
+//  overflow-x: auto;
+//  display: flex;
+//  flex-direction: column;
+//}
 
-.recipe-list-container {
-
-}
-
-.recipe-list-heading {
-  display: grid;
-  //grid-template-columns: 1fr 50px;
-  align-items: center;
-  margin-top: 2rem;
-}
-
-.recipe-list-heading .container-heading {
-  margin: 0;
-}
-
-.recipes-list-items {
-  padding: 0;
-}
-.recipe-list-item {
-  //border: 1px solid @pr-brand-dark;
-  //padding: 1rem;
-}
-
-.recipe-list-item a {
-  //color: @pr-brand-dark;
-  //font-size: 2.2rem;
-}
-.recipe-list-item a:hover, .recipe-list-item a:focus {
-  color: @pr-brand-grey;
-  text-decoration: none;
-}
+//.modal-mask {
+//  position: fixed;
+//  z-index: 9998;
+//  top: 0;
+//  left: 0;
+//  width: 100%;
+//  height: 100%;
+//  background-color: rgba(0, 0, 0, 0.5);
+//  display: table;
+//  transition: opacity 0.3s ease;
+//}
+//.modal-wrapper {
+//  display: table-cell;
+//  vertical-align: middle;
+//}
+//
+//.modal-container {
+//  //width: 50rem;
+//  //margin: 150px auto 0;
+//  //background-color: #fff;
+//  //border-radius: 5px;
+//  ////transition: all .3s ease;
+//  //position: relative;
+//  //top: 60vh;
+//  //display: flex;
+//  //flex-direction: column;
+//  //padding: 1.5rem 3rem 3rem 3rem;
+//  //z-index: 9999;
+//  width: 300px;
+//  margin: 0px auto;
+//  padding: 20px 30px;
+//  background-color: #fff;
+//  border-radius: 2px;
+//  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+//  transition: all 0.3s ease;
+//  font-family: Helvetica, Arial, sans-serif;
+//}
+//
+//.modal-container h4 {
+//  margin: 0;
+//  font-size: 2.2rem;
+//}
+//
+//.modal-container ul {
+//  font-size: 1.8rem;
+//  margin: 1rem 0 0 0;
+//  padding: 0;
+//}
+//.modal-container ul li {
+//  margin: 0 0 .5rem 0;
+//  cursor: pointer;
+//}
+//
+//.modal-container ul li:hover {
+//  color: @pr-brand-grey;
+//}
+//
+//.modal-close {
+//  font-weight: 700;
+//  padding: 2rem 0 0 1rem;
+//  cursor: pointer;
+//  font-size: 2rem;
+//  width: 100%;
+//}
+//.modal-heading {
+//  color: @pr-brand-dark;
+//  text-align: center;
+//  font-weight: 300;
+//  margin: 0;
+//}
+//
+//
+//.modal-edit-section {
+//  display: flex;
+//  flex-direction: column;
+//  justify-content: center;
+//  margin: 15px;
+//}
+//
+//.modal-button {
+//  background: @pr-brand-grey;
+//  color: @pr-brand-dark;
+//  margin: 15px 0;
+//  border: 0;
+//  border-radius: 5px;
+//  padding: 5px 20px;
+//  font-weight: 700;
+//  font-size: 1.2em;
+//}
+//
+//.modal-button:hover {
+//  background: @pr-brand-dark;
+//  color: @pr-brand-white;
+//  transition: background 2s;
+//}
+//
+//.modal-edit-input {
+//  width: 100%;
+//  background: #ebebeb;
+//  border: none;
+//  font-size: 1.2em;
+//  padding: 5px 20px;
+//  margin-bottom: 10px;
+//}
+//
+//.modal-edit-footer {
+//  align-self: flex-end;
+//  text-align: right;
+//  color: #ff4b2e;
+//  padding: 2px;
+//  margin-left: 15px;
+//}
+//
+//.modal-edit-footer:hover {
+//  cursor: pointer;
+//}
+//
+//.modal-delete {
+//  margin: 0 15px 0 2px;
+//}
+//.close-modal {
+//  position: absolute;
+//  right: 0;
+//  top: 0;
+//  font-weight: 700;
+//  font-size: 1.2em;
+//  margin-right: 5px;
+//}
+//
+//.close-modal:hover {
+//  cursor: pointer;
+//}
+//
+//.edit-dept-options {
+//  width: 100%;
+//  background: #ebebeb;
+//  border: none;
+//  font-size: 1.2em;
+//  padding: 5px 20px;
+//}
+//
+//.recipe-list-container {
+//
+//}
+//
+//.recipe-list-heading {
+//  display: grid;
+//  //grid-template-columns: 1fr 50px;
+//  align-items: center;
+//  margin-top: 2rem;
+//}
+//
+//.recipe-list-heading .container-heading {
+//  margin: 0;
+//}
+//
+//.recipes-list-items {
+//  padding: 0;
+//}
+//.recipe-list-item {
+//  //border: 1px solid @pr-brand-dark;
+//  //padding: 1rem;
+//}
+//
+//.recipe-list-item a {
+//  //color: @pr-brand-dark;
+//  //font-size: 2.2rem;
+//}
+//.recipe-list-item a:hover, .recipe-list-item a:focus {
+//  color: @pr-brand-grey;
+//  text-decoration: none;
+//}

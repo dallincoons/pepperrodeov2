@@ -1,10 +1,9 @@
 <template>
-    <div class="modal-mask"  @click="close" transition="modal">
-        <div :class="modalClass" class="modal-container" @click.stop>
-            <div @click="close"><slot name="close"><span class="close-modal">x</span></slot></div>
+    <transition name="modal-fade">
+    <div class="backdrop-modal"  @click="close">
             <slot></slot>
-        </div>
     </div>
+    </transition>
 </template>
 
 <script>

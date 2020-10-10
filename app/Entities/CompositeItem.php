@@ -34,6 +34,11 @@ class CompositeItem implements \Countable, Arrayable
         return $this->items->first()->department_name;
     }
 
+    public function departmentId()
+    {
+        return $this->items->first()->department->getKey();
+    }
+
     public function description()
     {
         return $this->items->first()->description;
@@ -92,6 +97,7 @@ class CompositeItem implements \Countable, Arrayable
             'id' => $this->items->first()->getKey(), //eventually change ow this works
             'grocery_list_id' => $this->items->first()->grocery_list_id,
             'department' => $this->department(),
+            'department_id' => $this->departmentId(),
             'quantity' => $this->quantity(),
             'description' => $this->items->first()->description,
         ];

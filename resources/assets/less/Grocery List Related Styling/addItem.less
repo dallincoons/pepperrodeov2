@@ -3,24 +3,27 @@
   margin: 0;
   padding: 0;
   opacity: 0;
-  transform: translateY(-2rem);
-  transition: transform .3s ease-in-out, height .3s ease-in-out;
+  display: none;
+  //transform: translate(-50rem, -2rem);
+  //transition: transform .3s ease-in-out, height .3s ease-in-out;
 }
 .list-show-box {
-  height: auto;
-  margin: 0 0 2rem 0;
+  height: 100%;
+  display: block;
+  margin: 0;
   padding: 2rem;
   opacity: 1;
-  border-left: 4px solid @pr-red-6;
-  transform: translateY(-.75rem);
-  width: 50%;
+  //border-left: 4px solid @pr-red-6;
+  //transform: translateY(-.75rem);
+  width: 100%;
   background: @pr-brand-grey-10;
-  transition: transform .3s ease-in-out, opacity .3s ease-in-out;
+  //transition: transform .3s ease-in-out, opacity .3s ease-in-out;
 }
+
 .add-item-wrapper {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 40%;
 }
 .list-add-item-input {
   width: 100%;

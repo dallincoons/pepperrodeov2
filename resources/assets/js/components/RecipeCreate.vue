@@ -109,6 +109,8 @@
     import AddPlus from './assets/add-plus';
     import XIcon from './assets/x-icon';
 
+    const UNASSIGNED_DEPARTMENT = 1;
+
     export default {
         components : {
             NewIngredientForm,
@@ -197,9 +199,8 @@
 
                 let newIngredient = {full_description : this.ingredientDescription};
                 this.ingredients.push(newIngredient);
-                this.needToBuys.push(Object.assign({}, newIngredient));
+                this.needToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
                 this.ingredientDescription = '';
-                console.log(this.needToBuys, "need");
             },
 
             deleteIngredient(index) {
