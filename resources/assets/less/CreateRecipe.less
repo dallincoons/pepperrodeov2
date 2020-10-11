@@ -36,21 +36,8 @@ textarea {
 .create-recipe-header h4 {
   color: @pr-brand-white;
 }
-
 .create-caret {
-  transform: rotate(90deg);
-  display: flex;
-  align-items: center;
-  transition: all .1s ease-in-out;
-}
-
-.caret-svg {
-  fill: @pr-brand-white;
-}
-
-.rotate-caret {
-  transform: rotate(30deg);
-  transition: all .1s ease-in-out;
+  display: none;
 }
 
 .create-recipe-body {
@@ -100,6 +87,21 @@ textarea {
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+  .create-caret {
+    transform: rotate(90deg);
+    display: flex;
+    align-items: center;
+    transition: all .1s ease-in-out;
+  }
+
+  .caret-svg {
+    fill: @pr-brand-white;
+  }
+
+  .rotate-caret {
+    transform: rotate(30deg);
+    transition: all .1s ease-in-out;
   }
 }
 

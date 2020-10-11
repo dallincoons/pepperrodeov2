@@ -1,18 +1,6 @@
 <template>
     <div class="container">
-        <modal
-                v-if="newGroceryListModalShown"
-                @close="newGroceryListModalShown = !newGroceryListModalShown"
-        >
-            <span slot="close" class="modal-close">X</span>
-            <h4 class="modal-heading">Add New List</h4>
-            <div class="container-create">
-                <form v-on:submit.prevent class="create-form">
-                    <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">
-                    <button type="button" @click="saveList()" class="dk-modal-button">Next</button>
-                </form>
-            </div>
-        </modal>
+
         <div class="dash-wrapper">
             <div class="recipes-on-list-wrapper" @click="isHidden = !isHidden">
                 <h4 class="recipes-on-list-title">
@@ -31,8 +19,8 @@
                     <router-link :to="{name: 'grocery-lists', params: {id : list.id}}">{{list.title}}</router-link>
                 </h4>
             </div>
-            <div class="actions-wrapper">
-                <button class="dash-action" @click="newListModal">
+            <div class="actions-wrapper" v-bind:class="{ 'actions-expand' : newGroceryListModalShown}">
+                <button class="dash-action" @click="newGroceryListModalShown = !newGroceryListModalShown">
                     <span class="dash-action-text">Create a New Grocery List</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.95 85.44" class="dash-svg">
                         <g id="add-list">
@@ -49,6 +37,17 @@
                         </g>
                     </svg>
                 </button>
+                <div class="create-list-wrapper" v-bind:class="{ 'create-list-expand' : newGroceryListModalShown}">
+                        <!--@close="newGroceryListModalShown = !newGroceryListModalShown"-->
+                    <!--<span @click="newGroceryListModalShown = !newGroceryListModalShown">X</span>-->
+                    <!--<h4 class="modal-heading">Add New List</h4>-->
+                    <div class="container-create">
+                        <form v-on:submit.prevent class="create-form">
+                            <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="Grocery List Title">
+                            <button type="button" @click="saveList()" class="save-button">Next</button>
+                        </form>
+                    </div>
+                </div>
                 <router-link :to="{name: 'create-recipe'}">
                 <button class="dash-action">
                     <span class="dash-action-text">Add a New Recipe</span>
@@ -91,6 +90,10 @@
 
     export default {
         name: "Dashboard",
+
+        components : {
+            'modal': Modal,
+        },
 
         data() {
             return {
@@ -154,7 +157,7 @@
         grid-column: 1;
         grid-row: 1 / span 3;
         background: #FFFFFF;
-        border-bottom: 4px solid #ff4b2e;
+        border-bottom: 4px solid hsl(10, 80%, 58%);
         display: grid;
         grid-template-rows: 5rem auto;
         justify-self: center;
@@ -193,7 +196,7 @@
         grid-column: 2;
         grid-row: 1;
         background: #FFFFFF;
-        border-bottom: 4px solid #ff4b2e;
+        border-bottom: 4px solid hsl(10, 80%, 58%);
         border-radius: 4px;
         width: 95%;
         height: 45%;
@@ -218,14 +221,18 @@
         display: grid;
     }
 
+    .actions-expand {
+        transition: all .3s ease;
+    }
+
     .dash-action {
         background: #FFFFFF;
-        border: 4px solid #ff4b2e;
+        border: 4px solid hsl(10, 80%, 58%);
         border-radius: 8px;
         align-self: center;
         position: relative;
         width: 95%;
-        height: 70%;
+        height: 95%;
         color: #27241d;
         font-weight: 500;
         font-size: 16px;
@@ -281,23 +288,24 @@
         }
 
         .dash-wrapper {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto 8rem 14rem;
-            padding: 2rem 2rem 10rem 2rem;
-            height: auto;
             max-height: none;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         .recipes-on-list-wrapper {
-            grid-column: 1;
-            grid-row: 1 ;
-            width: 100%;
             height: auto;
-            text-overflow: ellipsis;
+            width: 100%;
+
         }
 
         .recipes-on-list-title {
             margin: 1.5rem 0 0 1rem;
+            width: 95%;
+            text-overflow: ellipsis;
+            display: inline-block;
+            overflow: hidden;
         }
 
         .dash-hidden {
@@ -319,32 +327,38 @@
         .chevron-rotate {
             transform: rotate(180deg);
         }
-
         .recent-list-wrapper {
-            grid-column: 1;
-            grid-row: 2;
-            height: 80%;
+            height: auto;
             width: 100%;
+            margin: 1rem 0;
         }
-
+        .recent-list-title {
+            margin: 1rem;
+        }
         .actions-wrapper {
-            grid-column: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .dash-action {
             width: 100%;
+            height: 30%;
+            display: flex;
+            padding-bottom: 1rem;
+            align-items: center;
+            text-align: left;
         }
 
         .dash-action-text {
-            position: absolute;
-            left: 4.5rem;
-            top: .5rem;
+            order: 2;
+            margin-left: 1rem;
         }
 
         .dash-svg {
-            left: 1.5rem;
-            top: 1rem;
+            position: relative;
+            transform: translateX(-2.2rem);
             width: 5%;
+            order: 1;
         }
 
         .background-svg  {
