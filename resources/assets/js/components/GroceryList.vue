@@ -10,178 +10,73 @@
         ></edit-item-modal>
         <div class="list-container">
             <div class="list-wrapper">
-            <div class="red-accent-bar"></div>
-            <div class="list-heading">
-                <h3 class="list-title">{{list.title}}</h3>
-                <div class="list-actions-wrapper">
-                    <div class="list-actions-buttons">
-                        <button class="list-action list-action-1" @click="toggleAddItems" :class="{'list-selected-action' : dropOpen}">Add Item</button>
-                        <button class="list-action list-action-2" @click="viewRecipes(); toggleViewListRecipes();" :class="{'list-selected-action' : addRecipesOpen}">Add Recipe(s)</button>
-                        <button class="list-action list-action-3" @click="print()">Print List</button>
-                        <button class="list-action list-action-4" @click="deleteList">Delete List</button>
-                    </div>
-                    <div class="open-action-wrapper" :class="{'action-open' : addRecipesOpen, 'action-open' : dropOpen}">
-                        <div class="list-drop-wrapper" :class="{'list-show-box' : dropOpen}">
-                            <new-item-form @updated="getList" :departments="departments"></new-item-form>
+                <div class="red-accent-bar"></div>
+                <div class="list-heading">
+                    <h3 class="list-title">{{list.title}}</h3>
+                    <div class="list-actions-wrapper">
+                        <div class="list-actions-buttons">
+                            <button class="list-action list-action-1" @click="toggleAddItems" :class="{'list-selected-action' : dropOpen}">Add Item</button>
+                            <button class="list-action list-action-2" @click="viewRecipes(); toggleViewListRecipes();" :class="{'list-selected-action' : addRecipesOpen}">Add Recipe(s)</button>
+                            <button class="list-action list-action-3" @click="print()">Print List</button>
+                            <button class="list-action list-action-4" @click="deleteList">Delete List</button>
                         </div>
-                        <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
-                            <div class="list-add-recipes-body">
-                                <div class="list-add-recipes-recipes-section">
-                                    <h4 class="list-add-recipes-heading">Recipes</h4>
-                                    <ul class="list-add-recipes-list">
-                                        <li v-for="recipe in recipes" class="list-add-recipes-item">
-                                            <div class="fs-checkbox">
-                                                <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
-                                                <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="selected-added-wrapper">
-                                    <div class="selected-recipes-wrapper">
-                                        <h4 class="list-add-recipes-heading">Recipes Selected</h4>
-                                        <div class="selected-recipes-list">
-                                            <ul>
-                                                <!--<li>No Recipes Selected Yet!</li>-->
-                                                <li v-for="recipe in recipesAdded">{{recipe.title}}</li>
-                                            </ul>
-                                            <button @click="addRecipesToList" class="list-add-recipes-button">Add Recipe(s)</button>
-                                        </div>
+                        <div class="open-action-wrapper" :class="{'action-open' : addRecipesOpen, 'action-open' : dropOpen}">
+                            <div class="list-drop-wrapper" :class="{'list-show-box' : dropOpen}">
+                                <new-item-form @updated="getList" :departments="departments"></new-item-form>
+                            </div>
+                            <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
+                                <div class="list-add-recipes-body">
+                                    <div class="list-add-recipes-recipes-section">
+                                        <h4 class="list-add-recipes-heading">Recipes</h4>
+                                        <ul class="list-add-recipes-list">
+                                            <li v-for="recipe in recipes" class="list-add-recipes-item">
+                                                <div class="fs-checkbox">
+                                                    <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
+                                                    <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div class="added-recipes-wrapper">
-                                        <recipes-on-list
-                                                v-if="viewListRecipes"
-                                                :recipes="list.recipes"
-                                                :list="list"
-                                                @close="viewListRecipes = !viewListRecipes"
-                                                @deleted="recipeDeleted"
-                                        >
-                                        </recipes-on-list>
+                                    <div class="selected-added-wrapper">
+                                        <div class="selected-recipes-wrapper">
+                                            <h4 class="list-add-recipes-heading">Recipes Selected</h4>
+                                            <div class="selected-recipes-list">
+                                                <ul>
+                                                    <!--<li>No Recipes Selected Yet!</li>-->
+                                                    <li v-for="recipe in recipesAdded">{{recipe.title}}</li>
+                                                </ul>
+                                                <button @click="addRecipesToList" class="list-add-recipes-button">Add Recipe(s)</button>
+                                            </div>
+                                        </div>
+                                        <div class="added-recipes-wrapper">
+                                            <recipes-on-list
+                                                    v-if="viewListRecipes"
+                                                    :recipes="list.recipes"
+                                                    :list="list"
+                                                    @close="viewListRecipes = !viewListRecipes"
+                                                    @deleted="recipeDeleted"
+                                            >
+                                            </recipes-on-list>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="list-body">
+                <div class="list-body">
                 <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
                     <ul class="list-items">
                         <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
                             <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
                             <span class="item" v-bind:class="{checked : checkedItems.includes(item.id)}">{{item.quantity}} {{item.description}}</span>
-
-
-
-
-                            <!--<modal v-if="showModal"></modal>-->
-                            <!--<edit-item-modal-->
-                                    <!--v-if="showModal"-->
-                                    <!--:itemToUpdate="itemToUpdate"-->
-                                    <!--:departments="departments"-->
-                                    <!--@close="hideModal"-->
-                                    <!--@update="updateItem"-->
-                                    <!--@delete="deleteItem"-->
-                            <!--&gt;</edit-item-modal>-->
                         </li>
 
                     </ul>
                 </div>
             </div>
-        </div>
-        </div>
-        <div v-if="!viewListRecipes">
-        <full-screen-modal
-                v-if="addRecipesModalShown"
-                @close="addRecipesModalShown = !addRecipesModalShown"
-        >
-            <div class="fs-header">
-                <h4 class="fs-heading">Add Recipe(s)</h4>
-                <button @click="addRecipesToList" class="fs-button">Add</button>
-            </div>
-
-            <div>
-                <ul class="fs-list">
-
-                    <li v-for="recipe in recipes" class="fs-list-item">
-                        <div class="fs-checkbox">
-                            <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
-                            <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
-                        </div>
-                        <div @click="deleteRecipe(recipe.id)" class="fs-trash"><trashcan></trashcan></div>
-                    </li>
-                </ul>
-
-            </div>
-        </full-screen-modal>
-
-        <div class="container-heading list-heading">
-            <h2 v-if="!editable" @dblclick="editable = true">{{list.title}}
-                <div @click="toggleOptions" class="list-options"><span>...</span></div>
-            </h2>
-            <div v-else>
-                <input v-model="list.title">
-                <span @click="updateListTitle">Save Title</span>
-            </div>
-
-            <modal
-                v-if="optionModal"
-                @close="optionModal = !optionModal"
-                >
-                <h4>List Options</h4>
-                <ul>
-                    <li @click="toggleViewListRecipes">View Recipes added to {{list.title}}</li>
-                    <li>Share List</li>
-                    <li @click="deleteList">Delete List</li>
-                </ul>
-            </modal>
-            <div class="button-wrapper">
-                <button class="sq-button" @click="toggleAddItems"> Add Item</button>
-                <button class="sq-button" @click="viewRecipes">Add Recipe(s)</button>
-            </div>
-
-            <div class="drop-wrapper" :class="{'show-box' : dropOpen}">
-                <caret class="add-item-caret drop-caret"></caret>
-                <new-item-form @updated="getList" :departments="departments"></new-item-form>
             </div>
         </div>
-
-        <div class="container-body ex-neg-margin" :class="{'margin-transition' : dropOpen}">
-            <div class="list-wrapper" id="list-wrapper">
-                <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading">{{department_name}}</div>
-                    <ul class="list-items">
-                        <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
-                            <input type="checkbox" :id="'checkbox_' + item.id" :value="item.id" v-model="checkedItems">
-                            <span class="item" v-bind:class="{checked : checkedItems.includes(item.id)}">{{item.quantity}} {{item.description}}</span>
-
-                            <!--<edit-item-modal-->
-                                    <!--v-if="showModal"-->
-                                    <!--:itemToUpdate="itemToUpdate"-->
-                                    <!--:departments="departments"-->
-                                    <!--@close="hideModal"-->
-                                    <!--@update="updateItem"-->
-                                    <!--@delete="deleteItem"-->
-                            <!--&gt;</edit-item-modal>-->
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-
-        </div>
-
-        <!--<recipes-on-list-->
-            <!--v-if="viewListRecipes"-->
-            <!--:recipes="list.recipes"-->
-            <!--:list="list"-->
-            <!--@close="viewListRecipes = !viewListRecipes"-->
-            <!--@deleted="recipeDeleted"-->
-        <!--&gt;-->
-        <!--</recipes-on-list>-->
     </div>
 </template>
 
@@ -353,6 +248,9 @@
 
             toggleAddItems() {
                 this.dropOpen = !this.dropOpen;
+                if(this.addRecipesOpen === true){
+                    this.addRecipesOpen = false;
+                }
             },
 
             toggleOptions() {
@@ -362,10 +260,13 @@
             toggleViewListRecipes() {
                 this.toggleOptions();
                 this.viewListRecipes = !this.viewListRecipes;
+                if(this.dropOpen === true){
+                    this.dropOpen = false;
+                }
             },
 
             deleteList() {
-                if(confirm('do you want to do it?')) {
+                if(confirm('Do you want to delete this list?')) {
 
                     GroceryLists.delete(this.listId).then(response => {
                         this.optionModal = !this.optionModal;
