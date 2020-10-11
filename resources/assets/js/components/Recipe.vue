@@ -41,9 +41,9 @@
                                 <li v-for="listable_ingredient in recipe.listable_ingredients" class="recipe-buy-items">{{listable_ingredient.full_description}}</li>
                             </ul>
                         </div>
-                        <pre class="recipe-directions" :class="{'view-directions' : toggleDirections}">
+                        <p class="recipe-directions" :class="{'view-directions' : toggleDirections}">
                             {{recipe.directions}}
-                        </pre>
+                        </p>
                     </div>
                 </div>
                 <div class="recipe-actions">
