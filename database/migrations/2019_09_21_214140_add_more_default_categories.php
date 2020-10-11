@@ -14,7 +14,7 @@ class AddMoreDefaultCategories extends Migration
             if (app()->runningUnitTests()) {
                 return;
             }
-            DefaultCategories::save();
+//            DefaultCategories::save();
         });
     }
 }
