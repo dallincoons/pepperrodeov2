@@ -1,43 +1,42 @@
 <template>
-    <div class="container">
-        <modal
-            v-if="newGroceryListModalShown"
-            @close="newGroceryListModalShown = !newGroceryListModalShown"
-        >
-            <span slot="close" class="modal-close">X</span>
-            <h4 class="modal-heading">Add New List</h4>
-            <div class="container-create">
-                <form v-on:submit.prevent class="create-form">
-                    <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">
-                    <button type="button" @click="saveList()" class="dk-modal-button">Next</button>
-                </form>
-            </div>
-        </modal>
+    <div class="container lists-main-wrapper">
+        <div class="lists-secondary-wrapper">
+        <!--<modal-->
+            <!--v-if="newGroceryListModalShown"-->
+            <!--@close="newGroceryListModalShown = !newGroceryListModalShown"-->
+        <!--&gt;-->
+            <!--<span slot="close" class="modal-close">X</span>-->
+            <!--<h4 class="modal-heading">Add New List</h4>-->
+            <!--<div class="container-create">-->
+                <!--<form v-on:submit.prevent class="create-form">-->
+                    <!--<input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="List Title">-->
+                    <!--<button type="button" @click="saveList()" class="dk-modal-button">Next</button>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</modal>-->
 
-        <div class="container-heading">
-            <h2 class="small-screen">Lists</h2>
-            <div class="button-wrapper">
-                <button class="sq-button" @click="newListModal"><add-icon-dark class="button-icon"></add-icon-dark> New List</button>
-                <button class="sq-button" @click="toggleSearch"><search class="button-icon"></search>Search</button>
+        <div>
+            <h3 class="lists-heading">My Lists</h3>
+            <div class="lists-button-wrapper">
+                <button class="lists-action" @click="newListModal" v-bind:class="{ 'selected-action' : newGroceryListModalShown}">Create New List</button>
             </div>
-
-            <div class="drop-wrapper" :class="{'show-box' : searchOpen}">
-                <caret class="drop-caret"></caret>
-                <input type="text" class="drop-input"><button class="drop-button">Search</button>
-                <div class="radio-wrapper">
-                    <span><input type="radio" value="Alphabetical"> Alphabetical</span>
-                    <span><input type="radio" value="Recently Added"> Recently Added</span>
+        </div>
+            <div class="new-list-wrapper" v-bind:class="{ 'new-list-expand' : newGroceryListModalShown}">
+                <div class="container-create">
+                    <form v-on:submit.prevent class="create-form">
+                        <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="Grocery List Title">
+                        <button type="button" @click="saveList()" class="save-button">Next</button>
+                    </form>
                 </div>
             </div>
 
-        </div>
+        <div class="lists-body" v-bind:class="{ 'lists-moved' : newGroceryListModalShown}">
 
-        <div class="container-body" :class="{'margin-transition' : searchOpen}">
-
-            <ul class="list-container">
+            <ul class="all-lists-wrapper">
                 <li v-for="list in grocerylists" class="grocery-list grow"><router-link :to="{ name: 'grocery-lists', params: { id: list.id }}" >{{list.title}}</router-link></li>
             </ul>
 
+        </div>
         </div>
     </div>
 </template>
@@ -88,7 +87,7 @@
             },
 
             newListModal() {
-                this.newGroceryListModalShown = true;
+                this.newGroceryListModalShown = !this.newGroceryListModalShown;
             },
 
             hideNewGroceryListModal() {

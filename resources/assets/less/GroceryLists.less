@@ -1,144 +1,185 @@
 
-.button-wrapper {
-  display: flex;
-  width: 50%;
-  //justify-content: space-between;
+//.button-wrapper {
+//  display: flex;
+//  width: 50%;
+//  //justify-content: space-between;
+//}
+//.sq-button {
+//  background: @pr-brand-grey;
+//  border-bottom: 2px solid rgba(0, 0, 0, .04);
+//  border-radius: 5px;
+//  width: 20rem;
+//  margin: 0 1rem 2rem 0;
+//  padding: 1rem;
+//  color: @pr-brand-dark;
+//  font-size: 1.5rem;
+//  font-weight: 700;
+//  text-align: center;
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//}
+//
+//.button-icon {
+//  margin: 0 1rem 0 0;
+//}
+//.list-container {
+//  //width: 100%;
+//
+//}
+//
+//.margin-transition {
+//  margin: 0;
+//}
+//.grocery-list {
+//  border: 1px solid @pr-brand-dark;
+//  width: 100%;
+//  padding: 2rem;
+//}
+//
+//.list-heading h2 {
+//  display: flex;
+//}
+//
+//.list-options {
+//  display: grid;
+//  justify-items: center;
+//  padding: 0 0 0 1rem;
+//  cursor: pointer;
+//}
+//
+//.list-options:hover {
+//  color: @pr-brand-grey;
+//}
+
+.lists-main-wrapper {
+  background: @pr-brand-grey-10;
+  padding: 3rem;
 }
-.sq-button {
-  background: @pr-brand-grey;
-  border-bottom: 2px solid rgba(0, 0, 0, .04);
-  border-radius: 5px;
-  width: 20rem;
-  margin: 0 1rem 2rem 0;
-  padding: 1rem;
-  color: @pr-brand-dark;
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
+.lists-secondary-wrapper {
+  background: @pr-brand-white;
+  border-top: .8rem solid @pr-brand-color ;
+  margin: 1rem auto;
+  padding: 1rem 2rem;
+  width: 95%;
+}
+.category-container {
+  width: 100%;
+}
+.lists-heading{
+  color: @pr-red-1;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.lists-button-wrapper {
   display: flex;
-  justify-content: center;
+}
+.lists-action {
+  background: none;
+  border: 2px solid @pr-brand-grey-9;
+  border-radius: 4px;
+  padding: .3rem 2rem;
+  font-weight: 500;
+  color: @pr-brand-grey-4;
+  margin: 0 1rem 3rem 0;
+  display: flex;
   align-items: center;
+  transition: background-color .3s ease;
 }
-
-.button-icon {
-  margin: 0 1rem 0 0;
+.lists-action:hover {
+  background: @pr-brand-grey-9;
+  font-weight: 700;
+  color: @pr-brand-grey-4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .3s ease;
 }
-.list-container {
-  //width: 100%;
-
+.lists-action a:hover {
+  color: @pr-brand-grey-4;
+  text-decoration: none;
 }
-
-.margin-transition {
-  margin: 0;
+.lists-body {
+  transform: translateY(-5rem);
+  transition: all .3s ease;
+}
+.lists-moved {
+  transform: translateY(-3rem);
+  transition: all .3s ease;
+}
+.all-lists-wrapper {
+  padding: 0;
 }
 .grocery-list {
-  border: 1px solid @pr-brand-dark;
-  width: 100%;
-  padding: 2rem;
-}
-
-.list-heading h2 {
   display: flex;
+  align-items: center;
+  border-bottom: 1px solid @pr-brand-grey-10;
+  font-size: 16px;
 }
 
-.list-options {
-  display: grid;
-  justify-items: center;
-  padding: 0 0 0 1rem;
-  cursor: pointer;
-}
-
-.list-options:hover {
-  color: @pr-brand-grey;
+.grocery-list:last-child {
+  border-bottom: none;
 }
 
 .grocery-list a {
-  color: @pr-brand-dark;
-  font-size: 2rem;
-  transition: all .3s ease-out;
+  padding: 1.5rem 1rem 1.5rem 2rem;
+  color: @pr-brand-grey-4;
+  font-weight: 300;
+  transition: all .3s ease;
 }
 
 .grocery-list a:hover {
-  color: @pr-brand-grey;
   text-decoration: none;
+  color: @pr-brand-grey-4;
+  transition: all .3s ease;
+  font-weight: 600;
+  cursor: pointer;
 }
-
-.drop-wrapper {
-  background: @pr-brand-light-grey;
-  margin: 0 0 2rem 0;
-  padding: 2rem;
-  display: flex;
-  width: 50%;
-  flex-wrap: wrap;
-  position: relative;
-  justify-content: center;
-  transition: all linear .3s;
-  opacity: 0;
-  z-index: -1;
-}
-.show-box {
-  opacity: 1;
-  z-index: 2;
-}
-.drop-caret {
-  position: absolute;
-  margin: -1rem 0 0 0 ;
-  transform: rotate(30deg);
-  top: 0;
-  right: 20rem;
-}
-
-.drop-input {
-  width: 70%;
-}
-
-.radio-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 92%;
-  justify-content: space-around;
-}
-
-.drop-button {
-  width: 20%;
-  align-self: flex-end;
-  margin: 0 0 0 1rem;
-  background: @pr-brand-dark;
-  color: @pr-brand-white;
+.selected-action {
+  background: @pr-brand-grey-10;
   border: none;
-  padding: 1.5rem;
 }
-
-.list-container {
-  padding: 0;
-}
-
-.mod-container {
+.new-list-wrapper {
+  width: 35%;
+  border-radius: 0 8px 8px 8px;
+  display: flex;
+  background: @pr-brand-grey-10;
   opacity: 0;
-  background: rgba(0, 0, 0, .7);
-  width: 100%;
-  height: 100%;
+  position: relative;
+  z-index: -1;
+  transform: translateY(-5rem);
+  transition: transform .3s ease;
 }
 
-.show-modal {
+.new-list-expand {
+  transform: translateY(-3rem);
+  z-index: 1;
   opacity: 1;
-  z-index: 200;
+  transition: transform .3s ease;
 }
-@media  (max-width: 1050px) {
+.new-list-expand .container-create {
+  padding: 2rem;
+}
+.new-list-expand .create-form {
+  flex-direction: column;
+}
+.new-list-expand .title-input {
+  border: 2px solid @pr-brand-grey-9;
+  background: @pr-brand-white;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  padding-left: 1rem;
+  font-size: 16px;
+}
 
-  .grocery-list a {
-    font-size: 2rem;
-  }
+.new-list-expand .save-button {
+  border-radius: 4px;
+}
+@media  (max-width: 950px) {
 
-
-  .button-wrapper {
-    width: 80%;
-    justify-content: center;
-    margin: 0 auto;
-  }
-  .sq-button {
-    margin: 0 0 2rem 1rem;
-  }
-
+  .new-list-wrapper {
+    width: 95%;
+   }
 
 }

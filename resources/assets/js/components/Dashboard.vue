@@ -38,9 +38,6 @@
                     </svg>
                 </button>
                 <div class="create-list-wrapper" v-bind:class="{ 'create-list-expand' : newGroceryListModalShown}">
-                        <!--@close="newGroceryListModalShown = !newGroceryListModalShown"-->
-                    <!--<span @click="newGroceryListModalShown = !newGroceryListModalShown">X</span>-->
-                    <!--<h4 class="modal-heading">Add New List</h4>-->
                     <div class="container-create">
                         <form v-on:submit.prevent class="create-form">
                             <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="Grocery List Title">
