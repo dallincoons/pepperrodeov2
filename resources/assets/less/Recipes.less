@@ -1,36 +1,87 @@
+.recipes-main-wrapper {
+  background: @pr-brand-grey-10;
+  padding: 3rem;
+}
+.recipes-secondary-wrapper {
+  background: @pr-brand-white;
+  border-top: .8rem solid @pr-brand-color ;
+  margin: 1rem;
+  padding: 1rem 2rem;
+}
 .category-container {
   width: 100%;
 }
-.category-heading {
-  color: @pr-brand-color;
+.recipes-heading{
+  color: @pr-red-1;
   font-weight: 300;
 }
 
-.recipes-wrapper {
-  border: 1px solid @pr-brand-grey;
+.recipes-button-wrapper {
+  display: flex;
 }
-
+.recipes-action {
+  background: none;
+  border: 2px solid @pr-brand-grey-9;
+  border-radius: 4px;
+  padding: .3rem 2rem;
+  font-weight: 500;
+  color: @pr-brand-grey-4;
+  margin: 0 1rem 3rem 0;
+  display: flex;
+  align-items: center;
+  transition: background-color .3s ease;
+}
+.recipes-action:hover {
+  background: @pr-brand-grey-9;
+  font-weight: 700;
+  color: @pr-brand-grey-4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .3s ease;
+}
+.recipes-action a:hover {
+  color: @pr-brand-grey-4;
+  text-decoration: none;
+}
+.recipes-body {
+  display: flex;
+}
+.recipes-wrapper {
+  margin-top: 0;
+  position: relative;
+}
+.recipes-wrapper .dept_heading {
+  border-left: 4px solid @pr-brand-color;
+  color: @pr-brand-grey-4;
+  background: @pr-brand-grey-10;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  padding-left: 1rem;
+}
 .recipes-list {
   padding: 0;
   margin: 0;
 }
-
 .recipe-ingredient {
-  width: 100%;
-  font-size: 1.5em;
-  border-bottom: 1px solid @pr-brand-grey;
-  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid @pr-brand-grey-10;
+  font-size: 16px;
 }
-
 .recipe-ingredient a {
-  color: @pr-brand-dark;
+  padding: 1.5rem 1rem 1.5rem 2rem;
+  color: @pr-brand-grey-4;
 }
-
+.recipe-ingredient:last-child {
+  border-bottom: none;
+}
 .recipe-ingredient a:hover {
   color: @pr-brand-dark;
   text-decoration: none;
 }
-
 
 @media only screen
 and (max-device-width: 1050px) {
