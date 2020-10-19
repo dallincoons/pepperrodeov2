@@ -1,3 +1,9 @@
+.list-depts-wrapper {
+  width: 60%;
+}
+.department-container {
+  width: 100%;
+}
 .dept_heading {
   background: @pr-brand-grey-10;
   font-weight: 600;
@@ -5,6 +11,7 @@
   display: flex;
   height: 4rem;
   align-items: center;
+  width: 100%;
 }
 .red-accent-line {
   background: @pr-red-6;
@@ -50,6 +57,38 @@
 .checked {
   text-decoration: line-through;
 }
+
+.main-added-recipes-wrapper {
+  width: 35%;
+  position: sticky;
+  top: 3rem;
+  align-self: flex-start;
+  border-radius: 4px;
+}
+.main-added-recipes-wrapper .recipe-list-container {
+  border-radius: 4px;
+}
+.main-added-recipes-wrapper .recipes-list-items {
+  padding-left: 0;
+}
+.main-added-recipes-wrapper .recipe-list-header {
+  background: @pr-brand-grey-10;
+  color: @pr-brand-grey-4;
+  border-bottom: none;
+  margin: 0;
+  padding-top: 1rem;
+}
+@media (max-width: 750px) {
+  .list-body {
+    flex-direction: column;
+  }
+  .list-depts-wrapper {
+    width: 100%;
+  }
+  .main-added-recipes-wrapper {
+    width: 100%;
+  }
+ }
 @media (max-width: 650px) {
 .list-container {
   width: 100%;

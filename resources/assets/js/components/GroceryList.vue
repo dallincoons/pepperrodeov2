@@ -65,7 +65,8 @@
                     </div>
                 </div>
                 <div class="list-body">
-                <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
+                    <div class="list-depts-wrapper">
+                        <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
                     <ul class="list-items">
                         <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
                             <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
@@ -74,6 +75,15 @@
 
                     </ul>
                 </div>
+                    </div>
+                    <div class="main-added-recipes-wrapper">
+                        <recipes-on-list
+                                :recipes="list.recipes"
+                                :list="list"
+                                @deleted="recipeDeleted"
+                        >
+                        </recipes-on-list>
+                    </div>
             </div>
             </div>
         </div>
