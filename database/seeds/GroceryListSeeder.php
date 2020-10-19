@@ -16,15 +16,13 @@ class GroceryListSeeder extends Seeder
             'January Last 2 Weeks',
         ];
 
-        foreach($listTitles as $title){
-
+        foreach($listTitles as $title) {
             $grocerylist = GroceryList::create([
                 'user_id' => User::first() ?  User::first()->getKey() : factory(User::class)->create()->getKey(),
                 'title' => $title
             ]);
 
-            foreach(range(1, rand(1, 20)) as $itemindex)
-            {
+            foreach(range(1, rand(1, 20)) as $itemindex) {
                 $item = factory(GroceryListItem::class)->create();
                 $grocerylist->items()->save($item);
             }
