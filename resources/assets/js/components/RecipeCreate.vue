@@ -33,6 +33,9 @@
                         <input type="text" v-model="serves" class="create-recipe-input">
                     </div>
                 </div>
+                <div class="add-subsection-check-wrapper">
+                    <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>
+                </div>
 
             </div>
         </div>
@@ -94,6 +97,78 @@
                 </div>
             </div>
         </div>
+        <div class="subsection-wrapper" v-if="showSubRecipe">
+            <div class="create-recipe-section-wrapper">
+                <div class="create-recipe-header" @click="createSubDetailsHidden = !createSubDetailsHidden">
+                    <h4>Sub Recipe Details</h4>
+                    <span class="create-caret" :class="{'rotate-caret' : createSubDetailsHidden}"><caret></caret></span>
+                </div>
+                <div class="create-recipe-body" :class="{'hide-info' : createSubDetailsHidden}">
+                    <div class="create-recipe-title recipe-item">
+                        <span class="create-recipe-label">Title</span>
+                        <input type="text" required v-model="subRecipeTitle" class="create-recipe-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="create-recipe-section-wrapper">
+                <div class="create-recipe-header"  @click="createSubIngredientsHidden = !createSubIngredientsHidden">
+                    <h4>{{subRecipeTitle}} Ingredients</h4>
+                    <span class="create-caret" :class="{'rotate-caret' : createSubIngredientsHidden}"><caret></caret></span>
+                </div>
+                <div class="create-recipe-body" :class="{'hide-info' : createSubIngredientsHidden}">
+                    <div class="create-recipe-ingredients-ntb-wrapper">
+                        <div class="create-recipe-ingredients-wrapper">
+                            <label class="create-recipe-label">Add Ingredients</label>
+                            <div class="create-recipe-add-ingredient-section">
+                                <input class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
+                                <span @click="addIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
+                            </div>
+
+                            <ul class="recipe-item">
+                                <li v-for="(subIngredient, index) in subIngredients" class="create-ingredient-items">
+                                    <input class="recipe-item-input" v-model="subIngredients[index].full_description">
+                                    <div @click="deleteSubIngredient(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="need-to-buys-wrapper">
+                            <div class="need-to-buys-section">
+                                <label class="create-recipe-label create-recipe-need-to-buy-title" @click="showSubNeedToBuy = !showSubNeedToBuy">
+                                    Need to Buy
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : showSubNeedToBuy}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
+                                </label>
+
+
+                                <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showSubNeedToBuy}">
+                                    <li v-for="(subNeedToBuy, index) in subNeedToBuys" class="create-ingredient-items">
+                                        <input class="recipe-item-input" v-model="subNeedToBuys[index].full_description">
+                                        <select class="need-buy-department"  v-model="subNeedToBuys[index].department_id">
+                                            <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                                        </select>
+                                        <div @click="deleteSubNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="create-recipe-section-wrapper">
+                <div class="create-recipe-header" @click="createSubDirectionsHidden = !createSubDirectionsHidden">
+                    <h4>{{subRecipeTitle}} Directions</h4>
+                    <span class="create-caret" :class="{'rotate-caret' : createSubDirectionsHidden}"><caret></caret></span>
+                </div>
+                <div class="create-recipe-body" :class="{'hide-info' : createSubDirectionsHidden}">
+                    <div class="create-recipe-title recipe-item">
+                        <span class="create-recipe-label">Add Directions</span>
+                        <textarea v-model="subDirections" class="create-recipe-input create-recipe-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="create-recipe-section-buttons">
             <button @click="saveRecipe" class="create-recipe-save">Save {{recipeTitle}}</button>
         </div>
@@ -141,7 +216,16 @@
                 showNeedToBuy : true,
                 createDetailsHidden : false,
                 createIngredientsHidden : false,
-                createDirectionsHidden : false
+                createDirectionsHidden : false,
+                subRecipeTitle : '',
+                subIngredients : [],
+                subNeedToBuys : [],
+                subDirections : '',
+                showSubRecipe : false,
+                showSubNeedToBuy : true,
+                createSubDetailsHidden : false,
+                createSubIngredientsHidden : false,
+                createSubDirectionsHidden: false
             }
         },
         mounted() {
