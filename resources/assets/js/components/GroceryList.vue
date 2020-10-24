@@ -76,7 +76,7 @@
                     </ul>
                 </div>
                     </div>
-                    <div class="main-added-recipes-wrapper">
+                    <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal}">
                         <recipes-on-list
                                 :recipes="list.recipes"
                                 :list="list"
