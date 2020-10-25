@@ -121,8 +121,8 @@
                         <div class="create-recipe-ingredients-wrapper">
                             <label class="create-recipe-label">Add Ingredients</label>
                             <div class="create-recipe-add-ingredient-section">
-                                <input class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
-                                <span @click="addIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
+                                <input class="create-ingredient-input" v-model="subIngredientDescription" @keyup.enter="addSubIngredient" >
+                                <span @click="addSubIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
                             </div>
 
                             <ul class="recipe-item">
@@ -205,6 +205,7 @@
                 selectedCategory : '',
                 categories       : [],
                 ingredientDescription : '',
+                subIngredientDescription: '',
                 ingredients           : [],
                 needToBuys            : [],
                 directions            : '',
@@ -247,16 +248,8 @@
                     return;
                 }
 
-                Recipes.save({
-                    title                : this.recipeTitle,
-                    category_id             : this.selectedCategory,
-                    ingredients          : this.ingredients,
-                    listable_ingredients : this.needToBuys,
-                    directions           : this.directions,
-                    prep_time           : this.prepTime,
-                    total_time          : this.totalTime,
-                    serves              : this.serves
-                }).then((response) => {
+
+                Recipes.save(this.getRecipeFacts()).then((response) => {
                     this.$router.push({path : `/recipe/${response.data.id}`});
                 });
             },
@@ -276,6 +269,34 @@
                 });
             },
 
+            getRecipeFacts() {
+                let recipeFacts = {
+                    title                : this.recipeTitle,
+                    category_id             : this.selectedCategory,
+                    ingredients          : this.ingredients,
+                    listable_ingredients : this.needToBuys,
+                    directions           : this.directions,
+                    prep_time           : this.prepTime,
+                    total_time          : this.totalTime,
+                    serves              : this.serves
+                };
+
+                if (this.showSubRecipe) {
+                    if (!this.subRecipeTitle || this.subIngredients.length < 1) {
+                        return recipeFacts;
+                    }
+
+                    recipeFacts['subRecipe'] = {
+                        title: this.subRecipeTitle,
+                        ingredients: this.subIngredients,
+                        listable_ingredients : this.subNeedToBuys,
+                        directions: this.subDirections,
+                    }
+                }
+
+                return recipeFacts;
+            },
+
             addIngredient() {
                 if (this.ingredientDescription === '') {
                     return;
@@ -285,6 +306,17 @@
                 this.ingredients.push(newIngredient);
                 this.needToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
                 this.ingredientDescription = '';
+            },
+
+            addSubIngredient() {
+                if (this.subIngredientDescription === '') {
+                    return;
+                }
+
+                let newIngredient = {full_description : this.subIngredientDescription};
+                this.subIngredients.push(newIngredient);
+                this.subNeedToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
+                this.subIngredientDescription = '';
             },
 
             deleteIngredient(index) {
