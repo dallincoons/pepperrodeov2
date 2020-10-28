@@ -38,7 +38,7 @@ class GroceryList extends Model implements Transformable
             ->pluck('recipe_id')
             ->unique();
 
-        return Recipe::whereIn('id', $recipeIds)->get();
+        return Recipe::whereIn('id', $recipeIds)->with('category')->get();
     }
 
     public function getUniqueRecipeCountAttribute()

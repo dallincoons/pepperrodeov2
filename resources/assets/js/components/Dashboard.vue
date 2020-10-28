@@ -7,12 +7,14 @@
                     Recipes Added to {{list.title}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron" :class="{'chevron-rotate' : isHidden}" ><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
                 </h4>
-                <ul class="recipes" v-bind:class="{ 'dash-hidden' : isHidden}">
-                    <li v-for="recipe in list.recipes" class="recipe-title">
-                        <router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link>
-                    </li>
-                </ul>
-
+                <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="dash-category-container" v-bind:class="{ 'dash-hidden' : isHidden}">
+                    <h3 class="small_dept_heading">{{categoryName}}</h3>
+                    <ul class="recipes" >
+                        <li v-for="recipe in recipeGroup" class="recipe-title">
+                            <router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="recent-list-wrapper">
                 <h4 class="recent-list-title">
@@ -100,13 +102,22 @@
                 newGroceryListModalShown: false,
                 Modal,
                 GroceryLists,
+                listTitle: ''
+            }
+        },
+        computed : {
+            groupedRecipes() {
+                return _.groupBy(this.list.recipes, function (recipe) {
+                    return recipe.category.title;
+                });
             }
         },
 
         created() {
-            this.orderedRecipes = _.sortBy(this.recipes, 'title');
+            this.orderedRecipes = _.sortBy(this.recipes, 'category.title');
             this.loadRecentList()
         },
+
 
         methods : {
             loadRecentList() {
@@ -162,6 +173,15 @@
         border-radius: 4px;
     }
 
+    .dash-category-container {
+        margin-left: 2rem;
+    }
+
+    .dash-category-container .small_dept_heading {
+        font-weight: 400;
+        color: #27241d;
+    }
+
     .recipes-on-list-title {
         margin: 2rem 0 0 2rem;
         color: #27241d;
@@ -176,7 +196,7 @@
 
     .recipe-title {
         font-size: 16px;
-        font-weight: 400;
+        font-weight: 300;
         padding-bottom: .5rem;
     }
 

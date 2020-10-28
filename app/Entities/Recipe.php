@@ -27,6 +27,11 @@ class Recipe extends Model
         return $this->hasMany(ListableIngredient::class);
     }
 
+    public function getCategoryNameAttribute()
+    {
+        return $this->category->name;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

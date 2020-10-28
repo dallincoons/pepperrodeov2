@@ -28,27 +28,33 @@
                                 <div class="list-add-recipes-body">
                                     <div class="list-add-recipes-recipes-section">
                                         <h4 class="list-add-recipes-heading">Recipes</h4>
-                                        <ul class="list-add-recipes-list">
-                                            <li v-for="recipe in recipes" class="list-add-recipes-item">
-                                                <div class="fs-checkbox">
-                                                    <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
-                                                    <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
+                                            <h3 class="small_dept_heading">{{categoryName}}</h3>
+                                            <ul class="list-add-recipes-list">
+                                                <li v-for="recipe in recipeGroup" class="list-add-recipes-item">
+                                                    <div class="fs-checkbox">
+                                                        <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
+                                                        <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div class="selected-added-wrapper">
                                         <div class="selected-recipes-wrapper">
                                             <h4 class="list-add-recipes-heading">Recipes Selected</h4>
                                             <div class="selected-recipes-list">
-                                                <ul>
-                                                    <!--<li>No Recipes Selected Yet!</li>-->
-                                                    <li v-for="recipe in recipesAdded">{{recipe.title}}</li>
-                                                </ul>
+                                            <p v-if="Object.keys(recipesAdded).length === 0" class="no-recipe-message">No Recipes Selected Yet!</p>
+                                                <div v-for="(recipeGroup, categoryName) in recipesAdded" class="category-container-add-list">
+                                                    <h3 class="small_dept_heading">{{categoryName}}</h3>
+                                                        <ul>
+                                                            <li v-for="recipe in recipeGroup">{{recipe.title}}</li>
+                                                        </ul>
+                                                </div>
                                                 <button @click="addRecipesToList" class="list-add-recipes-button">Add Recipe(s)</button>
                                             </div>
                                         </div>
-                                        <div class="added-recipes-wrapper">
+                                        <div class="added-recipes-wrapper" v-if="list.recipes.length > 0">
                                             <recipes-on-list
                                                     v-if="viewListRecipes"
                                                     :recipes="list.recipes"
@@ -64,6 +70,7 @@
                         </div>
                     </div>
                 </div>
+                <p v-if="list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
                 <div class="list-body">
                     <div class="list-depts-wrapper">
                         <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
@@ -78,6 +85,7 @@
                     </div>
                     <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal}">
                         <recipes-on-list
+                                v-if="list.recipes.length > 0"
                                 :recipes="list.recipes"
                                 :list="list"
                                 @deleted="recipeDeleted"
@@ -151,14 +159,23 @@
                     recipeMap[recipe.id] = recipe;
                 });
 
-                return this.checkedRecipes.map((recipeId) => {
+                let checkedRecipes = this.checkedRecipes.map((recipeId) => {
                     return recipeMap[recipeId];
-                })
+                });
+
+               return _.groupBy(checkedRecipes, function (recipe) {
+                    return recipe.category.title;
+                });
             },
 
             recipesOnList: function () {
                 return this.list.recipes
             },
+            groupedRecipes() {
+                return _.groupBy(this.recipes, function (recipe) {
+                    return recipe.category.title;
+                });
+            }
         },
 
         mounted() {
@@ -240,7 +257,6 @@
             },
 
             viewRecipes() {
-                // this.addRecipesModalShown = true;
                 this.addRecipesOpen = !this.addRecipesOpen;
             },
 
