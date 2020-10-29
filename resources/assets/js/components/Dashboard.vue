@@ -16,14 +16,14 @@
                     </ul>
                 </div>
             </div>
-            <div class="recent-list-wrapper">
+            <div class="col-2-wrapper">
+                <div class="recent-list-wrapper">
                 <h4 class="recent-list-title">
                     <router-link :to="{name: 'grocery-lists', params: {id : list.id}}">{{list.title}}</router-link>
                 </h4>
             </div>
-            <div class="actions-wrapper" v-bind:class="{ 'actions-expand' : newGroceryListModalShown}">
+                <div class="actions-wrapper" v-bind:class="{ 'actions-expand' : newGroceryListModalShown}">
                 <button class="dash-action" @click="newGroceryListModalShown = !newGroceryListModalShown">
-                    <span class="dash-action-text">Create a New Grocery List</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.95 85.44" class="dash-svg">
                         <g id="add-list">
                             <g id="list">
@@ -38,6 +38,7 @@
                             </g>
                         </g>
                     </svg>
+                    <span class="dash-action-text">Create a New Grocery List</span>
                 </button>
                 <div class="create-list-wrapper" v-bind:class="{ 'create-list-expand' : newGroceryListModalShown}">
                     <div class="container-create">
@@ -49,7 +50,6 @@
                 </div>
                 <router-link :to="{name: 'create-recipe'}">
                 <button class="dash-action">
-                    <span class="dash-action-text">Add a New Recipe</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89.36 86.53" class="dash-svg">
                         <g id="add-recipe">
                             <g id="fork-knife">
@@ -62,9 +62,11 @@
                             </g>
                         </g>
                     </svg>
+                    <span class="dash-action-text">Add a New Recipe</span>
                 </button>
                 </router-link>
 
+            </div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252.9 281.65" class="background-svg apple">
                 <path class="cls-red-fill" d="M90.23,121.9A142.47,142.47,0,0,1,92,88.72C51.52,102,35.94,40.87,35.52,9.76,35.46,5,40-.62,45.22.06,61.57,2.18,74.54,10,82.41,24.87c6.36,12,9.64,26.54,17.51,37.81a97.73,97.73,0,0,1,31-38.66c10-7.53,19.66,9.33,9.79,16.75-24.92,18.73-32.27,47.91-31.22,77.42,17.4-5.39,28.5-24,45.76-30.35,13.88-5.13,30.33-4.7,44.38.23,28.25,9.91,49.76,29.48,52.6,60.74,3.37,37-5,80.69-26.93,111.17-15.74,21.89-41.45,19.35-65.3,20.89C94.29,285.12,18.82,274,1.7,198.26-10.42,144.72,44.72,116.19,90.23,121.9ZM83.17,71c-8.41-15.87-13.48-38-27.07-47.33C58.79,43.75,66.48,73.09,83.17,71ZM25.83,165.49c-14.57,29.12,4,65.28,30.8,80.62,38.35,22,81.89,17.62,124.27,14.69,49-3.39,74.24-110.71,37.39-140.94-28.57-23.44-53.84-16.9-80.72,3.87-7.12,5.5-13.7,9.81-21.07,12.46-1.07,5.69-7.61,11.11-14.73,8.06C77.06,133.68,39.19,138.79,25.83,165.49Z"/>
@@ -151,26 +153,33 @@
     }
 
     .dash-wrapper {
-        display: grid;
-        grid-template-columns:2fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-gap: 2rem;
+        /*display: grid;*/
+        /*grid-template-columns:2fr 1fr;*/
+        /*grid-template-rows: 1fr 1fr 1fr;*/
+        /*grid-gap: 2rem;*/
+        display: flex;
+        justify-content: space-between;
         background: #faf9f7;
         padding: 4rem;
-        max-height: 70vh;
+        /*max-height: 70vh;*/
         position: relative;
+        margin-bottom: 4rem;
     }
 
     .recipes-on-list-wrapper {
-        grid-column: 1;
-        grid-row: 1 / span 3;
+        /*grid-column: 1;*/
+        /*grid-row: 1 / span 3;*/
         background: #FFFFFF;
         border-bottom: 4px solid hsl(10, 80%, 58%);
         display: grid;
         grid-template-rows: 5rem auto;
         justify-self: center;
-        width: 85%;
+        width: 65%;
         border-radius: 4px;
+    }
+
+    .col-2-wrapper {
+        width: 30%;
     }
 
     .dash-category-container {
@@ -210,16 +219,18 @@
     }
 
     .recent-list-wrapper {
-        grid-column: 2;
-        grid-row: 1;
+        /*grid-column: 2;*/
+        /*grid-row: 1;*/
         background: #FFFFFF;
         border-bottom: 4px solid hsl(10, 80%, 58%);
         border-radius: 4px;
         width: 95%;
-        height: 45%;
+        padding: 1rem;
+        margin-bottom: 8rem;
+        /*height: 45%;*/
     }
     .recent-list-title {
-        margin: 2rem 0 0 2rem;
+        margin: 0 0 0 2rem;
         font-size: 20px;
     }
 
@@ -247,12 +258,13 @@
         border: 4px solid hsl(10, 80%, 58%);
         border-radius: 8px;
         align-self: center;
-        position: relative;
         width: 95%;
         height: 95%;
         color: #27241d;
         font-weight: 500;
         font-size: 16px;
+        padding: .75rem;
+        display: flex;
     }
 
     .dash-action:hover {
@@ -261,9 +273,7 @@
 
     .dash-svg {
         width: 10%;
-        position: absolute;
-        left: 3rem;
-        top: .5rem;
+        margin: 0 1rem 0 2rem;
     }
 
     .cls-red-fill{fill:#e9593d;}
@@ -308,7 +318,6 @@
             max-height: none;
             display: flex;
             flex-direction: column;
-            height: 100vh;
         }
 
         .recipes-on-list-wrapper {
@@ -344,13 +353,16 @@
         .chevron-rotate {
             transform: rotate(180deg);
         }
+        .col-2-wrapper {
+            width: 100%;
+        }
         .recent-list-wrapper {
             height: auto;
             width: 100%;
             margin: 1rem 0;
         }
         .recent-list-title {
-            margin: 1rem;
+            margin: .5rem 1rem 0 0;
         }
         .actions-wrapper {
             display: flex;
@@ -366,16 +378,9 @@
             text-align: left;
         }
 
-        .dash-action-text {
-            order: 2;
-            margin-left: 1rem;
-        }
-
         .dash-svg {
-            position: relative;
-            transform: translateX(-2.2rem);
-            width: 5%;
-            order: 1;
+            width: 10%;
+            margin: 0 1rem 0 1rem;
         }
 
         .background-svg  {
