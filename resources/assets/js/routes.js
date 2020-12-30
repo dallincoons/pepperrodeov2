@@ -5,6 +5,7 @@ import RecipeCreate from './components/RecipeCreate.vue';
 import Recipes from './components/Recipes.vue';
 import Recipe from './components/Recipe.vue';
 import Dashboard from './components/Dashboard';
+import MealPlanning from './components/MealPlanning';
 
 let routes = [
     {
@@ -47,6 +48,10 @@ let routes = [
             default :  Recipe,
         },
         'name' : 'recipe',
-    }
+    },
+    {
+        'path' : '/mealplanning',
+        'component' : MealPlanning,
+    },
 ];
 export default routes;
