@@ -126,6 +126,7 @@
         data() {
             return {
                 recipe      : {},
+                subRecipes : [],
                 category    : {},
                 editable : false,
                 categories  : [],
@@ -144,7 +145,6 @@
 
         mounted() {
             this.recipeId = this.$route.params.id;
-            console.log(this.recipe);
             this.getRecipe();
 
             Categories.all().then((response) => {
@@ -164,7 +164,8 @@
         methods : {
             getRecipe() {
                 Recipe.get(this.recipeId).then((response) => {
-                    this.recipe   = response.data;
+                    this.recipe   = response.data.recipe;
+                    this.subRecipes = response.data.sub_recipes;
                     this.category = this.recipe.category;
                     this.recipeTitle = this.recipe.title;
                 });
@@ -226,7 +227,6 @@
 
             toggleAddToList(){
                 this.addToListVisible = !this.addToListVisible;
-                console.log(this.addToListVisible);
             },
 
             toggleRecipeView(){

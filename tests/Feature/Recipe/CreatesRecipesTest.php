@@ -101,6 +101,36 @@ class CreatesRecipesTest extends TestCase
         ], Recipe::first()->listableIngredients->first()->toArray());
     }
 
+    /** @test */
+    public function it_creates_a_recipe_with_sub_recipes()
+    {
+        $department = factory(Department::class)->create();
+
+        $response = $this->createRecipe([
+            'title'       => 'foo bar',
+            'category_id'    => factory(Category::class)->create()->getKey(),
+            'sub_recipe' => [
+                'title'       => 'foo bar',
+                'directions'  => 'cook things',
+                'ingredients' => [
+                    [
+                        'quantity'    => 2,
+                        'full_description' => 'jazz music',
+                    ]
+                ],
+                'listable_ingredients' => [
+                    [
+                        'quantity'    => 3,
+                        'full_description' => 'jazz music2',
+                        'department_id' => 2
+                    ]
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(2, Recipe::count());
+    }
+
     private function createRecipe($overrides = [])
     {
         return $this->post($this->api('recipes'), $this->validParams($overrides));

@@ -286,7 +286,7 @@
                         return recipeFacts;
                     }
 
-                    recipeFacts['subRecipe'] = {
+                    recipeFacts['sub_recipe'] = {
                         title: this.subRecipeTitle,
                         ingredients: this.subIngredients,
                         listable_ingredients : this.subNeedToBuys,
