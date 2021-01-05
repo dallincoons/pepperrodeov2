@@ -5,10 +5,6 @@ namespace App\Criteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
-/**
- * Class AuthUserCriteria
- * @package namespace App\Criteria;
- */
 class WithoutSubRecipesCriteria implements CriteriaInterface
 {
     /**
