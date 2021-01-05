@@ -29,6 +29,20 @@ class RetrievesRecipeTest extends TestCase
     }
 
     /** @test */
+    public function it_ignores_sub_recipes_when_getting_recipe_list()
+    {
+        $recipe = create(Recipe::class);
+        $subRecipe = create(Recipe::class, ['parent_id' => $recipe->getKey()]);
+
+        $response = $this->get($this->api('recipes'));
+
+        $responseRecipe = $response->decodeResponseJson();
+
+        $response->assertSuccessful();
+        $this->assertCount(1, $responseRecipe);
+    }
+
+    /** @test */
     public function it_retrieves_a_single_recipe_with_ingredients()
     {
         $recipe = RecipeFaker::withItems();

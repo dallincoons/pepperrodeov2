@@ -11,15 +11,13 @@
         "php": ">=7.4",
         "ajthinking/tinx": "^0.6.1",
         "algolia/algoliasearch-client-php": "^1.20",
-        "darkaonline/l5-swagger": "^5.5",
         "doctrine/dbal": "^2.11",
         "laravel/cashier": "~7.0",
-        "laravel/framework": "5.5.*",
+        "laravel/framework": "^5.7",
         "laravel/scout": "^3.0",
         "laravel/spark": "*@dev",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.17.0",
-        "mpociot/laravel-apidoc-generator": "^2.0",
         "phpoption/phpoption": "^1.5",
         "prettus/l5-repository": "^2.6",
         "spacegrass/fraction": "^1.0",
@@ -28,7 +26,6 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpro/grumphp": "^0.12.1",
         "phpunit/phpunit": "~6.3"
     },
     "autoload": {
@@ -56,8 +53,7 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize",
-            "php artisan api:generate --routePrefix='api/v1/*'"
+            "php artisan optimize"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",

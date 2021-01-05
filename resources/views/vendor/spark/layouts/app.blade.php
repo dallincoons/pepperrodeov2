@@ -16,6 +16,8 @@
     <link href="/css/sweetalert.css" rel="stylesheet">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Scripts -->
     @yield('scripts', '')
 
