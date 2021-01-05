@@ -29,6 +29,12 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         $this->listableIngredientRepository = $listableIngredientRepository;
     }
 
+    public function getSubRecipes(Recipe $recipe)
+    {
+        return Recipe::with(['ingredients', 'listableIngredients', 'ingredients.department'])
+            ->where('parent_id', $recipe->getKey())->get();
+    }
+
     /**
      * @param array $attributes
      * @return Recipe

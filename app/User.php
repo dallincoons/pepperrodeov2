@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Laravel\Spark\HasApiTokens;
 use Laravel\Spark\User as SparkUser;
 
 class User extends SparkUser

@@ -14,7 +14,7 @@ class Recipe extends Model
         'title', 'directions',
         'category_id', 'prep_time',
         'total_time', 'serves',
-        'user_id'
+        'user_id', 'parent_id'
     ];
 
     public function ingredients()

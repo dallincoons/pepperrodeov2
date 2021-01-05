@@ -25,11 +25,22 @@
                         <h4  @click="toggleRecipeView" class="recipe-body-tab directions-tab" :class="{'active-tab' : toggleDirections}">Directions</h4>
                     </div>
                     <div class="recipe-body-info">
-                        <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
-                            <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
-                                <span v-if="!editable">{{ingredient.full_description}}</span>
-                            </li>
-                        </ul>
+                        <div class="ingredients-wrapper" :class="{'view-ingredients' : toggleIngredients}">
+                            <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
+                                <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                                    <span v-if="!editable">{{ingredient.full_description}}</span>
+                                </li>
+                            </ul>
+                            <div class="sub-recipe-ingredients-wrapper" :class="{'view-sub-recipe' : subRecipeExists}">
+                                <h4 class="sub-ingredients-section-title" :class="{'view-ingredients' : toggleIngredients}">Sub Recipe Ingredients</h4>
+                                <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
+                                    <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                                        <span v-if="!editable">{{ingredient.full_description}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <div class="recipe-need-to-buy-wrapper" :class="{'hide-need-to-buy' : toggleDirections}">
                             <h4 class="recipe-need-to-buy-title" @click="showNeedToBuy = !showNeedToBuy">
                                 Need to Buy
@@ -40,8 +51,22 @@
                             <ul class="recipe-need-to-buy-list" :class="{'recipe-need-to-buy-hidden' : !showNeedToBuy}">
                                 <li v-for="listable_ingredient in recipe.listable_ingredients" class="recipe-buy-items">{{listable_ingredient.full_description}}</li>
                             </ul>
+                            <div class="sub-recipe-need-buy-wrapper" :class="[{'recipe-need-to-buy-hidden' : !showNeedToBuy}, {'view-sub-recipe' : subRecipeExists}]">
+                                <h4 class="sub-ingredients-section-title" :class="{'view-ingredients' : subRecipeExists}">Sub Recipe Need To Buys</h4>
+                                <ul class="recipe-ingredients" :class="[{'view-ingredients' : toggleIngredients}, {'hide-sub-recipe' : !subRecipeExists}]">
+                                    <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                                        <span v-if="!editable">{{ingredient.full_description}}</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <p class="recipe-directions" :class="{'view-directions' : toggleDirections}">{{recipe.directions}}</p>
+                        <div class="recipe-directions" :class="{'view-directions' : toggleDirections}">
+                            <p>{{recipe.directions}}</p>
+                            <div class="sub-recipe-directions" :class="{'hide-sub-recipe' : !subRecipeExists}">
+                                <h4>Sub Recipe Directions</h4>
+                                <p>{{recipe.directions}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="recipe-actions">
@@ -101,6 +126,7 @@
         data() {
             return {
                 recipe      : {},
+                subRecipes : [],
                 category    : {},
                 editable : false,
                 categories  : [],
@@ -112,13 +138,13 @@
                 toggleIngredients : true,
                 toggleDirections : false,
                 showNeedToBuy : false,
-                recipeTitle : ''
+                recipeTitle : '',
+                subRecipeExists: false
             }
         },
 
         mounted() {
             this.recipeId = this.$route.params.id;
-            console.log(this.recipe);
             this.getRecipe();
 
             Categories.all().then((response) => {
@@ -138,7 +164,8 @@
         methods : {
             getRecipe() {
                 Recipe.get(this.recipeId).then((response) => {
-                    this.recipe   = response.data;
+                    this.recipe   = response.data.recipe;
+                    this.subRecipes = response.data.sub_recipes;
                     this.category = this.recipe.category;
                     this.recipeTitle = this.recipe.title;
                 });
@@ -200,7 +227,6 @@
 
             toggleAddToList(){
                 this.addToListVisible = !this.addToListVisible;
-                console.log(this.addToListVisible);
             },
 
             toggleRecipeView(){

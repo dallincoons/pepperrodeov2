@@ -13,8 +13,4 @@
 
 Route::get('/', 'WelcomeController@show');
 
-Route::get('/documentation', function(){
-    return File::get(public_path('/swagger/index.html'));
-});
-
 
