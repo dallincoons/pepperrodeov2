@@ -60,9 +60,4 @@ Route::group([
 
     Route::get('departments', 'DepartmentController@index');
     Route::get('categories', 'CategoryController@index');
-
-    // vue-router will handle any other requests
-    Route::get('/{vue_capture?}', function () {
-        return view('welcome');
-    })->where('vue_capture', '[\/\w\.-]*')->middleware('auth');
 });
