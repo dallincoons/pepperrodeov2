@@ -62,7 +62,5 @@ Route::group([
     Route::get('categories', 'CategoryController@index');
 
     // vue-router will handle any other requests
-    Route::get('/{vue_capture?}', function () {
-        return view('welcome');
-    })->where('vue_capture', '[\/\w\.-]*')->middleware('auth');
+    Route::get('/{vue_capture?}', 'WelcomeController@show')->where('vue_capture', '[\/\w\.-]*')->middleware('auth');
 });
