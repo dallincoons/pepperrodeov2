@@ -13,9 +13,9 @@ class DropGroceryItemGroupForeignKey extends Migration
      */
     public function up()
     {
-        Schema::table('grocery_list_item_groups', function (Blueprint $table) {
-            $table->dropForeign('grocery_list_item_groups_grocery_list_id_foreign');
-        });
+//        Schema::table('grocery_list_item_groups', function (Blueprint $table) {
+//            $table->dropForeign('grocery_list_item_groups_grocery_list_id_foreign');
+//        });
     }
 
     /**
