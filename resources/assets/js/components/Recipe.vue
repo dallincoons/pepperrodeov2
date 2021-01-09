@@ -2,7 +2,7 @@
         <div class="recipe-wrapper container">
             <div class="recipe-section">
                 <div class="recipe-header">
-                    <h3 class="recipe-title">{{recipe.title}}</h3>
+                    <h3 class="recipe-title">{{recipe.title | title}}</h3>
                     <p>{{category.title}}</p>
                 </div>
                 <div class="recipe-details">
@@ -32,9 +32,9 @@
                                 </li>
                             </ul>
                             <div class="sub-recipe-ingredients-wrapper" :class="{'view-sub-recipe' : subRecipeExists}">
-                                <h4 class="sub-ingredients-section-title" :class="{'view-ingredients' : toggleIngredients}">Sub Recipe Ingredients</h4>
+                                <h4 class="sub-ingredients-section-title" :class="{'view-ingredients' : toggleIngredients}">{{subRecipe.title | title}} Ingredients</h4>
                                 <ul class="recipe-ingredients" :class="{'view-ingredients' : toggleIngredients}">
-                                    <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                                    <li v-for="ingredient in subRecipe.ingredients" class="recipe-ingredient-item">
                                         <span v-if="!editable">{{ingredient.full_description}}</span>
                                     </li>
                                 </ul>
@@ -54,7 +54,7 @@
                             <div class="sub-recipe-need-buy-wrapper" :class="[{'recipe-need-to-buy-hidden' : !showNeedToBuy}, {'view-sub-recipe' : subRecipeExists}]">
                                 <h4 class="sub-ingredients-section-title" :class="{'view-ingredients' : subRecipeExists}">Sub Recipe Need To Buys</h4>
                                 <ul class="recipe-ingredients" :class="[{'view-ingredients' : toggleIngredients}, {'hide-sub-recipe' : !subRecipeExists}]">
-                                    <li v-for="ingredient in recipe.ingredients" class="recipe-ingredient-item">
+                                    <li v-for="ingredient in subRecipe.ingredients" class="recipe-ingredient-item">
                                         <span v-if="!editable">{{ingredient.full_description}}</span>
                                     </li>
                                 </ul>
@@ -63,8 +63,8 @@
                         <div class="recipe-directions" :class="{'view-directions' : toggleDirections}">
                             <p>{{recipe.directions}}</p>
                             <div class="sub-recipe-directions" :class="{'hide-sub-recipe' : !subRecipeExists}">
-                                <h4>Sub Recipe Directions</h4>
-                                <p>{{recipe.directions}}</p>
+                                <h4>{{subRecipe.title | title}} Directions</h4>
+                                <p>{{subRecipe.directions}}</p>
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,6 @@
                 toggleDirections : false,
                 showNeedToBuy : false,
                 recipeTitle : '',
-                subRecipeExists: false
             }
         },
 
@@ -159,6 +158,33 @@
                 this.departments = response.data;
             });
 
+        },
+
+        computed : {
+            subRecipeExists: function() {
+                return this.subRecipes.length > 0;
+            },
+
+            subRecipe: function() {
+                if (this.subRecipes.length === 0) {
+                    return {
+                        directions: "Looks like there's no directions",
+                        ingredients: [],
+                        listable_ingredients: [],
+                    }
+                }
+
+                return this.subRecipes[0];
+            }
+        },
+
+        filters: {
+            title(value){
+                if (!value) {
+                    return;
+                }
+                return value.replace(/(?:^|\s|-)\S/g, x => x.toUpperCase());
+            }
         },
 
         methods : {
