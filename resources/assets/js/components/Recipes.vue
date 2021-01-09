@@ -67,6 +67,9 @@
                 this.recipes = response.data;
             });
 
+            // Recipes.search('chicken').then((response) => {
+            //     console.log(response);
+            // });
         },
 
         methods : {
