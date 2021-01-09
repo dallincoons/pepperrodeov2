@@ -4,7 +4,14 @@
         <div class="recipes-heading"><h3>My Recipes</h3></div>
         <div class="recipes-button-wrapper">
             <router-link class="recipes-action" to="/recipe/create">Create New Recipe</router-link>
+            <div class="search-wrapper">
+                <input type="text" placeholder="Search" v-model="itemSearchedFor" v-on:keyup.enter="searchRecipes(itemSearchedFor)" class="recipe-input">
+                <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+            </div>
         </div>
+            <div>
+
+            </div>
         <div class="recipes-body">
             <div class="container-body recipes-wrapper" :class="{'margin-transition' : searchOpen}">
                 <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
@@ -52,7 +59,8 @@
                 selectedList : '',
                 checkedRecipes: [],
                 newGroceryListModalShown : false,
-                listTitle : ''
+                listTitle : '',
+                itemSearchedFor : ''
             }
         },
 
@@ -67,14 +75,18 @@
                 this.recipes = response.data;
             });
 
-            // Recipes.search('chicken').then((response) => {
-            //     console.log(response);
-            // });
         },
 
         methods : {
             toggleSearch() {
                 this.searchOpen = !this.searchOpen;
+            },
+
+            searchRecipes(item) {
+            console.log(item);
+                Recipes.search(item).then((response) => {
+                    console.log(response);
+                });
             },
 
             toggleShowLists() {

@@ -5,8 +5,8 @@ export default {
         return axios.get(endpoint);
     },
 
-    search() {
-        return axios.get(endpoint + 'search')
+    search(term) {
+        return axios.get(endpoint + 'search?query=' + term)
     },
 
     get(recipeId) {

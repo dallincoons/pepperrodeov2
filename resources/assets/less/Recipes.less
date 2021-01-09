@@ -18,6 +18,7 @@
 
 .recipes-button-wrapper {
   display: flex;
+  justify-content: space-between;
 }
 .recipes-action {
   background: none;
@@ -42,6 +43,40 @@
 .recipes-action a:hover {
   color: @pr-brand-grey-4;
   text-decoration: none;
+}
+.search-wrapper {
+  display: flex;
+}
+.recipe-input {
+  background: none;
+  border: 2px solid @pr-brand-grey-9;
+  border-radius: 4px 0 0 4px;
+  padding: .3rem 2rem;
+  font-weight: 500;
+  color: @pr-brand-grey-4;
+  margin: 0 0 3rem 0;
+}
+.search-button {
+  background:  @pr-brand-grey-9;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  margin: 0 -.2rem 3rem 0;
+  padding: .3rem 2rem;
+  display: flex;
+  align-items: center;
+  transition: background-color .3s ease;
+}
+.search-icon {
+  fill: @pr-brand-grey-4;
+  transition: fill .3s ease;
+}
+.search-button:hover {
+  background: @pr-brand-color;
+  transition: background-color .3s ease;
+}
+.search-button:hover .search-icon {
+  fill: @pr-brand-white;
+  transition: fill .3s ease;
 }
 .recipes-body {
   display: flex;
@@ -100,5 +135,14 @@ and (max-device-width: 1050px) {
 
   .recipes-wrapper {
     //margin-top: 45%;
+  }
+}
+
+@media (max-width:550px) {
+  .recipes-button-wrapper {
+    flex-direction: column;
+  }
+  .recipe-input {
+    width: 80%;
   }
 }
