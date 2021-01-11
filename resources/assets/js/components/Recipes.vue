@@ -5,7 +5,13 @@
         <div class="recipes-button-wrapper">
             <router-link class="recipes-action" to="/recipe/create">Create New Recipe</router-link>
             <div class="search-wrapper">
-                <input type="text" placeholder="Search" v-model="itemSearchedFor" v-on:keyup.enter="searchRecipes(itemSearchedFor)" class="recipe-input">
+                <input
+                    type="text"
+                    placeholder="Search"
+                    v-model="itemSearchedFor"
+                    v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                    class="recipe-input"
+                >
                 <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
             </div>
         </div>
@@ -14,7 +20,7 @@
             </div>
         <div class="recipes-body">
             <div class="container-body recipes-wrapper" :class="{'margin-transition' : searchOpen}">
-                <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
+                <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container" v-show="!searchResults">
                     <h3 class="dept_heading">{{categoryName}}</h3>
                     <ul class="recipes-list">
                         <li class="recipe-ingredient" v-for="recipe in recipeGroup">
@@ -22,6 +28,9 @@
                             <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
                         </li>
                     </ul>
+                </div>
+                <div v-show="searchResults">
+                    {{searchResults}}
                 </div>
             </div>
         </div>
@@ -60,7 +69,8 @@
                 checkedRecipes: [],
                 newGroceryListModalShown : false,
                 listTitle : '',
-                itemSearchedFor : ''
+                itemSearchedFor : '',
+                searchResults : '',
             }
         },
 
@@ -83,10 +93,10 @@
             },
 
             searchRecipes(item) {
-            console.log(item);
                 Recipes.search(item).then((response) => {
-                    console.log(response);
+                    this.recipes =  response.data;
                 });
+                this.groupedRecipes();
             },
 
             toggleShowLists() {
