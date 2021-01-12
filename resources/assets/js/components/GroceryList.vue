@@ -64,7 +64,7 @@
                                                 <button @click="addRecipesToList" class="list-add-recipes-button">Add Recipe(s)</button>
                                             </div>
                                         </div>
-                                        <div class="added-recipes-wrapper" v-if="list.recipes.length > 0">
+                                        <div class="added-recipes-wrapper" v-if="list.recipes">
                                             <recipes-on-list
                                                     v-if="viewListRecipes"
                                                     :recipes="list.recipes"
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <p v-if="list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
+                <p v-if="list.recipes && list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
                 <div class="list-body">
                     <div class="list-depts-wrapper">
                         <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal}">
                         <recipes-on-list
-                                v-if="list.recipes.length > 0"
+                                v-if="list.recipes && list.recipes.length > 0"
                                 :recipes="list.recipes"
                                 :list="list"
                                 @deleted="recipeDeleted"
