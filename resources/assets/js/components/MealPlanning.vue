@@ -17,7 +17,7 @@
                 <div class="dates-wrapper">
                     <div class="date-wrapper" v-for="(recipes, date) in scheduledRecipes">
                         <div class="date-heading">
-                            <p>{{date}}</p>
+                            <p>{{prettyDate(date)}}</p>
                         </div>
                         <div
                         class="section-for-recipes"
@@ -85,6 +85,10 @@
         },
 
         methods: {
+            prettyDate: (date) => {
+                return moment(date).format("YYYY")
+            },
+
             startDrag: (evt, recipe) => {
                 evt.dataTransfer.dropEffect = 'move';
                 evt.dataTransfer.effectAllowed = 'move';
@@ -102,7 +106,7 @@
                 let amountOfDays = moment(this.dateEnd).diff(this.dateStart, 'days');
                 let startDay = moment(this.dateStart);
                 for (let i = 0; i < amountOfDays; i++) {
-                    this.$set(this.scheduledRecipes, startDay.add(i, 'd').format("YYYY-MM-DD"), []);
+                    this.$set(this.scheduledRecipes, startDay.add(1, 'd').format("YYYY-MM-DD"), []);
                 }
             }
         }
