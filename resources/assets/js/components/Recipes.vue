@@ -96,7 +96,6 @@
                 Recipes.search(item).then((response) => {
                     this.recipes =  response.data;
                 });
-                this.groupedRecipes();
             },
 
             toggleShowLists() {

@@ -28,6 +28,16 @@
                                 <div class="list-add-recipes-body">
                                     <div class="list-add-recipes-recipes-section">
                                         <h4 class="list-add-recipes-heading">Recipes</h4>
+                                        <div class="search-wrapper">
+                                            <input
+                                                    type="text"
+                                                    placeholder="Search"
+                                                    v-model="itemSearchedFor"
+                                                    v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                                                    class="recipe-input"
+                                            >
+                                            <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+                                        </div>
                                         <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
                                             <h3 class="small_dept_heading">{{categoryName}}</h3>
                                             <ul class="list-add-recipes-list">
@@ -107,7 +117,8 @@
     import Modal from './Modal.vue';
     import RecipesOnList from './RecipesOnList';
     import Trashcan from "./assets/trashcan";
-    import Recipes from "./resources/Recipes"
+    import Recipes from "./resources/Recipes";
+    import Search from "./assets/search"
 
     export default {
 
@@ -118,7 +129,8 @@
             Caret,
             FullScreenModal,
             Modal,
-            RecipesOnList
+            RecipesOnList,
+            Search
         },
 
         data(){
@@ -137,7 +149,8 @@
                 addRecipesModalShown: false,
                 optionModal: false,
                 viewListRecipes: false,
-                addRecipesOpen: false
+                addRecipesOpen: false,
+                itemSearchedFor: ''
             }
         },
 
@@ -318,7 +331,12 @@
             },
             print() {
                 window.print();
-            }
+            },
+            searchRecipes(item) {
+                Recipes.search(item).then((response) => {
+                    this.recipes =  response.data;
+                });
+            },
         }
     }
 </script>
