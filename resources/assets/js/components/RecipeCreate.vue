@@ -75,7 +75,7 @@
                                     <select class="need-buy-department"  v-model="needToBuys[index].department_id">
                                         <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                     </select>
-                                    <div @click="deleteSubNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                    <div @click="deleteNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                                 </li>
                             </ul>
                         </div>
