@@ -21,9 +21,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        putenv('ALGOLIA_APP_ID=' . env('ALGOLIA_APP_ID_TESTING'));
-        putenv('ALGOLIA_SECRET=' . env('ALGOLIA_SECRET_TESTING'));
-
         ModelObserver::disableSyncingFor(GroceryList::class);
 
         $this->disableExceptionHandling();
