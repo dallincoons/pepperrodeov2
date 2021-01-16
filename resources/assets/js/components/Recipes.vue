@@ -6,12 +6,14 @@
             <router-link class="recipes-action" to="/recipe/create">Create New Recipe</router-link>
             <div class="search-wrapper">
                 <input
-                    type="text"
+                    type="search"
+                    name="recipeSearch"
                     placeholder="Search"
                     v-model="itemSearchedFor"
                     v-on:keyup.enter="searchRecipes(itemSearchedFor)"
-                    class="recipe-input"
+                    class="recipe-input search-box"
                 >
+                <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
                 <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
             </div>
         </div>
@@ -48,6 +50,7 @@
     import Caret from './assets/caret.vue';
     import Modal from './Modal.vue'
     import RecipesOnList from './RecipesOnList'
+    import XIcon from './assets/x-icon'
 
     export default {
         components : {
@@ -56,7 +59,8 @@
             AddToList,
             Caret,
             Modal,
-            RecipesOnList
+            RecipesOnList,
+            XIcon
         },
 
         data() {
@@ -95,6 +99,13 @@
             searchRecipes(item) {
                 Recipes.search(item).then((response) => {
                     this.recipes =  response.data;
+                });
+            },
+
+            clearSearch() {
+                this.itemSearchedFor = '';
+                Recipes.all().then((response) => {
+                    this.recipes = response.data;
                 });
             },
 
