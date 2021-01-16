@@ -1,7 +1,7 @@
 <template>
     <div class="recipe-list-container">
         <div class="recipe-list-heading">
-            <h4 class="recipe-list-header">Recipes On {{list.title}}</h4>
+            <h4 class="recipe-list-header recipes-on">Recipes On {{list.title}}</h4>
         </div>
 
         <div class="recipes-list-wrapper">

@@ -27,16 +27,20 @@
                             <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
                                 <div class="list-add-recipes-body">
                                     <div class="list-add-recipes-recipes-section">
-                                        <h4 class="list-add-recipes-heading">Recipes</h4>
-                                        <div class="search-wrapper">
-                                            <input
-                                                    type="text"
-                                                    placeholder="Search"
-                                                    v-model="itemSearchedFor"
-                                                    v-on:keyup.enter="searchRecipes(itemSearchedFor)"
-                                                    class="recipe-input"
-                                            >
-                                            <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+                                        <div class="list-add-recipes-header">
+                                            <h4 class="list-add-recipes-heading">Recipes</h4>
+                                            <div class="search-wrapper list-search">
+                                                <input
+                                                        type="search"
+                                                        name="recipeSearch"
+                                                        placeholder="Search"
+                                                        v-model="itemSearchedFor"
+                                                        v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                                                        class="recipe-input search-box"
+                                                >
+                                                <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
+                                                <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+                                            </div>
                                         </div>
                                         <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
                                             <h3 class="small_dept_heading">{{categoryName}}</h3>
@@ -119,6 +123,7 @@
     import Trashcan from "./assets/trashcan";
     import Recipes from "./resources/Recipes";
     import Search from "./assets/search"
+    import XIcon from "./assets/x-icon"
 
     export default {
 
@@ -130,7 +135,8 @@
             FullScreenModal,
             Modal,
             RecipesOnList,
-            Search
+            Search,
+            XIcon
         },
 
         data(){
@@ -335,6 +341,12 @@
             searchRecipes(item) {
                 Recipes.search(item).then((response) => {
                     this.recipes =  response.data;
+                });
+            },
+            clearSearch() {
+                this.itemSearchedFor = '';
+                Recipes.all().then((response) => {
+                    this.recipes = response.data;
                 });
             },
         }
