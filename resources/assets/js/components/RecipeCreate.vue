@@ -34,6 +34,9 @@
                     </div>
                 </div>
                 <div class="add-subsection-check-wrapper">
+                    Source <input type="text" v-model="source">
+                </div>
+                <div class="add-subsection-check-wrapper">
                     <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>
                 </div>
 
@@ -209,6 +212,7 @@
                 ingredients           : [],
                 needToBuys            : [],
                 directions            : '',
+                source                : '',
                 departments           : '',
                 toggleIngredients     : true,
                 prepTime             : '',
@@ -272,7 +276,8 @@
                     directions           : this.directions,
                     prep_time           : this.prepTime,
                     total_time          : this.totalTime,
-                    serves              : this.serves
+                    serves              : this.serves,
+                    source              : this.source,
                 };
 
                 if (this.showSubRecipe) {

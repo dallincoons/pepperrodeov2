@@ -49,6 +49,7 @@ class RecipeController extends Controller
             'prep_time'            => $request->prep_time,
             'total_time'           => $request->total_time,
             'serves'               => $request->serves,
+            'source'               => $request->source,
             'category_id'          => $request->category_id,
             'user_id'              => \Auth::user()->getKey(),
             'ingredients'          => $request->ingredients,
