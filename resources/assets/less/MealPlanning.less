@@ -4,28 +4,83 @@
 .planning-info {
   padding-left: 1rem;
 }
+.meal-planning-title {
+  margin-top: 1rem;
+  color: @pr-brand-grey-2;
+}
 .section-title {
-  margin: 1rem 0 .3rem 0;
-  font-style: italic;
+  margin: 2rem 0 .3rem 0;
+  font-size: 18px;
+  color: @pr-brand-grey-2;
+}
+.pick-dates-wrapper {
+  display: flex;
+  align-items: center;
+}
+.date-form-section {
+  display: flex;
+  flex-direction: column;
+}
+.date-form-section label {
+  margin-bottom: 0;
+  color: @pr-brand-grey-2;
+}
+.date-separator {
+  padding: 2rem 2rem 0 2rem;
+  font-weight: 700;
+  font-size: 24px;
+}
+.planning-header-section {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 4.5rem;
+}
+.planning-dates {
+  font-size: 16px;
+  font-weight: 600;
+  color: @pr-brand-grey-4;
+}
+.planning-header-section .planning-button {
+  margin: 0;
+}
+.planning-button {
+  background: @pr-brand-color;
+  font-weight: 600;
+  color: @pr-brand-white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  padding: .5rem 1rem;
+  margin: 2rem 1rem 0 2rem;
+  transition: all .2s ease-in-out;
+}
+.planning-button:hover {
+  background: @pr-red-4;
+  transition: all .2s ease-in-out;
 }
 .planning-info .list-title {
   margin-top: 0;
 }
 .meal-planning-wrapper {
   display: flex;
+  height: 90vh;
+  overflow: scroll;
 }
 .dates-wrapper {
   width: 40%;
+  height: 100%;
+  overflow: scroll;
   padding: 1rem;
 }
 .date-wrapper {
-  border: 4px solid @pr-brand-grey-9;
+  border: 4px solid @pr-brand-grey-10;
   border-radius: 4px;
   margin-bottom: 4rem;
 }
 .date-heading {
-  background: @pr-brand-grey-9;
-  //color: @pr-brand-white;
+  background: @pr-brand-grey-10;
   padding: .5rem;
   font-weight: 400;
 }
@@ -33,5 +88,17 @@
   margin: 0;
 }
 .section-for-recipes {
-  height: 100px;
+  min-height: 100px;
+  height: auto;
+}
+.recipe-on-date {
+  padding: 1rem 1rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.planning-recipes-wrapper {
+  height: 100%;
+  overflow: scroll;
 }

@@ -4,16 +4,27 @@
             <div class="planning-heading">
                 <div class="red-accent-bar"></div>
                 <div class="planning-info">
-                    <p class="section-title">Meal Planning</p>
-                    <div>
-                        <p class="section-title">Pick Your Dates</p>
-                        <input type="date" id="start" name="plan-start" v-model="dateStart" :min="startMin">
-                        <input type="date" id="end" name="plan-end" v-model="dateEnd" :min="endMin" :max="endMax">
-                       <button @click="setDates">Start Planning</button>
+                    <h3 class="meal-planning-title">Meal Planning</h3>
+                    <div v-if="datesSet" class="planning-header-section">
+                        <p class="planning-dates">{{prettyDate(dateStart)}} - {{prettyDate(dateEnd)}}</p>
+                        <button class="planning-button" >Save Plan</button>
+                    </div>
+                    <p class="section-title" v-if="!datesSet">First, which days are you planning meals for?</p>
+                    <div class="pick-dates-wrapper" v-if="!datesSet">
+                        <div class="date-form-section">
+                            <label for="start">Start Date</label>
+                            <input type="date" id="start" name="plan-start" v-model="dateStart" :min="startMin">
+                        </div>
+                        <span class="date-separator"> - </span>
+                        <div class="date-form-section">
+                            <label for="end">End Date</label>
+                            <input type="date" id="end" name="plan-end" v-model="dateEnd" :min="endMin" :max="endMax">
+                        </div>
+                       <button @click="setDates" class="planning-button">Start Planning ></button>
                     </div>
                 </div>
             </div>
-            <div class="meal-planning-wrapper">
+            <div class="meal-planning-wrapper" v-if="datesSet">
                 <div class="dates-wrapper">
                     <div class="date-wrapper" v-for="(recipes, date) in scheduledRecipes">
                         <div class="date-heading">
@@ -26,8 +37,9 @@
                         @dragover.prevent
                         @dragenter.prevent
                         >
-                            <div v-for="recipe in recipes">
+                            <div v-for="recipe in recipes" class="recipe-on-date" :id="date">
                                 {{recipe.title}}
+                                <span @click="removeRecipe()">x</span>
                             </div>
                         </div>
                     </div>
@@ -64,7 +76,8 @@
                 dateStart : '',
                 dateEnd: '',
                 startMin: moment().format("YYYY-MM-DD"),
-                endMax: moment().add(31, 'd').format("YYYY-MM-DD")
+                endMax: moment().add(31, 'd').format("YYYY-MM-DD"),
+                datesSet: false
             }
         },
         computed : {
@@ -86,7 +99,7 @@
 
         methods: {
             prettyDate: (date) => {
-                return moment(date).format("YYYY")
+                return moment(date).format("dddd, MMMM Do")
             },
 
             startDrag: (evt, recipe) => {
@@ -108,6 +121,7 @@
                 for (let i = 0; i < amountOfDays; i++) {
                     this.$set(this.scheduledRecipes, startDay.add(1, 'd').format("YYYY-MM-DD"), []);
                 }
+                this.datesSet = true;
             }
         }
     }
