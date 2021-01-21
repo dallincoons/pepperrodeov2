@@ -61,7 +61,8 @@
                             </div>
                         </div>
                         <div class="recipe-directions" :class="{'view-directions' : toggleDirections}">
-                            <p class="recipe-source">{{recipe.source}}</p>
+                            <p class="recipe-source" v-if="!sourceIsUrl">{{recipe.source}}</p>
+                            <a class="recipe-source" :class="{sourceUrl : sourceIsUrl}" v-if="sourceIsUrl" v-bind:href="recipe.source" target="_blank">{{recipe.source}}</a>
                             <p>{{recipe.directions}}</p>
                             <div class="sub-recipe-directions" :class="{'hide-sub-recipe' : !subRecipeExists}">
                                 <h4>{{subRecipe.title | title}} Directions</h4>
@@ -140,6 +141,7 @@
                 toggleDirections : false,
                 showNeedToBuy : false,
                 recipeTitle : '',
+                sourceIsUrl : false
             }
         },
 
@@ -159,6 +161,7 @@
                 this.departments = response.data;
             });
 
+
         },
 
         computed : {
@@ -176,6 +179,12 @@
                 }
 
                 return this.subRecipes[0];
+            },
+
+            setSourceType: function(){
+                if (this.recipe.source_type === 2) {
+                    this.sourceIsUrl = true;
+                }
             }
         },
 
@@ -260,6 +269,7 @@
                 this.toggleIngredients = !this.toggleIngredients;
                 this.toggleDirections = !this.toggleDirections;
             },
+
         }
     }
 
