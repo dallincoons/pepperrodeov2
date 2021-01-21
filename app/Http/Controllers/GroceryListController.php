@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class GroceryListController
 {
-
     private $repository;
 
     public function __construct(GroceryListRepository $groceryListRepository)
