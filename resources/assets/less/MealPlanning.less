@@ -94,10 +94,30 @@
 .recipe-on-date {
   padding: 1rem 1rem 0 1rem;
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
 }
-
+.recipe-on-date-info {
+  display: flex;
+  flex-direction: column;
+}
+.date-recipe-title {
+  font-size: 16px;
+  color: @pr-brand-grey-3;
+}
+.date-category {
+  font-style: italic;
+  font-size: 12px;
+  color: @pr-brand-grey-5;
+}
+.remove-date-recipe {
+  cursor: pointer;
+  color: @pr-brand-grey-5;
+  font-weight: 500;
+}
+.remove-date-recipe:hover {
+  color: @pr-brand-color;
+}
 .planning-recipes-wrapper {
   height: 100%;
   overflow: scroll;

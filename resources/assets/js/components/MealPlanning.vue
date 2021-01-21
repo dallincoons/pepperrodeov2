@@ -38,8 +38,11 @@
                         @dragenter.prevent
                         >
                             <div v-for="recipe in recipes" class="recipe-on-date" :id="date">
-                                {{recipe.title}}
-                                <span @click="removeRecipe()">x</span>
+                                <div class="recipe-on-date-info">
+                                    <span class="date-category">{{recipe.category.title}}</span>
+                                    <p class="date-recipe-title">{{recipe.title}}</p>
+                                </div>
+                                <span @click="removeRecipe(date, recipe.id)" class="remove-date-recipe">x</span>
                             </div>
                         </div>
                     </div>
@@ -118,10 +121,16 @@
             setDates() {
                 let amountOfDays = moment(this.dateEnd).diff(this.dateStart, 'days');
                 let startDay = moment(this.dateStart);
+                this.$set(this.scheduledRecipes, startDay.format("YYYY-MM-DD"), []);
                 for (let i = 0; i < amountOfDays; i++) {
                     this.$set(this.scheduledRecipes, startDay.add(1, 'd').format("YYYY-MM-DD"), []);
                 }
                 this.datesSet = true;
+            },
+
+            removeRecipe(date, id) {
+                let recipeToRemove = this.scheduledRecipes[date].findIndex(recipe => recipe.id === id);
+                return this.scheduledRecipes[date].splice(recipeToRemove, 1)
             }
         }
     }
