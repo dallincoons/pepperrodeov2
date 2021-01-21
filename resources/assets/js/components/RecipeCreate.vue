@@ -33,8 +33,9 @@
                         <input type="text" v-model="serves" class="create-recipe-input">
                     </div>
                 </div>
-                <div class="add-subsection-check-wrapper">
-                    Source <input type="text" v-model="source">
+                <div class="recipe-item">
+                    <span class="create-recipe-label">Source</span>
+                    <input type="text" v-model="source" placeholder="Website? Book?" class="create-recipe-input">
                 </div>
                 <div class="add-subsection-check-wrapper">
                     <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>

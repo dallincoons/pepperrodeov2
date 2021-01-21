@@ -61,6 +61,7 @@
                             </div>
                         </div>
                         <div class="recipe-directions" :class="{'view-directions' : toggleDirections}">
+                            <p class="recipe-source">{{recipe.source}}</p>
                             <p>{{recipe.directions}}</p>
                             <div class="sub-recipe-directions" :class="{'hide-sub-recipe' : !subRecipeExists}">
                                 <h4>{{subRecipe.title | title}} Directions</h4>
