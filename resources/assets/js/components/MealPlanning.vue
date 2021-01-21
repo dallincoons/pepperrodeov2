@@ -7,7 +7,7 @@
                     <h3 class="meal-planning-title">Meal Planning</h3>
                     <div v-if="datesSet" class="planning-header-section">
                         <p class="planning-dates">{{prettyDate(dateStart)}} - {{prettyDate(dateEnd)}}</p>
-                        <button class="planning-button" >Save Plan</button>
+                        <button class="planning-button" @click="saveMealPlan()">Save Plan</button>
                     </div>
                     <p class="section-title" v-if="!datesSet">First, which days are you planning meals for?</p>
                     <div class="pick-dates-wrapper" v-if="!datesSet">
@@ -131,6 +131,12 @@
             removeRecipe(date, id) {
                 let recipeToRemove = this.scheduledRecipes[date].findIndex(recipe => recipe.id === id);
                 return this.scheduledRecipes[date].splice(recipeToRemove, 1)
+            },
+
+            saveMealPlan() {
+                axios.post('/api/v1/meal_planning_groups', {scheduled_recipes : this.scheduledRecipes}).then((response) => {
+                    console.log(response);
+                });
             }
         }
     }
