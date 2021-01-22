@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\MealPlanning;
 
+use App\Entities\Recipe;
 use App\MealPlanDay;
 use App\MealPlanGroup;
 use Tests\TestCase;
@@ -30,5 +31,25 @@ class MealPlanningGroupTest extends TestCase
         $this->assertCount(1, $mealPlanningGroups);
         $this->assertEquals('Grocery List for January 24 - January 25', $mealPlanningGroups->first()->name);
         $this->assertCount(3, MealPlanDay::all());
+    }
+
+    /** @test */
+    public function it_gets_single_meal_plan_group_with_meal_plan_days()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $recipeA = create(Recipe::class);
+        $recipeB = create(Recipe::class);
+
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA]);
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA]);
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB]);
+
+        $response = $this->get('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey());
+
+        $responseData = $response->decodeResponseJson();
+        $this->assertEquals($mealPlanGroup->getKey(), $responseData['group']['id']);
+        $this->assertCount(3, $responseData['group']['days']);
+        $this->assertCount(2, $responseData['recipes']);
     }
 }

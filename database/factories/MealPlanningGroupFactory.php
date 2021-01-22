@@ -7,6 +7,7 @@ $factory->define(\App\MealPlanGroup::class, function (Faker\Generator $faker) {
     return [
         'grocery_list_id' => create(\App\Entities\GroceryList::class),
         'user_id' => $user->getKey(),
+        'name' => 'abd123',
     ];
 });
 

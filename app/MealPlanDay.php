@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Entities\Recipe;
 use Illuminate\Database\Eloquent\Model;
 
 class MealPlanDay extends Model

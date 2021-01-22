@@ -61,6 +61,7 @@ Route::group([
     Route::get('departments', 'DepartmentController@index');
     Route::get('categories', 'CategoryController@index');
 
+    Route::get('meal_planning_group/{groupID}', 'MealPlanGroupsController@show');
     Route::get('meal_planning_groups', 'MealPlanGroupsController@index');
     Route::post('meal_planning_groups', 'MealPlanGroupsController@store');
 

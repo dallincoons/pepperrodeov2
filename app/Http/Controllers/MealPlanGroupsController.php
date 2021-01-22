@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Criteria\AuthUserCriteria;
+use App\Entities\Recipe;
 use App\Features\MealPlans\MealPlanBuilder;
 use App\MealPlanDay;
 use App\MealPlanGroup;
@@ -35,5 +36,19 @@ class MealPlanGroupsController extends Controller
         $builder = new MealPlanBuilder();
 
         return response()->json(['meal_planning_group' => $builder->create($scheduledRecipes)]);
+    }
+
+    public function show(Request $request, $groupID)
+    {
+        $mealPlanGroup = MealPlanGroup::query()
+            ->where('id', $groupID)
+            ->with('days')
+            ->first();
+
+        $recipeIds = $mealPlanGroup->days->pluck('recipe_id')->unique();
+
+        $recipes = Recipe::whereIn('id', $recipeIds)->with('category')->get();
+
+        return response()->json(['group' => $mealPlanGroup, 'recipes' => $recipes]);
     }
 }
