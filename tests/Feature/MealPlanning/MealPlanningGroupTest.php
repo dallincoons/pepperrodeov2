@@ -25,6 +25,10 @@ class MealPlanningGroupTest extends TestCase
 
         $this->post('/api/v1/meal_planning_groups', ['scheduled_recipes' => json_decode($rawJson, true)]);
 
+        $mealPlanningGroups = MealPlanGroup::all();
+
+        $this->assertCount(1, $mealPlanningGroups);
+        $this->assertEquals('Grocery List for January 24 - January 25', $mealPlanningGroups->first()->name);
         $this->assertCount(3, MealPlanDay::all());
     }
 }
