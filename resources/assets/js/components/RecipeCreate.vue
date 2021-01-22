@@ -279,6 +279,7 @@
                     total_time          : this.totalTime,
                     serves              : this.serves,
                     source              : this.source,
+                    sourceType          : this.source_type,
                 };
 
                 if (this.showSubRecipe) {
@@ -347,6 +348,8 @@
                     this.prepTime = recipe.prepTime;
                     this.totalTime = recipe.totaltime;
                     this.serves = recipe.serves;
+                    this.source = recipe.source;
+                    this.sourceType = recipe.source_type;
 
                     let subRecipes = response.data.sub_recipes;
                     if (subRecipes.length > 0) {
