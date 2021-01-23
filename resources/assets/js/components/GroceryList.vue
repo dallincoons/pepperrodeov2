@@ -156,7 +156,8 @@
                 optionModal: false,
                 viewListRecipes: false,
                 addRecipesOpen: false,
-                itemSearchedFor: ''
+                itemSearchedFor: '',
+                recipeMap: {},
             }
         },
 
@@ -172,14 +173,9 @@
             },
 
             recipesAdded: function () {
-                let recipeMap = {};
-
-                this.recipes.forEach((recipe) => {
-                    recipeMap[recipe.id] = recipe;
-                });
 
                 let checkedRecipes = this.checkedRecipes.map((recipeId) => {
-                    return recipeMap[recipeId];
+                    return this.recipeMap[recipeId];
                 });
 
                return _.groupBy(checkedRecipes, function (recipe) {
@@ -201,8 +197,13 @@
             this.listId = this.$route.params.id;
             this.getList();
             this.getDepartments();
-            this.getRecipes();
+            this.getRecipes((recipes) => {
+                recipes.forEach((recipe) => {
+                    this.recipeMap[recipe.id] = recipe;
+                });
+            });
         },
+
         methods    : {
             hideModal() {
                 this.showModal = false;
@@ -224,9 +225,10 @@
                 });
             },
 
-            getRecipes() {
+            getRecipes(then) {
                 axios.get('/api/v1/recipes').then((response) => {
                     this.recipes = response.data;
+                    then(this.recipes);
                 });
             },
 
