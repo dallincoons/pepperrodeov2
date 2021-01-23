@@ -41,15 +41,15 @@ class MealPlanningGroupTest extends TestCase
         $recipeA = create(Recipe::class);
         $recipeB = create(Recipe::class);
 
-        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA]);
-        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA]);
-        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB]);
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2020-01-01']);
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2020-01-02']);
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB, 'date' => '2020-01-03']);
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB, 'date' => '2020-01-03']);
 
         $response = $this->get('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey());
 
         $responseData = $response->decodeResponseJson();
-        $this->assertEquals($mealPlanGroup->getKey(), $responseData['group']['id']);
-        $this->assertCount(3, $responseData['group']['days']);
-        $this->assertCount(2, $responseData['recipes']);
+        $this->assertCount(3, $responseData['days']);
+        $this->assertCount(2, $responseData['days']['2020-01-03']);
     }
 }

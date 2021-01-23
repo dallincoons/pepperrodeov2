@@ -330,7 +330,6 @@
             populateRecipeFields() {
                 Recipes.get(this.$route.params.id).then((response) => {
                     let recipe = response.data;
-                    console.log(recipe);
                     this.recipeTitle = recipe.title;
                     this.directions = recipe.directions;
                     this.selectedCategory = recipe.category_id;

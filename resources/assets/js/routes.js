@@ -6,6 +6,8 @@ import Recipes from './components/Recipes.vue';
 import Recipe from './components/Recipe.vue';
 import Dashboard from './components/Dashboard';
 import MealPlanning from './components/MealPlanning';
+import MealPlans from './components/MealPlans'
+import MealPlan from './components/MealPlan'
 
 let routes = [
     {
@@ -53,5 +55,15 @@ let routes = [
         'path' : '/mealplanning',
         'component' : MealPlanning,
     },
+    {
+        'path' : '/mealplans',
+        'component' : MealPlans,
+    },
+    {
+        'path' : '/mealplan/:id',
+        'component' : MealPlan,
+        'name' : 'meal-plan'
+    },
+
 ];
 export default routes;

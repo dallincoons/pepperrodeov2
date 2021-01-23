@@ -35,6 +35,6 @@ class MealPlanBuilder
         $firstDay = Carbon::parse(Arr::first($dates));
         $lastDay = Carbon::parse(Arr::last($dates));
 
-        return vsprintf("Grocery List for %s - %s", [$firstDay->format('F d'), $lastDay->format('F d')]);
+        return vsprintf("%s - %s", [$firstDay->format('F d'), $lastDay->format('F d')]);
     }
 }

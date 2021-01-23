@@ -40,15 +40,13 @@ class MealPlanGroupsController extends Controller
 
     public function show(Request $request, $groupID)
     {
-        $mealPlanGroup = MealPlanGroup::query()
+        $days = MealPlanGroup::query()
             ->where('id', $groupID)
             ->with('days')
-            ->first();
+            ->with('days.recipe')
+            ->first()
+            ->days;
 
-        $recipeIds = $mealPlanGroup->days->pluck('recipe_id')->unique();
-
-        $recipes = Recipe::whereIn('id', $recipeIds)->with('category')->get();
-
-        return response()->json(['group' => $mealPlanGroup, 'recipes' => $recipes]);
+        return response()->json(['days' => $days->groupBy('date')]);
     }
 }

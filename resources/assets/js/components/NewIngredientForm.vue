@@ -55,7 +55,6 @@
         mounted() {
             axios.get('/api/v1/departments').then((response) => {
                 this.departments = response.data;
-                console.log(this.departments);
             });
         },
 
