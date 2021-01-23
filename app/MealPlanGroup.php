@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MealPlanGroup extends Model
 {
     protected $fillable = [
-        'name', 'user_id', 'grocery_list_id'
+        'name', 'user_id', 'start_date', 'end_date', 'grocery_list_id',
     ];
 
     public function days()

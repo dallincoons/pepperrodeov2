@@ -29,7 +29,7 @@ class MealPlanningGroupTest extends TestCase
         $mealPlanningGroups = MealPlanGroup::all();
 
         $this->assertCount(1, $mealPlanningGroups);
-        $this->assertEquals('Grocery List for January 24 - January 25', $mealPlanningGroups->first()->name);
+        $this->assertEquals('January 24 - January 25', $mealPlanningGroups->first()->name);
         $this->assertCount(3, MealPlanDay::all());
     }
 

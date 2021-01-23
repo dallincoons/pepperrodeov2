@@ -16,6 +16,8 @@ class MealPlanBuilder
         $mealPlanningGroup = MealPlanGroup::create([
             'user_id' => auth()->user()->getKey(),
             'name' => $this->createName($dates),
+            'start_date' => Arr::first($dates),
+            'end_date' => Arr::last($dates),
         ]);
 
         foreach ($scheduledRecipes as $date => $recipes) {

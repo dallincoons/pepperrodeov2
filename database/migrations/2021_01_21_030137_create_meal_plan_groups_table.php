@@ -11,6 +11,8 @@ class CreateMealPlanGroupsTable extends Migration
         Schema::create('meal_plan_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->unsignedInteger('grocery_list_id')->nullable();
             $table->unsignedInteger('user_id');
             $table->timestamps();
