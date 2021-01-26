@@ -37,6 +37,8 @@ Route::group([
 
     Route::get('grocery-list/recent', 'RecentGroceryListController@show')->name('grocery-list.recent');
 
+    Route::get('recipes/search', 'RecipeSearchController@index');
+
     Route::get('recipes', 'RecipeController@index');
     Route::post('recipes', 'RecipeController@store');
     Route::get('recipes/{recipe}', 'RecipeController@show');

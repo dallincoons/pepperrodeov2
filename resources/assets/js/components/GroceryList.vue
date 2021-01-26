@@ -27,7 +27,21 @@
                             <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
                                 <div class="list-add-recipes-body">
                                     <div class="list-add-recipes-recipes-section">
-                                        <h4 class="list-add-recipes-heading">Recipes</h4>
+                                        <div class="list-add-recipes-header">
+                                            <h4 class="list-add-recipes-heading">Recipes</h4>
+                                            <div class="search-wrapper list-search">
+                                                <input
+                                                        type="search"
+                                                        name="recipeSearch"
+                                                        placeholder="Search"
+                                                        v-model="itemSearchedFor"
+                                                        v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                                                        class="recipe-input search-box"
+                                                >
+                                                <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
+                                                <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+                                            </div>
+                                        </div>
                                         <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
                                             <h3 class="small_dept_heading">{{categoryName}}</h3>
                                             <ul class="list-add-recipes-list">
@@ -54,7 +68,7 @@
                                                 <button @click="addRecipesToList" class="list-add-recipes-button">Add Recipe(s)</button>
                                             </div>
                                         </div>
-                                        <div class="added-recipes-wrapper" v-if="list.recipes.length > 0">
+                                        <div class="added-recipes-wrapper" v-if="list.recipes">
                                             <recipes-on-list
                                                     v-if="viewListRecipes"
                                                     :recipes="list.recipes"
@@ -70,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <p v-if="list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
+                <p v-if="list.recipes && list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
                 <div class="list-body">
                     <div class="list-depts-wrapper">
                         <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
@@ -85,7 +99,7 @@
                     </div>
                     <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal}">
                         <recipes-on-list
-                                v-if="list.recipes.length > 0"
+                                v-if="list.recipes && list.recipes.length > 0"
                                 :recipes="list.recipes"
                                 :list="list"
                                 @deleted="recipeDeleted"
@@ -107,7 +121,9 @@
     import Modal from './Modal.vue';
     import RecipesOnList from './RecipesOnList';
     import Trashcan from "./assets/trashcan";
-    import Recipes from "./resources/Recipes"
+    import Recipes from "./resources/Recipes";
+    import Search from "./assets/search"
+    import XIcon from "./assets/x-icon"
 
     export default {
 
@@ -118,7 +134,9 @@
             Caret,
             FullScreenModal,
             Modal,
-            RecipesOnList
+            RecipesOnList,
+            Search,
+            XIcon
         },
 
         data(){
@@ -137,7 +155,9 @@
                 addRecipesModalShown: false,
                 optionModal: false,
                 viewListRecipes: false,
-                addRecipesOpen: false
+                addRecipesOpen: false,
+                itemSearchedFor: '',
+                recipeMap: {},
             }
         },
 
@@ -153,14 +173,9 @@
             },
 
             recipesAdded: function () {
-                let recipeMap = {};
-
-                this.recipes.forEach((recipe) => {
-                    recipeMap[recipe.id] = recipe;
-                });
 
                 let checkedRecipes = this.checkedRecipes.map((recipeId) => {
-                    return recipeMap[recipeId];
+                    return this.recipeMap[recipeId];
                 });
 
                return _.groupBy(checkedRecipes, function (recipe) {
@@ -182,8 +197,13 @@
             this.listId = this.$route.params.id;
             this.getList();
             this.getDepartments();
-            this.getRecipes();
+            this.getRecipes((recipes) => {
+                recipes.forEach((recipe) => {
+                    this.recipeMap[recipe.id] = recipe;
+                });
+            });
         },
+
         methods    : {
             hideModal() {
                 this.showModal = false;
@@ -205,9 +225,10 @@
                 });
             },
 
-            getRecipes() {
+            getRecipes(then) {
                 axios.get('/api/v1/recipes').then((response) => {
                     this.recipes = response.data;
+                    then(this.recipes);
                 });
             },
 
@@ -317,7 +338,18 @@
             },
             print() {
                 window.print();
-            }
+            },
+            searchRecipes(item) {
+                Recipes.search(item).then((response) => {
+                    this.recipes =  response.data;
+                });
+            },
+            clearSearch() {
+                this.itemSearchedFor = '';
+                Recipes.all().then((response) => {
+                    this.recipes = response.data;
+                });
+            },
         }
     }
 </script>

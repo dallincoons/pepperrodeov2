@@ -218,6 +218,7 @@
                 createDetailsHidden : false,
                 createIngredientsHidden : false,
                 createDirectionsHidden : false,
+                subRecipeId: null,
                 subRecipeTitle : '',
                 subIngredients : [],
                 subNeedToBuys : [],
@@ -255,16 +256,9 @@
             },
 
             updateRecipe() {
-                Recipes.update(this.$route.params.id, {
-                    title                : this.recipeTitle,
-                    category_id             : this.selectedCategory,
-                    ingredients          : this.ingredients,
-                    listable_ingredients : this.needToBuys,
-                    directions           : this.directions,
-                    prep_time           : this.prepTime,
-                    total_time          : this.totalTime,
-                    serves              : this.serves
-                }).then((response) => {
+                let recipeFacts = this.getRecipeFacts();
+
+                Recipes.update(this.$route.params.id, recipeFacts).then((response) => {
                     this.$router.push({path : `/recipe/${response.data.id}`});
                 });
             },
@@ -287,6 +281,7 @@
                     }
 
                     recipeFacts['sub_recipe'] = {
+                        id: this.subRecipeId,
                         title: this.subRecipeTitle,
                         ingredients: this.subIngredients,
                         listable_ingredients : this.subNeedToBuys,
@@ -327,9 +322,17 @@
                 this.needToBuys.splice(index, 1);
             },
 
+            deleteSubIngredient(index) {
+                this.subIngredients.splice(index, 1);
+            },
+
+            deleteSubNeedToBuy(index) {
+                this.subNeedToBuys.splice(index, 1);
+            },
+
             populateRecipeFields() {
                 Recipes.get(this.$route.params.id).then((response) => {
-                    let recipe = response.data;
+                    let recipe = response.data.recipe;
                     this.recipeTitle = recipe.title;
                     this.directions = recipe.directions;
                     this.selectedCategory = recipe.category_id;
@@ -338,6 +341,17 @@
                     this.prepTime = recipe.prepTime;
                     this.totalTime = recipe.totaltime;
                     this.serves = recipe.serves;
+
+                    let subRecipes = response.data.sub_recipes;
+                    if (subRecipes.length > 0) {
+                        let subRecipe = subRecipes[0];
+                        this.showSubRecipe = true;
+                        this.subRecipeId = subRecipe.id;
+                        this.subRecipeTitle = subRecipe.title;
+                        this.subIngredients = subRecipe.ingredients;
+                        this.subNeedToBuys = subRecipe.listable_ingredients;
+                        this.subDirections = subRecipe.directions;
+                    }
                 })
             },
         },

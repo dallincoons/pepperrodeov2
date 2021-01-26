@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCascadeToGroceryListItemGroups extends Migration
+class DropGroceryItemGroupForeignKey extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddCascadeToGroceryListItemGroups extends Migration
      */
     public function up()
     {
-        Schema::table('grocery_list_items', function (Blueprint $table)
-        {
-//            $table->foreign('grocery_list_group_id')->references('id')->on('grocery_list_item_groups');
-        });
+//        Schema::table('grocery_list_item_groups', function (Blueprint $table) {
+//            $table->dropForeign('grocery_list_item_groups_grocery_list_id_foreign');
+//        });
     }
 
     /**

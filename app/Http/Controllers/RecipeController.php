@@ -58,7 +58,7 @@ class RecipeController extends Controller
 
         if ($request->has('sub_recipe')) {
             $subRecipe = $request->sub_recipe;
-            $recipe = $this->repository->create([
+            $this->repository->create([
                 'parent_id'            => $recipe->getKey(),
                 'category_id'          => $recipe->category_id,
                 'user_id'              => $recipe->user_id,
@@ -75,6 +75,19 @@ class RecipeController extends Controller
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
         $this->repository->update($request->all(), $recipe->getKey());
+
+        if ($request->has('sub_recipe')) {
+            $subRecipe = $request->sub_recipe;
+            $this->repository->update(array_filter([
+                'parent_id'            => $recipe->getKey(),
+                'category_id'          => $recipe->category_id,
+                'user_id'              => $recipe->user_id,
+                'ingredients'          => Arr::get($subRecipe, 'ingredients'),
+                'listable_ingredients' => Arr::get($subRecipe, 'listable_ingredients'),
+                'title'                => Arr::get($subRecipe, 'title'),
+                'directions'           => Arr::get($subRecipe, 'directions'),
+            ]), Arr::get($subRecipe, 'id'));
+        }
 
         return response()->json($recipe->fresh(), 200);
     }

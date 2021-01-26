@@ -196,4 +196,22 @@ class UpdateRecipeTest extends TestCase
 
         $response->assertStatus(400);
     }
+
+    /** @test */
+    public function it_updates_sub_recipe()
+    {
+        $recipe = RecipeFaker::withItems();
+        $subRecipe = create(Recipe::class, ['parent_id' => $recipe]);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'sub_recipe' => [
+                'id' => $subRecipe->getKey(),
+                'title' => 'updated subrecipe title',
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertEquals('updated subrecipe title', $subRecipe->refresh()->title);
+    }
 }

@@ -4,10 +4,25 @@
         <div class="recipes-heading"><h3>My Recipes</h3></div>
         <div class="recipes-button-wrapper">
             <router-link class="recipes-action" to="/recipe/create">Create New Recipe</router-link>
+            <div class="search-wrapper">
+                <input
+                    type="search"
+                    name="recipeSearch"
+                    placeholder="Search"
+                    v-model="itemSearchedFor"
+                    v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                    class="recipe-input search-box"
+                >
+                <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
+                <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+            </div>
         </div>
+            <div>
+
+            </div>
         <div class="recipes-body">
             <div class="container-body recipes-wrapper" :class="{'margin-transition' : searchOpen}">
-                <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
+                <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container" v-show="!searchResults">
                     <h3 class="dept_heading">{{categoryName}}</h3>
                     <ul class="recipes-list">
                         <li class="recipe-ingredient" v-for="recipe in recipeGroup">
@@ -15,6 +30,9 @@
                             <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
                         </li>
                     </ul>
+                </div>
+                <div v-show="searchResults">
+                    {{searchResults}}
                 </div>
             </div>
         </div>
@@ -32,6 +50,7 @@
     import Caret from './assets/caret.vue';
     import Modal from './Modal.vue'
     import RecipesOnList from './RecipesOnList'
+    import XIcon from './assets/x-icon'
 
     export default {
         components : {
@@ -40,7 +59,8 @@
             AddToList,
             Caret,
             Modal,
-            RecipesOnList
+            RecipesOnList,
+            XIcon
         },
 
         data() {
@@ -52,7 +72,9 @@
                 selectedList : '',
                 checkedRecipes: [],
                 newGroceryListModalShown : false,
-                listTitle : ''
+                listTitle : '',
+                itemSearchedFor : '',
+                searchResults : '',
             }
         },
 
@@ -72,6 +94,19 @@
         methods : {
             toggleSearch() {
                 this.searchOpen = !this.searchOpen;
+            },
+
+            searchRecipes(item) {
+                Recipes.search(item).then((response) => {
+                    this.recipes =  response.data;
+                });
+            },
+
+            clearSearch() {
+                this.itemSearchedFor = '';
+                Recipes.all().then((response) => {
+                    this.recipes = response.data;
+                });
             },
 
             toggleShowLists() {

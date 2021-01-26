@@ -5,10 +5,11 @@ namespace App\Entities;
 use App\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Recipe extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
 
     protected $fillable = [
         'title', 'directions',

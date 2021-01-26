@@ -5,6 +5,10 @@ export default {
         return axios.get(endpoint);
     },
 
+    search(term) {
+        return axios.get(endpoint + 'search?query=' + term)
+    },
+
     get(recipeId) {
         return axios.get(endpoint + recipeId);
     },
