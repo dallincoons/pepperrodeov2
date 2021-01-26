@@ -48,6 +48,18 @@
                     </div>
                 </div>
                 <div class="planning-recipes-wrapper">
+                    <div class="search-wrapper meal-planning-search-wrapper">
+                        <input
+                                type="search"
+                                name="recipeSearch"
+                                placeholder="Search"
+                                v-model="itemSearchedFor"
+                                v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                                class="recipe-input search-box"
+                        >
+                        <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
+                        <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+                    </div>
                     <div class="recipes-body">
                         <div class="container-body recipes-wrapper">
                             <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
@@ -69,8 +81,14 @@
 <script>
     import Recipes from './resources/Recipes';
     import moment from 'moment';
+    import XIcon from './assets/x-icon';
+    import Search from './assets/search.vue';
 
     export default {
+        components : {
+            XIcon,
+            Search
+        },
         data() {
             return {
                 recipes: [],
@@ -80,7 +98,8 @@
                 dateEnd: '',
                 startMin: moment().format("YYYY-MM-DD"),
                 endMax: moment().add(31, 'd').format("YYYY-MM-DD"),
-                datesSet: false
+                datesSet: false,
+                itemSearchedFor: ''
             }
         },
         computed : {
@@ -131,6 +150,18 @@
             removeRecipe(date, id) {
                 let recipeToRemove = this.scheduledRecipes[date].findIndex(recipe => recipe.id === id);
                 return this.scheduledRecipes[date].splice(recipeToRemove, 1)
+            },
+
+            searchRecipes(item) {
+                Recipes.search(item).then((response) => {
+                    this.recipes =  response.data;
+                });
+            },
+            clearSearch() {
+                this.itemSearchedFor = '';
+                Recipes.all().then((response) => {
+                    this.recipes = response.data;
+                });
             },
 
             saveMealPlan() {

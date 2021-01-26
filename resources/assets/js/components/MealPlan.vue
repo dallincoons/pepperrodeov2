@@ -32,6 +32,7 @@
     </div>
 </template>
 <script>
+
     export default {
         data() {
             return {
@@ -57,7 +58,7 @@
         methods: {
             prettyDate: (date) => {
                 return moment(date).format("dddd, MMMM Do")
-            },
+            }
         }
     }
 </script>

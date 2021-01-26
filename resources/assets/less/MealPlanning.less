@@ -72,7 +72,7 @@
   width: 40%;
   height: 100%;
   overflow: scroll;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 .date-wrapper {
   border: 4px solid @pr-brand-grey-10;
@@ -121,4 +121,13 @@
 .planning-recipes-wrapper {
   height: 100%;
   overflow: scroll;
+}
+.meal-planning-search-wrapper {
+  position: sticky;
+  top: .1rem;
+  z-index: 10;
+  background: @pr-brand-white;
+}
+.meal-planning-search-wrapper .recipe-input {
+  width: 80%;
 }
