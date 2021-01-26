@@ -1,6 +1,6 @@
 <template>
-    <div class="container recipes-main-wrapper">
-        <div class="recipes-secondary-wrapper">
+    <div class="container recipes-main-wrapper meal-plans-container">
+        <div class="recipes-secondary-wrapper meal-plans-wrapper">
             <div class="recipes-heading"><h3>Meal Plans</h3></div>
             <div class="recipes-button-wrapper">
                 <router-link class="recipes-action" to="/mealplanning">Create New Meal Plan</router-link>

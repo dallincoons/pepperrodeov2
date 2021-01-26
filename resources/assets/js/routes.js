@@ -54,6 +54,7 @@ let routes = [
     {
         'path' : '/mealplanning',
         'component' : MealPlanning,
+        'name': 'mealplanning',
     },
     {
         'path' : '/mealplans',

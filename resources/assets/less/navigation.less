@@ -28,7 +28,7 @@
 
 .nav-links {
   display: flex;
-  width: 30rem;
+  width: 40rem;
   justify-content: space-between;
   padding-left: 2rem;
 }
@@ -204,6 +204,14 @@
     transition: all .3s ease-in-out;
   }
 
+  .calendar-icon {
+    fill: @pr-brand-white;
+  }
+  .cls-calendar{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px;}
+  .calendar-icon svg {
+    width: 32px;
+    height: 32px;
+  }
   .device-active .icon {
     background: @pr-brand-white;
     fill: @pr-brand-color;
@@ -212,6 +220,9 @@
     border-radius: 50%;
     border: 4px solid @pr-brand-color;
     transition: all .3s ease-in-out;
+  }
+  .device-active .cls-calendar {
+    stroke: @pr-brand-color;
   }
 
   .text {

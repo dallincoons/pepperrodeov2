@@ -18,6 +18,12 @@
     </div>
     <span class="text">Recipes</span>
     </router-link>
+      <router-link to="/mealplans" class="device-icon" active-class="device-active" exact>
+          <div class="icon calendar-icon">
+              <calendar></calendar>
+          </div>
+          <span class="text">Meal Plans</span>
+      </router-link>
     <a href="/logout" class="device-icon"><logout class="icon"></logout></a>
   </div>
 
@@ -30,7 +36,8 @@
   import Recipes from './assets/recipes.vue';
   import ListsTwo from './assets/listTwo.vue';
   import House from './assets/house.vue';
-  import Logout from './assets/logout.vue'
+  import Logout from './assets/logout.vue';
+  import Calendar from './assets/calendar-icon.vue';
 
     export default {
       components : {
@@ -38,6 +45,7 @@
         Recipes,
         ListsTwo,
         House,
+        Calendar,
         Logout
       },
       data() {

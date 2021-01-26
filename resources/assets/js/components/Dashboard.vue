@@ -40,7 +40,7 @@
                     </svg>
                     <span class="dash-action-text">Create a New Grocery List</span>
                 </button>
-                <div class="create-list-wrapper" v-bind:class="{ 'create-list-expand' : newGroceryListModalShown}">
+                <div class="create-list-wrapper dash-create-list-wrapper" v-bind:class="{ 'dash-create-list-expand' : newGroceryListModalShown}">
                     <div class="container-create">
                         <form v-on:submit.prevent class="create-form">
                             <input title="Grocery List Title" v-model="listTitle" @keyup.enter="saveList()" class="title-input" placeholder="Grocery List Title">
@@ -64,6 +64,24 @@
                     </svg>
                     <span class="dash-action-text">Add a New Recipe</span>
                 </button>
+                </router-link>
+                <router-link :to="{name: 'mealplanning'}">
+                    <button class="dash-action">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90.05 85.42" class="dash-svg">
+                            <rect class="cls-calendar-line" x="17.61" y="6.32" width="70.44" height="66.1" rx="4"/>
+                            <rect class="cls-calendar-solid" x="31.9" width="4.42" height="10.89" rx="2"/>
+                            <rect class="cls-calendar-solid" x="68.96" width="4.42" height="10.89" rx="2"/>
+                            <line class="cls-calendar-line" x1="17.61" y1="22.12" x2="88.05" y2="21.44"/>
+                            <line class="cls-calendar-line" x1="38.36" y1="27.9" x2="38.36" y2="64.32"/>
+                            <line class="cls-calendar-line" x1="26.79" y1="39.38" x2="79.2" y2="39.38"/>
+                            <line class="cls-calendar-line" x1="26.62" y1="55.13" x2="79.03" y2="55.13"/>
+                            <line class="cls-calendar-line" x1="67.74" y1="27.9" x2="67.74" y2="64.32"/>
+                            <line class="cls-calendar-line" x1="53.05" y1="27.9" x2="53.05" y2="64.32"/>
+                            <circle class="cls-calendar-solid" cx="27.36" cy="58.06" r="27.36"/>
+                            <path id="plus-sign" class="cls-calendar-white" d="M42.24,60.53H30v12.9H24.64V60.53H12.48v-5H24.64V42.68H30V55.55H42.24Z"/>
+                        </svg>
+                        <span class="dash-action-text">Create a New Meal Plan</span>
+                    </button>
                 </router-link>
 
             </div>
@@ -153,22 +171,15 @@
     }
 
     .dash-wrapper {
-        /*display: grid;*/
-        /*grid-template-columns:2fr 1fr;*/
-        /*grid-template-rows: 1fr 1fr 1fr;*/
-        /*grid-gap: 2rem;*/
         display: flex;
         justify-content: space-between;
         background: #faf9f7;
         padding: 4rem;
-        /*max-height: 70vh;*/
         position: relative;
         margin-bottom: 4rem;
     }
 
     .recipes-on-list-wrapper {
-        /*grid-column: 1;*/
-        /*grid-row: 1 / span 3;*/
         background: #FFFFFF;
         border-bottom: 4px solid hsl(10, 80%, 58%);
         display: grid;
@@ -219,15 +230,12 @@
     }
 
     .recent-list-wrapper {
-        /*grid-column: 2;*/
-        /*grid-row: 1;*/
         background: #FFFFFF;
         border-bottom: 4px solid hsl(10, 80%, 58%);
         border-radius: 4px;
         width: 95%;
         padding: 1rem;
         margin-bottom: 8rem;
-        /*height: 45%;*/
     }
     .recent-list-title {
         margin: 0 0 0 2rem;
@@ -246,6 +254,7 @@
     .actions-wrapper {
         grid-column: 2;
         grid-row: 3;
+        grid-gap: 1rem;
         display: grid;
     }
 
@@ -279,6 +288,16 @@
     .cls-red-fill{fill:#e9593d;}
 
     .cls-white-fill{fill:#fff;}
+
+    .cls-calendar-line{fill:none;stroke:#e9593d;stroke-miterlimit:10;stroke-width:4px;}.cls-calendar-solid{fill:#e9593d;}.cls-calendar-white{fill:#fff;}
+
+    .dash-create-list-expand {
+        transform: translateY(-1.5rem);
+        border: 4px solid hsl(10, 80%, 58%);
+        z-index: 1;
+        opacity: 1;
+        transition: transform 0.3s ease;
+    }
 
     .background-svg {
         position: absolute;
