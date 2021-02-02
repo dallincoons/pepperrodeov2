@@ -33,6 +33,10 @@
                         <input type="text" v-model="serves" class="create-recipe-input">
                     </div>
                 </div>
+                <div class="recipe-item">
+                    <span class="create-recipe-label">Source</span>
+                    <input type="text" v-model="source" placeholder="Website? Book?" class="create-recipe-input">
+                </div>
                 <div class="add-subsection-check-wrapper">
                     <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>
                 </div>
@@ -209,6 +213,7 @@
                 ingredients           : [],
                 needToBuys            : [],
                 directions            : '',
+                source                : '',
                 departments           : '',
                 toggleIngredients     : true,
                 prepTime             : '',
@@ -272,7 +277,9 @@
                     directions           : this.directions,
                     prep_time           : this.prepTime,
                     total_time          : this.totalTime,
-                    serves              : this.serves
+                    serves              : this.serves,
+                    source              : this.source,
+                    sourceType          : this.source_type,
                 };
 
                 if (this.showSubRecipe) {
@@ -341,6 +348,8 @@
                     this.prepTime = recipe.prepTime;
                     this.totalTime = recipe.totaltime;
                     this.serves = recipe.serves;
+                    this.source = recipe.source;
+                    this.sourceType = recipe.source_type;
 
                     let subRecipes = response.data.sub_recipes;
                     if (subRecipes.length > 0) {

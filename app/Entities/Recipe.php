@@ -11,11 +11,15 @@ class Recipe extends Model
 {
     use SoftDeletes, Searchable;
 
+    const SOURCE_TYPE_TEXT = 1;
+    const SOURCE_TYPE_URL = 2;
+
     protected $fillable = [
         'title', 'directions',
         'category_id', 'prep_time',
         'total_time', 'serves',
-        'user_id', 'parent_id'
+        'user_id', 'parent_id',
+        'source'
     ];
 
     public function ingredients()
@@ -36,6 +40,18 @@ class Recipe extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function setSourceAttribute($source)
+    {
+        $this->attributes['source'] = $source;
+
+        if (filter_var($source, FILTER_VALIDATE_URL)) {
+            $this->source_type = self::SOURCE_TYPE_URL;
+            return;
+        }
+
+        $this->source_type = self::SOURCE_TYPE_TEXT;
     }
 }
 

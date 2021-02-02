@@ -25,6 +25,7 @@ class CreatesRecipesTest extends TestCase
             'prep_time'  => '15 minute hours',
             'total_time'  => '26 seconds plus 1 day',
             'serves'      => 'ur mom',
+            'source'      => 'http://ilikecake.net'
         ]);
 
         $response->assertSuccessful();
@@ -37,6 +38,8 @@ class CreatesRecipesTest extends TestCase
         $this->assertEquals('15 minute hours', $recipe->prep_time);
         $this->assertEquals('26 seconds plus 1 day', $recipe->total_time);
         $this->assertEquals('ur mom', $recipe->serves);
+        $this->assertEquals('http://ilikecake.net', $recipe->source);
+        $this->assertEquals(Recipe::SOURCE_TYPE_URL, $recipe->source_type);
     }
 
     /** @test */
