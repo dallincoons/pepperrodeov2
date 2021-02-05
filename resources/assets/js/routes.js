@@ -65,6 +65,11 @@ let routes = [
         'component' : MealPlan,
         'name' : 'meal-plan'
     },
+    {
+        'path' : '/mealplan/:id/edit',
+        'component' : MealPlanning,
+        props: {editing: true}
+    },
 
 ];
 export default routes;

@@ -28,3 +28,18 @@
     width: 100%;
   }
 }
+
+@media print {
+  .date-heading {
+    background: @pr-brand-color;
+    color: @pr-brand-white;
+  }
+
+  .meal-plan-dates {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+  }
+
+}

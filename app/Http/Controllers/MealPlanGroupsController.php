@@ -43,7 +43,7 @@ class MealPlanGroupsController extends Controller
         $days = MealPlanGroup::query()
             ->where('id', $groupID)
             ->with('days')
-            ->with('days.recipe')
+            ->with('days.recipe.category')
             ->first()
             ->days;
 

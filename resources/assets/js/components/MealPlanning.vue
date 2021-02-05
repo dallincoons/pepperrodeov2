@@ -1,7 +1,8 @@
 <template>
     <div class="recipe-wrapper container">
-        <div class="recipe-section">
+        <div class="recipe-section meal-planning-section">
             <div class="planning-heading">
+            <h3 v-if="editing">Editing</h3>
                 <div class="red-accent-bar"></div>
                 <div class="planning-info">
                     <h3 class="meal-planning-title">Meal Planning</h3>
@@ -9,8 +10,8 @@
                         <p class="planning-dates">{{prettyDate(dateStart)}} - {{prettyDate(dateEnd)}}</p>
                         <button class="planning-button" @click="saveMealPlan()">Save Plan</button>
                     </div>
-                    <p class="section-title" v-if="!datesSet">First, which days are you planning meals for?</p>
-                    <div class="pick-dates-wrapper" v-if="!datesSet">
+                    <p class="section-title" v-if="!datesSet" v-show="!editing">First, which days are you planning meals for?</p>
+                    <div class="pick-dates-wrapper" v-if="!datesSet" v-show="!editing">
                         <div class="date-form-section">
                             <label for="start">Start Date</label>
                             <input type="date" id="start" name="plan-start" v-model="dateStart" :min="startMin">
@@ -38,9 +39,13 @@
                         @dragenter.prevent
                         >
                             <div v-for="recipe in recipes" class="recipe-on-date" :id="date">
-                                <div class="recipe-on-date-info">
+                                <div class="recipe-on-date-info" v-if="!editing">
                                     <span class="date-category">{{recipe.category.title}}</span>
                                     <p class="date-recipe-title">{{recipe.title}}</p>
+                                </div>
+                                <div class="recipe-on-date-info" v-if="editing">
+                                    <span class="date-category">{{recipe.recipe.category.title}}</span>
+                                    <p class="date-recipe-title">{{recipe.recipe.title}}</p>
                                 </div>
                                 <span @click="removeRecipe(date, recipe.id)" class="remove-date-recipe">x</span>
                             </div>
@@ -89,6 +94,9 @@
             XIcon,
             Search
         },
+        props : {
+            editing: Boolean
+        },
         data() {
             return {
                 recipes: [],
@@ -117,6 +125,9 @@
             Recipes.all().then((response) => {
                 this.recipes = response.data;
             });
+            if (this.editing) {
+                this.populatePlanFields(this.$route.params.id)
+            }
         },
 
         methods: {
@@ -166,26 +177,23 @@
 
             saveMealPlan() {
                 axios.post('/api/v1/meal_planning_groups', {scheduled_recipes : this.scheduledRecipes}).then((response) => {
-                    console.log(response);
                     this.$router.push({ path: `/mealplan/${response.data.meal_planning_group.id}` });
                 });
+            },
+            populatePlanFields(id) {
+                axios.get('api/v1/meal_planning_group/' + id).then((response) => {
+                    console.log(response);
+                    this.dateStart = Object.keys(response.data.days)[0];
+                    this.dateEnd = Object.keys(response.data.days).slice(-1)[0];
+                    this.datesSet = true;
+                    this.scheduledRecipes = response.data.days;
+                })
             }
         }
     }
 </script>
 
 <style scoped>
-    .drop-zone {
-        background-color: #eee;
-        margin-bottom: 10px;
-        padding: 10px;
-    }
-
-    .drag-el {
-        background-color: #fff;
-        margin-bottom: 10px;
-        padding: 5px;
-    }
     .recipe-section {
         background: #ffffff;
         margin: 1rem 4rem 2rem 4rem;
