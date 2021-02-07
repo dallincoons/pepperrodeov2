@@ -64,6 +64,8 @@ Route::group([
     Route::get('categories', 'CategoryController@index');
 
     Route::get('meal_planning_group/{groupID}', 'MealPlanGroupsController@show');
+    Route::delete('meal_planning_group/{groupID}', 'MealPlanGroupsController@delete');
+    Route::patch('meal_planning_group/{groupID}', 'MealPlanGroupsController@update');
     Route::get('meal_planning_groups', 'MealPlanGroupsController@index');
     Route::post('meal_planning_groups', 'MealPlanGroupsController@store');
 
