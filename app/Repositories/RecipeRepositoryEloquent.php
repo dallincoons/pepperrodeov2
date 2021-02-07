@@ -73,6 +73,15 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
         $ingredients = array_get($attributes, 'ingredients', []);
         $listableIngredients = array_get($attributes, 'listable_ingredients', []);
 
+        $existingIngredients = $this->ingredientRepository->where('recipe_id', $recipeKey)->get();
+        $existingListableIngredients = $this->listableIngredientRepository->where('recipe_id', $recipeKey)->get();
+
+        $ingredientsIDsToDelete = $existingIngredients->pluck('id')->diff(collect($ingredients)->pluck('id'));
+        $listableIngredientsIDsToDelete = $existingListableIngredients->pluck('id')->diff(collect($listableIngredients)->pluck('id'));
+
+        Ingredient::whereIn('id', $ingredientsIDsToDelete)->delete();
+        ListableIngredient::whereIn('id', $listableIngredientsIDsToDelete)->delete();
+
         foreach($ingredients as $ingredient) {
             $keyOption = Option::fromValue(array_get($ingredient, 'id'));
             if($keyOption->isEmpty()) {

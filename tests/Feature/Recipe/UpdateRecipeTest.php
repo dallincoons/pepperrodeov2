@@ -214,4 +214,46 @@ class UpdateRecipeTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals('updated subrecipe title', $subRecipe->refresh()->title);
     }
+
+    /** @test */
+    public function it_deletes_ingredients()
+    {
+        $recipe = RecipeFaker::withItems(3);
+
+        $this->assertCount(3, $recipe->ingredients);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'ingredients' => [
+                [
+                    'id' => $recipe->ingredients->first()->getKey(),
+                    'full_description' => $recipe->ingredients->first()->description . 'altered',
+                    'quantity' => 1
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $recipe->fresh()->ingredients);
+    }
+
+    /** @test */
+    public function it_deletes_listable_ingredients()
+    {
+        $recipe = RecipeFaker::withListableItems(3);
+
+        $this->assertCount(3, $recipe->listableIngredients);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'listable_ingredients' => [
+                [
+                    'id' => $recipe->listableIngredients->first()->getKey(),
+                    'full_description' => $recipe->listableIngredients->first()->description . 'altered',
+                    'quantity' => 1
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $recipe->fresh()->listableIngredients);
+    }
 }
