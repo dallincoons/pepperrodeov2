@@ -1,0 +1,181 @@
+.planning-heading {
+  width: 100%;
+}
+.planning-info {
+  padding-left: 1rem;
+}
+.meal-planning-title {
+  margin-top: 1rem;
+  color: @pr-brand-grey-2;
+}
+.section-title {
+  margin: 2rem 0 .3rem 0;
+  font-size: 18px;
+  color: @pr-brand-grey-2;
+}
+.pick-dates-wrapper {
+  display: flex;
+  align-items: center;
+}
+.date-form-section {
+  display: flex;
+  flex-direction: column;
+}
+.date-form-section label {
+  margin-bottom: 0;
+  color: @pr-brand-grey-2;
+}
+.date-separator {
+  padding: 2rem 2rem 0 2rem;
+  font-weight: 700;
+  font-size: 24px;
+}
+.planning-header-section {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 4.5rem;
+}
+.planning-dates {
+  font-size: 16px;
+  font-weight: 600;
+  color: @pr-brand-grey-4;
+}
+.planning-header-section .planning-button {
+  margin: 0;
+}
+.planning-button {
+  background: @pr-brand-color;
+  font-weight: 600;
+  color: @pr-brand-white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  padding: .5rem 1rem;
+  margin: 2rem 1rem 0 2rem;
+  transition: all .2s ease-in-out;
+}
+.planning-button:hover {
+  background: @pr-red-4;
+  transition: all .2s ease-in-out;
+}
+.planning-info .list-title {
+  margin-top: 0;
+}
+.meal-planning-wrapper {
+  display: flex;
+  height: 90vh;
+  overflow: scroll;
+}
+.dates-wrapper {
+  width: 40%;
+  height: 100%;
+  overflow: scroll;
+  padding: 0 1rem;
+}
+.date-wrapper {
+  border: 4px solid @pr-brand-grey-10;
+  border-radius: 4px;
+  margin-bottom: 4rem;
+}
+.date-heading {
+  background: @pr-brand-grey-10;
+  padding: .5rem;
+  font-weight: 400;
+}
+.date-heading p {
+  margin: 0;
+}
+.section-for-recipes {
+  min-height: 100px;
+  height: auto;
+}
+.recipe-on-date {
+  padding: 1rem 1rem 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.recipe-on-date-info {
+  display: flex;
+  flex-direction: column;
+}
+.date-recipe-title {
+  font-size: 16px;
+  color: @pr-brand-grey-3;
+}
+.date-category {
+  font-style: italic;
+  font-size: 12px;
+  color: @pr-brand-grey-5;
+}
+.remove-date-recipe {
+  cursor: pointer;
+  color: @pr-brand-grey-5;
+  font-weight: 500;
+}
+.remove-date-recipe:hover {
+  color: @pr-brand-color;
+}
+.planning-recipes-wrapper {
+  height: 100%;
+  overflow: scroll;
+}
+.meal-planning-search-wrapper {
+  position: sticky;
+  top: .1rem;
+  z-index: 10;
+  background: @pr-brand-white;
+}
+.meal-planning-search-wrapper .recipe-input {
+  width: 80%;
+}
+
+@media (max-width: 750px) {
+.meal-planning-section {
+  width: 90%;
+}
+  .pick-dates-wrapper {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .date-form-section {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  .date-separator {
+    display: none;
+  }
+  .planning-button {
+    width: 100%;
+    margin: 0;
+  }
+  .planning-info {
+    //max-width: 300px;
+    margin: 0 auto;
+  }
+  .planning-header-section {
+    flex-direction: column;
+    padding: 0 0 2rem 0;
+  }
+  .meal-planning-wrapper {
+    flex-direction: column;
+    overflow: hidden;
+    //width: 300px;
+  }
+  .dates-wrapper {
+    display: flex;
+    width: 90%;
+  }
+  .date-wrapper {
+    width: 100%;
+    flex: 1;
+    min-width: 250px;
+    margin-right: 2rem;
+  }
+  .planning-recipes-wrapper {
+    //max-width: 300px;
+    margin: 0 auto;
+  }
+}

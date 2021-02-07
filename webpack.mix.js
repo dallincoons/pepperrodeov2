@@ -34,5 +34,5 @@ mix.less('resources/assets/less/app.less', 'public/css')
                 'vue$': 'vue/dist/vue.js'
             }
         }
-    })
-    .version();
+   })
+   .version();

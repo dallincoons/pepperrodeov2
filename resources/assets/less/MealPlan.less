@@ -1,0 +1,45 @@
+.meal-plan-buttons {
+  width: 30%;
+}
+.meal-plan-dates {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+}
+.meal-plan-dates .date-wrapper {
+  margin: 2rem 2rem 2rem 1rem;
+}
+.meal-plan-recipe:hover {
+  color: @pr-brand-grey-1;
+}
+
+@media (max-width: 720px) {
+  .meal-plan-buttons {
+    width: 100%;
+  }
+  .meal-plan-dates {
+    grid-template-columns: 1fr;
+  }
+  .meal-plans-container {
+    min-height: 100vh;
+  }
+  .meal-plans-wrapper {
+    width: 100%;
+  }
+}
+
+@media print {
+  .date-heading {
+    background: @pr-brand-color;
+    color: @pr-brand-white;
+  }
+
+  .meal-plan-dates {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+  }
+
+}

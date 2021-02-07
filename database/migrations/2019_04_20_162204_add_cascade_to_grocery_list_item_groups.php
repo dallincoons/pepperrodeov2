@@ -13,11 +13,10 @@ class AddCascadeToGroceryListItemGroups extends Migration
      */
     public function up()
     {
-//        Schema::table('grocery_list_items', function (Blueprint $table)
-//        {
-//            $table->dropForeign('grocery_list_items_grocery_list_group_id_foreign');
+        Schema::table('grocery_list_items', function (Blueprint $table)
+        {
 //            $table->foreign('grocery_list_group_id')->references('id')->on('grocery_list_item_groups');
-//        });
+        });
     }
 
     /**
