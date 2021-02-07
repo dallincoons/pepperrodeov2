@@ -44,8 +44,8 @@
                                     <p class="date-recipe-title">{{recipe.title}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing">
-                                    <span class="date-category">{{recipe.recipe.category.title}}</span>
-                                    <p class="date-recipe-title">{{recipe.recipe.title}}</p>
+                                    <span class="date-category">{{recipe.category.title}}</span>
+                                    <p class="date-recipe-title">{{recipe.title}}</p>
                                 </div>
                                 <span @click="removeRecipe(date, recipe.id)" class="remove-date-recipe">x</span>
                             </div>
@@ -107,7 +107,7 @@
                 startMin: moment().format("YYYY-MM-DD"),
                 endMax: moment().add(31, 'd').format("YYYY-MM-DD"),
                 datesSet: false,
-                itemSearchedFor: ''
+                itemSearchedFor: '',
             }
         },
         computed : {
@@ -182,12 +182,25 @@
             },
             populatePlanFields(id) {
                 axios.get('api/v1/meal_planning_group/' + id).then((response) => {
-                    console.log(response);
                     this.dateStart = Object.keys(response.data.days)[0];
                     this.dateEnd = Object.keys(response.data.days).slice(-1)[0];
                     this.datesSet = true;
                     this.scheduledRecipes = response.data.days;
-                })
+                    this.getScheduledRecipes();
+                });
+
+
+            },
+            getScheduledRecipes() {
+                let result = {};
+                for (const [date, mealPlanDay] of Object.entries(this.scheduledRecipes)) {
+                    let recipes = [];
+                    for (const day of mealPlanDay) {
+                        recipes.push(day.recipe);
+                        result[date] = recipes;
+                    }
+                }
+                this.scheduledRecipes = result;
             }
         }
     }
