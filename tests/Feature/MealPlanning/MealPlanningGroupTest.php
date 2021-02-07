@@ -34,6 +34,28 @@ class MealPlanningGroupTest extends TestCase
     }
 
     /** @test */
+    public function it_deletes_a_meal_planning_group()
+    {
+        $plan = create(MealPlanGroup::class);
+
+        $this->assertCount(1, MealPlanGroup::all());
+
+        $this->delete('/api/v1/meal_planning_group/' . $plan->getKey());
+
+        $this->assertCount(0, MealPlanGroup::all());
+    }
+
+    /** @test */
+    public function it_update_a_meal_planning_group()
+    {
+        $plan = create(MealPlanGroup::class);
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $plan->getKey());
+
+        $response->assertOk();
+    }
+
+    /** @test */
     public function it_gets_single_meal_plan_group_with_meal_plan_days()
     {
         $mealPlanGroup = create(MealPlanGroup::class);

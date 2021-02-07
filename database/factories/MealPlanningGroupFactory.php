@@ -8,6 +8,8 @@ $factory->define(\App\MealPlanGroup::class, function (Faker\Generator $faker) {
         'grocery_list_id' => create(\App\Entities\GroceryList::class),
         'user_id' => $user->getKey(),
         'name' => 'abd123',
+        'start_date' => \Carbon\Carbon::now(),
+        'end_date' => \Carbon\Carbon::now(),
     ];
 });
 

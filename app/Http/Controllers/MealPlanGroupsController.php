@@ -49,4 +49,16 @@ class MealPlanGroupsController extends Controller
 
         return response()->json(['days' => $days->groupBy('date')]);
     }
+
+    public function delete(Request $request, $groupId)
+    {
+        MealPlanGroup::where('id', $groupId)->delete();
+
+        return response()->json([], 200);
+    }
+
+    public function update(Request $request, $groupId)
+    {
+        return response()->json([], 200);
+    }
 }
