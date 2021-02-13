@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Criteria\AuthUserCriteria;
-use App\Entities\Recipe;
 use App\Features\MealPlans\MealPlanBuilder;
-use App\MealPlanDay;
 use App\MealPlanGroup;
 use App\Repositories\MealPlanningGroupRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class MealPlanGroupsController extends Controller
 {

@@ -69,6 +69,8 @@ Route::group([
     Route::get('meal_planning_groups', 'MealPlanGroupsController@index');
     Route::post('meal_planning_groups', 'MealPlanGroupsController@store');
 
+    Route::post('meal_plan_list/{groupID}', 'MealPlanListController@store');
+
     // vue-router will handle any other requests
     Route::get('/{vue_capture?}', 'WelcomeController@show')->where('vue_capture', '[\/\w\.-]*')->middleware('auth');
 });

@@ -9,6 +9,7 @@
                         <div class="list-actions-buttons meal-plan-buttons">
                             <button class="list-action list-action-1" @click="editMealPlan(mealPlanId)">Edit Plan</button>
                             <button class="list-action list-action-2" @click="deletePlan()">Delete Plan</button>
+                            <button class="list-action list-action-2" @click="createGroceryList()">Create Grocery List</button>
                         </div>
                     </div>
                 </div>
@@ -58,6 +59,7 @@
             prettyDate: (date) => {
                 return moment(date).format("dddd, MMMM Do")
             },
+
             deletePlan() {
                 if(confirm('Do you want to delete this meal plan?')) {
                     axios.delete('api/v1/meal_planning_group/' + this.mealPlanId).then((response) => {
@@ -66,6 +68,13 @@
                     this.$router.push({path : `/mealplans`});
                 }
             },
+
+            createGroceryList() {
+                axios.post('api/v1/meal_plan_list/' + this.mealPlanId).then((response) => {
+                    this.$router.push({path : `/grocery-lists/${response.data.id}`});
+                })
+            },
+
             editMealPlan(id) {
                 this.$router.push({path: `/mealplan/${id}/edit`})
             },

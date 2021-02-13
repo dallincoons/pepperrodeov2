@@ -47,6 +47,13 @@ class GroceryList extends Model implements Transformable
             ->pluck('recipe_id')->filter()->all());
     }
 
+    public function addRecipes(array $recipes)
+    {
+        foreach ($recipes as $recipe) {
+            $this->addRecipe(($recipe));
+        }
+    }
+
     /**
      * @param Recipe $recipe
      */
