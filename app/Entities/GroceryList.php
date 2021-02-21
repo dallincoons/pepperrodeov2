@@ -73,6 +73,11 @@ class GroceryList extends Model implements Transformable
                  + ['grocery_list_id' => $this->getKey(), 'grocery_list_group_id' => $group->getKey()]
             );
         }
+
+        $linkedRecipes = $recipe->linkedRecipes;
+        if ($linkedRecipes->count() > 0) {
+            $this->addRecipes($linkedRecipes->all());
+        }
     }
 
     public function removeRecipe(Recipe $recipe)

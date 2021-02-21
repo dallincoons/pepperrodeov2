@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Category;
+use App\LinkedRecipe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -40,6 +41,11 @@ class Recipe extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function linkedRecipes()
+    {
+        return $this->belongsToMany(Recipe::class, 'linked_recipes', 'source_recipe_id', 'destination_recipe_id');
     }
 
     public function setSourceAttribute($source)
