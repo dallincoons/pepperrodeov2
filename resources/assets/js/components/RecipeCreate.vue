@@ -38,7 +38,11 @@
                     <input type="text" v-model="source" placeholder="Website? Book?" class="create-recipe-input">
                 </div>
                 <div class="add-subsection-check-wrapper">
-                    <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>
+                    <div class="recipe-extra-wrapper">
+                        <p>Add a sub-recipe?</p><button  v-model="showSubRecipe" @click="showSubRecipe = !showSubRecipe">+</button>
+                    </div>
+                    <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>-->
+                    <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Link to another recipe?</label>
                 </div>
 
             </div>
