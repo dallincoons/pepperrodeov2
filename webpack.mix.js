@@ -12,6 +12,8 @@ var path = require('path');
  |
  */
 
+const homedir = require('os').homedir();
+
 mix.less('resources/assets/less/app.less', 'public/css')
     .copy('node_modules/sweetalert/dist/sweetalert.min.js', 'public/js/sweetalert.min.js')
     .copy('node_modules/sweetalert/dist/sweetalert.css', 'public/css/sweetalert.css')
@@ -20,9 +22,14 @@ mix.less('resources/assets/less/app.less', 'public/css')
     .vue()
     .copy('resources/assets/img', 'public/img', false)
     .browserSync({
-        proxy: 'pepperrodeov2.test',
+        port: 3000,
+        proxy: 'https://pepperrodeov2.test',
         host: 'pepperrodeov2.test',
         open: 'external',
+        https: {
+            key: homedir + '/.config/valet/Certificates/pepperrodeov2.test.key',
+            cert: homedir + '/.config/valet/Certificates/pepperrodeov2.test.crt',
+        },
     })
     .webpackConfig({
         resolve: {
