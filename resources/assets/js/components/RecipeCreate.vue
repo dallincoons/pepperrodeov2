@@ -39,10 +39,10 @@
                 </div>
                 <div class="add-subsection-check-wrapper">
                     <div class="recipe-extra-wrapper">
-                        <p>Add a sub-recipe?</p><button  v-model="showSubRecipe" @click="showSubRecipe = !showSubRecipe">+</button>
+                        <p>Add a sub-recipe?</p><button  v-model="showSubRecipe" @click="showSubRecipe()">+</button>
                     </div>
                     <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>-->
-                    <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Link to another recipe?</label>
+                    <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="showSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Link to another recipe?</label>
                 </div>
 
             </div>
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="subsection-wrapper" v-if="showSubRecipe">
+        <div class="subsection-wrapper" v-for="subRecipe in subRecipes">
             <div class="create-recipe-section-wrapper">
                 <div class="create-recipe-header" @click="createSubDetailsHidden = !createSubDetailsHidden">
                     <h4>Sub Recipe Details</h4>
@@ -232,7 +232,8 @@
                 subIngredients : [],
                 subNeedToBuys : [],
                 subDirections : '',
-                showSubRecipe : false,
+                subRecipes : [],
+                subRecipesCount : 0,
                 showSubNeedToBuy : true,
                 createSubDetailsHidden : false,
                 createSubIngredientsHidden : false,
@@ -302,6 +303,14 @@
 
                 return recipeFacts;
             },
+            showSubRecipe() {
+                this.subRecipesCount = this.subRecipesCount + 1;
+                this.subRecipes.push({
+                    title : 'value',
+                    ingredients : [],
+                    directions : '',
+                });
+            },
 
             addIngredient() {
                 if (this.ingredientDescription === '') {
@@ -358,7 +367,7 @@
                     let subRecipes = response.data.sub_recipes;
                     if (subRecipes.length > 0) {
                         let subRecipe = subRecipes[0];
-                        this.showSubRecipe = true;
+                        this.subRecipes = subRecipes.length;
                         this.subRecipeId = subRecipe.id;
                         this.subRecipeTitle = subRecipe.title;
                         this.subIngredients = subRecipe.ingredients;
