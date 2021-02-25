@@ -39,10 +39,10 @@
                 </div>
                 <div class="add-subsection-check-wrapper">
                     <div class="recipe-extra-wrapper">
-                        <p>Add a sub-recipe?</p><button  v-model="showSubRecipe" @click="showSubRecipe()">+</button>
+                        <p>Add a sub-recipe?</p><button  v-model="createSubRecipe" @click="createSubRecipe()">+</button>
                     </div>
-                    <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="sshowSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>-->
-                    <input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="showSubRecipe" @click="showSubRecipe = !showSubRecipe"><label class="create-recipe-radio-label add-sub-label">Link to another recipe?</label>
+                    <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="createSubRecipe" @click="screateSubRecipe = !createSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>-->
+                    <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="createSubRecipe" @click="createSubRecipe = !createSubRecipe"><label class="create-recipe-radio-label add-sub-label">Link to another recipe?</label>-->
                 </div>
 
             </div>
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="subsection-wrapper" v-for="subRecipe in subRecipes">
+        <div class="subsection-wrapper" v-for="(subRecipe, index) in subRecipes">
             <div class="create-recipe-section-wrapper">
                 <div class="create-recipe-header" @click="createSubDetailsHidden = !createSubDetailsHidden">
                     <h4>Sub Recipe Details</h4>
@@ -114,7 +114,7 @@
                 <div class="create-recipe-body" :class="{'hide-info' : createSubDetailsHidden}">
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Title</span>
-                        <input type="text" required v-model="subRecipeTitle" class="create-recipe-input">
+                        <input type="text" required v-model="subRecipes[index].title" class="create-recipe-input">
                     </div>
                 </div>
             </div>
@@ -129,14 +129,14 @@
                         <div class="create-recipe-ingredients-wrapper">
                             <label class="create-recipe-label">Add Ingredients</label>
                             <div class="create-recipe-add-ingredient-section">
-                                <input class="create-ingredient-input" v-model="subIngredientDescription" @keyup.enter="addSubIngredient" >
-                                <span @click="addSubIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
+                                <input class="create-ingredient-input" v-model="subIngredientInput[index]" @keyup.enter="addSubIngredient(index)" >
+                                <span @click="addSubIngredient(index)" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
                             </div>
 
                             <ul class="recipe-item">
-                                <li v-for="(subIngredient, index) in subIngredients" class="create-ingredient-items">
-                                    <input class="recipe-item-input" v-model="subIngredients[index].full_description">
-                                    <div @click="deleteSubIngredient(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                <li v-for="(subIngredient, index) in subRecipe.ingredients" class="create-ingredient-items">
+                                    <input class="recipe-item-input" v-model="subIngredient.full_description">
+                                    <div @click="deleteSubIngredient(subRecipes[index], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                                 </li>
                             </ul>
                         </div>
@@ -149,12 +149,12 @@
 
 
                                 <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showSubNeedToBuy}">
-                                    <li v-for="(subNeedToBuy, index) in subNeedToBuys" class="create-ingredient-items">
-                                        <input class="recipe-item-input" v-model="subNeedToBuys[index].full_description">
-                                        <select class="need-buy-department"  v-model="subNeedToBuys[index].department_id">
+                                    <li v-for="(subNeedToBuy, index) in subRecipe.subNeedToBuys" class="create-ingredient-items">
+                                        <input class="recipe-item-input" v-model="subNeedToBuy.full_description">
+                                        <select class="need-buy-department"  v-model="subNeedToBuy.department_id">
                                             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                         </select>
-                                        <div @click="deleteSubNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                        <div @click="deleteSubNeedToBuy(subRecipes[index], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                                     </li>
                                 </ul>
                             </div>
@@ -172,7 +172,7 @@
                 <div class="create-recipe-body" :class="{'hide-info' : createSubDirectionsHidden}">
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Add Directions</span>
-                        <textarea v-model="subDirections" class="create-recipe-input create-recipe-textarea"></textarea>
+                        <textarea v-model="subRecipes[index].directions" class="create-recipe-input create-recipe-textarea"></textarea>
                     </div>
                 </div>
             </div>
@@ -233,11 +233,11 @@
                 subNeedToBuys : [],
                 subDirections : '',
                 subRecipes : [],
-                subRecipesCount : 0,
                 showSubNeedToBuy : true,
                 createSubDetailsHidden : false,
                 createSubIngredientsHidden : false,
-                createSubDirectionsHidden: false
+                createSubDirectionsHidden: false,
+                subIngredientInput: [],
             }
         },
         mounted() {
@@ -287,29 +287,22 @@
                     sourceType          : this.source_type,
                 };
 
-                if (this.showSubRecipe) {
-                    if (!this.subRecipeTitle || this.subIngredients.length < 1) {
-                        return recipeFacts;
-                    }
+                if (this.createSubRecipe) {
+                    //@todo add sub recipe validation
 
-                    recipeFacts['sub_recipe'] = {
-                        id: this.subRecipeId,
-                        title: this.subRecipeTitle,
-                        ingredients: this.subIngredients,
-                        listable_ingredients : this.subNeedToBuys,
-                        directions: this.subDirections,
-                    }
+                    recipeFacts['sub_recipes'] = this.subRecipes;
                 }
 
                 return recipeFacts;
             },
-            showSubRecipe() {
-                this.subRecipesCount = this.subRecipesCount + 1;
-                this.subRecipes.push({
-                    title : 'value',
+            createSubRecipe() {
+                let newSubRecipe = {title : '',
                     ingredients : [],
+                    subNeedToBuys : [],
                     directions : '',
-                });
+                };
+                this.subIngredientInput.push('');
+                this.subRecipes.push(newSubRecipe);
             },
 
             addIngredient() {
@@ -323,15 +316,14 @@
                 this.ingredientDescription = '';
             },
 
-            addSubIngredient() {
-                if (this.subIngredientDescription === '') {
+            addSubIngredient(subRecipeIndex) {
+                if ( this.subIngredientInput[subRecipeIndex] === '') {
                     return;
                 }
-
-                let newIngredient = {full_description : this.subIngredientDescription};
-                this.subIngredients.push(newIngredient);
-                this.subNeedToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
-                this.subIngredientDescription = '';
+                let newIngredient = {full_description : this.subIngredientInput[subRecipeIndex]};
+                this.subRecipes[subRecipeIndex].ingredients.push(newIngredient);
+                this.subRecipes[subRecipeIndex].subNeedToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
+                 this.subIngredientInput[subRecipeIndex] = '';
             },
 
             deleteIngredient(index) {
@@ -342,12 +334,12 @@
                 this.needToBuys.splice(index, 1);
             },
 
-            deleteSubIngredient(index) {
-                this.subIngredients.splice(index, 1);
+            deleteSubIngredient(subRecipe, index) {
+                subRecipe.ingredients.splice(index, 1);
             },
 
-            deleteSubNeedToBuy(index) {
-                this.subNeedToBuys.splice(index, 1);
+            deleteSubNeedToBuy(subRecipe, index) {
+                subRecipe.subNeedToBuys.splice(index, 1);
             },
 
             populateRecipeFields() {
