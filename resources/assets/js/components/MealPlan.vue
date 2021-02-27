@@ -63,9 +63,8 @@
             deletePlan() {
                 if(confirm('Do you want to delete this meal plan?')) {
                     axios.delete('api/v1/meal_planning_group/' + this.mealPlanId).then((response) => {
-                        console.log(response);
+                        this.$router.push({path : `/mealplans`});
                     });
-                    this.$router.push({path : `/mealplans`});
                 }
             },
 
