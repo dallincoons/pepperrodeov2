@@ -20,6 +20,6 @@ class MealPlanListController extends Controller {
 
         $grocerylist->addRecipes($recipes->all());
 
-        return response()->json($grocerylist, 201);
+        return response()->json(['grocerylist' => $grocerylist], 201);
     }
 }

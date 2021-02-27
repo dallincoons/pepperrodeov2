@@ -71,7 +71,7 @@
 
             createGroceryList() {
                 axios.post('api/v1/meal_plan_list/' + this.mealPlanId).then((response) => {
-                    this.$router.push({path : `/grocery-lists/${response.data.id}`});
+                    this.$router.push({path : `/grocery-lists/${response.data.grocerylist.id}`});
                 })
             },
 
