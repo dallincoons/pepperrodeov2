@@ -37,6 +37,8 @@ Route::group([
 
     Route::get('grocery-list/recent', 'RecentGroceryListController@show')->name('grocery-list.recent');
 
+    Route::post('recipe_link', 'RecipeLinkController@store')->name('recipe_link.store');
+
     Route::get('recipes/search', 'RecipeSearchController@index');
 
     Route::get('recipes', 'RecipeController@index');
@@ -68,8 +70,6 @@ Route::group([
     Route::patch('meal_planning_group/{groupID}', 'MealPlanGroupsController@update');
     Route::get('meal_planning_groups', 'MealPlanGroupsController@index');
     Route::post('meal_planning_groups', 'MealPlanGroupsController@store');
-
-    Route::post('recipe_link', 'RecipeLinkController@store')->name('recipe_link.store');
 
     Route::post('meal_plan_list/{groupID}', 'MealPlanListController@store');
 

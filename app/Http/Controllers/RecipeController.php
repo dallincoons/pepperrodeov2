@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Criteria\AuthUserCriteria;
 use App\Criteria\WithoutSubRecipesCriteria;
 use App\Entities\Recipe;
+use App\Features\Recipes\RecipeLinker;
 use App\Http\Requests\Recipes\StoreRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Repositories\RecipeRepository;
@@ -35,7 +36,7 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        $recipe->load(['ingredients', 'ingredients.department', 'listableIngredients', 'category']);
+        $recipe->load(['ingredients', 'ingredients.department', 'listableIngredients', 'category', 'linkedRecipes']);
         $subRecipes = $this->repository->getSubRecipes($recipe);
 
         return response()->json(['recipe' => $recipe, 'sub_recipes' => $subRecipes], 200);
@@ -57,17 +58,24 @@ class RecipeController extends Controller
             'sub_recipe'           => $request->sub_recipe,
         ]);
 
-        if ($request->has('sub_recipe')) {
-            $subRecipe = $request->sub_recipe;
-            $this->repository->create([
-                'parent_id'            => $recipe->getKey(),
-                'category_id'          => $recipe->category_id,
-                'user_id'              => $recipe->user_id,
-                'ingredients'          => Arr::get($subRecipe, 'ingredients'),
-                'listable_ingredients' => Arr::get($subRecipe, 'listable_ingredients'),
-                'title'                => Arr::get($subRecipe, 'title'),
-                'directions'           => Arr::get($subRecipe, 'directions'),
-            ]);
+        if ($request->has('sub_recipes')) {
+            foreach ($request->input('sub_recipes') as $subRecipe) {
+                $this->repository->create([
+                    'parent_id' => $recipe->getKey(),
+                    'category_id' => $recipe->category_id,
+                    'user_id' => $recipe->user_id,
+                    'ingredients' => Arr::get($subRecipe, 'ingredients'),
+                    'listable_ingredients' => Arr::get($subRecipe, 'listable_ingredients'),
+                    'title' => Arr::get($subRecipe, 'title'),
+                    'directions' => Arr::get($subRecipe, 'directions'),
+                ]);
+            }
+        }
+
+        if ($request->has('linked_recipes')) {
+            foreach ($request->input('linked_recipes') as $linkRecipeID) {
+                RecipeLinker::link($recipe->getKey(), $linkRecipeID);
+            }
         }
 
         return response()->json($recipe, 201);

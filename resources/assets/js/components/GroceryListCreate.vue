@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div class="container">
         <h2 class="container-heading">Name Your List</h2>
         <div class="container-create">

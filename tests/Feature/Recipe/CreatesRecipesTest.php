@@ -104,7 +104,11 @@ class CreatesRecipesTest extends TestCase
         ], Recipe::first()->listableIngredients->first()->toArray());
     }
 
-    /** @test */
+    /**
+     * @covers \App\Http\Controllers\RecipeController::store
+     *
+     * @test
+     */
     public function it_creates_a_recipe_with_sub_recipes()
     {
         $department = factory(Department::class)->create();
@@ -112,7 +116,7 @@ class CreatesRecipesTest extends TestCase
         $response = $this->createRecipe([
             'title'       => 'foo bar',
             'category_id'    => factory(Category::class)->create()->getKey(),
-            'sub_recipe' => [
+            'sub_recipes' => [[
                 'title'       => 'foo bar',
                 'directions'  => 'cook things',
                 'ingredients' => [
@@ -128,10 +132,26 @@ class CreatesRecipesTest extends TestCase
                         'department_id' => 2
                     ]
                 ]
-            ]
+            ],
+            [
+                'title'       => 'biz baz',
+                'directions'  => 'do things to the food',
+                'ingredients' => [
+                    [
+                        'quantity'    => 2,
+                        'full_description' => 'cambodia',
+                    ]
+                ],
+                'listable_ingredients' => [
+                    [
+                        'quantity'    => 1,
+                        'full_description' => 'shadazz',
+                    ]
+                ]
+            ]]
         ]);
 
-        $this->assertEquals(2, Recipe::count());
+        $this->assertEquals(3, Recipe::count());
     }
 
     private function createRecipe($overrides = [])
