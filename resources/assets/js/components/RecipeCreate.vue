@@ -39,10 +39,53 @@
                 </div>
                 <div class="add-subsection-check-wrapper">
                     <div class="recipe-extra-wrapper">
-                        <p>Add a sub-recipe?</p><button  v-model="createSubRecipe" @click="createSubRecipe()">+</button>
+                        <button  @click="createSubRecipe()" class="recipe-extra-button"><add-plus class="create-recipe-add-plus"></add-plus></button><p>Add a sub-recipe</p>
                     </div>
-                    <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="createSubRecipe" @click="screateSubRecipe = !createSubRecipe"><label class="create-recipe-radio-label add-sub-label">Add a sub-recipe?</label>-->
-                    <!--<input type="checkbox" class="create-recipe-radio-button add-sub-checkbox" v-model="createSubRecipe" @click="createSubRecipe = !createSubRecipe"><label class="create-recipe-radio-label add-sub-label">Link to another recipe?</label>-->
+                    <div class="recipe-extra-wrapper link-recipe">
+                        <div class="link-recipe-button-wrapper"><button  @click="getRecipes(); addRecipesOpen = !addRecipesOpen" class="recipe-extra-button"><add-plus class="create-recipe-add-plus"></add-plus></button><p>Link a recipe</p></div>
+                        <div class="link-recipe-search-section">
+                            <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
+                                <div class="list-add-recipes-body">
+                                    <div class="list-add-recipes-recipes-section">
+                                        <div class="list-add-recipes-header">
+                                            <div class="search-wrapper list-search">
+                                                <input
+                                                        type="search"
+                                                        name="recipeSearch"
+                                                        placeholder="Search"
+                                                        v-model="itemSearchedFor"
+                                                        v-on:keyup.enter="searchRecipes(itemSearchedFor)"
+                                                        class="recipe-input search-box"
+                                                >
+                                                <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
+                                                <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
+                                                <button @click="saveLinkedRecipes">Link Recipes</button>
+                                            </div>
+                                        </div>
+                                        <div class="category-container">
+                                            <ul class="list-add-recipes-list">
+                                                <li v-for="recipe in recipes" class="list-add-recipes-item">
+                                                    <div class="fs-checkbox">
+                                                        <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
+                                                        <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : recipesLinked}">
+                            <span class="create-recipe-label">Linked Recipes</span>
+                                <ul class="linked-recipes-list">
+                                    <li v-for="recipe in linkedRecipes" class="linked-recipes">
+                                        <router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link>
+                                        <span @click="removeLinkedRecipe(recipe.id)"><x-icon  class="linked-recipes-x"></x-icon></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -191,53 +234,63 @@
     import Caret from './assets/caret';
     import AddPlus from './assets/add-plus';
     import XIcon from './assets/x-icon';
+    import Search from './assets/search'
 
     const UNASSIGNED_DEPARTMENT = 1;
 
     export default {
-        components : {
+        components: {
             NewIngredientForm,
             Caret,
             AddPlus,
-            XIcon
+            XIcon,
+            Search
         },
 
-        props : {
+        props: {
             editing: Boolean
         },
 
         data() {
             return {
-                recipeTitle      : '',
-                titleSectionOpen : false,
-                selectedCategory : '',
-                categories       : [],
-                ingredientDescription : '',
+                recipeTitle: '',
+                titleSectionOpen: false,
+                selectedCategory: '',
+                categories: [],
+                ingredientDescription: '',
                 subIngredientDescription: '',
-                ingredients           : [],
-                needToBuys            : [],
-                directions            : '',
-                source                : '',
-                departments           : '',
-                toggleIngredients     : true,
-                prepTime             : '',
-                totalTime            : '',
-                serves            : '',
-                showNeedToBuy : true,
-                createDetailsHidden : false,
-                createIngredientsHidden : false,
-                createDirectionsHidden : false,
+                ingredients: [],
+                needToBuys: [],
+                directions: '',
+                source: '',
+                departments: '',
+                toggleIngredients: true,
+                prepTime: '',
+                totalTime: '',
+                serves: '',
+                showNeedToBuy: true,
+                createDetailsHidden: false,
+                createIngredientsHidden: false,
+                createDirectionsHidden: false,
                 subRecipeId: null,
-                subRecipeTitle : '',
-                subIngredients : [],
-                subNeedToBuys : [],
-                subDirections : '',
-                subRecipes : [],
-                showSubNeedToBuy : true,
-                createSubDetailsHidden : false,
-                createSubIngredientsHidden : false,
+                subRecipeTitle: '',
+                subIngredients: [],
+                subNeedToBuys: [],
+                subDirections: '',
+                subRecipes: [],
+                showSubNeedToBuy: true,
+                createSubDetailsHidden: false,
+                createSubIngredientsHidden: false,
                 createSubDirectionsHidden: false,
                 subIngredientInput: [],
+                addRecipesOpen: false,
+                recipesLinked: false,
+                recipes: [],
+                itemSearchedFor: '',
+                checkedRecipes: [],
+                recipeMap: {},
+                linkedRecipes: []
+
             }
         },
         mounted() {
@@ -251,17 +304,31 @@
             if (this.editing) {
                 this.populateRecipeFields()
             }
+
+            this.getRecipes((recipes) => {
+                recipes.forEach((recipe) => {
+                    this.recipeMap[recipe.id] = recipe;
+                });
+            });
+
         },
-        methods    : {
+        methods: {
+            getRecipes(then) {
+                axios.get('/api/v1/recipes').then((response) => {
+                    this.recipes = response.data;
+                    then(this.recipes);
+                });
+                // this.addRecipesOpen = !this.addRecipesOpen;
+            },
+
             saveRecipe() {
                 if (this.editing) {
                     this.updateRecipe();
                     return;
                 }
 
-
                 Recipes.save(this.getRecipeFacts()).then((response) => {
-                    this.$router.push({path : `/recipe/${response.data.id}`});
+                    this.$router.push({path: `/recipe/${response.data.id}`});
                 });
             },
 
@@ -269,22 +336,22 @@
                 let recipeFacts = this.getRecipeFacts();
 
                 Recipes.update(this.$route.params.id, recipeFacts).then((response) => {
-                    this.$router.push({path : `/recipe/${response.data.id}`});
+                    this.$router.push({path: `/recipe/${response.data.id}`});
                 });
             },
 
             getRecipeFacts() {
                 let recipeFacts = {
-                    title                : this.recipeTitle,
-                    category_id             : this.selectedCategory,
-                    ingredients          : this.ingredients,
-                    listable_ingredients : this.needToBuys,
-                    directions           : this.directions,
-                    prep_time           : this.prepTime,
-                    total_time          : this.totalTime,
-                    serves              : this.serves,
-                    source              : this.source,
-                    sourceType          : this.source_type,
+                    title: this.recipeTitle,
+                    category_id: this.selectedCategory,
+                    ingredients: this.ingredients,
+                    listable_ingredients: this.needToBuys,
+                    directions: this.directions,
+                    prep_time: this.prepTime,
+                    total_time: this.totalTime,
+                    serves: this.serves,
+                    source: this.source,
+                    sourceType: this.source_type,
                 };
 
                 if (this.createSubRecipe) {
@@ -293,13 +360,18 @@
                     recipeFacts['sub_recipes'] = this.subRecipes;
                 }
 
+                if (this.linkedRecipes) {
+                    recipeFacts['linked_recipes'] = this.checkedRecipes;
+                }
+
                 return recipeFacts;
             },
             createSubRecipe() {
-                let newSubRecipe = {title : '',
-                    ingredients : [],
-                    subNeedToBuys : [],
-                    directions : '',
+                let newSubRecipe = {
+                    title: '',
+                    ingredients: [],
+                    subNeedToBuys: [],
+                    directions: '',
                 };
                 this.subIngredientInput.push('');
                 this.subRecipes.push(newSubRecipe);
@@ -310,20 +382,20 @@
                     return;
                 }
 
-                let newIngredient = {full_description : this.ingredientDescription};
+                let newIngredient = {full_description: this.ingredientDescription};
                 this.ingredients.push(newIngredient);
-                this.needToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
+                this.needToBuys.push(Object.assign({department_id: UNASSIGNED_DEPARTMENT}, newIngredient));
                 this.ingredientDescription = '';
             },
 
             addSubIngredient(subRecipeIndex) {
-                if ( this.subIngredientInput[subRecipeIndex] === '') {
+                if (this.subIngredientInput[subRecipeIndex] === '') {
                     return;
                 }
-                let newIngredient = {full_description : this.subIngredientInput[subRecipeIndex]};
+                let newIngredient = {full_description: this.subIngredientInput[subRecipeIndex]};
                 this.subRecipes[subRecipeIndex].ingredients.push(newIngredient);
-                this.subRecipes[subRecipeIndex].subNeedToBuys.push(Object.assign({department_id : UNASSIGNED_DEPARTMENT}, newIngredient));
-                 this.subIngredientInput[subRecipeIndex] = '';
+                this.subRecipes[subRecipeIndex].subNeedToBuys.push(Object.assign({department_id: UNASSIGNED_DEPARTMENT}, newIngredient));
+                this.subIngredientInput[subRecipeIndex] = '';
             },
 
             deleteIngredient(index) {
@@ -368,7 +440,32 @@
                     }
                 })
             },
-        },
+            searchRecipes(item) {
+                Recipes.search(item).then((response) => {
+                    console.log(response);
+                    this.recipes = response.data;
+                });
+            },
+            clearSearch() {
+                this.itemSearchedFor = '';
+                Recipes.all().then((response) => {
+                    this.recipes = response.data;
+                });
+            },
+            saveLinkedRecipes() {
+                this.recipesLinked = !this.recipesLinked;
+                this.addRecipesOpen = false;
+                this.linkedRecipes = this.checkedRecipes.map((recipeId) => {
+                    return this.recipeMap[recipeId];
+                });
+            },
+            removeLinkedRecipe(id) {
+                this.checkedRecipes.splice(this.checkedRecipes.indexOf(id), 1);
+                this.linkedRecipes = this.checkedRecipes.map((recipeId) => {
+                    return this.recipeMap[recipeId];
+                });
+            }
+        }
     }
 
 </script>
