@@ -2,8 +2,21 @@
   grid-column: 1 / span 3;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  grid-template-rows: 20px auto;
+  grid-gap: 10px 20px;
 }
+
+.subsection-wrapper .create-recipe-section-wrapper {
+  grid-row: 2;
+}
+
+.remove-subrecipe {
+  width: 20px;
+  grid-column: 3;
+  justify-self: flex-end;
+  cursor: pointer;
+}
+
 @media (max-width: 800px) {
   .subsection-wrapper {
     width: 100%;

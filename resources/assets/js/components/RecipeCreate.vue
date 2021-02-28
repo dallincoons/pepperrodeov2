@@ -1,11 +1,10 @@
 <template>
     <div class="create-recipe-wrapper">
         <div class="create-recipe-section-wrapper">
-            <div class="create-recipe-header" @click="createDetailsHidden = !createDetailsHidden">
+            <div class="create-recipe-header">
                 <h4>Recipe Details</h4>
-                <span class="create-caret" :class="{'rotate-caret' : createDetailsHidden}"><caret></caret></span>
             </div>
-            <div class="create-recipe-body" :class="{'hide-info' : createDetailsHidden}">
+            <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Title</span>
                     <input type="text" required v-model="recipeTitle" class="create-recipe-input">
@@ -42,7 +41,7 @@
                         <button  @click="createSubRecipe()" class="recipe-extra-button"><add-plus class="create-recipe-add-plus"></add-plus></button><p>Add a sub-recipe</p>
                     </div>
                     <div class="recipe-extra-wrapper link-recipe">
-                        <div class="link-recipe-button-wrapper"><button  @click="getRecipes(); addRecipesOpen = !addRecipesOpen" class="recipe-extra-button"><add-plus class="create-recipe-add-plus"></add-plus></button><p>Link a recipe</p></div>
+                        <div class="link-recipe-button-wrapper"><button  @click="getRecipes(); addRecipesOpen = !addRecipesOpen" class="recipe-extra-button"><add-plus class="create-recipe-add-plus"></add-plus></button><p>Link recipes</p></div>
                         <div class="link-recipe-search-section">
                             <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
                                 <div class="list-add-recipes-body">
@@ -59,7 +58,7 @@
                                                 >
                                                 <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
                                                 <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
-                                                <button @click="saveLinkedRecipes">Link Recipes</button>
+                                                <button @click="saveLinkedRecipes" class="create-recipe-save">Link</button>
                                             </div>
                                         </div>
                                         <div class="category-container">
@@ -92,11 +91,10 @@
         </div>
 
         <div class="create-recipe-section-wrapper">
-            <div class="create-recipe-header"  @click="createIngredientsHidden = !createIngredientsHidden">
+            <div class="create-recipe-header">
                 <h4>{{recipeTitle}} Ingredients</h4>
-                <span class="create-caret" :class="{'rotate-caret' : createIngredientsHidden}"><caret></caret></span>
             </div>
-            <div class="create-recipe-body" :class="{'hide-info' : createIngredientsHidden}">
+            <div class="create-recipe-body">
                 <div class="create-recipe-ingredients-ntb-wrapper">
                     <div class="create-recipe-ingredients-wrapper">
                         <label class="create-recipe-label">Add Ingredients</label>
@@ -137,11 +135,10 @@
         </div>
 
         <div class="create-recipe-section-wrapper">
-            <div class="create-recipe-header" @click="createDirectionsHidden = !createDirectionsHidden">
+            <div class="create-recipe-header">
                 <h4>{{recipeTitle}} Directions</h4>
-                <span class="create-caret" :class="{'rotate-caret' : createDirectionsHidden}"><caret></caret></span>
             </div>
-            <div class="create-recipe-body" :class="{'hide-info' : createDirectionsHidden}">
+            <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Add Directions</span>
                     <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
@@ -149,12 +146,12 @@
             </div>
         </div>
         <div class="subsection-wrapper" v-for="(subRecipe, index) in subRecipes">
+        <span @click="removeSubRecipe(subRecipe[index])" class="remove-subrecipe"><XIcon></XIcon></span>
             <div class="create-recipe-section-wrapper">
-                <div class="create-recipe-header" @click="createSubDetailsHidden = !createSubDetailsHidden">
+                <div class="create-recipe-header">
                     <h4>Sub Recipe Details</h4>
-                    <span class="create-caret" :class="{'rotate-caret' : createSubDetailsHidden}"><caret></caret></span>
                 </div>
-                <div class="create-recipe-body" :class="{'hide-info' : createSubDetailsHidden}">
+                <div class="create-recipe-body" >
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Title</span>
                         <input type="text" required v-model="subRecipes[index].title" class="create-recipe-input">
@@ -163,11 +160,10 @@
             </div>
 
             <div class="create-recipe-section-wrapper">
-                <div class="create-recipe-header"  @click="createSubIngredientsHidden = !createSubIngredientsHidden">
-                    <h4>{{subRecipeTitle}} Ingredients</h4>
-                    <span class="create-caret" :class="{'rotate-caret' : createSubIngredientsHidden}"><caret></caret></span>
+                <div class="create-recipe-header" >
+                    <h4>Sub Recipe Ingredients</h4>
                 </div>
-                <div class="create-recipe-body" :class="{'hide-info' : createSubIngredientsHidden}">
+                <div class="create-recipe-body">
                     <div class="create-recipe-ingredients-ntb-wrapper">
                         <div class="create-recipe-ingredients-wrapper">
                             <label class="create-recipe-label">Add Ingredients</label>
@@ -208,11 +204,10 @@
             </div>
 
             <div class="create-recipe-section-wrapper">
-                <div class="create-recipe-header" @click="createSubDirectionsHidden = !createSubDirectionsHidden">
-                    <h4>{{subRecipeTitle}} Directions</h4>
-                    <span class="create-caret" :class="{'rotate-caret' : createSubDirectionsHidden}"><caret></caret></span>
+                <div class="create-recipe-header">
+                    <h4>Sub Recipe Directions</h4>
                 </div>
-                <div class="create-recipe-body" :class="{'hide-info' : createSubDirectionsHidden}">
+                <div class="create-recipe-body">
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Add Directions</span>
                         <textarea v-model="subRecipes[index].directions" class="create-recipe-input create-recipe-textarea"></textarea>
@@ -254,34 +249,20 @@
         data() {
             return {
                 recipeTitle: '',
-                titleSectionOpen: false,
                 selectedCategory: '',
                 categories: [],
                 ingredientDescription: '',
-                subIngredientDescription: '',
                 ingredients: [],
                 needToBuys: [],
                 directions: '',
                 source: '',
                 departments: '',
-                toggleIngredients: true,
                 prepTime: '',
                 totalTime: '',
                 serves: '',
                 showNeedToBuy: true,
-                createDetailsHidden: false,
-                createIngredientsHidden: false,
-                createDirectionsHidden: false,
-                subRecipeId: null,
-                subRecipeTitle: '',
-                subIngredients: [],
-                subNeedToBuys: [],
-                subDirections: '',
                 subRecipes: [],
                 showSubNeedToBuy: true,
-                createSubDetailsHidden: false,
-                createSubIngredientsHidden: false,
-                createSubDirectionsHidden: false,
                 subIngredientInput: [],
                 addRecipesOpen: false,
                 recipesLinked: false,
@@ -366,6 +347,15 @@
                 return recipeFacts;
             },
             createSubRecipe() {
+                if(this.subRecipes.length > 0) {
+                    for (let recipe of this.subRecipes) {
+                        if(recipe.title.length < 1){
+                            alert('You already have an unused sub-recipe. Give it a title. :)');
+                            return;
+                        }
+                    }
+                }
+
                 let newSubRecipe = {
                     title: '',
                     ingredients: [],
@@ -374,6 +364,9 @@
                 };
                 this.subIngredientInput.push('');
                 this.subRecipes.push(newSubRecipe);
+            },
+            removeSubRecipe(id) {
+                this.subRecipes.splice(id, 1);
             },
 
             addIngredient() {
