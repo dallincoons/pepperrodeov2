@@ -64,7 +64,7 @@ class GroceryList extends Model implements Transformable
 
         $group = GroceryListItemGroup::create([
             'grocery_list_id' => $this->getKey(),
-            'recipe_id' => $recipe->getKey()
+            'recipe_id' => $recipe->getKey(),
         ]);
 
         foreach ($recipe->listableIngredients as $ingredients) {
@@ -72,6 +72,18 @@ class GroceryList extends Model implements Transformable
                 $this->translateIngredient($ingredients, $recipe)
                  + ['grocery_list_id' => $this->getKey(), 'grocery_list_group_id' => $group->getKey()]
             );
+        }
+
+        $subRecipes = $recipe->subRecipes;
+        if ($subRecipes->count() > 0) {
+            foreach ($subRecipes as $subRecipe) {
+                foreach ($subRecipe->listableIngredients as $ingredients) {
+                    $itemRepository->create(
+                        $this->translateIngredient($ingredients, $recipe)
+                        + ['grocery_list_id' => $this->getKey(), 'grocery_list_group_id' => $group->getKey()]
+                    );
+                }
+            }
         }
 
         $linkedRecipes = $recipe->linkedRecipes;

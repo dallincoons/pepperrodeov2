@@ -43,6 +43,11 @@ class Recipe extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function subRecipes()
+    {
+        return $this->hasMany(Recipe::class, 'parent_id', 'id');
+    }
+
     public function linkedRecipes()
     {
         return $this->belongsToMany(Recipe::class, 'linked_recipes', 'source_recipe_id', 'destination_recipe_id');

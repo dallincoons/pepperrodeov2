@@ -192,7 +192,7 @@
 
 
                                 <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showSubNeedToBuy}">
-                                    <li v-for="(subNeedToBuy, index) in subRecipe.subNeedToBuys" class="create-ingredient-items">
+                                    <li v-for="(subNeedToBuy, index) in subRecipe.needToBuys" class="create-ingredient-items">
                                         <input class="recipe-item-input" v-model="subNeedToBuy.full_description">
                                         <select class="need-buy-department"  v-model="subNeedToBuy.department_id">
                                             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
@@ -369,7 +369,7 @@
                 let newSubRecipe = {
                     title: '',
                     ingredients: [],
-                    subNeedToBuys: [],
+                    needToBuys: [],
                     directions: '',
                 };
                 this.subIngredientInput.push('');
@@ -393,7 +393,7 @@
                 }
                 let newIngredient = {full_description: this.subIngredientInput[subRecipeIndex]};
                 this.subRecipes[subRecipeIndex].ingredients.push(newIngredient);
-                this.subRecipes[subRecipeIndex].subNeedToBuys.push(Object.assign({department_id: UNASSIGNED_DEPARTMENT}, newIngredient));
+                this.subRecipes[subRecipeIndex].needToBuys.push(Object.assign({department_id: UNASSIGNED_DEPARTMENT}, newIngredient));
                 this.subIngredientInput[subRecipeIndex] = '';
             },
 
@@ -410,7 +410,7 @@
             },
 
             deleteSubNeedToBuy(subRecipe, index) {
-                subRecipe.subNeedToBuys.splice(index, 1);
+                subRecipe.needToBuys.splice(index, 1);
             },
 
             populateRecipeFields() {

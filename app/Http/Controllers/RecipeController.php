@@ -65,7 +65,7 @@ class RecipeController extends Controller
                     'category_id' => $recipe->category_id,
                     'user_id' => $recipe->user_id,
                     'ingredients' => Arr::get($subRecipe, 'ingredients'),
-                    'listable_ingredients' => Arr::get($subRecipe, 'listable_ingredients'),
+                    'listable_ingredients' => Arr::get($subRecipe, 'needToBuys'),
                     'title' => Arr::get($subRecipe, 'title'),
                     'directions' => Arr::get($subRecipe, 'directions'),
                 ]);
