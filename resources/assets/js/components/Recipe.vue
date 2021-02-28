@@ -221,7 +221,9 @@
                     this.subRecipes = response.data.sub_recipes;
                     this.category = this.recipe.category;
                     this.recipeTitle = this.recipe.title;
-                    this.linkedRecipes = this.recipe.linked_recipes;
+                    if (this.recipe.linked_recipes) {
+                        this.linkedRecipes = this.recipe.linked_recipes;
+                    }
                 });
             },
 
