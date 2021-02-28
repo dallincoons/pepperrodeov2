@@ -98,6 +98,10 @@ class RecipeController extends Controller
             ]), Arr::get($subRecipe, 'id'));
         }
 
+        if ($request->has('linked_recipes')) {
+           $recipe->linkedRecipes()->sync($request->input('linked_recipes'));
+        }
+
         return response()->json($recipe->fresh(), 200);
     }
 

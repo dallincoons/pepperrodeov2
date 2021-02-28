@@ -318,7 +318,6 @@
                     this.recipes = response.data;
                     then(this.recipes);
                 });
-                // this.addRecipesOpen = !this.addRecipesOpen;
             },
 
             saveRecipe() {
@@ -427,18 +426,20 @@
                     this.serves = recipe.serves;
                     this.source = recipe.source;
                     this.sourceType = recipe.source_type;
-
-                    let subRecipes = response.data.sub_recipes;
-                    if (subRecipes.length > 0) {
-                        let subRecipe = subRecipes[0];
-                        this.subRecipes = subRecipes.length;
-                        this.subRecipeId = subRecipe.id;
-                        this.subRecipeTitle = subRecipe.title;
-                        this.subIngredients = subRecipe.ingredients;
-                        this.subNeedToBuys = subRecipe.listable_ingredients;
-                        this.subDirections = subRecipe.directions;
+                    this.linkedRecipes = recipe.linked_recipes;
+                    this.checkedRecipes = this.addLinkedToChecked();
+                    if(this.linkedRecipes.length > 0) {
+                        this.recipesLinked = true;
                     }
+                    this.subRecipes = response.data.sub_recipes;
                 })
+            },
+            addLinkedToChecked() {
+                let checked = [];
+                for (let recipe of this.linkedRecipes) {
+                    checked.push(recipe.id);
+                }
+                return checked;
             },
             searchRecipes(item) {
                 Recipes.search(item).then((response) => {
@@ -453,7 +454,7 @@
                 });
             },
             saveLinkedRecipes() {
-                this.recipesLinked = !this.recipesLinked;
+                this.recipesLinked = true;
                 this.addRecipesOpen = false;
                 this.linkedRecipes = this.checkedRecipes.map((recipeId) => {
                     return this.recipeMap[recipeId];
