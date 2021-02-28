@@ -5,6 +5,8 @@ namespace Tests\Feature\Recipe;
 use App\Category;
 use App\Entities\Department;
 use App\Entities\Recipe;
+use App\Features\Recipes\RecipeLinker;
+use App\LinkedRecipe;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 
@@ -213,6 +215,29 @@ class UpdateRecipeTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertEquals('updated subrecipe title', $subRecipe->refresh()->title);
+    }
+
+    /** @test */
+    public function it_updates_linked_recipes()
+    {
+        $recipe = create(Recipe::class);
+        $linkedRecipeA = create(Recipe::class);
+        $linkedRecipeB = create(Recipe::class);
+
+        RecipeLinker::link($recipe->getKey(), $linkedRecipeA->getKey());
+
+        $this->assertCount(1, $recipe->fresh()->linkedRecipes);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'linked_recipes' => [
+                $linkedRecipeA->getKey(),
+                $linkedRecipeB->getKey(),
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $recipe->fresh()->linkedRecipes);
     }
 
     /** @test */
