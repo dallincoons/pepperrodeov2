@@ -6,11 +6,11 @@
             </div>
             <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
-                    <span class="create-recipe-label">Title</span>
+                    <span class="create-recipe-label">Title*</span>
                     <input type="text" required v-model="recipeTitle" class="create-recipe-input">
                 </div>
                 <div class="create-recipe-category recipe-item">
-                    <span class="create-recipe-label">Category</span>
+                    <span class="create-recipe-label">Category*</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
                             <input type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
@@ -97,7 +97,7 @@
             <div class="create-recipe-body">
                 <div class="create-recipe-ingredients-ntb-wrapper">
                     <div class="create-recipe-ingredients-wrapper">
-                        <label class="create-recipe-label">Add Ingredients</label>
+                        <label class="create-recipe-label">Add Ingredients*</label>
                         <div class="create-recipe-add-ingredient-section">
                             <input class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
                             <span @click="addIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
@@ -140,7 +140,7 @@
             </div>
             <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
-                    <span class="create-recipe-label">Add Directions</span>
+                    <span class="create-recipe-label">Add Directions*</span>
                     <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                 </div>
                 <div class="create-recipe-body" >
                     <div class="create-recipe-title recipe-item">
-                        <span class="create-recipe-label">Title</span>
+                        <span class="create-recipe-label">Title*</span>
                         <input type="text" required v-model="subRecipes[index].title" class="create-recipe-input">
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                 <div class="create-recipe-body">
                     <div class="create-recipe-ingredients-ntb-wrapper">
                         <div class="create-recipe-ingredients-wrapper">
-                            <label class="create-recipe-label">Add Ingredients</label>
+                            <label class="create-recipe-label">Add Ingredients*</label>
                             <div class="create-recipe-add-ingredient-section">
                                 <input class="create-ingredient-input" v-model="subIngredientInput[index]" @keyup.enter="addSubIngredient(index)" >
                                 <span @click="addSubIngredient(index)" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
@@ -209,7 +209,7 @@
                 </div>
                 <div class="create-recipe-body">
                     <div class="create-recipe-title recipe-item">
-                        <span class="create-recipe-label">Add Directions</span>
+                        <span class="create-recipe-label">Add Directions*</span>
                         <textarea v-model="subRecipes[index].directions" class="create-recipe-input create-recipe-textarea"></textarea>
                     </div>
                 </div>
@@ -304,6 +304,11 @@
             saveRecipe() {
                 if (this.editing) {
                     this.updateRecipe();
+                    return;
+                }
+
+                if (this.selectedCategory === '') {
+                    alert('Please choose a category');
                     return;
                 }
 
