@@ -38,10 +38,10 @@
                         @dragover.prevent
                         @dragenter.prevent
                         >
-                            <div v-for="recipe in recipes" class="recipe-on-date" :id="date">
+                            <div v-for="recipe in recipes" class="recipe-on-date" :id="date" draggable="true" @dragstart='startDrag($event, recipe)'>
                                 <div class="recipe-on-date-info" v-if="!editing">
                                     <span class="date-category">{{recipe.category.title}}</span>
-                                    <p class="date-recipe-title">{{recipe.title}}</p>
+                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{recipe.title}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing">
                                     <span class="date-category">{{recipe.category.title}}</span>
@@ -108,6 +108,7 @@
                 endMax: moment().add(31, 'd').format("YYYY-MM-DD"),
                 datesSet: false,
                 itemSearchedFor: '',
+                draggedFrom: ''
             }
         },
         computed : {
@@ -135,17 +136,26 @@
                 return moment(date).format("dddd, MMMM Do")
             },
 
-            startDrag: (evt, recipe) => {
+            startDrag(evt, recipe) {
+                if(evt.srcElement.id !== '') {
+                    this.draggedFrom = evt.srcElement.id;
+                }
+
                 evt.dataTransfer.dropEffect = 'move';
                 evt.dataTransfer.effectAllowed = 'move';
-                evt.dataTransfer.setData('recipeID', recipe.id)
+                evt.dataTransfer.setData('recipeID', recipe.id);
+
             },
 
             onDrop (evt) {
                 const recipeID = evt.dataTransfer.getData('recipeID');
                 let targetID = evt.target.id;
                 const recipe = this.recipes.find(recipe => recipe.id == recipeID);
-                this.scheduledRecipes[targetID].push(recipe)
+                this.scheduledRecipes[targetID].push(recipe);
+                if(this.draggedFrom !== '') {
+                    this.removeRecipe(this.draggedFrom, recipe.id);
+                    this.draggedFrom = '';
+                }
             },
 
             setDates() {
