@@ -39,8 +39,8 @@
                         @dragenter.prevent
                         >
                             <div v-for="recipe in recipes" class="recipe-on-date" :id="date" draggable="true" @dragstart='startDrag($event, recipe)'>
-                                <div class="recipe-on-date-info" v-if="!editing">
-                                    <span class="date-category">{{recipe.category.title}}</span>
+                                <div class="recipe-on-date-info" v-if="!editing"  :id="date">
+                                    <span class="date-category" :id="date">{{recipe.category.title}}</span>
                                     <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{recipe.title}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing">
