@@ -128,9 +128,43 @@
   top: .1rem;
   z-index: 10;
   background: @pr-brand-white;
+  display: flex;
+  flex-direction: column;
+}
+.meal-planning-search-input-wrapper {
+  display: flex;
 }
 .meal-planning-search-wrapper .recipe-input {
   width: 80%;
+}
+.add-item-form {
+  display: flex;
+}
+.add-item-input {
+  width: 90%;
+  margin-bottom: 0;
+}
+.items-added {
+  margin-bottom: 1rem;
+}
+.item-added {
+  padding: 1.5rem 1rem 1.5rem 2rem;
+  color: hsl(41, 9%, 35%);
+  font-size: 16px;
+  cursor: pointer;
+}
+.add-item-button {
+  background: @pr-brand-color;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 35px;
+  width: 50px;
+}
+.add-item-button svg {
+  width: 100%;
 }
 
 @media (max-width: 750px) {
