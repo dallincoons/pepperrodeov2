@@ -88,6 +88,7 @@
     import moment from 'moment';
     import XIcon from './assets/x-icon';
     import Search from './assets/search.vue';
+    import {createMissingDays} from "./meal_plan_calculator";
 
     export default {
         components : {
@@ -186,32 +187,40 @@
             },
 
             saveMealPlan() {
-                axios.post('/api/v1/meal_planning_groups', {scheduled_recipes : this.scheduledRecipes}).then((response) => {
-                    this.$router.push({ path: `/mealplan/${response.data.meal_planning_group.id}` });
-                });
+                if (!this.editing) {
+                    axios.post('/api/v1/meal_planning_groups', {scheduled_recipes: this.scheduledRecipes}).then((response) => {
+                        this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
+                    });
+                } else {
+                    axios.patch('/api/v1/meal_planning_group/' + this.$route.params.id, {scheduled_recipes: this.scheduledRecipes}).then((response) => {
+                        this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
+                    });
+                }
             },
             populatePlanFields(id) {
                 axios.get('api/v1/meal_planning_group/' + id).then((response) => {
-                    this.dateStart = Object.keys(response.data.days)[0];
-                    this.dateEnd = Object.keys(response.data.days).slice(-1)[0];
+                    let startDate = moment(response.data.start_date);
+                    let endDate = moment(response.data.end_date);
+                    this.dateStart = startDate;
+                    this.dateEnd = endDate;
                     this.datesSet = true;
-                    this.scheduledRecipes = response.data.days;
-                    this.getScheduledRecipes();
+                    let days = createMissingDays(response.data.days, moment(this.dateStart), moment(this.dateEnd));
+                    this.getScheduledRecipes(days);
                 });
-
-
             },
-            getScheduledRecipes() {
+
+            getScheduledRecipes(days) {
                 let result = {};
-                for (const [date, mealPlanDay] of Object.entries(this.scheduledRecipes)) {
+                for (const [date, mealPlanDay] of Object.entries(days)) {
                     let recipes = [];
+                    result[date] = recipes;
+
                     for (const day of mealPlanDay) {
                         recipes.push(day.recipe);
-                        result[date] = recipes;
                     }
                 }
                 this.scheduledRecipes = result;
-            }
+            },
         }
     }
 </script>
