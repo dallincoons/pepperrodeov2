@@ -27,7 +27,7 @@
             </div>
             <div class="meal-planning-wrapper" v-if="datesSet">
                 <div class="dates-wrapper">
-                    <div class="date-wrapper" v-for="(entries, date) in groupRecipesAndItems">
+                    <div class="date-wrapper" v-for="(entries, date) in schedule">
                         <div class="date-heading">
                             <p>{{prettyDate(date)}}</p>
                         </div>
@@ -38,16 +38,27 @@
                         @dragover.prevent
                         @dragenter.prevent
                         >
-                            <div v-for="entry in entries" class="recipe-on-date" :id="date" draggable="true" @dragstart='startDrag($event, entry)' data-on-list="recipe">
+                            <div v-for="entry in entries.recipes" class="recipe-on-date" :id="date" draggable="true" @dragstart='startDrag($event, entry)' data-on-list="recipe">
                                 <div class="recipe-on-date-info" v-if="!editing"  :id="date">
-                                    <span class="date-category" :id="date">{{entry.category}}</span>
+                                    <span class="date-category" :id="date">{{entry.category.title}}</span>
                                     <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry.title}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing">
-                                    <span class="date-category">{{entry.category}}</span>
+                                    <span class="date-category">{{entry.category.title}}</span>
                                     <p class="date-recipe-title">{{entry.title}}</p>
                                 </div>
-                                <!--<span @click="removeRecipe(date, recipe.id)" class="remove-date-recipe">x</span>-->
+
+                                <span @click="removeEntry(date, entry.id)" class="remove-date-recipe">x</span>
+                            </div>
+                            <div v-for="entry in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
+                                <div class="recipe-on-date-info" v-if="!editing"  :id="date">
+                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry}}</p>
+                                </div>
+                                <div class="recipe-on-date-info" v-if="editing">
+                                    <p class="date-recipe-title">{{entry}}</p>
+                                </div>
+
+                                <span @click="removeEntry(date, entry)" class="remove-date-recipe">x</span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +71,7 @@
                             <button class="add-item-button" @click="addItem"><add-plus></add-plus></button>
                         </form>
                         <ul class="items-added recipes-list">
-                            <li v-for="item in itemsAdded" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item">{{item}}</li>
+                            <li v-for="item in itemsAdded" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item}}</li>
                         </ul>
                     </div>
                     <div class="search-wrapper meal-planning-search-wrapper">
@@ -117,7 +128,6 @@
             return {
                 recipes: [],
                 listTitle : '',
-                scheduledRecipes: {},
                 dateStart : '',
                 dateEnd: '',
                 startMin: moment().format("YYYY-MM-DD"),
@@ -127,7 +137,7 @@
                 draggedFrom: '',
                 itemToAdd: '',
                 itemsAdded: [],
-                scheduledItems: {}
+                schedule: {}
             }
         },
         computed : {
@@ -139,48 +149,6 @@
             endMin() {
                 return this.dateStart;
             },
-            groupRecipesAndItems() {
-                const thingsOnDay = {};
-                const days = Object.keys(this.scheduledRecipes);
-                for (const day of days) {
-                    thingsOnDay[day] = [];
-                }
-                let startDay = moment(this.dateStart);
-                let amountOfDays = moment(this.dateEnd).diff(this.dateStart, 'days');
-                this.$set(thingsOnDay, startDay.format("YYYY-MM-DD"), []);
-                for (let i = 0; i < amountOfDays; i++) {
-                    this.$set(thingsOnDay, startDay.add(1, 'd').format("YYYY-MM-DD"), []);
-                }
-                // for (const [key, value] of Object.entries(this.scheduledItems)) {
-                //     console.log(`${key}: ${value}`);
-                //     console.log(thingsOnDay[key]);
-                // for (const item in this.scheduledItems) {
-                    // console.log(`${item}: ${this.scheduledItems[item]}`);
-                    // console.log(thingsOnDay[item]);
-                    // thingsOnDay[item].push({
-                    //     title: this.scheduledItems[item],
-                    //     category: 'item',
-                    //     type: 'item'
-                    // });
-                // }
-                // this.scheduledItems.forEach((item) => {
-                //     thingsOnDay.push({
-                //         title: item,
-                //         category: 'item',
-                //         type: 'item'
-                //     });
-                // });
-
-                // this.scheduledRecipes.forEach((recipe) => {
-                //     thingsOnDay.push({
-                //         title: recipe.title,
-                //         category: recipe.category.title,
-                //         type: 'recipe'
-                //     });
-                // });
-
-                return thingsOnDay;
-            }
         },
 
         mounted() {
@@ -208,28 +176,8 @@
                 evt.dataTransfer.dropEffect = 'move';
                 evt.dataTransfer.effectAllowed = 'move';
                 evt.dataTransfer.setData('recipeID', recipe.id);
+                evt.dataTransfer.setData('dateFrom', evt.srcElement.id)
 
-            },
-            onDrop (evt) {
-                if(evt.dataTransfer.getData('recipeID') === '') {
-                    const item = evt.dataTransfer.getData('item');
-                    let targetID = evt.target.id;
-                    evt.stopPropagation();
-                    this.scheduledItems[targetID].push(item);
-                    return;
-                }
-                const recipeID = evt.dataTransfer.getData('recipeID');
-                if(recipeID === '') {
-                    return
-                }
-                let targetID = evt.target.id;
-                evt.stopPropagation();
-                const recipe = this.recipes.find(recipe => recipe.id == recipeID);
-                this.scheduledRecipes[targetID].push(recipe);
-                if(this.draggedFrom !== '') {
-                    this.removeRecipe(this.draggedFrom, recipe.id);
-                    this.draggedFrom = '';
-                }
             },
             startItemDrag(evt, item) {
                 if(evt.srcElement.id !== '') {
@@ -240,26 +188,69 @@
                 }
                 evt.dataTransfer.dropEffect = 'move';
                 evt.dataTransfer.effectAllowed = 'move';
-                evt.dataTransfer.setData('item', item);
+                let side = evt.target.getAttribute("data-side");
+                evt.dataTransfer.setData('itemTitle', item);
+                evt.dataTransfer.setData('side', side);
+                evt.dataTransfer.setData('dateFrom', evt.srcElement.id);
+                evt.dataTransfer.setData('type', 'item');
 
+            },
+            onDrop (evt) {
+                if(evt.dataTransfer.getData('type') === 'item') {
+                    const itemTitle = evt.dataTransfer.getData('itemTitle');
+                    const side = evt.dataTransfer.getData('side');
+                    const dateFrom = evt.dataTransfer.getData('dateFrom');
+                    let targetID = evt.target.id;
+                    let day = this.schedule[targetID];
+                    day.items.push(itemTitle);
+                    this.$set(this.schedule, targetID, day);
+                    evt.stopPropagation();
+                    if(dateFrom !== '') {
+                        this.removeEntry(dateFrom, itemTitle);
+                    }
+                    if(side === "right") {
+                        let itemToRemove = this.itemsAdded.findIndex(item => item === itemTitle);
+                        return this.itemsAdded.splice(itemToRemove, 1);
+                    }
+                    return;
+                }
+                const recipeID = evt.dataTransfer.getData('recipeID');
+                const dateFrom = evt.dataTransfer.getData('dateFrom');
+                if(recipeID === '') {
+                    return
+                }
+                let targetID = evt.target.id;
+                evt.stopPropagation();
+                const recipe = this.recipes.find(recipe => recipe.id == recipeID);
+                let day = this.schedule[targetID];
+                day.recipes.push(recipe);
+                this.$set(this.schedule, targetID, day);
+                if(dateFrom !== '') {
+                    this.removeEntry(dateFrom, recipe.id);
+                }
             },
 
             setDates() {
                 let amountOfDays = moment(this.dateEnd).diff(this.dateStart, 'days');
                 let startDay = moment(this.dateStart);
-                this.$set(this.scheduledRecipes, startDay.format("YYYY-MM-DD"), []);
-                this.$set(this.scheduledItems, startDay.format("YYYY-MM-DD"), []);
+                this.$set(this.schedule, startDay.format("YYYY-MM-DD"), {items: [], recipes: []});
                 for (let i = 0; i < amountOfDays; i++) {
                     let nextDay = startDay.add(1, 'd');
-                    this.$set(this.scheduledRecipes, nextDay.format("YYYY-MM-DD"), []);
-                    this.$set(this.scheduledItems, nextDay.format("YYYY-MM-DD"), []);
+                    this.$set(this.schedule, nextDay.format("YYYY-MM-DD"), {items: [], recipes: []});
                 }
                 this.datesSet = true;
             },
 
-            removeRecipe(date, id) {
-                let recipeToRemove = this.scheduledRecipes[date].findIndex(recipe => recipe.id === id);
-                return this.scheduledRecipes[date].splice(recipeToRemove, 1)
+            removeEntry(date, id) {
+                if(typeof id === "number") {
+                    let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === id);
+                    return this.schedule[date].recipes.splice(recipeToRemove, 1)
+                }
+                if(typeof id === "string") {
+                    let itemToRemove = this.schedule[date].items.findIndex(item => item === id);
+                    return this.schedule[date].items.splice(itemToRemove, 1)
+                }
+
             },
 
             searchRecipes(item) {
@@ -292,14 +283,14 @@
             },
             getScheduledRecipes() {
                 let result = {};
-                for (const [date, mealPlanDay] of Object.entries(this.scheduledRecipes)) {
+                for (const [date, mealPlanDay] of Object.entries(this.schedule)) {
                     let recipes = [];
                     for (const day of mealPlanDay) {
                         recipes.push(day.recipe);
                         result[date] = recipes;
                     }
                 }
-                this.scheduledRecipes = result;
+                this.schedule = result;
             },
             addItem() {
                 this.itemsAdded.push(this.itemToAdd);
