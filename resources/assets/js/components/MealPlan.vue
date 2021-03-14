@@ -19,7 +19,7 @@
                             <p>{{prettyDate(date)}}</p>
                         </div>
                         <div class="section-for-recipes">
-                            <div v-for="scheduled in day" class="recipe-on-date">
+                            <div v-for="scheduled in day.recipes" class="recipe-on-date">
                                 <div class="recipe-on-date-info">
                                     <span class="date-category">{{scheduled.recipe.category.title}}</span>
                                     <router-link :to="{ name: 'recipe', params: { id: scheduled.recipe.id }}" class="date-recipe-title meal-plan-recipe">{{scheduled.recipe.title}}</router-link>
@@ -47,7 +47,8 @@
         mounted() {
 
             axios.get('api/v1/meal_planning_group/' + this.mealPlanId).then((response) => {
-                this.days = response.data.days;
+                console.log(response);
+                this.days = response.data;
 
                 this.startDay = this.prettyDate(Object.keys(this.days)[0]);
                 this.endDay = this.prettyDate(Object.keys(this.days)[Object.keys(this.days).length-1]);

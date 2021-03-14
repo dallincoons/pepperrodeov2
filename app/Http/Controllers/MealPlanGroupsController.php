@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Criteria\AuthUserCriteria;
 use App\Features\MealPlans\MealPlanBuilder;
+use App\MealPlanDay;
 use App\MealPlanGroup;
+use App\MealPlanItem;
 use App\Repositories\MealPlanningGroupRepository;
 use Illuminate\Http\Request;
 
@@ -28,23 +30,43 @@ class MealPlanGroupsController extends Controller
 
     public function store(Request $request)
     {
-        $scheduledRecipes = array_filter($request->input('scheduled_recipes'));
+        $schedule = $request->input('schedule');
 
         $builder = new MealPlanBuilder();
 
-        return response()->json(['meal_planning_group' => $builder->create($scheduledRecipes)]);
+        return response()->json(['meal_planning_group' => $builder->create($schedule)]);
     }
 
     public function show(Request $request, $groupID)
     {
-        $days = MealPlanGroup::query()
-            ->where('id', $groupID)
-            ->with('days')
-            ->with('days.recipe.category')
-            ->first()
-            ->days;
+        $result = [];
 
-        return response()->json(['days' => $days->groupBy('date')]);
+        $recipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
+        $items = MealPlanItem::where('meal_plan_group_id', $groupID)->get();
+
+        foreach ($recipes->groupBy('date') as $date => $recipes) {
+            if (!array_key_exists($date, $result)) {
+                $result[$date] = [
+                    'recipes' => [],
+                    'items' => [],
+                ];
+            }
+
+            $result[$date]['recipes'] = $recipes;
+        }
+
+        foreach ($items->groupBy('date') as $date => $items) {
+            if (!array_key_exists($date, $result)) {
+                $result[$date] = [
+                    'recipes' => [],
+                    'items' => [],
+                ];
+            }
+
+            $result[$date]['items'] = $items;
+        }
+
+        return response()->json($result);
     }
 
     public function delete(Request $request, $groupId)

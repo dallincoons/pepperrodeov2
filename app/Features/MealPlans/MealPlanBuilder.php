@@ -4,14 +4,15 @@ namespace App\Features\MealPlans;
 
 use App\MealPlanDay;
 use App\MealPlanGroup;
+use App\MealPlanItem;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
 class MealPlanBuilder
 {
-    public function create(array $scheduledRecipes)
+    public function create(array $schedule)
     {
-        $dates = array_keys($scheduledRecipes);
+        $dates = array_keys($schedule);
 
         $mealPlanningGroup = MealPlanGroup::create([
             'user_id' => auth()->user()->getKey(),
@@ -20,11 +21,19 @@ class MealPlanBuilder
             'end_date' => Arr::last($dates),
         ]);
 
-        foreach ($scheduledRecipes as $date => $recipes) {
-            foreach ($recipes as $recipe) {
+        foreach ($schedule as $date => $stuff) {
+            foreach (Arr::get($stuff, 'recipes', []) as $recipe) {
                 MealPlanDay::create([
                     'meal_plan_group_id' => $mealPlanningGroup->getKey(),
                     'recipe_id' => (int)$recipe['id'],
+                    'date' => $date,
+                ]);
+            }
+
+            foreach (Arr::get($stuff, 'items', []) as $item) {
+                MealPlanItem::create([
+                    'meal_plan_group_id' => $mealPlanningGroup->getKey(),
+                    'title' => $item,
                     'date' => $date,
                 ]);
             }

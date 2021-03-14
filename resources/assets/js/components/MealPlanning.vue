@@ -266,7 +266,7 @@
             },
 
             saveMealPlan() {
-                axios.post('/api/v1/meal_planning_groups', {scheduled_recipes : this.scheduledRecipes}).then((response) => {
+                axios.post('/api/v1/meal_planning_groups', {schedule : this.schedule}).then((response) => {
                     this.$router.push({ path: `/mealplan/${response.data.meal_planning_group.id}` });
                 });
             },
