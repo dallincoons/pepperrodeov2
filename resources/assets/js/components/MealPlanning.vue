@@ -43,19 +43,19 @@
                                     <span class="date-category" :id="date">{{entry.category.title}}</span>
                                     <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry.title}}</p>
                                 </div>
-                                <div class="recipe-on-date-info" v-if="editing">
-                                    <span class="date-category">{{entry.category.title}}</span>
-                                    <p class="date-recipe-title">{{entry.title}}</p>
+                                <div class="recipe-on-date-info" v-if="editing" :id="date">
+                                    <span class="date-category" :id="date">{{entry.category.title}}</span>
+                                    <p class="date-recipe-title" @drop='onDrop($event)' :id="date">{{entry.title}}</p>
                                 </div>
 
                                 <span @click="removeEntry(date, entry.id)" class="remove-date-recipe">x</span>
                             </div>
                             <div v-for="entry in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
                                 <div class="recipe-on-date-info" v-if="!editing"  :id="date">
-                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry}}</p>
+                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry.title}}</p>
                                 </div>
-                                <div class="recipe-on-date-info" v-if="editing">
-                                    <p class="date-recipe-title">{{entry}}</p>
+                                <div class="recipe-on-date-info" v-if="editing" :id="date">
+                                    <p class="date-recipe-title" @drop='onDrop($event)' :id="date">{{entry.title}}</p>
                                 </div>
 
                                 <span @click="removeEntry(date, entry)" class="remove-date-recipe">x</span>
@@ -272,11 +272,12 @@
             },
             populatePlanFields(id) {
                 axios.get('api/v1/meal_planning_group/' + id).then((response) => {
-                    this.dateStart = Object.keys(response.data.days)[0];
-                    this.dateEnd = Object.keys(response.data.days).slice(-1)[0];
+                    console.log(response);
+                    // this.dateStart = Object.keys(response.data.days)[0];
+                    // this.dateEnd = Object.keys(response.data.days).slice(-1)[0];
                     this.datesSet = true;
-                    this.scheduledRecipes = response.data.days;
-                    this.getScheduledRecipes();
+                    this.schedule = response.data;
+                    // this.getScheduledRecipes();
                 });
 
 

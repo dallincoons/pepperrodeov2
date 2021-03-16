@@ -41,10 +41,16 @@ class MealPlanGroupsController extends Controller
     {
         $result = [];
 
-        $recipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
+        $dayRecipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
         $items = MealPlanItem::where('meal_plan_group_id', $groupID)->get();
 
-        foreach ($recipes->groupBy('date') as $date => $recipes) {
+        $dayRecipes->transform(function($recipe) {
+            $recipe['category'] = $recipe->recipe->category;
+            $recipe['title'] = $recipe->recipe->title;
+            return $recipe;
+        });
+
+        foreach ($dayRecipes->groupBy('date') as $date => $recipes) {
             if (!array_key_exists($date, $result)) {
                 $result[$date] = [
                     'recipes' => [],

@@ -25,6 +25,10 @@
                                     <router-link :to="{ name: 'recipe', params: { id: scheduled.recipe.id }}" class="date-recipe-title meal-plan-recipe">{{scheduled.recipe.title}}</router-link>
                                 </div>
                             </div>
+                            <div v-for="scheduled in day.items" class="recipe-on-date items-on-date" v-if="day.items.length > 0">
+                                <p class="date-category">Additional Items</p>
+                                <p class="date-recipe-title meal-plan-recipe">{{scheduled.title}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
