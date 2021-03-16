@@ -9,6 +9,7 @@ use App\MealPlanGroup;
 use App\MealPlanItem;
 use App\Repositories\MealPlanningGroupRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class MealPlanGroupsController extends Controller
 {
@@ -41,6 +42,7 @@ class MealPlanGroupsController extends Controller
     {
         $result = [];
 
+        $group = MealPlanGroup::findOrFail($groupID);
         $dayRecipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
         $items = MealPlanItem::where('meal_plan_group_id', $groupID)->get();
 
@@ -72,7 +74,7 @@ class MealPlanGroupsController extends Controller
             $result[$date]['items'] = $items;
         }
 
-        return response()->json($result);
+        return response()->json(['schedule' => $result, 'start_date' => $group->start_date, 'end_date' => $group->end_date]);
     }
 
     public function delete(Request $request, $groupId)
@@ -84,6 +86,13 @@ class MealPlanGroupsController extends Controller
 
     public function update(Request $request, $groupId)
     {
-        return response()->json([], 200);
+        $mealPlanGroup = MealPlanGroup::where('id', $groupId)->firstOrFail();
+        $scheduledRecipes = $request->input('scheduled_recipes');
+
+        $builder = new MealPlanBuilder();
+
+        $builder->update($mealPlanGroup, $scheduledRecipes);
+
+        return response()->json(['meal_planning_group' => $mealPlanGroup], 200);
     }
 }

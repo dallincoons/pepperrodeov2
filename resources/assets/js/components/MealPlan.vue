@@ -37,6 +37,7 @@
     </div>
 </template>
 <script>
+    import {createMissingDays} from "./meal_plan_calculator";
 
     export default {
         data() {
@@ -49,15 +50,17 @@
         },
 
         mounted() {
-
             axios.get('api/v1/meal_planning_group/' + this.mealPlanId).then((response) => {
-                console.log(response);
-                this.days = response.data;
+                let data = response.data;
 
-                this.startDay = this.prettyDate(Object.keys(this.days)[0]);
-                this.endDay = this.prettyDate(Object.keys(this.days)[Object.keys(this.days).length-1]);
-            })
+                let startDate = moment(data.start_date);
+                let endDate = moment(data.end_date);
 
+                this.days = createMissingDays(data.schedule, startDate, endDate);
+
+                this.startDay = this.prettyDate(data.start_date);
+                this.endDay = this.prettyDate(data.end_date);
+            });
         },
 
         methods: {

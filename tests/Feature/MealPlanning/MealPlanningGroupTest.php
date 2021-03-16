@@ -121,4 +121,77 @@ class MealPlanningGroupTest extends TestCase
         $this->assertCount(3, $responseData);
         $this->assertCount(2, $responseData['2020-01-03']);
     }
+
+    /** @test */
+    public function it_updates_meal_plan_group()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $recipeA = create(Recipe::class);
+        $recipeB = create(Recipe::class);
+        $recipeC = create(Recipe::class);
+
+        $day1 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-23']);
+        $day1 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-24']);
+        $day2 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB, 'date' => '2021-01-24']);
+
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-26']);
+
+        $days = [
+            '2021-01-22' => [],
+            '2021-01-23' => [[
+                'id' => $recipeA->getKey(),
+                'parent_id' => null,
+                "user_id" => 1,
+            ]],
+            '2021-01-24' => [[
+                'id' => $recipeA->getKey(),
+                'parent_id' => null,
+                "user_id" => 1,
+            ],
+            [
+                'id' => $recipeC->getKey(),
+                'parent_id' => null,
+                "user_id" => 1,
+            ]],
+            '2021-01-25' => [[
+                'id' => $recipeB->getKey(),
+                'parent_id' => null,
+                "user_id" => 1,
+            ]],
+        ];
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'scheduled_recipes' => $days
+        ]);
+
+        $days = $mealPlanGroup->fresh()->days;
+
+        $responseData = $response->decodeResponseJson();
+        $this->assertCount(4, $days);
+        $this->assertCount(1, $days->where('date', '2021-01-23'));
+        $this->assertCount(2, $days->where('date', '2021-01-24'));
+        $this->assertCount(1, $days->where('date', '2021-01-25'));
+    }/** @test */
+
+    /** @test */
+    public function it_updates_meal_plan_group_without_deleting_any_days()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $recipeA = create(Recipe::class);
+
+        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-26']);
+
+        $days = [];
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'scheduled_recipes' => $days
+        ]);
+
+        $days = $mealPlanGroup->fresh()->days;
+
+        $responseData = $response->decodeResponseJson();
+        $this->assertCount(0, $days);
+    }
 }

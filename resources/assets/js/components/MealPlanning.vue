@@ -48,14 +48,17 @@
                                     <p class="date-recipe-title" @drop='onDrop($event)' :id="date">{{entry.title}}</p>
                                 </div>
 
-                                <span @click="removeEntry(date, entry.id)" class="remove-date-recipe">x</span>
+                                <span @click="removeEntry(date, entry)" class="remove-date-recipe">x</span>
                             </div>
                             <div v-for="entry in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
                                 <div class="recipe-on-date-info" v-if="!editing"  :id="date">
                                     <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry.title}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing" :id="date">
-                                    <p class="date-recipe-title" @drop='onDrop($event)' :id="date">{{entry.title}}</p>
+                                    <p class="date-recipe-title" @drop='onDrop($event)' :id="date">
+                                        <span>{{entry.title}}</span>
+                                        <span v-if="!entry.title">{{entry}}</span>
+                                    </p>
                                 </div>
 
                                 <span @click="removeEntry(date, entry)" class="remove-date-recipe">x</span>
@@ -113,6 +116,7 @@
     import moment from 'moment';
     import XIcon from './assets/x-icon';
     import Search from './assets/search.vue';
+    import {createMissingDays} from "./meal_plan_calculator";
     import AddPlus from './assets/add-plus'
 
     export default {
@@ -241,13 +245,12 @@
                 this.datesSet = true;
             },
 
-            removeEntry(date, id) {
-                if(typeof id === "number") {
-                    let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === id);
+            removeEntry(date, entry) {
+                if(entry.recipe) {
+                    let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === entry.id);
                     return this.schedule[date].recipes.splice(recipeToRemove, 1)
-                }
-                if(typeof id === "string") {
-                    let itemToRemove = this.schedule[date].items.findIndex(item => item === id);
+                } else {
+                    let itemToRemove = this.schedule[date].items.findIndex(item => item === entry.id);
                     return this.schedule[date].items.splice(itemToRemove, 1)
                 }
 
@@ -266,33 +269,42 @@
             },
 
             saveMealPlan() {
-                axios.post('/api/v1/meal_planning_groups', {schedule : this.schedule}).then((response) => {
-                    this.$router.push({ path: `/mealplan/${response.data.meal_planning_group.id}` });
-                });
+                if (!this.editing) {
+                    axios.post('/api/v1/meal_planning_groups', {schedule: this.schedule}).then((response) => {
+                        this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
+                    });
+                } else {
+                    axios.patch('/api/v1/meal_planning_group/' + this.$route.params.id, {scheduled_recipes: this.scheduledRecipes}).then((response) => {
+                        this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
+                    });
+                }
             },
             populatePlanFields(id) {
                 axios.get('api/v1/meal_planning_group/' + id).then((response) => {
-                    console.log(response);
-                    // this.dateStart = Object.keys(response.data.days)[0];
-                    // this.dateEnd = Object.keys(response.data.days).slice(-1)[0];
+                    let startDate = moment(response.data.start_date);
+                    let endDate = moment(response.data.end_date);
+                    this.dateStart = startDate;
+                    this.dateEnd = endDate;
                     this.datesSet = true;
-                    this.schedule = response.data;
-                    // this.getScheduledRecipes();
+                    let days = createMissingDays(response.data.schedule, this.dateStart, this.dateEnd);
+                    this.schedule = days;
+                    this.getScheduledRecipes(days);
                 });
-
-
             },
-            getScheduledRecipes() {
+
+            getScheduledRecipes(days) {
                 let result = {};
-                for (const [date, mealPlanDay] of Object.entries(this.schedule)) {
+                for (const [date, mealPlanDay] of Object.entries(days)) {
                     let recipes = [];
+                    result[date] = recipes;
+
                     for (const day of mealPlanDay) {
                         recipes.push(day.recipe);
-                        result[date] = recipes;
                     }
                 }
                 this.schedule = result;
             },
+
             addItem() {
                 this.itemsAdded.push(this.itemToAdd);
                 this.itemToAdd = '';
