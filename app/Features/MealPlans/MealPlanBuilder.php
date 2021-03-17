@@ -42,13 +42,16 @@ class MealPlanBuilder
         return $mealPlanningGroup;
     }
 
-    public function update(MealPlanGroup $mealPlanGroup, array $scheduledRecipes)
+    public function update(MealPlanGroup $mealPlanGroup, array $schedule)
     {
-        $existingDays = $mealPlanGroup->days->groupBy('date')->all();
+        $existingRecipes = $mealPlanGroup->recipes->groupBy('date')->all();
+        $existingItems = $mealPlanGroup->recipes->groupBy('date')->all();
 
-        foreach ($scheduledRecipes as $date => $scheduled) {
-            if (!array_key_exists($date, $existingDays)) {
-                foreach ($scheduled as $recipe) {
+        foreach ($schedule as $date => $scheduled) {
+            $recipes = $scheduled['recipes'];
+            $items = $scheduled['items'];
+            if (!array_key_exists($date, $existingRecipes)) {
+                foreach ($recipes as $recipe) {
                     MealPlanDay::create([
                         'meal_plan_group_id' => $mealPlanGroup->getKey(),
                         'recipe_id' => (int)$recipe['id'],
@@ -56,13 +59,13 @@ class MealPlanBuilder
                     ]);
                 }
             } else {
-                $existing = $existingDays[$date];
+                $existing = $existingRecipes[$date];
 
-                $toDeleteIds = array_diff(Arr::pluck($existing, 'recipe_id'), Arr::pluck($scheduled, 'id'));
+                $toDeleteIds = array_diff(Arr::pluck($existing, 'recipe_id'), Arr::pluck($recipes, 'id'));
 
                 MealPlanDay::where(['meal_plan_group_id' => $mealPlanGroup->getKey(), 'date' => $date])->whereIn('recipe_id', $toDeleteIds)->delete();
 
-                $toAddIds = array_diff(Arr::pluck($scheduled, 'id'), Arr::pluck($existing, 'recipe_id'));
+                $toAddIds = array_diff(Arr::pluck($recipes, 'id'), Arr::pluck($existing, 'recipe_id'));
 
                 foreach ($toAddIds as $toAddId) {
                     MealPlanDay::create([
@@ -74,9 +77,46 @@ class MealPlanBuilder
             }
         }
 
-        $datesToDelete = array_diff(array_keys($existingDays), array_keys($scheduledRecipes));
+        $datesToDelete = array_diff(array_keys($existingRecipes), array_keys($schedule));
 
         MealPlanDay::whereIn('date', $datesToDelete)->where('meal_plan_group_id', $mealPlanGroup->getKey())->delete();
+
+//        $this->syncItems($existingItems, $schedule, $mealPlanGroup);
+    }
+
+    private function syncItems($existingItems, $schedule, MealPlanGroup $mealPlanGroup) {
+        foreach ($schedule as $date => $scheduled) {
+            $items = $scheduled['items'];
+            if (!array_key_exists($date, $existingItems)) {
+                foreach ($items as $item) {
+                    MealPlanItem::create([
+                        'meal_plan_group_id' => $mealPlanGroup->getKey(),
+                        'title' => (int)$item,
+                        'date' => $date,
+                    ]);
+                }
+            } else {
+//                $existing = $existingItems[$date];
+//
+//                $toDeleteIds = array_diff(Arr::pluck($existing, 'recipe_id'), Arr::pluck($items, 'id'));
+//
+//                MealPlanDay::where(['meal_plan_group_id' => $mealPlanGroup->getKey(), 'date' => $date])->whereIn('recipe_id', $toDeleteIds)->delete();
+//
+//                $toAddIds = array_diff(Arr::pluck($items, 'id'), Arr::pluck($existing, 'recipe_id'));
+//
+//                foreach ($toAddIds as $toAddId) {
+//                    MealPlanItem::create([
+//                        'meal_plan_group_id' => $mealPlanGroup->getKey(),
+//                        'title' => $toAddId,
+//                        'date' => $date,
+//                    ]);
+//                }
+            }
+        }
+
+        $datesToDelete = array_diff(array_keys($existingItems), array_keys($schedule));
+
+        MealPlanItem::whereIn('date', $datesToDelete)->where('meal_plan_group_id', $mealPlanGroup->getKey())->delete();
     }
 
     private function createName(array $dates): string {

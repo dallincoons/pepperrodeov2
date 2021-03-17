@@ -48,20 +48,20 @@
                                     <p class="date-recipe-title" @drop='onDrop($event)' :id="date">{{entry.title}}</p>
                                 </div>
 
-                                <span @click="removeEntry(date, entry)" class="remove-date-recipe">x</span>
+                                <span @click="removeEntry(date, entry.id)" class="remove-date-recipe">x</span>
                             </div>
-                            <div v-for="entry in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
+                            <div v-for="item in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
                                 <div class="recipe-on-date-info" v-if="!editing"  :id="date">
-                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{entry.title}}</p>
+                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{item}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing" :id="date">
                                     <p class="date-recipe-title" @drop='onDrop($event)' :id="date">
-                                        <span>{{entry.title}}</span>
-                                        <span v-if="!entry.title">{{entry}}</span>
+                                        <span>{{item}}</span>
+                                        <span v-if="!item">{{entry}}</span>
                                     </p>
                                 </div>
 
-                                <span @click="removeEntry(date, entry)" class="remove-date-recipe">x</span>
+                                <span @click="removeEntry(date, item)" class="remove-date-recipe">x</span>
                             </div>
                         </div>
                     </div>
@@ -245,15 +245,15 @@
                 this.datesSet = true;
             },
 
-            removeEntry(date, entry) {
-                if(entry.recipe) {
-                    let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === entry.id);
+            removeEntry(date, id) {
+                if(typeof id === "number") {
+                    let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === id);
                     return this.schedule[date].recipes.splice(recipeToRemove, 1)
-                } else {
-                    let itemToRemove = this.schedule[date].items.findIndex(item => item === entry.id);
+                }
+                if(typeof id === "string") {
+                    let itemToRemove = this.schedule[date].items.findIndex(item => item === id);
                     return this.schedule[date].items.splice(itemToRemove, 1)
                 }
-
             },
 
             searchRecipes(item) {
@@ -274,7 +274,7 @@
                         this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
                     });
                 } else {
-                    axios.patch('/api/v1/meal_planning_group/' + this.$route.params.id, {scheduled_recipes: this.scheduledRecipes}).then((response) => {
+                    axios.patch('/api/v1/meal_planning_group/' + this.$route.params.id, {schedule: this.schedule}).then((response) => {
                         this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
                     });
                 }

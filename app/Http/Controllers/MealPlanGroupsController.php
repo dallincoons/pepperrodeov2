@@ -44,9 +44,10 @@ class MealPlanGroupsController extends Controller
 
         $group = MealPlanGroup::findOrFail($groupID);
         $dayRecipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
-        $items = MealPlanItem::where('meal_plan_group_id', $groupID)->get();
+        $dayItems = MealPlanItem::where('meal_plan_group_id', $groupID)->get();
 
         $dayRecipes->transform(function($recipe) {
+            $recipe['id'] = $recipe->recipe_id;
             $recipe['category'] = $recipe->recipe->category;
             $recipe['title'] = $recipe->recipe->title;
             return $recipe;
@@ -63,7 +64,7 @@ class MealPlanGroupsController extends Controller
             $result[$date]['recipes'] = $recipes;
         }
 
-        foreach ($items->groupBy('date') as $date => $items) {
+        foreach ($dayItems->groupBy('date') as $date => $items) {
             if (!array_key_exists($date, $result)) {
                 $result[$date] = [
                     'recipes' => [],
@@ -71,7 +72,9 @@ class MealPlanGroupsController extends Controller
                 ];
             }
 
-            $result[$date]['items'] = $items;
+            $result[$date]['items'] = $items->map(function($item) {
+                return $item->title;
+            });
         }
 
         return response()->json(['schedule' => $result, 'start_date' => $group->start_date, 'end_date' => $group->end_date]);
@@ -87,7 +90,7 @@ class MealPlanGroupsController extends Controller
     public function update(Request $request, $groupId)
     {
         $mealPlanGroup = MealPlanGroup::where('id', $groupId)->firstOrFail();
-        $scheduledRecipes = $request->input('scheduled_recipes');
+        $scheduledRecipes = $request->input('schedule');
 
         $builder = new MealPlanBuilder();
 
