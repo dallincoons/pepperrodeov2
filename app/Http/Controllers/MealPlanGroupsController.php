@@ -73,7 +73,10 @@ class MealPlanGroupsController extends Controller
             }
 
             $result[$date]['items'] = $items->map(function($item) {
-                return $item->title;
+                return [
+                    'id' => $item->getKey(),
+                    'title' => $item->title,
+                ];
             });
         }
 
@@ -90,11 +93,11 @@ class MealPlanGroupsController extends Controller
     public function update(Request $request, $groupId)
     {
         $mealPlanGroup = MealPlanGroup::where('id', $groupId)->firstOrFail();
-        $scheduledRecipes = $request->input('schedule');
+        $schedule = $request->input('schedule');
 
         $builder = new MealPlanBuilder();
 
-        $builder->update($mealPlanGroup, $scheduledRecipes);
+        $builder->update($mealPlanGroup, $schedule);
 
         return response()->json(['meal_planning_group' => $mealPlanGroup], 200);
     }

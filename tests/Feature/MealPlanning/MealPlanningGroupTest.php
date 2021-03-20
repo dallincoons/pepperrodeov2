@@ -55,9 +55,10 @@ class MealPlanningGroupTest extends TestCase
                     'title' => 'Whipped Cream',
                     'directions' => 'use a metal spatula'
                 ]],
-                'items' => [
-                    'push broom'
-                ]
+                'items' => [[
+                    'id' => -1,
+                    'title' => 'push broom',
+                ]]
             ],
             '2021-01-24' => [
                 'recipes' => [[
@@ -132,8 +133,8 @@ class MealPlanningGroupTest extends TestCase
         $recipeC = create(Recipe::class);
 
         $day1 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-23']);
-        $day1 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-24']);
-        $day2 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB, 'date' => '2021-01-24']);
+        $day2 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-24']);
+        $day3 = create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeB, 'date' => '2021-01-24']);
 
         create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-26']);
 
@@ -193,5 +194,94 @@ class MealPlanningGroupTest extends TestCase
 
         $responseData = $response->decodeResponseJson();
         $this->assertCount(0, $days);
+    }
+
+    /** @test */
+    public function it_updates_meal_plan_group_with_new_items_on_new_day()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(0, $items);
+
+        $schedule = [
+            '2021-01-23' => [
+                'recipes' => [],
+                'items' => [[
+                    'id' => -1,
+                    'title' => 'push broom',
+                ]]
+            ],
+            '2021-01-25' => ['recipes' => [], 'items' => []],
+        ];
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'schedule' => $schedule
+        ]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $response->decodeResponseJson();
+        $this->assertCount(1, $items);
+    }
+
+    /** @test */
+    public function it_updates_meal_plan_group_with_new_items_on_existing_day123()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $itemA = create(MealPlanItem::class, ['date' => '2020-01-01', 'meal_plan_group_id' => $mealPlanGroup->getKey()]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(1, $items);
+
+        $schedule = [
+            '2020-01-01' => [
+                'recipes' => [],
+                'items' => [[
+                    'id' => -1,
+                    'title' => 'push broom'
+                ]]
+            ],
+            '2021-01-25' => ['recipes' => [], 'items' => []],
+        ];
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'schedule' => $schedule
+        ]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(2, $items);
+    }
+
+    /** @test */
+    public function it_deletes_meal_plan_items()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $itemA = create(MealPlanItem::class, ['date' => '2020-01-01', 'meal_plan_group_id' => $mealPlanGroup->getKey()]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(1, $items);
+
+        $schedule = [
+            '2020-01-01' => [
+                'recipes' => [],
+                'items' => []
+            ],
+            '2021-01-25' => ['recipes' => [], 'items' => []],
+        ];
+
+        $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'schedule' => $schedule
+        ]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(0, $items);
     }
 }

@@ -52,16 +52,16 @@
                             </div>
                             <div v-for="item in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
                                 <div class="recipe-on-date-info" v-if="!editing"  :id="date">
-                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{item}}</p>
+                                    <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{item.title}}</p>
                                 </div>
                                 <div class="recipe-on-date-info" v-if="editing" :id="date">
                                     <p class="date-recipe-title" @drop='onDrop($event)' :id="date">
-                                        <span>{{item}}</span>
+                                        <span>{{item.title}}</span>
                                         <span v-if="!item">{{entry}}</span>
                                     </p>
                                 </div>
 
-                                <span @click="removeEntry(date, item)" class="remove-date-recipe">x</span>
+                                <span @click="removeItem(date, item.title)" class="remove-date-recipe">x</span>
                             </div>
                         </div>
                     </div>
@@ -69,8 +69,8 @@
                 <div class="planning-recipes-wrapper">
                     <div class="section-for-recipes">
                         <p class="planning-dates">Add an item</p>
-                        <form class="add-item-form">
-                            <input type="text" v-model="itemToAdd" class="add-item-input recipe-input search-box">
+                        <form class="add-item-form" v-on:submit.prevent>
+                            <input type="text" @enter v-model="itemToAdd" class="add-item-input recipe-input search-box">
                             <button class="add-item-button" @click="addItem"><add-plus></add-plus></button>
                         </form>
                         <ul class="items-added recipes-list">
@@ -206,11 +206,11 @@
                     const dateFrom = evt.dataTransfer.getData('dateFrom');
                     let targetID = evt.target.id;
                     let day = this.schedule[targetID];
-                    day.items.push(itemTitle);
+                    day.items.push({id: -1, title: itemTitle});
                     this.$set(this.schedule, targetID, day);
                     evt.stopPropagation();
                     if(dateFrom !== '') {
-                        this.removeEntry(dateFrom, itemTitle);
+                        this.removeItem(dateFrom, itemTitle);
                     }
                     if(side === "right") {
                         let itemToRemove = this.itemsAdded.findIndex(item => item === itemTitle);
@@ -246,14 +246,14 @@
             },
 
             removeEntry(date, id) {
-                if(typeof id === "number") {
-                    let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === id);
-                    return this.schedule[date].recipes.splice(recipeToRemove, 1)
-                }
-                if(typeof id === "string") {
-                    let itemToRemove = this.schedule[date].items.findIndex(item => item === id);
-                    return this.schedule[date].items.splice(itemToRemove, 1)
-                }
+                let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === id);
+                return this.schedule[date].recipes.splice(recipeToRemove, 1)
+            },
+
+            removeItem(date, title) {
+                let itemToRemove = this.schedule[date].items.findIndex(item => item.title === title);
+                console.log(itemToRemove);
+                return this.schedule[date].items.splice(itemToRemove, 1)
             },
 
             searchRecipes(item) {
