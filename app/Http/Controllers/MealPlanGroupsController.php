@@ -24,7 +24,9 @@ class MealPlanGroupsController extends Controller
     {
         $this->repository->pushCriteria(new AuthUserCriteria());
 
-        $mealPlanningGroups=  $this->repository->all();
+        $mealPlanningGroups=  $this->repository->scopeQuery(function($query){
+            return $query->orderBy('created_at','desc');
+        })->all();
 
         return response()->json($mealPlanningGroups, 200);
     }
