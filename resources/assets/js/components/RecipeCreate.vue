@@ -145,8 +145,8 @@
                 </div>
             </div>
         </div>
-        <div class="subsection-wrapper" v-for="(subRecipe, index) in subRecipes">
-        <span @click="removeSubRecipe(subRecipe[index])" class="remove-subrecipe"><XIcon></XIcon></span>
+        <div class="subsection-wrapper" v-for="(subRecipe, subRecipeIndex) in subRecipes">
+        <span @click="removeSubRecipe(subRecipe[subRecipeIndex])" class="remove-subrecipe"><XIcon></XIcon></span>
             <div class="create-recipe-section-wrapper">
                 <div class="create-recipe-header">
                     <h4>Sub Recipe Details</h4>
@@ -154,7 +154,7 @@
                 <div class="create-recipe-body" >
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Title*</span>
-                        <input type="text" required v-model="subRecipes[index].title" class="create-recipe-input">
+                        <input type="text" required v-model="subRecipes[subRecipeIndex].title" class="create-recipe-input">
                     </div>
                 </div>
             </div>
@@ -168,14 +168,14 @@
                         <div class="create-recipe-ingredients-wrapper">
                             <label class="create-recipe-label">Add Ingredients*</label>
                             <div class="create-recipe-add-ingredient-section">
-                                <input class="create-ingredient-input" v-model="subIngredientInput[index]" @keyup.enter="addSubIngredient(index)" >
-                                <span @click="addSubIngredient(index)" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
+                                <input class="create-ingredient-input" v-model="subIngredientInput[subRecipeIndex]" @keyup.enter="addSubIngredient(subRecipeIndex)" >
+                                <span @click="addSubIngredient(subRecipeIndex)" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
                             </div>
 
                             <ul class="recipe-item">
                                 <li v-for="(subIngredient, index) in subRecipe.ingredients" class="create-ingredient-items">
                                     <input class="recipe-item-input" v-model="subIngredient.full_description">
-                                    <div @click="deleteSubIngredient(subRecipes[index], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                    <div @click="deleteSubIngredient(subRecipes[subRecipeIndex], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                                 </li>
                             </ul>
                         </div>
@@ -193,7 +193,7 @@
                                         <select class="need-buy-department"  v-model="subNeedToBuy.department_id">
                                             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                         </select>
-                                        <div @click="deleteSubNeedToBuy(subRecipes[index], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
+                                        <div @click="deleteSubNeedToBuy(subRecipes[subRecipeIndex], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                                     </li>
                                 </ul>
                             </div>
@@ -210,7 +210,7 @@
                 <div class="create-recipe-body">
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Add Directions*</span>
-                        <textarea v-model="subRecipes[index].directions" class="create-recipe-input create-recipe-textarea"></textarea>
+                        <textarea v-model="subRecipes[subRecipeIndex].directions" class="create-recipe-input create-recipe-textarea"></textarea>
                     </div>
                 </div>
             </div>
