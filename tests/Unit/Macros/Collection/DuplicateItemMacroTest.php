@@ -14,7 +14,7 @@ class DuplicateItemMacroTest extends TestCase
 
         $this->collection = collect([
             [
-                'field1' => 'ABC',
+                'field1' => 'abc',
                 'field2' => '111'
             ],
             [
