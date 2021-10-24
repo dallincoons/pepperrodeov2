@@ -263,7 +263,11 @@
 
             deleteItem(itemToUpdate) {
                 this.hideModal();
-                axios.delete('/api/v1/grocery-list-item/' + itemToUpdate.id).then((response) => {
+                let requests = [];
+                itemToUpdate.ids.forEach((id) => {
+                    requests.push(axios.delete('/api/v1/grocery-list-item/' + id));
+                });
+                axios.all(requests).then(response => {
                     this.getList();
                 });
             },

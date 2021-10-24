@@ -64,7 +64,7 @@
 
             deleteItem() {
                 this.$emit('delete', {
-                    id : this.itemToUpdate.id
+                    ids: this.itemToUpdate.ids,
                 });
             }
         }

@@ -99,6 +99,7 @@ class CompositeItem implements \Countable, Arrayable
     {
         return [
             'id' => $this->items->first()->getKey(), //eventually change ow this works
+            'ids' => $this->items->pluck('id'),
             'grocery_list_id' => $this->items->first()->grocery_list_id,
             'department' => $this->department(),
             'department_id' => $this->departmentId(),
