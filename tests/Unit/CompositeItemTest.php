@@ -28,14 +28,15 @@ class CompositeItemTest extends TestCase
     public function update_description_on_composite()
     {
         $composite = new CompositeItem(collect([
-            $item = factory(GroceryListItem::class)->create(['quantity' => 11]),
-            factory(GroceryListItem::class)->create(['quantity' => 22]),
+            $item = factory(GroceryListItem::class)->create(['quantity' => 1]),
+            factory(GroceryListItem::class)->create(['quantity' => 2]),
         ]));
 
-        $composite->updateDescription('the slackers');
+        $this->assertEquals(3, $composite->quantity());
+        $composite->updateDescription('11 slackers');
 
-        $this->assertEquals('the slackers', $composite->description());
-        $this->assertEquals(11, $item->fresh()->quantity);
+        $this->assertEquals('slackers', $composite->description());
+        $this->assertEquals(11, $composite->quantity());
     }
 
     /** @test */

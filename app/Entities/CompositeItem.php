@@ -61,10 +61,14 @@ class CompositeItem implements \Countable, Arrayable
     //@todo add a unit of work approach to make this more efficient
     public function updateDescription(string $description)
     {
-        $this->items->each(function (GroceryListItem $item) use ($description) {
-            $item->description = DescriptionParserFactory::make($description)->getDescription();
+        $parser = DescriptionParserFactory::make($description);
+
+        $this->items->each(function (GroceryListItem $item) use ($description, $parser) {
+            $item->description = $parser->getDescription();
             $item->save();
         });
+
+        $this->updateQuantity($parser->getQuantity());
     }
 
     /**
