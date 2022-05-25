@@ -132,8 +132,8 @@
             return {
                 recipes: [],
                 listTitle : '',
-                dateStart : '',
-                dateEnd: '',
+                dateStart : moment().format("YYYY-MM-DD"),
+                dateEnd: moment().add(7, 'd').format('YYYY-MM-DD'),
                 startMin: moment().format("YYYY-MM-DD"),
                 endMax: moment().add(31, 'd').format("YYYY-MM-DD"),
                 datesSet: false,
