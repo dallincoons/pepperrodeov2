@@ -95,7 +95,7 @@ class MealPlanGroupsController extends Controller
     public function update(Request $request, $groupId)
     {
         $mealPlanGroup = MealPlanGroup::where('id', $groupId)->firstOrFail();
-        $schedule = $request->input('schedule');
+        $schedule = $request->input('schedule', []);
 
         $builder = new MealPlanBuilder();
 

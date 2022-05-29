@@ -52,7 +52,8 @@ class RetrievesRecipeTest extends TestCase
         $responseRecipe = $response->decodeResponseJson();
 
         $response->assertSuccessful();
-        $this->assertArrayHasKey('ingredients', $responseRecipe);
+        $this->assertArrayHasKey('recipe', $responseRecipe);
+        $this->assertArrayHasKey('ingredients', $responseRecipe['recipe']);
     }
 
     /** @test */
@@ -65,7 +66,7 @@ class RetrievesRecipeTest extends TestCase
         $responseRecipe = $response->decodeResponseJson();
 
         $response->assertSuccessful();
-        $this->assertInternalType('array', array_get($responseRecipe, 'ingredients.0.department'));
+        $this->assertInternalType('array', array_get($responseRecipe, 'recipe.ingredients.0.department'));
     }
 
     /** @test */
@@ -78,7 +79,8 @@ class RetrievesRecipeTest extends TestCase
         $responseRecipe = $response->decodeResponseJson();
 
         $response->assertSuccessful();
-        $this->assertArrayHasKey('listable_ingredients', $responseRecipe);
+        $this->assertArrayHasKey('recipe', $responseRecipe);
+        $this->assertArrayHasKey('listable_ingredients', $responseRecipe['recipe']);
     }
 
     /** @test */
@@ -91,7 +93,8 @@ class RetrievesRecipeTest extends TestCase
         $responseRecipe = $response->decodeResponseJson();
 
         $response->assertSuccessful();
-        $this->assertArrayHasKey('category', $responseRecipe);
+        $this->assertArrayHasKey('recipe', $responseRecipe);
+        $this->assertArrayHasKey('category', $responseRecipe['recipe']);
     }
 
     /**

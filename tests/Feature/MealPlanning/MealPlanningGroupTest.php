@@ -35,10 +35,12 @@ class MealPlanningGroupTest extends TestCase
 
         $response = $this->get('/api/v1/meal_planning_group/' . $group->getKey());
 
-        $this->assertCount(2, $response->decodeResponseJson()['2020-01-01']['recipes']);
-        $this->assertCount(1, $response->decodeResponseJson()['2020-01-02']['recipes']);
-        $this->assertCount(1, $response->decodeResponseJson()['2020-01-01']['items']);
-        $this->assertCount(2, $response->decodeResponseJson()['2020-01-02']['items']);
+        $schedule = $response->decodeResponseJson()['schedule'];
+
+        $this->assertCount(2, $schedule['2020-01-01']['recipes']);
+        $this->assertCount(1, $schedule['2020-01-02']['recipes']);
+        $this->assertCount(1, $schedule['2020-01-01']['items']);
+        $this->assertCount(2, $schedule['2020-01-02']['items']);
     }
 
     /** @test */
@@ -119,12 +121,14 @@ class MealPlanningGroupTest extends TestCase
         $response = $this->get('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey());
 
         $responseData = $response->decodeResponseJson();
-        $this->assertCount(3, $responseData);
-        $this->assertCount(2, $responseData['2020-01-03']);
+        $this->assertArrayHasKey('schedule', $responseData);
+        $schedule = $responseData['schedule'];
+        $this->assertCount(3, $schedule);
+        $this->assertCount(2, $schedule['2020-01-03']);
     }
 
     /** @test */
-    public function it_updates_meal_plan_group()
+    public function it_updates_meal_plan_groupabc()
     {
         $mealPlanGroup = create(MealPlanGroup::class);
 
@@ -138,14 +142,18 @@ class MealPlanningGroupTest extends TestCase
 
         create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-26']);
 
-        $days = [
+        $scheduled = [
             '2021-01-22' => [],
-            '2021-01-23' => [[
+            '2021-01-23' => [
+            'recipes' => [[
                 'id' => $recipeA->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
+            ]
             ]],
-            '2021-01-24' => [[
+            '2021-01-24' => [
+            'recipes' => [
+            [
                 'id' => $recipeA->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
@@ -154,47 +162,30 @@ class MealPlanningGroupTest extends TestCase
                 'id' => $recipeC->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
+            ]
             ]],
-            '2021-01-25' => [[
+            '2021-01-25' => [
+            'recipes' => [[
                 'id' => $recipeB->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
-            ]],
+            ]]
+            ],
         ];
 
         $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
-            'scheduled_recipes' => $days
+            'schedule' => $scheduled,
         ]);
 
-        $days = $mealPlanGroup->fresh()->days;
-
         $responseData = $response->decodeResponseJson();
-        $this->assertCount(4, $days);
-        $this->assertCount(1, $days->where('date', '2021-01-23'));
-        $this->assertCount(2, $days->where('date', '2021-01-24'));
-        $this->assertCount(1, $days->where('date', '2021-01-25'));
+
+        $recipes  = $mealPlanGroup->fresh()->recipes;
+
+        $this->assertCount(4, $recipes);
+        $this->assertCount(1, $recipes->where('date', '2021-01-23'));
+        $this->assertCount(2, $recipes->where('date', '2021-01-24'));
+        $this->assertCount(1, $recipes->where('date', '2021-01-25'));
     }/** @test */
-
-    /** @test */
-    public function it_updates_meal_plan_group_without_deleting_any_days()
-    {
-        $mealPlanGroup = create(MealPlanGroup::class);
-
-        $recipeA = create(Recipe::class);
-
-        create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-26']);
-
-        $days = [];
-
-        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
-            'scheduled_recipes' => $days
-        ]);
-
-        $days = $mealPlanGroup->fresh()->days;
-
-        $responseData = $response->decodeResponseJson();
-        $this->assertCount(0, $days);
-    }
 
     /** @test */
     public function it_updates_meal_plan_group_with_new_items_on_new_day()
@@ -243,6 +234,8 @@ class MealPlanningGroupTest extends TestCase
                 'items' => [[
                     'id' => -1,
                     'title' => 'push broom'
+                ], [
+                    'id' => $itemA->getKey(),
                 ]]
             ],
             '2021-01-25' => ['recipes' => [], 'items' => []],

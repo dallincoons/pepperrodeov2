@@ -10,7 +10,7 @@ class RegistersNewUserTest extends TestCase
 {
     use RegistersNewUser;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

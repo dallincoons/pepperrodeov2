@@ -14,7 +14,7 @@ class CreateGroceryListItemTest extends TestCase
 {
     private $grocerylist;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

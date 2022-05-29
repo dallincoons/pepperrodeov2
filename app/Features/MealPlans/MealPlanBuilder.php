@@ -48,6 +48,9 @@ class MealPlanBuilder
         $existingItems = $mealPlanGroup->items->groupBy('date')->all();
 
         foreach ($schedule as $date => $scheduled) {
+            if (!array_key_exists('recipes', $scheduled)) {
+                continue;
+            }
             $recipes = $scheduled['recipes'];
             if (!array_key_exists($date, $existingRecipes)) {
                 foreach ($recipes as $recipe) {
@@ -85,6 +88,9 @@ class MealPlanBuilder
 
     private function syncItems($existingItems, $schedule, MealPlanGroup $mealPlanGroup) {
         foreach ($schedule as $date => $scheduled) {
+            if (!array_key_exists('items', $scheduled)) {
+                continue;
+            }
             $items = $scheduled['items'];
             if (!array_key_exists($date, $existingItems)) {
                 foreach ($items as $item) {

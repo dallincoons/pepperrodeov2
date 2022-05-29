@@ -11,6 +11,6 @@ class NonNumericDescriptionParser extends DescriptionParser
 
     public function getQuantity()
     {
-        return null;
+        return 1;
     }
 }
