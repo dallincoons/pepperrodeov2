@@ -6,11 +6,11 @@
             </div>
             <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
-                    <span class="create-recipe-label">Title*</span>
+                    <span class="create-recipe-label">Title:</span>
                     <input type="text" required v-model="recipeTitle" class="create-recipe-input">
                 </div>
                 <div class="create-recipe-category recipe-item">
-                    <span class="create-recipe-label">Category*</span>
+                    <span class="create-recipe-label">Category:</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
                             <input type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
@@ -97,7 +97,7 @@
             <div class="create-recipe-body">
                 <div class="create-recipe-ingredients-ntb-wrapper">
                     <div class="create-recipe-ingredients-wrapper">
-                        <label class="create-recipe-label">Add Ingredients*</label>
+                        <label class="create-recipe-label">Add Ingredients:</label>
                         <div class="create-recipe-add-ingredient-section">
                             <input class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
                             <span @click="addIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
@@ -140,10 +140,10 @@
             </div>
             <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
-                    <span class="create-recipe-label">Add Directions*</span>
+                    <span class="create-recipe-label">Add Directions:</span>
                     <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
-                    <span class="create-recipe-label">Add Notes</span>
-                    <textarea v-model="notes" class="create-recipe-input create-recipe-textarea"></textarea>
+                    <span class="create-recipe-label add-notes-label">Additional Notes:</span>
+                    <textarea v-model="notes" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="create-recipe-body" >
                     <div class="create-recipe-title recipe-item">
-                        <span class="create-recipe-label">Title*</span>
+                        <span class="create-recipe-label">Title:</span>
                         <input type="text" required v-model="subRecipes[subRecipeIndex].title" class="create-recipe-input">
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                 <div class="create-recipe-body">
                     <div class="create-recipe-ingredients-ntb-wrapper">
                         <div class="create-recipe-ingredients-wrapper">
-                            <label class="create-recipe-label">Add Ingredients*</label>
+                            <label class="create-recipe-label">Add Ingredients:</label>
                             <div class="create-recipe-add-ingredient-section">
                                 <input class="create-ingredient-input" v-model="subIngredientInput[subRecipeIndex]" @keyup.enter="addSubIngredient(subRecipeIndex)" >
                                 <span @click="addSubIngredient(subRecipeIndex)" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
@@ -211,10 +211,10 @@
                 </div>
                 <div class="create-recipe-body">
                     <div class="create-recipe-title recipe-item">
-                        <span class="create-recipe-label">Add Directions*</span>
+                        <span class="create-recipe-label">Add Directions:</span>
                         <textarea v-model="subRecipes[subRecipeIndex].directions" class="create-recipe-input create-recipe-textarea"></textarea>
-                        <span class="create-recipe-label">Add Notes*</span>
-                        <textarea v-model="subRecipes[subRecipeIndex].notes" class="create-recipe-input create-recipe-textarea"></textarea>
+                        <span class="create-recipe-label">Additional Notes:</span>
+                        <textarea v-model="subRecipes[subRecipeIndex].notes" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
                     </div>
                 </div>
             </div>

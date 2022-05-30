@@ -66,6 +66,10 @@
                                 <p class="recipe-source" v-if="!sourceIsUrl">{{recipe.source}}</p>
                                 <a class="recipe-source" :class="{sourceIsUrl : sourceIsUrl}" v-if="sourceIsUrl" v-bind:href="recipe.source" target="_blank">{{recipe.source}}</a>
                                 <p>{{recipe.directions}}</p>
+                                <section class="notes-section" v-if="recipe.notes">
+                                    <h5>Additional Notes</h5>
+                                    <p class="notes">{{recipe.notes}}</p>
+                                </section>
                                 <div class="sub-recipe-directions" :class="{'hide-sub-recipe' : !subRecipeExists}" v-for="subRecipe in subRecipes">
                                     <h4>{{subRecipe.title | title}} Directions</h4>
                                     <p>{{subRecipe.directions}}</p>
