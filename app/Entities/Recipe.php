@@ -16,7 +16,7 @@ class Recipe extends Model
     const SOURCE_TYPE_URL = 2;
 
     protected $fillable = [
-        'title', 'directions',
+        'title', 'directions', 'notes',
         'category_id', 'prep_time',
         'total_time', 'serves',
         'user_id', 'parent_id',

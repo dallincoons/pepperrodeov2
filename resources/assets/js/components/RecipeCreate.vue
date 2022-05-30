@@ -142,6 +142,8 @@
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Add Directions*</span>
                     <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
+                    <span class="create-recipe-label">Add Notes</span>
+                    <textarea v-model="notes" class="create-recipe-input create-recipe-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -211,6 +213,8 @@
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Add Directions*</span>
                         <textarea v-model="subRecipes[subRecipeIndex].directions" class="create-recipe-input create-recipe-textarea"></textarea>
+                        <span class="create-recipe-label">Add Notes*</span>
+                        <textarea v-model="subRecipes[subRecipeIndex].notes" class="create-recipe-input create-recipe-textarea"></textarea>
                     </div>
                 </div>
             </div>
@@ -255,6 +259,7 @@
                 ingredients: [],
                 needToBuys: [],
                 directions: '',
+                notes: '',
                 source: '',
                 departments: '',
                 prepTime: '',
@@ -332,6 +337,7 @@
                     ingredients: this.ingredients,
                     listable_ingredients: this.needToBuys,
                     directions: this.directions,
+                    notes: this.notes,
                     prep_time: this.prepTime,
                     total_time: this.totalTime,
                     serves: this.serves,
@@ -416,6 +422,7 @@
                     let recipe = response.data.recipe;
                     this.recipeTitle = recipe.title;
                     this.directions = recipe.directions;
+                    this.notes  = recipe.notes;
                     this.selectedCategory = recipe.category_id;
                     this.ingredients = recipe.ingredients;
                     this.needToBuys = recipe.listable_ingredients;

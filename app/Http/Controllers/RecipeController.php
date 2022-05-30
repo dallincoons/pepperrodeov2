@@ -47,6 +47,7 @@ class RecipeController extends Controller
         $recipe = $this->repository->create([
             'title'                => $request->title,
             'directions'           => $request->directions,
+            'notes'                => $request->notes,
             'prep_time'            => $request->prep_time,
             'total_time'           => $request->total_time,
             'serves'               => $request->serves,
@@ -95,6 +96,7 @@ class RecipeController extends Controller
                 'listable_ingredients' => Arr::get($subRecipe, 'listable_ingredients'),
                 'title'                => Arr::get($subRecipe, 'title'),
                 'directions'           => Arr::get($subRecipe, 'directions'),
+                'notes'                => Arr::get($subRecipe, 'notes'),
             ]), Arr::get($subRecipe, 'id'));
         }
 
