@@ -9,7 +9,7 @@
                 <h3 class="small_dept_heading">{{categoryName}}</h3>
                 <ul class="recipes-list-items">
                     <li class="recipe-list-item" v-for="recipe in recipeGroup">
-                        <router-link :to="{name: 'recipe', params: {id : recipe.id}}">{{recipe.title}}</router-link>
+                        <router-link :to="{name: 'recipe', params: {id : recipe.id}}" target="_blank">{{recipe.title}}</router-link>
                         <span @click="removeRecipeFromList(recipe.id)" class="remove-recipe-icon"><x-icon></x-icon></span>
                     </li>
                 </ul>
