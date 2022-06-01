@@ -109,8 +109,12 @@ class GroceryList extends Model implements Transformable
 
     public function getCombinedItems()
     {
-        return $this->items()->with('department')->get()
-        ->groupBy('description')->map(function($item) {
+        return $this->items()->with('department')
+        ->get()
+        ->toBase()
+        ->groupBy(function($item) {
+            return strtolower($item->description);
+        })->map(function($item) {
             return new CompositeItem($item);
         });
     }

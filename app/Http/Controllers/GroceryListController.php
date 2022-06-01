@@ -6,7 +6,6 @@ use App\Criteria\AuthUserCriteria;
 use App\Entities\GroceryList;
 use App\Http\Requests\GroceryListCreateRequest;
 use App\Repositories\GroceryListRepository;
-use App\Repositories\GroceryListRepositoryOld;
 use Illuminate\Http\Request;
 
 class GroceryListController

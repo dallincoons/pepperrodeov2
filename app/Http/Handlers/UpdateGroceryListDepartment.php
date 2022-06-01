@@ -13,12 +13,13 @@ class UpdateGroceryListDepartment extends Controller
     {
         $items = $groceryList->getCombinedItems()->all();
 
-        $description = $request->description;
+        $description = strtolower($request->description);
 
         if (!array_key_exists($description, $items)) {
             return;
             //handle this condition
         }
+
         $items[$description]->updateDepartment($request->department_id);
     }
 }

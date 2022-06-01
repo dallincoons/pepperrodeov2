@@ -132,8 +132,31 @@ class GroceryListTest extends TestCase
         ]);
 
        $this->assertCount(2, $grocerylist->getCombinedItems());
-       $this->assertCount(2, $grocerylist->getCombinedItems()['AAA']);
-       $this->assertCount(1, $grocerylist->getCombinedItems()['BBB']);
+       $this->assertCount(2, $grocerylist->getCombinedItems()['aaa']);
+       $this->assertCount(1, $grocerylist->getCombinedItems()['bbb']);
+    }
+
+    /** @test */
+    public function it_gets_combined_item_case_insensitive()
+    {
+        $grocerylist = GroceryListFaker::withItems([
+            [
+                'description' => 'AAA',
+                'quantity' => '1/4',
+            ],
+            [
+                'description' => 'aaa',
+                'quantity' => '2/4',
+            ],
+            [
+                'description' => 'BBB',
+                'quantity' => 1,
+            ]
+        ]);
+
+        $this->assertCount(2, $grocerylist->getCombinedItems());
+        $this->assertCount(2, $grocerylist->getCombinedItems()['aaa']);
+        $this->assertCount(1, $grocerylist->getCombinedItems()['bbb']);
     }
 
     /** @test */
