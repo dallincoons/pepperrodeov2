@@ -8,13 +8,13 @@
                     <h3 class="meal-planning-title">Meal Planning</h3>
                     <div v-if="datesSet" class="planning-header-section">
                         <p class="planning-dates">{{prettyDate(dateStart)}} - {{prettyDate(dateEnd)}}</p>
-                        <button class="planning-button" @click="saveMealPlan()">Save Plan</button>
+                        <button class="planning-button" @click="doneEditingMealPlan()">Done</button>
                     </div>
                     <p class="section-title" v-if="!datesSet" v-show="!editing">First, which days are you planning meals for?</p>
                     <div class="pick-dates-wrapper" v-if="!datesSet" v-show="!editing">
                         <div class="date-form-section">
                             <label for="start">Start Date</label>
-                            <input type="date" id="start" name="plan-start" v-model="dateStart" :min="startMin">
+                            <input type="date" id="start" name="plan-start" v-model="dateStart" :min="startMin" :max="endMax">
                         </div>
                         <span class="date-separator"> - </span>
                         <div class="date-form-section">
@@ -141,7 +141,8 @@
                 draggedFrom: '',
                 itemToAdd: '',
                 itemsAdded: [],
-                schedule: {}
+                schedule: {},
+                mealPlanId: undefined,
             }
         },
         computed : {
@@ -199,7 +200,7 @@
                 evt.dataTransfer.setData('type', 'item');
 
             },
-            onDrop (evt) {
+            async onDrop (evt) {
                 if(evt.dataTransfer.getData('type') === 'item') {
                     const itemTitle = evt.dataTransfer.getData('itemTitle');
                     const side = evt.dataTransfer.getData('side');
@@ -210,7 +211,7 @@
                     this.$set(this.schedule, targetID, day);
                     evt.stopPropagation();
                     if(dateFrom !== '') {
-                        this.removeItem(dateFrom, itemTitle);
+                        await this.removeItem(dateFrom, itemTitle);
                     }
                     if(side === "right") {
                         let itemToRemove = this.itemsAdded.findIndex(item => item === itemTitle);
@@ -230,11 +231,13 @@
                 day.recipes.push(recipe);
                 this.$set(this.schedule, targetID, day);
                 if(dateFrom !== '') {
-                    this.removeEntry(dateFrom, recipe.id);
+                    await this.removeEntry(dateFrom, recipe.id);
                 }
+
+                this.saveMealPlan();
             },
 
-            setDates() {
+            async setDates() {
                 let amountOfDays = moment(this.dateEnd).diff(this.dateStart, 'days');
                 let startDay = moment(this.dateStart);
                 this.$set(this.schedule, startDay.format("YYYY-MM-DD"), {items: [], recipes: []});
@@ -243,17 +246,25 @@
                     this.$set(this.schedule, nextDay.format("YYYY-MM-DD"), {items: [], recipes: []});
                 }
                 this.datesSet = true;
+
+
+                await this.saveMealPlan();
+
+                this.$router.push({path: `/mealplan/${this.mealPlanId}/edit`});
             },
 
-            removeEntry(date, id) {
+            async removeEntry(date, id) {
                 let recipeToRemove = this.schedule[date].recipes.findIndex(recipe => recipe.id === id);
-                return this.schedule[date].recipes.splice(recipeToRemove, 1)
+                this.schedule[date].recipes.splice(recipeToRemove, 1);
+
+                await this.saveMealPlan();
             },
 
-            removeItem(date, title) {
+            async removeItem(date, title) {
                 let itemToRemove = this.schedule[date].items.findIndex(item => item.title === title);
-                console.log(itemToRemove);
-                return this.schedule[date].items.splice(itemToRemove, 1)
+                this.schedule[date].items.splice(itemToRemove, 1);
+
+                await this.saveMealPlan();
             },
 
             searchRecipes(item) {
@@ -268,41 +279,51 @@
                 });
             },
 
-            saveMealPlan() {
-                if (!this.editing) {
-                    axios.post('/api/v1/meal_planning_groups', {schedule: this.schedule}).then((response) => {
-                        this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
-                    });
-                } else {
-                    axios.patch('/api/v1/meal_planning_group/' + this.$route.params.id, {schedule: this.schedule}).then((response) => {
-                        this.$router.push({path: `/mealplan/${response.data.meal_planning_group.id}`});
-                    });
-                }
+            doneEditingMealPlan() {
+                this.$router.push({path: `/mealplan/${this.mealPlanId}`});
             },
+
+            saveMealPlan() {
+                return new Promise((resolve, reject) => {
+                    if (!this.mealPlanId) {
+                        axios.post('/api/v1/meal_planning_groups', {schedule: this.schedule}).then((response) => {
+                            if (!response.data || !response.data.meal_planning_group || !response.data.meal_planning_group.id) {
+                                alert('unexpected response when saving meal plan group');
+                            }
+                            this.mealPlanId = response.data.meal_planning_group.id;
+                            console.table('successful meal plan save', response, response.data.meal_planning_group.id);
+                            resolve();
+                        }).catch((err) => {
+                            console.log(err);
+                            alert(err.message);
+                            reject();
+                        })
+                    } else {
+                        axios.patch('/api/v1/meal_planning_group/' + this.mealPlanId, {schedule: this.schedule}).then((response) => {
+                            if (!response.data || !response.data.meal_planning_group || !response.data.meal_planning_group.id) {
+                                alert('unexpected response when saving meal plan group');
+                            }
+                            console.table('successful meal plan save', response, response.data.meal_planning_group.id);
+                            resolve();
+                        }).catch((err) => {
+                            console.log(err);
+                            alert(err.message);
+                            reject();
+                        });
+                    }
+                });
+            },
+
             populatePlanFields(id) {
+                this.mealPlanId = id;
                 axios.get('api/v1/meal_planning_group/' + id).then((response) => {
                     let startDate = moment(response.data.start_date);
                     let endDate = moment(response.data.end_date);
                     this.dateStart = startDate;
                     this.dateEnd = endDate;
                     this.datesSet = true;
-                    let days = createMissingDays(response.data.schedule, this.dateStart, this.dateEnd);
-                    this.schedule = days;
-                    this.getScheduledRecipes(days);
+                    this.schedule = createMissingDays(response.data.schedule, this.dateStart, this.dateEnd);
                 });
-            },
-
-            getScheduledRecipes(days) {
-                let result = {};
-                for (const [date, mealPlanDay] of Object.entries(days)) {
-                    let recipes = [];
-                    result[date] = recipes;
-
-                    for (const day of mealPlanDay) {
-                        recipes.push(day.recipe);
-                    }
-                }
-                this.schedule = result;
             },
 
             addItem() {
