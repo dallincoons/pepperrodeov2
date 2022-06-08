@@ -218,7 +218,7 @@ class MealPlanningGroupTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_meal_plan_group_with_new_items_on_existing_day123()
+    public function it_updates_meal_plan_group_with_new_items_on_existing_day()
     {
         $mealPlanGroup = create(MealPlanGroup::class);
 
@@ -251,6 +251,39 @@ class MealPlanningGroupTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_meal_plan_group_with_new_adhoc_items()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(0, $items);
+
+        $schedule = [
+            '2020-01-01' => [
+                'recipes' => [],
+                'items' => [],
+            ],
+            '2021-01-25' => ['recipes' => [], 'items' => []],
+        ];
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'schedule' => $schedule,
+            'extraItems' => [[
+                'id' => -1,
+                'title' => 'push broom'
+            ], [
+                'id' => -1,
+                'title' => 'squatweiler',
+            ]],
+        ]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(2, $items);
+    }
+
+    /** @test */
     public function it_deletes_meal_plan_items()
     {
         $mealPlanGroup = create(MealPlanGroup::class);
@@ -266,7 +299,10 @@ class MealPlanningGroupTest extends TestCase
                 'recipes' => [],
                 'items' => []
             ],
-            '2021-01-25' => ['recipes' => [], 'items' => []],
+            '2021-01-25' => [
+                'recipes' => [],
+                'items' => []
+            ],
         ];
 
         $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
@@ -276,5 +312,39 @@ class MealPlanningGroupTest extends TestCase
         $items = $mealPlanGroup->fresh()->items;
 
         $this->assertCount(0, $items);
+    }
+
+
+    /** @test */
+    public function it_deletes_meal_plan_ad_hoc_items()
+    {
+        $mealPlanGroup = create(MealPlanGroup::class);
+
+        $itemA = create(MealPlanItem::class, ['date' => null, 'meal_plan_group_id' => $mealPlanGroup->getKey()]);
+        $itemB = create(MealPlanItem::class, ['date' => null, 'meal_plan_group_id' => $mealPlanGroup->getKey()]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(2, $items);
+
+        $schedule = [
+            '2020-01-01' => [
+                'recipes' => [],
+                'items' => [],
+            ],
+            '2021-01-25' => ['recipes' => [], 'items' => []],
+        ];
+
+        $response = $this->patch('/api/v1/meal_planning_group/' . $mealPlanGroup->getKey(), [
+            'schedule' => $schedule,
+            'extraItems' => [[
+                'id' => $itemB->getKey(),
+            ]],
+        ]);
+
+        $items = $mealPlanGroup->fresh()->items;
+
+        $this->assertCount(1, $items);
+        $this->assertEquals($items[0]['id'], $itemB->getKey());
     }
 }

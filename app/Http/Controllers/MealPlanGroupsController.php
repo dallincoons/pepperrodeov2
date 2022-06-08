@@ -34,10 +34,11 @@ class MealPlanGroupsController extends Controller
     public function store(Request $request)
     {
         $schedule = $request->input('schedule');
+        $extraItems = $request->input('extraItems', []);
 
         $builder = new MealPlanBuilder();
 
-        return response()->json(['meal_planning_group' => $builder->create($schedule)]);
+        return response()->json(['meal_planning_group' => $builder->create($schedule, $extraItems)]);
     }
 
     public function show(Request $request, $groupID)
@@ -46,7 +47,8 @@ class MealPlanGroupsController extends Controller
 
         $group = MealPlanGroup::findOrFail($groupID);
         $dayRecipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
-        $dayItems = MealPlanItem::where('meal_plan_group_id', $groupID)->get();
+        $dayItems = MealPlanItem::where('meal_plan_group_id', $groupID)->whereNotNull('date')->get();
+        $extraItems = MealPlanItem::where('meal_plan_group_id', $groupID)->whereNull('date')->get();
 
         $dayRecipes->transform(function($recipe) {
             $recipe['id'] = $recipe->recipe_id;
@@ -82,7 +84,7 @@ class MealPlanGroupsController extends Controller
             });
         }
 
-        return response()->json(['schedule' => $result, 'start_date' => $group->start_date, 'end_date' => $group->end_date]);
+        return response()->json(['schedule' => $result, 'extraItems' => $extraItems, 'start_date' => $group->start_date, 'end_date' => $group->end_date]);
     }
 
     public function delete(Request $request, $groupId)
@@ -96,11 +98,14 @@ class MealPlanGroupsController extends Controller
     {
         $mealPlanGroup = MealPlanGroup::where('id', $groupId)->firstOrFail();
         $schedule = $request->input('schedule', []);
+        $adHocItems = $request->input('extraItems', []);
 
         $builder = new MealPlanBuilder();
 
-        $builder->update($mealPlanGroup, $schedule);
+        $builder->update($mealPlanGroup, $schedule, $adHocItems);
 
-        return response()->json(['meal_planning_group' => $mealPlanGroup], 200);
+        $extraItems = MealPlanItem::where('meal_plan_group_id', $mealPlanGroup->getKey())->whereNull('date')->get();
+
+        return response()->json(['meal_planning_group' => $mealPlanGroup, 'extraItems' => $extraItems], 200);
     }
 }

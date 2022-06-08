@@ -50,7 +50,7 @@
 
                                 <span @click="removeEntry(date, entry.id)" class="remove-date-recipe">x</span>
                             </div>
-                            <div v-for="item in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, entry)' data-on-list="recipe">
+                            <div v-for="item in entries.items" class="recipe-on-date" :id="date" draggable="true" @dragstart='startItemDrag($event, item)' data-on-list="recipe">
                                 <div class="recipe-on-date-info" v-if="!editing"  :id="date">
                                     <p @drop='onDrop($event)' :id="date" class="date-recipe-title">{{item.title}}</p>
                                 </div>
@@ -74,7 +74,7 @@
                             <button class="add-item-button" @click="addItem"><add-plus></add-plus></button>
                         </form>
                         <ul class="items-added recipes-list">
-                            <li v-for="item in itemsAdded" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item}}</li>
+                            <li v-for="item in extraItems" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item.title}}</li>
                         </ul>
                     </div>
                     <div class="search-wrapper meal-planning-search-wrapper">
@@ -142,6 +142,7 @@
                 itemToAdd: '',
                 itemsAdded: [],
                 schedule: {},
+                extraItems: [],
                 mealPlanId: undefined,
             }
         },
@@ -184,25 +185,28 @@
                 evt.dataTransfer.setData('dateFrom', evt.srcElement.id)
 
             },
+
             startItemDrag(evt, item) {
                 if(evt.srcElement.id !== '') {
                     this.draggedFrom = evt.srcElement.id;
                 }
-                if(item === '') {
+                if(item.title === '') {
                     return
                 }
                 evt.dataTransfer.dropEffect = 'move';
                 evt.dataTransfer.effectAllowed = 'move';
                 let side = evt.target.getAttribute("data-side");
-                evt.dataTransfer.setData('itemTitle', item);
+                evt.dataTransfer.setData('itemTitle', item.title);
+                evt.dataTransfer.setData('itemID', item.id);
                 evt.dataTransfer.setData('side', side);
                 evt.dataTransfer.setData('dateFrom', evt.srcElement.id);
                 evt.dataTransfer.setData('type', 'item');
-
             },
+
             async onDrop (evt) {
                 if(evt.dataTransfer.getData('type') === 'item') {
                     const itemTitle = evt.dataTransfer.getData('itemTitle');
+                    const itemID = evt.dataTransfer.getData('itemID');
                     const side = evt.dataTransfer.getData('side');
                     const dateFrom = evt.dataTransfer.getData('dateFrom');
                     let targetID = evt.target.id;
@@ -214,9 +218,17 @@
                         await this.removeItem(dateFrom, itemTitle);
                     }
                     if(side === "right") {
-                        let itemToRemove = this.itemsAdded.findIndex(item => item === itemTitle);
-                        return this.itemsAdded.splice(itemToRemove, 1);
+                        let itemToRemove = this.itemsAdded.findIndex(item => item.title === itemTitle);
+                        if (itemToRemove > -1) {
+                            this.itemsAdded.splice(itemToRemove, 1);
+                        }
+
+                        let extraItemToRemove = this.extraItems.findIndex(item => item.id == itemID);
+                        if (extraItemToRemove > -1) {
+                            this.extraItems.splice(extraItemToRemove, 1);
+                        }
                     }
+                    this.saveMealPlan();
                     return;
                 }
                 const recipeID = evt.dataTransfer.getData('recipeID');
@@ -283,14 +295,15 @@
                 this.$router.push({path: `/mealplan/${this.mealPlanId}`});
             },
 
-            saveMealPlan() {
+            saveMealPlan(extraItems = []) {
                 return new Promise((resolve, reject) => {
                     if (!this.mealPlanId) {
-                        axios.post('/api/v1/meal_planning_groups', {schedule: this.schedule}).then((response) => {
+                        axios.post('/api/v1/meal_planning_groups', {schedule: this.schedule, extraItems: extraItems.concat(this.extraItems)}).then((response) => {
                             if (!response.data || !response.data.meal_planning_group || !response.data.meal_planning_group.id) {
                                 alert('unexpected response when saving meal plan group');
                             }
                             this.mealPlanId = response.data.meal_planning_group.id;
+                            this.extraItems = response.data.extraItems;
                             console.table('successful meal plan save', response, response.data.meal_planning_group.id);
                             resolve();
                         }).catch((err) => {
@@ -299,10 +312,11 @@
                             reject();
                         })
                     } else {
-                        axios.patch('/api/v1/meal_planning_group/' + this.mealPlanId, {schedule: this.schedule}).then((response) => {
+                        axios.patch('/api/v1/meal_planning_group/' + this.mealPlanId, {schedule: this.schedule, extraItems: extraItems.concat(this.extraItems)}).then((response) => {
                             if (!response.data || !response.data.meal_planning_group || !response.data.meal_planning_group.id) {
                                 alert('unexpected response when saving meal plan group');
                             }
+                            this.extraItems = response.data.extraItems;
                             console.table('successful meal plan save', response, response.data.meal_planning_group.id);
                             resolve();
                         }).catch((err) => {
@@ -323,12 +337,18 @@
                     this.dateEnd = endDate;
                     this.datesSet = true;
                     this.schedule = createMissingDays(response.data.schedule, this.dateStart, this.dateEnd);
+                    this.extraItems = response.data.extraItems;
                 });
             },
 
             addItem() {
-                this.itemsAdded.push(this.itemToAdd);
+                if (this.itemToAdd === '') {
+                    return;
+                }
+                let itemsAdded = [{title: this.itemToAdd, id: -1}];
                 this.itemToAdd = '';
+
+                this.saveMealPlan(itemsAdded);
             }
         }
     }

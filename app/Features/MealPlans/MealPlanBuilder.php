@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 
 class MealPlanBuilder
 {
-    public function create(array $schedule)
+    public function create(array $schedule, array $extraItems = [])
     {
         $dates = array_keys($schedule);
 
@@ -37,15 +37,23 @@ class MealPlanBuilder
                     'date' => $date,
                 ]);
             }
+
+            foreach ($extraItems as $item) {
+                MealPlanItem::create([
+                    'meal_plan_group_id' => $mealPlanningGroup->getKey(),
+                    'title' => $item['title'],
+                ]);
+            }
         }
 
         return $mealPlanningGroup;
     }
 
-    public function update(MealPlanGroup $mealPlanGroup, array $schedule)
+    public function update(MealPlanGroup $mealPlanGroup, array $schedule, array $adHocItems)
     {
         $existingRecipes = $mealPlanGroup->recipes->groupBy('date')->all();
-        $existingItems = $mealPlanGroup->items->groupBy('date')->all();
+        $existingItems = $mealPlanGroup->items()->whereNotNull('date')->get()->groupBy('date')->all();
+        $existingAdHocItems = $mealPlanGroup->items()->whereNull('date')->get()->all();
 
         foreach ($schedule as $date => $scheduled) {
             if (!array_key_exists('recipes', $scheduled)) {
@@ -84,6 +92,7 @@ class MealPlanBuilder
         MealPlanDay::whereIn('date', $datesToDelete)->where('meal_plan_group_id', $mealPlanGroup->getKey())->delete();
 
         $this->syncItems($existingItems, $schedule, $mealPlanGroup);
+        $this->syncAdHocItems($existingAdHocItems, $adHocItems, $mealPlanGroup);
     }
 
     private function syncItems($existingItems, $schedule, MealPlanGroup $mealPlanGroup) {
@@ -92,8 +101,13 @@ class MealPlanBuilder
                 continue;
             }
             $items = $scheduled['items'];
+
             if (!array_key_exists($date, $existingItems)) {
                 foreach ($items as $item) {
+                    if (!array_key_exists('title', $item)) {
+                        continue;
+                    }
+
                     MealPlanItem::create([
                         'meal_plan_group_id' => $mealPlanGroup->getKey(),
                         'title' => $item['title'],
@@ -122,6 +136,30 @@ class MealPlanBuilder
         $datesToDelete = array_diff(array_keys($existingItems), array_keys($schedule));
 
         MealPlanItem::whereIn('date', $datesToDelete)->where('meal_plan_group_id', $mealPlanGroup->getKey())->delete();
+    }
+
+    private function syncAdHocItems($existingItems, $newItems, MealPlanGroup $mealPlanGroup) {
+        foreach ($newItems as $newItem) {
+            if (!is_array($newItem)) {
+                continue;
+            }
+            if (!array_key_exists('id', $newItem) || !array_key_exists('title', $newItem)) {
+                continue;
+            }
+
+            if ($newItem['id'] < 0) {
+                MealPlanItem::create([
+                    'meal_plan_group_id' => $mealPlanGroup->getKey(),
+                    'title' => $newItem['title'],
+                ]);
+            }
+        }
+
+        $newItemIDs = collect($newItems)->pluck('id')->all();
+
+        $itemIDsToDelete = array_diff(collect($existingItems)->pluck('id')->all(), $newItemIDs);
+
+        MealPlanItem::whereIn('id', $itemIDsToDelete)->where('meal_plan_group_id', $mealPlanGroup->getKey())->delete();
     }
 
     private function createName(array $dates): string {
