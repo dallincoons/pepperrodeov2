@@ -44,6 +44,10 @@ class CompositeItem implements \Countable, Arrayable
         return $this->items->first()->description;
     }
 
+    public function hasImplicitQuantity() {
+        return count($this->items) <= 1 && $this->items->first()->implicitQty;
+    }
+
     public function count()
     {
         return count($this->items);
@@ -65,6 +69,7 @@ class CompositeItem implements \Countable, Arrayable
 
         $this->items->each(function (GroceryListItem $item) use ($description, $parser) {
             $item->description = $parser->getDescription();
+            $item->implicitQty = $parser->isImplicit();
             $item->save();
         });
 
@@ -104,7 +109,8 @@ class CompositeItem implements \Countable, Arrayable
             'department' => $this->department(),
             'department_id' => $this->departmentId(),
             'quantity' => $this->quantity(),
-            'description' => $this->items->first()->description,
+            'description' => $this->description(),
+            'implicitQty' => $this->hasImplicitQuantity(),
         ];
     }
 }

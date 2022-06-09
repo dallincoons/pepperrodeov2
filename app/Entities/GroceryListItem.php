@@ -12,13 +12,14 @@ class GroceryListItem extends Model
 
     protected $fillable = [
         'grocery_list_id', 'grocery_list_group_id',
-        'description', 'quantity',
+        'description', 'quantity', 'implicitQty',
         'is_checked', 'department_id'
     ];
 
     protected $casts = [
         'is_checked' => 'integer',
         'quantity' => 'integer',
+        'implicitQty' => 'boolean',
     ];
 
     public function setMagicDescriptionAttribute($description)
@@ -27,6 +28,7 @@ class GroceryListItem extends Model
 
         $this->attributes['description'] = $parser->getDescription();
         $this->attributes['quantity'] = $parser->getQuantity();
+        $this->attributes['implicitQty'] = $parser->isImplicit();
     }
 
     public function getQuantityAttribute()

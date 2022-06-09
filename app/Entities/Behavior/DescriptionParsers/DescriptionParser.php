@@ -13,12 +13,20 @@ abstract class DescriptionParser
      */
     protected $quantity;
 
-    public function __construct($description, $quantity = null)
+    protected $isImplicit;
+
+    public function __construct($description, bool $isImplicit = false, $quantity = null)
     {
         $this->description = $description;
+        $this->isImplicit = $isImplicit;
         $this->quantity = $quantity;
     }
 
     abstract public function getDescription();
     abstract public function getQuantity();
+
+    public function isImplicit()
+    {
+        return $this->isImplicit;
+    }
 }

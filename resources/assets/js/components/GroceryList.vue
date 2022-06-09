@@ -91,7 +91,7 @@
                     <ul class="list-items">
                         <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
                             <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
-                            <span class="item" v-bind:class="{checked : checkedItems.includes(item.id)}">{{showItemDescription(item.quantity, item.description)}}</span>
+                            <span class="item" v-bind:class="{checked : checkedItems.includes(item.id)}">{{showItemDescription(item)}}</span>
                         </li>
 
                     </ul>
@@ -213,12 +213,12 @@
                 this.showModal = true;
             },
 
-            showItemDescription(quantity, description) {
-                if (quantity < 2) {
-                    return description;
+            showItemDescription(item) {
+                if (item.implicitQty) {
+                    return item.description;
                 }
 
-                return `${quantity} ${description}`
+                return `${item.quantity} ${item.description}`
             },
 
             getList() {

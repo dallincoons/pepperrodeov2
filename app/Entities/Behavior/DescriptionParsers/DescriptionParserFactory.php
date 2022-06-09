@@ -9,9 +9,9 @@ class DescriptionParserFactory
         preg_match('/[^\s]+/', $description, $matches);
 
         if (isset($matches[0]) && is_numeric($matches[0])) {
-            return new NumericDescriptionParser($description, $matches[0]);
+            return new NumericDescriptionParser($description, false, $matches[0]);
         }
 
-        return new NonNumericDescriptionParser($description);
+        return new NonNumericDescriptionParser($description, true);
     }
 }
