@@ -27,6 +27,10 @@ class MealPlanListController extends Controller {
         $itemRepository = app(GroceryListItemRepository::class);
 
         foreach ($items as $item) {
+            if (!$item->add_to_list) {
+                continue;
+            }
+
             $itemRepository->create([
                 'grocery_list_id' => $grocerylist->getKey(),
                 'description'   => $item->title,

@@ -26,6 +26,7 @@ class MealPlanListTest extends TestCase
         $mealPlanGroup->recipes()->save(make(MealPlanDay::class, ['recipe_id' => $recipeB->getKey()]));
 
         $mealPlanGroup->items()->save(make(MealPlanItem::class));
+        $mealPlanGroup->items()->save(make(MealPlanItem::class, ['add_to_list' => false]));
 
         $this->post('/api/v1/meal_plan_list/' . $mealPlanGroup->getKey());
 

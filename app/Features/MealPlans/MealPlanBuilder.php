@@ -42,6 +42,7 @@ class MealPlanBuilder
                 MealPlanItem::create([
                     'meal_plan_group_id' => $mealPlanningGroup->getKey(),
                     'title' => $item['title'],
+                    'add_to_list' => $item['addToList'] ?? true,
                 ]);
             }
         }
@@ -151,6 +152,7 @@ class MealPlanBuilder
                 MealPlanItem::create([
                     'meal_plan_group_id' => $mealPlanGroup->getKey(),
                     'title' => $newItem['title'],
+                    'add_to_list' => $newItem['addToList'] ?? true,
                 ]);
             }
         }

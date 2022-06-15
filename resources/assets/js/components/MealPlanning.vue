@@ -345,7 +345,7 @@
                 if (this.itemToAdd === '') {
                     return;
                 }
-                let itemsAdded = [{title: this.itemToAdd, id: -1}];
+                let itemsAdded = [{title: this.itemToAdd, id: -1, addToList: false}];
                 this.itemToAdd = '';
 
                 this.saveMealPlan(itemsAdded);

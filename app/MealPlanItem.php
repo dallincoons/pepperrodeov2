@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MealPlanItem extends Model
 {
     protected $fillable = [
-        'meal_plan_group_id', 'title', 'date',
+        'meal_plan_group_id', 'title', 'date', 'add_to_list',
     ];
 }
