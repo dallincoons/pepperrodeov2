@@ -73,6 +73,8 @@ Route::group([
 
     Route::post('meal_plan_list/{groupID}', 'MealPlanListController@store');
 
+    Route::patch('meal_plan_list_item/{itemID}', 'MealPlanItemController@update');
+
     // vue-router will handle any other requests
     Route::get('/{vue_capture?}', 'WelcomeController@show')->where('vue_capture', '[\/\w\.-]*')->middleware('auth');
 });
