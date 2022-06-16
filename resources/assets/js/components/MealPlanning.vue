@@ -72,9 +72,10 @@
                         <form class="add-item-form" v-on:submit.prevent>
                             <input type="text" @enter v-model="itemToAdd" class="add-item-input recipe-input search-box">
                             <button class="add-item-button" @click="addItem"><add-plus></add-plus></button>
+                            <input type="checkbox" v-model="addItemToList"> <span>Add to list</span>
                         </form>
                         <ul class="items-added recipes-list">
-                            <li v-for="item in extraItems" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item.title}}</li>
+                            <li v-for="item in extraItems" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item.title}} </li>
                         </ul>
                     </div>
                     <div class="search-wrapper meal-planning-search-wrapper">
@@ -140,6 +141,7 @@
                 itemSearchedFor: '',
                 draggedFrom: '',
                 itemToAdd: '',
+                addItemToList: true,
                 itemsAdded: [],
                 schedule: {},
                 extraItems: [],
@@ -259,7 +261,6 @@
                 }
                 this.datesSet = true;
 
-
                 await this.saveMealPlan();
 
                 this.$router.push({path: `/mealplan/${this.mealPlanId}/edit`});
@@ -345,7 +346,7 @@
                 if (this.itemToAdd === '') {
                     return;
                 }
-                let itemsAdded = [{title: this.itemToAdd, id: -1, addToList: false}];
+                let itemsAdded = [{title: this.itemToAdd, id: -1, addToList: this.addItemToList}];
                 this.itemToAdd = '';
 
                 this.saveMealPlan(itemsAdded);
