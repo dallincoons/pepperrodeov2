@@ -113,6 +113,7 @@ class MealPlanBuilder
                         'meal_plan_group_id' => $mealPlanGroup->getKey(),
                         'title' => $item['title'],
                         'date' => $date,
+                        'add_to_list' => $newItem['addToList'] ?? false,
                     ]);
                 }
             } else {
@@ -129,6 +130,7 @@ class MealPlanBuilder
                         'meal_plan_group_id' => $mealPlanGroup->getKey(),
                         'title' => $toAdd['title'],
                         'date' => $date,
+                        'add_to_list' => $newItem['addToList'] ?? false,
                     ]);
                 }
             }

@@ -71,8 +71,7 @@
                         <p class="planning-dates">Add an item</p>
                         <form class="add-item-form" v-on:submit.prevent>
                             <input type="text" @enter v-model="itemToAdd" class="add-item-input recipe-input search-box">
-                            <button class="add-item-button" @click="addItem"><add-plus></add-plus></button>
-                            <input type="checkbox" v-model="addItemToList"> <span>Add to list</span>
+                            <button class="add-item-button" @click="addItem(true)"><add-plus></add-plus></button>
                         </form>
                         <ul class="items-added recipes-list">
                             <li v-for="item in extraItems" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item.title}} </li>
@@ -213,7 +212,7 @@
                     const dateFrom = evt.dataTransfer.getData('dateFrom');
                     let targetID = evt.target.id;
                     let day = this.schedule[targetID];
-                    day.items.push({id: -1, title: itemTitle});
+                    day.items.push({id: -1, add_to_list: false, title: itemTitle});
                     this.$set(this.schedule, targetID, day);
                     evt.stopPropagation();
                     if(dateFrom !== '') {
@@ -342,11 +341,11 @@
                 });
             },
 
-            addItem() {
+            addItem(addToList) {
                 if (this.itemToAdd === '') {
                     return;
                 }
-                let itemsAdded = [{title: this.itemToAdd, id: -1, addToList: this.addItemToList}];
+                let itemsAdded = [{title: this.itemToAdd, id: -1, addToList: addToList}];
                 this.itemToAdd = '';
 
                 this.saveMealPlan(itemsAdded);
