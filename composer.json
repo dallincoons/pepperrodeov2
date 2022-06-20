@@ -8,12 +8,12 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.4",
+        "php": "^7.3|^8.0",
         "ajthinking/tinx": "^0.6.1",
         "algolia/algoliasearch-client-php": "^1.20",
         "doctrine/dbal": "^2.11",
         "laravel/cashier": "~7.0",
-        "laravel/framework": "^5.7",
+        "laravel/framework": "^5.8",
         "laravel/scout": "^3.0",
         "laravel/spark": "*@dev",
         "laravel/tinker": "~1.0",
@@ -26,7 +26,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~7.0"
+        "phpunit/phpunit": "~8.5"
     },
     "autoload": {
         "classmap": [
