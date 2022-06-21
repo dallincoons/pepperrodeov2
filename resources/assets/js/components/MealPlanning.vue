@@ -74,7 +74,7 @@
                             <button class="add-item-button" @click="addItem(true)"><add-plus></add-plus></button>
                         </form>
                         <ul class="items-added recipes-list">
-                            <li v-for="item in extraItems" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item.title}} </li>
+                            <li v-for="item in extraItems" @dragstart='startItemDrag($event, item)' class="recipe-ingredient item-added" draggable="true" data-on-list="item" data-side="right">{{item.title}}<span @click="deleteItem(item)" class="remove-date-recipe">x</span></li>
                         </ul>
                     </div>
                     <div class="search-wrapper meal-planning-search-wrapper">
@@ -247,6 +247,10 @@
                     await this.removeEntry(dateFrom, recipe.id);
                 }
 
+                this.saveMealPlan();
+            },
+            deleteItem(item) {
+                this.extraItems.splice(item, 1);
                 this.saveMealPlan();
             },
 
