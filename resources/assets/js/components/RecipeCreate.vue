@@ -1,19 +1,27 @@
 <template>
-    <div class="create-recipe-body" v-if="editing === false">
-        <div class="create-recipe-title recipe-item">
-            <span class="create-recipe-label">Title:</span>
-            <input type="text" required v-model="recipeTitle" class="create-recipe-input">
-        </div>
-        <div class="create-recipe-category recipe-item">
-            <span class="create-recipe-label">Category:</span>
-            <ul class="create-recipe-category-list">
-                <li v-for="category in  categories" class="create-recipe-category-list-item">
-                    <input type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
-                    <label class="create-recipe-radio-label">{{category.title}}</label>
-                </li>
-            </ul>
-        </div>
-        <button @click="saveAndContinue()">Continue</button>
+    <div class="create-recipe-start container" v-if="editing === false">
+        <section class="create-recipe-section-wrapper">
+            <div class="create-recipe-header">
+                <h4>Create Recipe</h4>
+            </div>
+            <section class="create-recipe-start-items">
+                <div class="create-recipe-title recipe-item">
+                    <span class="create-recipe-label">Title:</span>
+                    <input type="text" required v-model="recipeTitle" class="create-recipe-input">
+                </div>
+                <div class="create-recipe-category recipe-item">
+                    <span class="create-recipe-label">Category:</span>
+                    <ul class="create-recipe-category-list">
+                        <li v-for="category in  categories" class="create-recipe-category-list-item">
+                            <input type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <label class="create-recipe-radio-label">{{category.title}}</label>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <button @click="saveAndContinue()" class="create-recipe-save">Next ➔</button>
+        </section>
     </div>
     <div v-else class="create-recipe-wrapper">
         <div class="create-recipe-section-wrapper">
