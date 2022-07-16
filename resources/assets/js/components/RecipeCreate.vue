@@ -1,10 +1,10 @@
 <template>
-    <div class="create-recipe-wrapper">
-        <div class="create-recipe-section-wrapper">
+    <div class="create-recipe-start container" v-if="editing === false">
+        <section class="create-recipe-section-wrapper">
             <div class="create-recipe-header">
-                <h4>Recipe Details</h4>
+                <h4>Create Recipe</h4>
             </div>
-            <div class="create-recipe-body">
+            <section class="create-recipe-start-items">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Title:</span>
                     <input type="text" required v-model="recipeTitle" class="create-recipe-input">
@@ -18,23 +18,47 @@
                         </li>
                     </ul>
                 </div>
+            </section>
+
+            <button @click="saveAndContinue()" class="create-recipe-save">Next ➔</button>
+        </section>
+    </div>
+    <div v-else class="create-recipe-wrapper">
+        <div class="create-recipe-section-wrapper">
+            <div class="create-recipe-header">
+                <h4>Recipe Details</h4>
+            </div>
+            <div class="create-recipe-body">
+                <div class="create-recipe-title recipe-item">
+                    <span class="create-recipe-label">Title:</span>
+                    <input type="text" v-debounce:500ms="saveRecipe" required v-model="recipeTitle" class="create-recipe-input">
+                </div>
+                <div class="create-recipe-category recipe-item">
+                    <span class="create-recipe-label">Category:</span>
+                    <ul class="create-recipe-category-list">
+                        <li v-for="category in  categories" class="create-recipe-category-list-item">
+                            <input type="radio" @change="saveRecipe" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <label class="create-recipe-radio-label">{{category.title}}</label>
+                        </li>
+                    </ul>
+                </div>
                 <div class="create-recipe-details-numbers">
                     <div class="create-recipe-prep recipe-item">
                         <span class="create-recipe-label">Prep Time</span>
-                        <input type="text" v-model="prepTime" class="create-recipe-input">
+                        <input v-debounce:500ms="saveRecipe" type="text" v-model="prepTime" class="create-recipe-input">
                     </div>
                     <div class="create-recipe-total recipe-item">
                         <span class="create-recipe-label">Total Time</span>
-                        <input type="text" v-model="totalTime" class="create-recipe-input">
+                        <input v-debounce:500ms="saveRecipe"  type="text" v-model="totalTime" class="create-recipe-input">
                     </div>
                     <div class="create-recipe-serves recipe-item">
                         <span class="create-recipe-label">Serves</span>
-                        <input type="text" v-model="serves" class="create-recipe-input">
+                        <input v-debounce:500ms="saveRecipe"  type="text" v-model="serves" class="create-recipe-input">
                     </div>
                 </div>
                 <div class="recipe-item">
                     <span class="create-recipe-label">Source</span>
-                    <input type="text" v-model="source" placeholder="Website? Book?" class="create-recipe-input">
+                    <input type="text" v-debounce:500ms="saveRecipe"  v-model="source" placeholder="Website? Book?" class="create-recipe-input">
                 </div>
                 <div class="add-subsection-check-wrapper">
                     <div class="recipe-extra-wrapper">
@@ -141,9 +165,9 @@
             <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Add Directions:</span>
-                    <textarea v-model="directions" class="create-recipe-input create-recipe-textarea"></textarea>
+                    <textarea v-model="directions" v-debounce:600ms="saveRecipe"  class="create-recipe-input create-recipe-textarea"></textarea>
                     <span class="create-recipe-label add-notes-label">Additional Notes:</span>
-                    <textarea v-model="notes" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
+                    <textarea v-model="notes" v-debounce:600ms="saveRecipe" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
                 </div>
             </div>
         </div>
@@ -156,7 +180,7 @@
                 <div class="create-recipe-body" >
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Title:</span>
-                        <input type="text" required v-model="subRecipes[subRecipeIndex].title" class="create-recipe-input">
+                        <input type="text" v-debounce:500ms="saveRecipe" required v-model="subRecipes[subRecipeIndex].title" class="create-recipe-input">
                     </div>
                 </div>
             </div>
@@ -275,10 +299,11 @@
                 itemSearchedFor: '',
                 checkedRecipes: [],
                 recipeMap: {},
-                linkedRecipes: []
-
+                linkedRecipes: [],
+                step: 'begin',
             }
         },
+
         mounted() {
             Categories.all().then((response) => {
                 this.categories = response.data;
@@ -317,17 +342,19 @@
                     return;
                 }
 
-                Recipes.save(this.getRecipeFacts()).then((response) => {
-                    this.$router.push({path: `/recipe/${response.data.id}`});
+                return Recipes.save(this.getRecipeFacts());
+            },
+
+            saveAndContinue()  {
+                this.saveRecipe().then((response) => {
+                    this.$router.push({path: `/recipe/${response.data.id}/edit`});
                 });
             },
 
             updateRecipe() {
                 let recipeFacts = this.getRecipeFacts();
 
-                Recipes.update(this.$route.params.id, recipeFacts).then((response) => {
-                    this.$router.push({path: `/recipe/${response.data.id}`});
-                });
+                return Recipes.update(this.$route.params.id, recipeFacts);
             },
 
             getRecipeFacts() {
@@ -357,6 +384,7 @@
 
                 return recipeFacts;
             },
+
             createSubRecipe() {
                 if(this.subRecipes.length > 0) {
                     for (let recipe of this.subRecipes) {
@@ -376,6 +404,7 @@
                 this.subIngredientInput.push('');
                 this.subRecipes.push(newSubRecipe);
             },
+
             removeSubRecipe(id) {
                 this.subRecipes.splice(id, 1);
             },
@@ -389,6 +418,8 @@
                 this.ingredients.push(newIngredient);
                 this.needToBuys.push(Object.assign({department_id: UNASSIGNED_DEPARTMENT}, newIngredient));
                 this.ingredientDescription = '';
+
+                this.saveRecipe();
             },
 
             addSubIngredient(subRecipeIndex) {
@@ -399,22 +430,32 @@
                 this.subRecipes[subRecipeIndex].ingredients.push(newIngredient);
                 this.subRecipes[subRecipeIndex].needToBuys.push(Object.assign({department_id: UNASSIGNED_DEPARTMENT}, newIngredient));
                 this.subIngredientInput[subRecipeIndex] = '';
+
+                this.saveRecipe();
             },
 
             deleteIngredient(index) {
                 this.ingredients.splice(index, 1);
+
+                this.saveRecipe();
             },
 
             deleteNeedToBuy(index) {
                 this.needToBuys.splice(index, 1);
+
+                this.saveRecipe();
             },
 
             deleteSubIngredient(subRecipe, index) {
                 subRecipe.ingredients.splice(index, 1);
+
+                this.saveRecipe();
             },
 
             deleteSubNeedToBuy(subRecipe, index) {
                 subRecipe.needToBuys.splice(index, 1);
+
+                this.saveRecipe();
             },
 
             populateRecipeFields() {
@@ -439,6 +480,7 @@
                     this.subRecipes = response.data.sub_recipes;
                 })
             },
+
             addLinkedToChecked() {
                 let checked = [];
                 for (let recipe of this.linkedRecipes) {
@@ -446,30 +488,38 @@
                 }
                 return checked;
             },
+
             searchRecipes(item) {
                 Recipes.search(item).then((response) => {
                     console.log(response);
                     this.recipes = response.data;
                 });
             },
+
             clearSearch() {
                 this.itemSearchedFor = '';
                 Recipes.all().then((response) => {
                     this.recipes = response.data;
                 });
             },
+
             saveLinkedRecipes() {
                 this.recipesLinked = true;
                 this.addRecipesOpen = false;
                 this.linkedRecipes = this.checkedRecipes.map((recipeId) => {
                     return this.recipeMap[recipeId];
                 });
+
+                this.saveRecipe();
             },
+
             removeLinkedRecipe(id) {
                 this.checkedRecipes.splice(this.checkedRecipes.indexOf(id), 1);
                 this.linkedRecipes = this.checkedRecipes.map((recipeId) => {
                     return this.recipeMap[recipeId];
                 });
+
+                this.saveRecipe();
             }
         }
     }
