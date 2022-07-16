@@ -26,7 +26,10 @@ import LoginAndRegister from './components/LoginAndRegister.vue';
 
 import VueRouter from 'vue-router';
 
+import vueDebounce from 'vue-debounce'
+
 Vue.use(VueRouter);
+Vue.use(vueDebounce);
 
 let router = new VueRouter({
     routes
