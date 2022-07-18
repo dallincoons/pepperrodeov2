@@ -86,18 +86,39 @@ class RecipeController extends Controller
     {
         $this->repository->update($request->all(), $recipe->getKey());
 
-        if ($request->has('sub_recipe')) {
-            $subRecipe = $request->sub_recipe;
-            $this->repository->update(array_filter([
-                'parent_id'            => $recipe->getKey(),
-                'category_id'          => $recipe->category_id,
-                'user_id'              => $recipe->user_id,
-                'ingredients'          => Arr::get($subRecipe, 'ingredients'),
-                'listable_ingredients' => Arr::get($subRecipe, 'listable_ingredients'),
-                'title'                => Arr::get($subRecipe, 'title'),
-                'directions'           => Arr::get($subRecipe, 'directions'),
-                'notes'                => Arr::get($subRecipe, 'notes'),
-            ]), Arr::get($subRecipe, 'id'));
+        $existingSubRecipes = $recipe->subRecipes;
+
+        if ($request->has('sub_recipes'))
+            $subsToDelete = $existingSubRecipes->pluck('id')->diff(collect(collect($request->input('sub_recipes'))->pluck('id')->filter()));
+
+            Recipe::whereIn('id', $subsToDelete)->delete();
+
+            foreach ($request->input('sub_recipes') as $subRecipe) {
+                {
+                    if (!Arr::get($subRecipe, 'id')) {
+                        $this->repository->create([
+                            'parent_id' => $recipe->getKey(),
+                            'category_id' => $recipe->category_id,
+                            'user_id' => $recipe->user_id,
+                            'ingredients' => Arr::get($subRecipe, 'ingredients'),
+                            'listable_ingredients' => Arr::get($subRecipe, 'needToBuys'),
+                            'title' => Arr::get($subRecipe, 'title'),
+                            'directions' => Arr::get($subRecipe, 'directions'),
+                        ]);
+                        continue;
+                    }
+
+                    $this->repository->update(array_filter([
+                        'parent_id' => $recipe->getKey(),
+                        'category_id' => $recipe->category_id,
+                        'user_id' => $recipe->user_id,
+                        'ingredients' => Arr::get($subRecipe, 'ingredients'),
+                        'listable_ingredients' => Arr::get($subRecipe, 'needToBuys'),
+                        'title' => Arr::get($subRecipe, 'title'),
+                        'directions' => Arr::get($subRecipe, 'directions'),
+                        'notes' => Arr::get($subRecipe, 'notes'),
+                    ]), Arr::get($subRecipe, 'id'));
+                }
         }
 
         if ($request->has('linked_recipes')) {

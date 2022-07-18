@@ -203,18 +203,102 @@ class UpdateRecipeTest extends TestCase
     public function it_updates_sub_recipe()
     {
         $recipe = RecipeFaker::withItems();
-        $subRecipe = create(Recipe::class, ['parent_id' => $recipe]);
 
         $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
             'title' => 'updated title',
-            'sub_recipe' => [
-                'id' => $subRecipe->getKey(),
+            'sub_recipes' => [[
                 'title' => 'updated subrecipe title',
+                'directions' => '',
+            ]]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $recipe->subRecipes);
+        $this->assertEquals('updated subrecipe title', $recipe->subRecipes->first()->title);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'sub_recipes' => [[
+                'id' => $recipe->subRecipes->first()->getKey(),
+                'title' => 'updated subrecipe title2',
+            ]]
+        ]);
+
+        $this->assertCount(1, $recipe->subRecipes);
+        $response->assertStatus(200);
+        $this->assertEquals('updated subrecipe title', $recipe->subRecipes->first()->title);
+    }
+
+    /** @test */
+    public function it_deletes_sub_recipe()
+    {
+        $recipe = RecipeFaker::withItems();
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'sub_recipes' => [[
+                'title' => 'updated subrecipe title',
+                'directions' => '',
+            ]]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $recipe->subRecipes);
+        $this->assertEquals('updated subrecipe title', $recipe->subRecipes->first()->title);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'sub_recipes' => [
+                [
+                    'id' => $recipe->subRecipes->first()->getKey(),
+                    'title' => 'updated subrecipe title',
+                    'directions' => '',
+                ],
+                [
+                    'title' => 'updated subrecipe2 title',
+                    'directions' => '',
+                ],
             ]
         ]);
 
         $response->assertStatus(200);
-        $this->assertEquals('updated subrecipe title', $subRecipe->refresh()->title);
+        $this->assertCount(2, $recipe->fresh()->subRecipes);
+        $this->assertEquals('updated subrecipe2 title', $recipe->fresh()->subRecipes[1]->title);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'sub_recipes' => [
+                [
+                    'id' => $recipe->subRecipes->first()->getKey(),
+                    'title' => 'updated subrecipe title',
+                    'directions' => '',
+                ],
+                [
+                    'id' => $recipe->fresh()->subRecipes[1]->getKey(),
+                    'title' => 'updated subrecipe2 title',
+                    'directions' => '',
+                ],
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $recipe->fresh()->subRecipes);
+        $this->assertEquals('updated subrecipe2 title', $recipe->fresh()->subRecipes[1]->title);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'title' => 'updated title',
+            'sub_recipes' => [
+                [
+                    'id' => $recipe->subRecipes->first()->getKey(),
+                    'title' => 'updated subrecipe title',
+                    'directions' => '',
+                ],
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $recipe->fresh()->subRecipes);
+        $this->assertEquals('updated subrecipe title', $recipe->fresh()->subRecipes->first()->title);
     }
 
     /** @test */

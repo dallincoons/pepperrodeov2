@@ -13,7 +13,7 @@
                     <span class="create-recipe-label">Category:</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <input type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <input @change="saveRecipe" type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
                             <label class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
                     </ul>
@@ -37,7 +37,7 @@
                     <span class="create-recipe-label">Category:</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <input type="radio" @change="saveRecipe" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <input @change="saveRecipe" type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
                             <label class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
                     </ul>
@@ -123,13 +123,13 @@
                     <div class="create-recipe-ingredients-wrapper">
                         <label class="create-recipe-label">Add Ingredients:</label>
                         <div class="create-recipe-add-ingredient-section">
-                            <input class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
+                            <input v-debounce:500ms="saveRecipe" class="create-ingredient-input" v-model="ingredientDescription" @keyup.enter="addIngredient" >
                             <span @click="addIngredient" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
                         </div>
 
                         <ul class="recipe-item">
                             <li v-for="(ingredient, index) in ingredients" class="create-ingredient-items">
-                                <input class="recipe-item-input" v-model="ingredients[index].full_description">
+                                <input v-debounce:500ms="saveRecipe" class="recipe-item-input" v-model="ingredient.full_description">
                                 <div @click="deleteIngredient(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                             </li>
                         </ul>
@@ -144,8 +144,8 @@
 
                             <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showNeedToBuy}">
                                 <li v-for="(needToBuy, index) in needToBuys" class="create-ingredient-items">
-                                    <input class="recipe-item-input" v-model="needToBuys[index].full_description">
-                                    <select class="need-buy-department"  v-model="needToBuys[index].department_id">
+                                    <input v-debounce:500ms="saveRecipe" class="recipe-item-input" v-model="needToBuy.full_description">
+                                    <select @change="saveRecipe" class="need-buy-department"  v-model="needToBuy.department_id">
                                         <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                     </select>
                                     <div @click="deleteNeedToBuy(index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
@@ -165,9 +165,9 @@
             <div class="create-recipe-body">
                 <div class="create-recipe-title recipe-item">
                     <span class="create-recipe-label">Add Directions:</span>
-                    <textarea v-model="directions" v-debounce:600ms="saveRecipe"  class="create-recipe-input create-recipe-textarea"></textarea>
+                    <textarea v-model="directions" v-debounce:500ms="saveRecipe" class="create-recipe-input create-recipe-textarea"></textarea>
                     <span class="create-recipe-label add-notes-label">Additional Notes:</span>
-                    <textarea v-model="notes" v-debounce:600ms="saveRecipe" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
+                    <textarea v-model="notes" v-debounce:500ms="saveRecipe" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
                 </div>
             </div>
         </div>
@@ -194,13 +194,13 @@
                         <div class="create-recipe-ingredients-wrapper">
                             <label class="create-recipe-label">Add Ingredients:</label>
                             <div class="create-recipe-add-ingredient-section">
-                                <input class="create-ingredient-input" v-model="subIngredientInput[subRecipeIndex]" @keyup.enter="addSubIngredient(subRecipeIndex)" >
+                                <input v-debounce:500ms="saveRecipe" class="create-ingredient-input" v-model="subIngredientInput[subRecipeIndex]" @keyup.enter="addSubIngredient(subRecipeIndex)" >
                                 <span @click="addSubIngredient(subRecipeIndex)" class="add-ingredient-button"><add-plus class="create-recipe-add-plus"></add-plus></span>
                             </div>
 
                             <ul class="recipe-item">
                                 <li v-for="(subIngredient, index) in subRecipe.ingredients" class="create-ingredient-items">
-                                    <input class="recipe-item-input" v-model="subIngredient.full_description">
+                                    <input v-debounce:500ms="saveRecipe" class="recipe-item-input" v-model="subIngredient.full_description">
                                     <div @click="deleteSubIngredient(subRecipes[subRecipeIndex], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
                                 </li>
                             </ul>
@@ -212,11 +212,10 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chevron buys-chevron" :class="{'chevron-rotate' : showSubNeedToBuy}"><path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/></svg>
                                 </label>
 
-
                                 <ul class="recipe-item create-recipe-buy-list" :class="{'buy-visible' : showSubNeedToBuy}">
                                     <li v-for="(subNeedToBuy, index) in subRecipe.needToBuys" class="create-ingredient-items">
-                                        <input class="recipe-item-input" v-model="subNeedToBuy.full_description">
-                                        <select class="need-buy-department"  v-model="subNeedToBuy.department_id">
+                                        <input v-debounce:500ms="saveRecipe" class="recipe-item-input" v-model="subNeedToBuy.full_description">
+                                        <select @change="saveRecipe"  class="need-buy-department"  v-model="subNeedToBuy.department_id">
                                             <option v-for="department in departments" :value="department.id">{{department.name}}</option>
                                         </select>
                                         <div @click="deleteSubNeedToBuy(subRecipes[subRecipeIndex], index)" class="x-icon"><x-icon class="x-icon-svg"></x-icon></div>
@@ -236,15 +235,15 @@
                 <div class="create-recipe-body">
                     <div class="create-recipe-title recipe-item">
                         <span class="create-recipe-label">Add Directions:</span>
-                        <textarea v-model="subRecipes[subRecipeIndex].directions" class="create-recipe-input create-recipe-textarea"></textarea>
+                        <textarea v-debounce:500ms="saveRecipe" v-model="subRecipes[subRecipeIndex].directions" class="create-recipe-input create-recipe-textarea"></textarea>
                         <span class="create-recipe-label">Additional Notes:</span>
-                        <textarea v-model="subRecipes[subRecipeIndex].notes" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
+                        <textarea v-debounce:500ms="saveRecipe" v-model="subRecipes[subRecipeIndex].notes" class="create-recipe-input create-recipe-textarea add-notes"></textarea>
                     </div>
                 </div>
             </div>
         </div>
         <div class="create-recipe-section-buttons">
-            <button @click="saveRecipe" class="create-recipe-save">Save {{recipeTitle}}</button>
+            <button @click="showRecipe" class="create-recipe-save">Done</button>
         </div>
     </div>
 </template>
@@ -345,6 +344,10 @@
                 return Recipes.save(this.getRecipeFacts());
             },
 
+            showRecipe() {
+                this.$router.push({path: `/recipe/${this.$route.params.id}`});
+            },
+
             saveAndContinue()  {
                 this.saveRecipe().then((response) => {
                     this.$router.push({path: `/recipe/${response.data.id}/edit`});
@@ -374,7 +377,6 @@
 
                 if (this.createSubRecipe) {
                     //@todo add sub recipe validation
-
                     recipeFacts['sub_recipes'] = this.subRecipes;
                 }
 
@@ -400,6 +402,7 @@
                     ingredients: [],
                     needToBuys: [],
                     directions: '',
+                    notes: '',
                 };
                 this.subIngredientInput.push('');
                 this.subRecipes.push(newSubRecipe);
@@ -407,6 +410,8 @@
 
             removeSubRecipe(id) {
                 this.subRecipes.splice(id, 1);
+
+                this.saveRecipe();
             },
 
             addIngredient() {
@@ -477,8 +482,21 @@
                     if(this.linkedRecipes.length > 0) {
                         this.recipesLinked = true;
                     }
-                    this.subRecipes = response.data.sub_recipes;
+                    this.subRecipes = this.subRecipeResponseTranslate(response.data.sub_recipes);
                 })
+            },
+
+            subRecipeResponseTranslate(subRecipes) {
+                return subRecipes.map(subRecipe => {
+                    return {
+                        id: subRecipe.id,
+                        title: subRecipe.title,
+                        ingredients: subRecipe.ingredients,
+                        needToBuys: subRecipe.listable_ingredients,
+                        directions: subRecipe.directions,
+                        notes: subRecipe.notes,
+                    }
+                });
             },
 
             addLinkedToChecked() {
