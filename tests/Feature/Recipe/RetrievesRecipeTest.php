@@ -6,6 +6,7 @@ use App\Entities\Ingredient;
 use App\Entities\Recipe;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 

@@ -53,6 +53,7 @@ class RecipeController extends Controller
             'serves'               => $request->serves,
             'source'               => $request->source,
             'category_id'          => $request->category_id,
+            'categories'           => $request->categories,
             'user_id'              => \Auth::user()->getKey(),
             'ingredients'          => $request->ingredients,
             'listable_ingredients' => $request->listable_ingredients,
@@ -111,6 +112,7 @@ class RecipeController extends Controller
                     $this->repository->update(array_filter([
                         'parent_id' => $recipe->getKey(),
                         'category_id' => $recipe->category_id,
+                        'categories' => $recipe->categories,
                         'user_id' => $recipe->user_id,
                         'ingredients' => Arr::get($subRecipe, 'ingredients'),
                         'listable_ingredients' => Arr::get($subRecipe, 'needToBuys'),

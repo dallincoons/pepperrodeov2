@@ -19,13 +19,21 @@ class CreatesRecipesTest extends TestCase
     /** @test */
     public function it_creates_a_recipe_without_ingredients()
     {
+        $categoryA = factory(Category::class)->create();
+        $categoryB = factory(Category::class)->create();
+        $categoryC = factory(Category::class)->create();
+
         $response = $this->createRecipe([
             'title'      => 'foo bar',
             'directions' => 'cook things',
             'prep_time'  => '15 minute hours',
             'total_time'  => '26 seconds plus 1 day',
             'serves'      => 'ur mom',
-            'source'      => 'http://ilikecake.net'
+            'source'      => 'http://ilikecake.net',
+            'categories' => [
+                $categoryA->getKey(),
+                $categoryB->getKey(),
+            ]
         ]);
 
         $response->assertSuccessful();
@@ -40,6 +48,7 @@ class CreatesRecipesTest extends TestCase
         $this->assertEquals('ur mom', $recipe->serves);
         $this->assertEquals('http://ilikecake.net', $recipe->source);
         $this->assertEquals(Recipe::SOURCE_TYPE_URL, $recipe->source_type);
+        $this->assertCount(2, $recipe->categories);
     }
 
     /** @test */

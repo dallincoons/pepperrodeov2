@@ -42,6 +42,31 @@ class UpdateRecipeTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_recipe_with_categories()
+    {
+//        $this->withExceptionHandling();
+
+        $recipe = factory(Recipe::class)->create();
+        $categoryA = factory(Category::class)->create();
+        $categoryB = factory(Category::class)->create();
+        $categoryC = factory(Category::class)->create();
+
+        $recipe->categories()->sync([$categoryC->getKey()]);
+
+        $response = $this->patch($this->api('recipes/' . $recipe->getKey()), [
+            'categories' => [
+                $categoryA->getKey(),
+                $categoryB->getKey(),
+            ]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $recipe->fresh()->categories);
+        $this->assertEquals($categoryA->getKey(), $recipe->fresh()->categories->first()->getKey());
+        $this->assertEquals($categoryB->getKey(), $recipe->fresh()->categories->last()->getKey());
+    }
+
+    /** @test */
     public function it_updates_recipe_ingredients()
     {
         $recipe = RecipeFaker::withItems();

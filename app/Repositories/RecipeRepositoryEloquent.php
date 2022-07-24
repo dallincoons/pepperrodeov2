@@ -6,6 +6,7 @@ use App\Entities\Ingredient;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Arr;
 use PhpOption\Option;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -43,10 +44,11 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
     {
         $recipe = parent::create($attributes);
 
-        $ingredients = array_get($attributes, 'ingredients') ?: [];
-        $listableIngredients = array_get($attributes, 'listable_ingredients') ?: [];
+        $ingredients = Arr::get($attributes, 'ingredients') ?: [];
+        $listableIngredients = Arr::get($attributes, 'listable_ingredients') ?: [];
+        $categories = Arr::get($attributes, 'categories', null);
 
-        foreach($ingredients as $ingredient){
+        foreach($ingredients as $ingredient) {
             $this->ingredientRepository->create([
                     'recipe_id' => $recipe->getKey()
                 ] + $ingredient);
@@ -56,6 +58,10 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
             $this->listableIngredientRepository->create([
                     'recipe_id' => $recipe->getKey()
                 ] + $ingredient);
+        }
+
+        if ($categories != null) {
+            $recipe->categories()->sync($categories);
         }
 
         return $recipe;
@@ -70,8 +76,9 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
     {
         $recipe = parent::update($attributes, $recipeKey);
 
-        $ingredients = array_get($attributes, 'ingredients', []);
-        $listableIngredients = array_get($attributes, 'listable_ingredients', []);
+        $ingredients = Arr::get($attributes, 'ingredients', []);
+        $listableIngredients = Arr::get($attributes, 'listable_ingredients', []);
+        $categories = Arr::get($attributes, 'categories', null);
 
         $existingIngredients = $this->ingredientRepository->where('recipe_id', $recipeKey)->get();
         $existingListableIngredients = $this->listableIngredientRepository->where('recipe_id', $recipeKey)->get();
@@ -98,6 +105,10 @@ class RecipeRepositoryEloquent extends BaseRepository implements RecipeRepositor
             } else {
                 $this->listableIngredientRepository->update(array_filter($ingredient), $keyOption->get());
             }
+        }
+
+        if ($categories != null) {
+            $recipe->categories()->sync($categories);
         }
 
         return $recipe;
