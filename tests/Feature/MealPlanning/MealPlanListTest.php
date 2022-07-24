@@ -28,9 +28,9 @@ class MealPlanListTest extends TestCase
         $mealPlanGroup->items()->save(make(MealPlanItem::class));
         $mealPlanGroup->items()->save(make(MealPlanItem::class, ['add_to_list' => false]));
 
-        $this->post('/api/v1/meal_plan_list/' . $mealPlanGroup->getKey());
+        $response = $this->post('/api/v1/meal_plan_list/' . $mealPlanGroup->getKey());
 
-        $grocerylist = GroceryList::all()->last();
+        $grocerylist = GroceryList::find($response->decodeResponseJson()['grocerylist']['id']);
 
         $this->assertCount(3, $grocerylist->items);
     }

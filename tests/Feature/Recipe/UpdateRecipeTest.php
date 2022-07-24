@@ -6,7 +6,6 @@ use App\Category;
 use App\Entities\Department;
 use App\Entities\Recipe;
 use App\Features\Recipes\RecipeLinker;
-use App\LinkedRecipe;
 use Tests\Fakers\RecipeFaker;
 use Tests\TestCase;
 

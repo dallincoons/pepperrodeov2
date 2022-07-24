@@ -88,7 +88,7 @@ class RecipeController extends Controller
 
         $existingSubRecipes = $recipe->subRecipes;
 
-        if ($request->has('sub_recipes'))
+        if ($request->has('sub_recipes')) {
             $subsToDelete = $existingSubRecipes->pluck('id')->diff(collect(collect($request->input('sub_recipes'))->pluck('id')->filter()));
 
             Recipe::whereIn('id', $subsToDelete)->delete();
@@ -119,6 +119,7 @@ class RecipeController extends Controller
                         'notes' => Arr::get($subRecipe, 'notes'),
                     ]), Arr::get($subRecipe, 'id'));
                 }
+            }
         }
 
         if ($request->has('linked_recipes')) {

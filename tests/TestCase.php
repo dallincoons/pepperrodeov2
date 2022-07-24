@@ -5,6 +5,7 @@ namespace Tests;
 use App\Entities\GroceryList;
 use App\Exceptions\Handler;
 use App\User;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -13,7 +14,7 @@ use Tests\Fakers\GroceryListFaker;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, DatabaseMigrations;
+    use CreatesApplication, DatabaseMigrations, ArraySubsetAsserts;
 
     private $oldExceptionHandler;
 
