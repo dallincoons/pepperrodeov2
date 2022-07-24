@@ -250,7 +250,8 @@
                 this.saveMealPlan();
             },
             deleteItem(item) {
-                this.extraItems.splice(item, 1);
+                let itemToRemoveIndex = this.extraItems.findIndex(i => i.id === item.id);
+                this.extraItems.splice(itemToRemoveIndex, 1);
                 this.saveMealPlan();
             },
 
