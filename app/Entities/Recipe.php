@@ -3,7 +3,6 @@
 namespace App\Entities;
 
 use App\Category;
-use App\LinkedRecipe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;

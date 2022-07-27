@@ -67,7 +67,7 @@ class RetrievesRecipeTest extends TestCase
         $responseRecipe = $response->decodeResponseJson();
 
         $response->assertSuccessful();
-        $this->assertInternalType('array', array_get($responseRecipe, 'recipe.ingredients.0.department'));
+        $this->assertIsArray(Arr::get($responseRecipe, 'recipe.ingredients.0.department'));
     }
 
     /** @test */
