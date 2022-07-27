@@ -13,7 +13,7 @@
                     <span class="create-recipe-label">Category:</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <input @change="saveRecipe" type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <input @change="saveRecipe" type="checkbox" name="create-radio" :value="category.id"  v-model="selectedCategories" class="create-recipe-radio-button">
                             <label class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
                     </ul>
@@ -37,7 +37,7 @@
                     <span class="create-recipe-label">Category:</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <input @change="saveRecipe" type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
+                            <input @change="saveRecipe" type="radio" name="create-radio" :value="category.id"  v-model="selectedCategories" class="create-recipe-radio-button">
                             <label class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
                     </ul>
@@ -276,7 +276,7 @@
         data() {
             return {
                 recipeTitle: '',
-                selectedCategory: '',
+                selectedCategories: [],
                 categories: [],
                 ingredientDescription: '',
                 ingredients: [],
@@ -336,8 +336,8 @@
                     return;
                 }
 
-                if (this.selectedCategory === '') {
-                    alert('Please choose a category');
+                if (this.selectedCategories.length === 0) {
+                    alert('Please choose at least one category!');
                     return;
                 }
 
@@ -363,7 +363,7 @@
             getRecipeFacts() {
                 let recipeFacts = {
                     title: this.recipeTitle,
-                    category_id: this.selectedCategory,
+                    categories: this.selectedCategories,
                     ingredients: this.ingredients,
                     listable_ingredients: this.needToBuys,
                     directions: this.directions,
@@ -469,7 +469,7 @@
                     this.recipeTitle = recipe.title;
                     this.directions = recipe.directions;
                     this.notes  = recipe.notes;
-                    this.selectedCategory = recipe.category_id;
+                    this.selectedCategories = recipe.categories.map(cat => cat.id);
                     this.ingredients = recipe.ingredients;
                     this.needToBuys = recipe.listable_ingredients;
                     this.prepTime = recipe.prepTime;
