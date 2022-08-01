@@ -95,14 +95,11 @@
                     </div>
                     <div class="recipes-body">
                         <div class="container-body recipes-wrapper">
-                            <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
-                                <h3 class="dept_heading">{{categoryName}}</h3>
-                                <ul class="recipes-list">
-                                    <li class="recipe-ingredient" v-for="recipe in recipeGroup"  @dragstart='startDrag($event, recipe)'>
-                                        <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="recipes-list">
+                                <li class="recipe-ingredient" v-for="recipe in recipes"  @dragstart='startDrag($event, recipe)'>
+                                    <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
