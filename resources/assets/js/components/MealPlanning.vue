@@ -78,6 +78,12 @@
                         </ul>
                     </div>
                     <div class="search-wrapper meal-planning-search-wrapper">
+                        <ul class="create-recipe-category-list">
+                            <li v-for="category in  categories" class="create-recipe-category-list-item">
+                                <input @change="filterRecipes" type="checkbox" name="create-radio" :value="category.id"  v-model="selectedCategories" class="create-recipe-radio-button">
+                                <label class="create-recipe-radio-label">{{category.title}}</label>
+                            </li>
+                        </ul>
                         <p class="planning-dates">Add a recipe</p>
                         <div class="meal-planning-search-input-wrapper">
                             <input
@@ -115,6 +121,7 @@
     import Search from './assets/search.vue';
     import {createMissingDays} from "./meal_plan_calculator";
     import AddPlus from './assets/add-plus'
+    import Categories from "./resources/Categories";
 
     export default {
         components : {
@@ -122,12 +129,18 @@
             Search,
             AddPlus
         },
+
         props : {
             editing: Boolean
         },
+
         data() {
             return {
                 recipes: [],
+                categories: [],
+                selectedCategories: [],
+                categoryFilter: [],
+                categorizedRecipes: {},
                 listTitle : '',
                 dateStart : moment().format("YYYY-MM-DD"),
                 dateEnd: moment().add(7, 'd').format('YYYY-MM-DD'),
@@ -145,11 +158,10 @@
             }
         },
         computed : {
-            groupedRecipes() {
-                return _.groupBy(this.recipes, function (recipe) {
-                    return recipe.category.title;
-                });
+            filteredRecipes() {
+
             },
+
             endMin() {
                 return this.dateStart;
             },
@@ -158,10 +170,20 @@
         mounted() {
             Recipes.all().then((response) => {
                 this.recipes = response.data;
+
+                this.recipes.forEach(recipe => {
+                    console.log({recipe});
+                    recipe.categories.forEach(cat => {
+                        this.categorizedRecipes[cat.id] = recipe;
+                    });
+                });
             });
             if (this.editing) {
                 this.populatePlanFields(this.$route.params.id)
             }
+            Categories.all().then((response) => {
+                this.categories = response.data;
+            });
         },
 
         methods: {
@@ -246,6 +268,7 @@
 
                 this.saveMealPlan();
             },
+
             deleteItem(item) {
                 let itemToRemoveIndex = this.extraItems.findIndex(i => i.id === item.id);
                 this.extraItems.splice(itemToRemoveIndex, 1);
@@ -286,6 +309,7 @@
                     this.recipes =  response.data;
                 });
             },
+
             clearSearch() {
                 this.itemSearchedFor = '';
                 Recipes.all().then((response) => {
@@ -351,6 +375,14 @@
                 this.itemToAdd = '';
 
                 this.saveMealPlan(itemsAdded);
+            },
+
+            filterRecipes() {
+                this.categoryFilter = this.selectedCategories.reduce((prevValue, currentValue) => {
+                    prevValue[currentValue] = true;
+                    return prevValue;
+                }, {});
+
             }
         }
     }
