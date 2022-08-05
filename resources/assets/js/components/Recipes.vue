@@ -22,15 +22,14 @@
             </div>
         <div class="recipes-body">
             <div class="container-body recipes-wrapper" :class="{'margin-transition' : searchOpen}">
-                <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container" v-show="!searchResults">
-                    <h3 class="dept_heading">{{categoryName}}</h3>
+                <!--<div v-for="recipe in recipes" class="category-container" v-show="!searchResults">-->
                     <ul class="recipes-list">
-                        <li class="recipe-ingredient" v-for="recipe in recipeGroup">
+                        <li class="recipe-ingredient" v-for="recipe in recipes">
                             <input type="checkbox" v-if="showLists" :value="recipe.id" v-model="checkedRecipes">
                             <router-link :to="{ name: 'recipe', params: { id: recipe.id }}">{{recipe.title}}</router-link>
                         </li>
                     </ul>
-                </div>
+                <!--</div>-->
                 <div v-show="searchResults">
                     {{searchResults}}
                 </div>

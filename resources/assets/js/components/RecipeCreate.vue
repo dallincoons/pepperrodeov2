@@ -13,7 +13,7 @@
                     <span class="create-recipe-label">Category:</span>
                     <ul class="create-recipe-category-list">
                         <li v-for="category in  categories" class="create-recipe-category-list-item">
-                            <input @change="saveRecipe" type="checkbox" name="create-radio" :value="category.id"  v-model="selectedCategories" class="create-recipe-radio-button">
+                            <input type="checkbox" name="create-radio" :value="category.id" v-model="selectedCategories" class="create-recipe-radio-button">
                             <label class="create-recipe-radio-label">{{category.title}}</label>
                         </li>
                     </ul>

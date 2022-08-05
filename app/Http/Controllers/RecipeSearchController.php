@@ -23,7 +23,7 @@ class RecipeSearchController extends Controller
     {
         $recipes = Recipe::search($request->get('query'))
             ->get()
-            ->load('category');
+            ->load('categories');
 
         return response()->json($recipes);
     }

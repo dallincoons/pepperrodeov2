@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'title'                => 'string',
             'directions'           => 'string',
-            'category_id'          => ['integer', 'required'],
+            'categories'          => ['array', 'required', "min:1"],
             'user_id'              => 'integer',
             'ingredients'          => 'array',
             'listable_ingredients' => 'array',

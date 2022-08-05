@@ -80,7 +80,7 @@
                     <div class="search-wrapper meal-planning-search-wrapper">
                         <ul class="create-recipe-category-list">
                             <li v-for="category in  categories" class="create-recipe-category-list-item">
-                                <input @change="filterRecipes" type="checkbox" name="create-radio" :value="category.id"  v-model="selectedCategories" class="create-recipe-radio-button">
+                                <input @change="filterRecipes" type="radio" name="create-radio" :value="category.id"  v-model="selectedCategory" class="create-recipe-radio-button">
                                 <label class="create-recipe-radio-label">{{category.title}}</label>
                             </li>
                         </ul>
@@ -137,8 +137,9 @@
         data() {
             return {
                 recipes: [],
+                allRecipes: [],
                 categories: [],
-                selectedCategories: [],
+                selectedCategory: null,
                 categoryFilter: [],
                 categorizedRecipes: {},
                 listTitle : '',
@@ -171,12 +172,7 @@
             Recipes.all().then((response) => {
                 this.recipes = response.data;
 
-                this.recipes.forEach(recipe => {
-                    console.log({recipe});
-                    recipe.categories.forEach(cat => {
-                        this.categorizedRecipes[cat.id] = recipe;
-                    });
-                });
+                this.categorizeRecipes();
             });
             if (this.editing) {
                 this.populatePlanFields(this.$route.params.id)
@@ -187,6 +183,29 @@
         },
 
         methods: {
+            categorizeRecipes() {
+                this.categorizedRecipes = [];
+                this.allRecipes = this.recipes;
+                this.recipes.forEach(recipe => {
+                    recipe.categories.forEach(cat => {
+                        if (!this.categorizedRecipes.hasOwnProperty(cat.id)) {
+                            this.categorizedRecipes[cat.id] = [];
+                        }
+                        this.categorizedRecipes[cat.id].push(recipe);
+                    });
+                });
+
+                if (!this.selectedCategory) {
+                    return;
+                }
+
+                if (this.categorizedRecipes.hasOwnProperty(this.selectedCategory)) {
+                    this.recipes = this.categorizedRecipes[this.selectedCategory];
+                } else {
+                    this.recipes = [];
+                }
+            },
+
             prettyDate: (date) => {
                 return moment(date).format("dddd, MMMM Do")
             },
@@ -306,7 +325,9 @@
 
             searchRecipes(item) {
                 Recipes.search(item).then((response) => {
-                    this.recipes =  response.data;
+                    this.recipes = response.data;
+
+                    this.categorizeRecipes();
                 });
             },
 
@@ -314,6 +335,8 @@
                 this.itemSearchedFor = '';
                 Recipes.all().then((response) => {
                     this.recipes = response.data;
+
+                    this.categorizeRecipes();
                 });
             },
 
@@ -378,11 +401,11 @@
             },
 
             filterRecipes() {
-                this.categoryFilter = this.selectedCategories.reduce((prevValue, currentValue) => {
-                    prevValue[currentValue] = true;
-                    return prevValue;
-                }, {});
-
+                if (this.categorizedRecipes.hasOwnProperty(this.selectedCategory)) {
+                    this.recipes = this.categorizedRecipes[this.selectedCategory];
+                } else {
+                    this.recipes = [];
+                }
             }
         }
     }

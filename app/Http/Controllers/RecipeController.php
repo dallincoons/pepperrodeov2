@@ -29,14 +29,14 @@ class RecipeController extends Controller
         $this->repository->pushCriteria(new AuthUserCriteria());
         $this->repository->pushCriteria(new WithoutSubRecipesCriteria());
 
-        $recipes = $this->repository->with('category')->orderBy('title')->all();
+        $recipes = $this->repository->with('categories')->orderBy('title')->all();
 
         return response()->json($recipes, 200);
     }
 
     public function show(Recipe $recipe)
     {
-        $recipe->load(['ingredients', 'ingredients.department', 'listableIngredients', 'category', 'linkedRecipes']);
+        $recipe->load(['ingredients', 'ingredients.department', 'listableIngredients', 'categories', 'linkedRecipes']);
         $subRecipes = $this->repository->getSubRecipes($recipe);
 
         return response()->json(['recipe' => $recipe, 'sub_recipes' => $subRecipes], 200);
