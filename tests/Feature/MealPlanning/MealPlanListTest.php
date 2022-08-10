@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\MealPlanning;
 
+use App\CategoryRecipe;
 use App\Entities\GroceryList;
 use App\Entities\ListableIngredient;
 use App\Entities\Recipe;
@@ -22,8 +23,8 @@ class MealPlanListTest extends TestCase
         $recipeB->listableIngredients()->save(make(ListableIngredient::class));
 
         $mealPlanGroup = create(MealPlanGroup::class);
-        $mealPlanGroup->recipes()->save(make(MealPlanDay::class, ['recipe_id' => $recipeA->getKey()]));
-        $mealPlanGroup->recipes()->save(make(MealPlanDay::class, ['recipe_id' => $recipeB->getKey()]));
+        $mealPlanGroup->days()->save(make(MealPlanDay::class, ['recipe_id' => $recipeA->getKey()]));
+        $mealPlanGroup->days()->save(make(MealPlanDay::class, ['recipe_id' => $recipeB->getKey()]));
 
         $mealPlanGroup->items()->save(make(MealPlanItem::class));
         $mealPlanGroup->items()->save(make(MealPlanItem::class, ['add_to_list' => false]));

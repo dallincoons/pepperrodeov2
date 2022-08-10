@@ -72,7 +72,6 @@ Route::group([
     Route::post('meal_planning_groups', 'MealPlanGroupsController@store');
 
     Route::post('meal_plan_list/{groupID}', 'MealPlanListController@store');
-
     Route::patch('meal_plan_list_item/{itemID}', 'MealPlanItemController@update');
 
     // vue-router will handle any other requests

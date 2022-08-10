@@ -9,7 +9,6 @@ use App\MealPlanGroup;
 use App\MealPlanItem;
 use App\Repositories\MealPlanningGroupRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class MealPlanGroupsController extends Controller
 {
@@ -46,13 +45,13 @@ class MealPlanGroupsController extends Controller
         $result = [];
 
         $group = MealPlanGroup::findOrFail($groupID);
-        $dayRecipes = MealPlanDay::with('recipe')->with('recipe.category')->where('meal_plan_group_id', $groupID)->get();
+        $dayRecipes = MealPlanDay::with('recipe')->with('category')->where('meal_plan_group_id', $groupID)->get();
         $dayItems = MealPlanItem::where('meal_plan_group_id', $groupID)->whereNotNull('date')->get();
         $extraItems = MealPlanItem::where('meal_plan_group_id', $groupID)->whereNull('date')->get();
 
         $dayRecipes->transform(function($recipe) {
             $recipe['id'] = $recipe->recipe_id;
-            $recipe['category'] = $recipe->recipe->category;
+            $recipe['category'] = $recipe->category;
             $recipe['title'] = $recipe->recipe->title;
             return $recipe;
         });

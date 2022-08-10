@@ -35,13 +35,12 @@
             },
             groupedRecipes() {
                 return _.groupBy(this.recipes, function (recipe) {
-                    return recipe.category.title;
+                    return recipe.categoryTitle;
                 });
             }
         },
 
         methods : {
-
             removeRecipeFromList(recipeId) {
                 axios.delete('api/v1/grocerylist/' + this.list.id + '/recipe/' + recipeId).then((response) => {
                     if (response.status === 200) {

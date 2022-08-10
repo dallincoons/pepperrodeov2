@@ -85,7 +85,7 @@ class RetrievesRecipeTest extends TestCase
     }
 
     /** @test */
-    public function it_retrieves_a_single_recipe_with_a_category()
+    public function it_retrieves_a_single_recipe_with_categories()
     {
         $recipe = RecipeFaker::withItems();
 
@@ -95,7 +95,7 @@ class RetrievesRecipeTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertArrayHasKey('recipe', $responseRecipe);
-        $this->assertArrayHasKey('category', $responseRecipe['recipe']);
+        $this->assertArrayHasKey('categories', $responseRecipe['recipe']);
     }
 
     /**

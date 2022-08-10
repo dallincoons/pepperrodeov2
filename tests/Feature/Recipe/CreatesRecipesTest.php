@@ -57,7 +57,7 @@ class CreatesRecipesTest extends TestCase
         $response = $this->createRecipe([
             'title'       => 'foo bar',
             'directions'  => 'cook things',
-            'category_id'    => factory(Category::class)->create()->getKey(),
+            'categories'    => [factory(Category::class)->create()->getKey()],
             'ingredients' => [
                 [
                     'full_description' => '2 jazz music',
@@ -91,7 +91,7 @@ class CreatesRecipesTest extends TestCase
         $response = $this->createRecipe([
             'title'       => 'foo bar',
             'directions'  => 'cook things',
-            'category_id'    => factory(Category::class)->create()->getKey(),
+            'categories'    => [factory(Category::class)->create()->getKey()]       ,
             'ingredients' => [
                 [
                     'quantity'    => 2,
@@ -124,7 +124,7 @@ class CreatesRecipesTest extends TestCase
 
         $response = $this->createRecipe([
             'title'       => 'foo bar',
-            'category_id'    => factory(Category::class)->create()->getKey(),
+            'categories'    => [factory(Category::class)->create()->getKey()],
             'sub_recipes' => [[
                 'title'       => 'foo bar',
                 'directions'  => 'cook things',

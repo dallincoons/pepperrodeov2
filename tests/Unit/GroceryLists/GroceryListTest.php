@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Category;
+use App\CategoryRecipe;
 use App\Entities\Department;
 use App\Entities\GroceryList;
 use App\Entities\GroceryListItemGroup;
@@ -78,21 +80,28 @@ class GroceryListTest extends TestCase
     }
 
     /** @test */
-    public function gets_a_list_of_recipes_through()
+    public function gets_a_list_of_recipes_on_grocerylist()
     {
         /** @var $grocerylist GroceryList */
         $grocerylist = factory(GroceryList::class)->create();
 
-        $recipe = factory(Recipe::class)->create();
-        $recipe2 = factory(Recipe::class)->create();
+        $recipe = factory(Recipe::class)->create(['title' => 'recipe A']);
+        $recipe2 = factory(Recipe::class)->create(['title' => 'recipe A']);
+
+        $categoryA = factory(Category::class)->create(['title' => 'category A']);
+        $categoryB = factory(Category::class)->create(['title' => 'category B']);
 
         $this->assertCount(0, $grocerylist->items);
 
-        $grocerylist->addRecipe($recipe);
-        $grocerylist->addRecipe($recipe);
-        $grocerylist->addRecipe($recipe2);
+        $grocerylist->addRecipe($recipe, $categoryA->getKey());
+        $grocerylist->addRecipe($recipe, $categoryB->getKey());
+        $grocerylist->addRecipe($recipe2, $categoryA->getKey());
 
-        $this->assertCount(2, $grocerylist->recipes);
+        $recipes = $grocerylist->recipes;
+        $this->assertCount(3, $recipes);
+        $this->assertEquals('category A', $recipes[0]->categoryTitle);
+        $this->assertEquals('category B', $recipes[1]->categoryTitle);
+        $this->assertEquals('category A', $recipes[2]->categoryTitle);
     }
 
     /** @test */
@@ -193,9 +202,9 @@ class GroceryListTest extends TestCase
 
         $grocerylist = create(GroceryList::class);
 
-        $grocerylist->addRecipe($recipeA);
-        $grocerylist->addRecipe($recipeA);
-        $grocerylist->addRecipe($recipeB);
+        $grocerylist->addRecipe($recipeA, $recipeA->firstCategory()->getKey());
+        $grocerylist->addRecipe($recipeA, $recipeA->firstCategory()->getKey());
+        $grocerylist->addRecipe($recipeB, $recipeB->firstCategory()->getKey());
 
         $this->assertCount(6, $grocerylist->items);
 
@@ -203,5 +212,21 @@ class GroceryListTest extends TestCase
 
         $this->assertCount(4, $grocerylist->fresh()->items);
         $this->assertCount(2, $grocerylist->getRecipesAttribute());
+    }
+
+    /** @test */
+    public function uses_first_recipe_category_if_none_provided()
+    {
+        $recipeA = create(Recipe::class);
+
+        $grocerylist = create(GroceryList::class);
+
+        $this->assertCount(0, GroceryListItemGroup::all());
+        $this->assertCount(1, CategoryRecipe::where('recipe_id', $recipeA->getKey())->get());
+        $grocerylist->addRecipe($recipeA);
+
+        $groups = GroceryListItemGroup::all();
+        $this->assertCount(1, $groups);
+        $this->assertNotNull($groups->first()->category_id);
     }
 }

@@ -21,7 +21,7 @@
                         <div class="section-for-recipes">
                             <div v-for="scheduled in day.recipes" class="recipe-on-date">
                                 <div class="recipe-on-date-info">
-                                    <span class="date-category">{{scheduled.recipe.category.title}}</span>
+                                    <span class="date-category">{{scheduled.category.title}}</span>
                                     <router-link :to="{ name: 'recipe', params: { id: scheduled.recipe.id }}" class="date-recipe-title meal-plan-recipe" target="_blank">{{scheduled.recipe.title}}</router-link>
                                 </div>
                             </div>

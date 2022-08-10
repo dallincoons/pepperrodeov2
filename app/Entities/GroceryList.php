@@ -3,8 +3,10 @@
 namespace App\Entities;
 
 use App\Entities\Behavior\OrderByLatest;
+use App\MealPlanDay;
 use App\Repositories\GroceryListItemRepository;
 use App\Services\GroceryItemCombine;
+use App\Transformers\GroceryListRecipe;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
@@ -34,11 +36,11 @@ class GroceryList extends Model implements Transformable
 
     public function getRecipesAttribute()
     {
-        $recipeIds = $this->itemGroups()
-            ->pluck('recipe_id')
-            ->unique();
+        $groceryListItems = GroceryListItemGroup::where('grocery_list_id', $this->getKey())->with('category')->with('recipe')->get();
 
-        return Recipe::whereIn('id', $recipeIds)->with('category')->get();
+        return $groceryListItems->map(function($item) {
+            return new GroceryListRecipe($item->recipe_id, $item->recipe->title, $item->category_id, $item->category->title);
+        });
     }
 
     public function getUniqueRecipeCountAttribute()
@@ -57,14 +59,23 @@ class GroceryList extends Model implements Transformable
     /**
      * @param Recipe $recipe
      */
-    public function addRecipe(Recipe $recipe)
+    public function addRecipe(Recipe $recipe, $categoryID = null)
     {
+        if ($categoryID == null) {
+            if (count($recipe->categories) < 1) {
+                return;
+            }
+
+            $categoryID = $recipe->categories->first()->getKey();
+        }
+
         /** @var GroceryListItemRepository $itemRepository */
         $itemRepository = app(GroceryListItemRepository::class);
 
         $group = GroceryListItemGroup::create([
             'grocery_list_id' => $this->getKey(),
             'recipe_id' => $recipe->getKey(),
+            'category_id'  => $categoryID,
         ]);
 
         foreach ($recipe->listableIngredients as $ingredients) {

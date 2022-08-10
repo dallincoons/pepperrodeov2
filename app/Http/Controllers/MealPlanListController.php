@@ -13,16 +13,17 @@ class MealPlanListController extends Controller {
     {
         $mealPlanGroup = MealPlanGroup::query()
             ->where('id', $groupID)
-            ->with('recipes.recipe')
+            ->with('days.recipe')
             ->with('items')
             ->firstOrFail();
 
-        $recipes = $mealPlanGroup->recipes->pluck('recipe');
         $items = $mealPlanGroup->items;
 
         $grocerylist = GroceryList::create(['title' => $mealPlanGroup->name, 'user_id' => $mealPlanGroup->user_id]);
 
-        $grocerylist->addRecipes($recipes->all());
+        $mealPlanGroup->days->each(function($day) use($grocerylist) {
+            $grocerylist->addRecipe($day->recipe, $day->category_id);
+        });
 
         $itemRepository = app(GroceryListItemRepository::class);
 

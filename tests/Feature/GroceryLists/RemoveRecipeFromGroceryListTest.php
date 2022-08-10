@@ -22,9 +22,9 @@ class RemoveRecipeFromGroceryListTest extends TestCase
 
         $grocerylist = create(GroceryList::class);
 
-        $grocerylist->addRecipe($recipeA);
-        $grocerylist->addRecipe($recipeA);
-        $grocerylist->addRecipe($recipeB);
+        $grocerylist->addRecipe($recipeA, $recipeA->firstCategory()->getKey());
+        $grocerylist->addRecipe($recipeA, $recipeA->firstCategory()->getKey());
+        $grocerylist->addRecipe($recipeB, $recipeB->firstCategory()->getKey());
 
         $this->assertCount(6, $grocerylist->items);
         $this->assertCount(3, $grocerylist->itemGroups);

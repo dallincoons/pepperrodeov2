@@ -34,11 +34,6 @@ class GroceryListItemController extends Controller
 
        $item = new CompositeItem($items);
 
-       if ($request->filled('quantity'))
-       {
-//           $item->updateQuantity($request->quantity);
-       }
-
         if ($request->filled('department_id'))
         {
             $item->updateDepartment($request->department_id);

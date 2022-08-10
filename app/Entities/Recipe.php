@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Category;
+use App\CategoryRecipe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -44,7 +45,7 @@ class Recipe extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->using(CategoryRecipe::class);
     }
 
     public function subRecipes()
@@ -67,6 +68,10 @@ class Recipe extends Model
         }
 
         $this->source_type = self::SOURCE_TYPE_TEXT;
+    }
+
+    public function firstCategory() {
+        return $this->categories->first();
     }
 }
 

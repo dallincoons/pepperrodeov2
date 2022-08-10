@@ -128,13 +128,13 @@
         computed : {
             groupedRecipes() {
                 return _.groupBy(this.list.recipes, function (recipe) {
-                    return recipe.category.title;
+                    return recipe.categoryTitle;
                 });
             }
         },
 
         created() {
-            this.orderedRecipes = _.sortBy(this.recipes, 'category.title');
+            this.orderedRecipes = _.sortBy(this.recipes, 'category_title');
             this.loadRecentList()
         },
 

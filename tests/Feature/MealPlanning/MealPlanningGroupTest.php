@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\MealPlanning;
 
+use App\Category;
 use App\Entities\Recipe;
 use App\MealPlanDay;
 use App\MealPlanGroup;
@@ -55,7 +56,10 @@ class MealPlanningGroupTest extends TestCase
                     'id' => 157,
                     'parent_id' => null,
                     'title' => 'Whipped Cream',
-                    'directions' => 'use a metal spatula'
+                    'directions' => 'use a metal spatula',
+                    'category' => [
+                        'id' => factory(Category::class)->create()->getKey(),
+                    ]
                 ]],
                 'items' => [[
                     'id' => -1,
@@ -67,7 +71,10 @@ class MealPlanningGroupTest extends TestCase
                     'id' => 315,
                     'parent_id' => null,
                     'title' => 'Strawberry Iced pop',
-                    'directions' => 'use a metal spatula'
+                    'directions' => 'use a metal spatula',
+                    'category' => [
+                        'id' => factory(Category::class)->create()->getKey(),
+                    ]
                 ]],
                 'item' => [],
             ],
@@ -142,6 +149,8 @@ class MealPlanningGroupTest extends TestCase
 
         create(MealPlanDay::class, ['meal_plan_group_id' => $mealPlanGroup->getKey(), 'recipe_id' => $recipeA, 'date' => '2021-01-26']);
 
+        $categoryA = Category::first();
+
         $scheduled = [
             '2021-01-22' => [],
             '2021-01-23' => [
@@ -149,6 +158,9 @@ class MealPlanningGroupTest extends TestCase
                 'id' => $recipeA->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
+                'category' => [
+                    'id' => $categoryA->getKey(),
+                ]
             ]
             ]],
             '2021-01-24' => [
@@ -157,11 +169,17 @@ class MealPlanningGroupTest extends TestCase
                 'id' => $recipeA->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
+                'category' => [
+                    'id' => $categoryA->getKey(),
+                ]
             ],
             [
                 'id' => $recipeC->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
+                'category' => [
+                    'id' => $categoryA->getKey(),
+                ]
             ]
             ]],
             '2021-01-25' => [
@@ -169,6 +187,9 @@ class MealPlanningGroupTest extends TestCase
                 'id' => $recipeB->getKey(),
                 'parent_id' => null,
                 "user_id" => 1,
+                'category' => [
+                    'id' => $categoryA->getKey(),
+                ]
             ]]
             ],
         ];
@@ -179,13 +200,13 @@ class MealPlanningGroupTest extends TestCase
 
         $responseData = $response->decodeResponseJson();
 
-        $recipes  = $mealPlanGroup->fresh()->recipes;
+        $days  = $mealPlanGroup->fresh()->days;
 
-        $this->assertCount(4, $recipes);
-        $this->assertCount(1, $recipes->where('date', '2021-01-23'));
-        $this->assertCount(2, $recipes->where('date', '2021-01-24'));
-        $this->assertCount(1, $recipes->where('date', '2021-01-25'));
-    }/** @test */
+        $this->assertCount(4, $days);
+        $this->assertCount(1, $days->where('date', '2021-01-23'));
+        $this->assertCount(2, $days->where('date', '2021-01-24'));
+        $this->assertCount(1, $days->where('date', '2021-01-25'));
+    }
 
     /** @test */
     public function it_updates_meal_plan_group_with_new_items_on_new_day()

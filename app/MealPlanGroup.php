@@ -10,7 +10,7 @@ class MealPlanGroup extends Model
         'name', 'user_id', 'start_date', 'end_date', 'grocery_list_id',
     ];
 
-    public function recipes()
+    public function days()
     {
         return $this->hasMany(MealPlanDay::class, 'meal_plan_group_id', 'id');
     }

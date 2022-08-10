@@ -42,17 +42,14 @@
                                                 <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
                                             </div>
                                         </div>
-                                        <div v-for="(recipeGroup, categoryName) in groupedRecipes" class="category-container">
-                                            <h3 class="small_dept_heading">{{categoryName}}</h3>
-                                            <ul class="list-add-recipes-list">
-                                                <li v-for="recipe in recipeGroup" class="list-add-recipes-item">
-                                                    <div class="fs-checkbox">
-                                                        <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
-                                                        <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <ul class="list-add-recipes-list">
+                                            <li v-for="recipe in recipes" class="list-add-recipes-item">
+                                                <div class="fs-checkbox">
+                                                    <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
+                                                    <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="selected-added-wrapper">
                                         <div class="selected-recipes-wrapper">
@@ -197,11 +194,6 @@
             this.listId = this.$route.params.id;
             this.getList();
             this.getDepartments();
-            this.getRecipes((recipes) => {
-                recipes.forEach((recipe) => {
-                    this.recipeMap[recipe.id] = recipe;
-                });
-            });
         },
 
         methods    : {
@@ -290,6 +282,12 @@
             },
 
             viewRecipes() {
+                this.getRecipes((recipes) => {
+                    recipes.forEach((recipe) => {
+                        this.recipeMap[recipe.id] = recipe;
+                    });
+                });
+
                 this.addRecipesOpen = !this.addRecipesOpen;
             },
 
@@ -334,6 +332,7 @@
 
                 }
             },
+
             deleteRecipe(recipeId) {
                 let deleteConfirm = confirm("Are you sure you want to delete this recipe?" );
                 if (deleteConfirm === false) {
@@ -348,14 +347,17 @@
                     }
                 })
             },
+
             print() {
                 window.print();
             },
+
             searchRecipes(item) {
                 Recipes.search(item).then((response) => {
                     this.recipes =  response.data;
                 });
             },
+
             clearSearch() {
                 this.itemSearchedFor = '';
                 Recipes.all().then((response) => {

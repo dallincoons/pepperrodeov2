@@ -179,6 +179,10 @@
             }
             Categories.all().then((response) => {
                 this.categories = response.data;
+
+                if (Array.isArray(this.categories) && this.categories.length > 0) {
+                    this.selectedCategory = this.categories[0].id;
+                }
             });
         },
 
@@ -278,8 +282,28 @@
                 let targetID = evt.target.id;
                 evt.stopPropagation();
                 const recipe = this.recipes.find(recipe => recipe.id == recipeID);
+
+                let category = this.categories.find((cat) => cat.id == this.selectedCategory);
+                if (!category) {
+                    category = {
+                        title: '',
+                        id: -1,
+                    };
+                }
+
+                let dayRecipe = {
+                    'id': recipe.id,
+                    'title': recipe.title,
+                    category: category,
+                };
+
                 let day = this.schedule[targetID];
-                day.recipes.push(recipe);
+
+                if (day.recipes.find((recipe) => recipe.id == recipeID) !== -1) {
+                    return;
+                }
+
+                day.recipes.push(dayRecipe);
                 this.$set(this.schedule, targetID, day);
                 if(dateFrom !== '') {
                     await this.removeEntry(dateFrom, recipe.id);

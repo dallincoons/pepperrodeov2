@@ -1,0 +1,7 @@
+const endpoint = '/api/v1/recipes/';
+
+export default {
+    search(term) {
+        return axios.get(endpoint + 'search?query=' + term)
+    },
+}
