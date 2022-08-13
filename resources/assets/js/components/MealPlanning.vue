@@ -299,7 +299,7 @@
 
                 let day = this.schedule[targetID];
 
-                if (day.recipes.find((recipe) => recipe.id == recipeID) !== -1) {
+                if (day.recipes.find((recipe) => recipe.id == recipeID) === -1) {
                     return;
                 }
 
