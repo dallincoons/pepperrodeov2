@@ -9,13 +9,28 @@ use App\Repositories\GroceryListItemRepository;
 
 class MealPlanListController extends Controller {
 
-    public function store($groupID)
+    public function store($groupID, $request)
     {
-        $mealPlanGroup = MealPlanGroup::query()
-            ->where('id', $groupID)
-            ->with('days.recipe')
-            ->with('items')
+        $mealPlanGroupQuery = MealPlanGroup::query()
+
             ->firstOrFail();
+
+        $mealPlanGroupQuery = MealPlanGroup::query()
+            ->where('id', $groupID)
+            ->whereDate('start_date', ">=", $request->start_date)
+            ->whereDate('end_date', "<=", $request->end_date)
+            ->with('days.recipe')
+            ->with('items');
+
+        if ($request->start_date) {
+            $mealPlanGroupQuery->whereDate("start_date", ">=", $request->start_date);
+        }
+
+        if ($request->end_date) {
+            $mealPlanGroupQuery->whereDate("end_date", "<=", $request->start_date);
+        }
+
+        $mealPlanGroup = $mealPlanGroupQuery->firstOrFail();
 
         $items = $mealPlanGroup->items;
 
