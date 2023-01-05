@@ -6,29 +6,16 @@ use App\Entities\Department;
 use App\Entities\GroceryList;
 use App\MealPlanGroup;
 use App\Repositories\GroceryListItemRepository;
+use Illuminate\Http\Request;
 
 class MealPlanListController extends Controller {
 
-    public function store($groupID, $request)
+    public function store(Request $request, $groupID)
     {
         $mealPlanGroupQuery = MealPlanGroup::query()
-
-            ->firstOrFail();
-
-        $mealPlanGroupQuery = MealPlanGroup::query()
             ->where('id', $groupID)
-            ->whereDate('start_date', ">=", $request->start_date)
-            ->whereDate('end_date', "<=", $request->end_date)
             ->with('days.recipe')
             ->with('items');
-
-        if ($request->start_date) {
-            $mealPlanGroupQuery->whereDate("start_date", ">=", $request->start_date);
-        }
-
-        if ($request->end_date) {
-            $mealPlanGroupQuery->whereDate("end_date", "<=", $request->start_date);
-        }
 
         $mealPlanGroup = $mealPlanGroupQuery->firstOrFail();
 
@@ -36,7 +23,17 @@ class MealPlanListController extends Controller {
 
         $grocerylist = GroceryList::create(['title' => $mealPlanGroup->name, 'user_id' => $mealPlanGroup->user_id]);
 
-        $mealPlanGroup->days->each(function($day) use($grocerylist) {
+        $daysQuery = $mealPlanGroup->days();
+
+        if ($request->start_date) {
+            $daysQuery->whereDate("date", ">=", $request->start_date);
+        }
+
+        if ($request->end_date) {
+            $daysQuery->whereDate("date", "<=", $request->end_date);
+        }
+
+        $daysQuery->get()->each(function($day) use($grocerylist) {
             $grocerylist->addRecipe($day->recipe, $day->category_id);
         });
 

@@ -12,10 +12,10 @@
                             <button class="list-action list-action-2" @click="createGroceryList()">Create Grocery List</button>
                         </div>
                         <label for="start">Start Date</label>
-                        <input type="date" id="start" name="plan-start" v-model="rawStartDay" :min="rawStartDay" :max="rawEndDay">
+                        <input type="date" id="start" name="plan-start" v-model="mealPlanFilterStartDay" :min="rawStartDay" :max="rawEndDay">
 
                       <label for="start">End Date</label>
-                      <input type="date" id="start" name="plan-end" v-model="rawEndDay" :min="rawStartDay" :max="rawEndDay">
+                      <input type="date" id="start" name="plan-end" v-model="mealPlanFilterEndDay" :min="rawStartDay" :max="rawEndDay">
                     </div>
                 </div>
                 <div class="dates-wrapper meal-plan-dates">
@@ -54,6 +54,8 @@
                 endDay: '',
                 rawStartDay: '',
                 rawEndDay: '',
+                mealPlanFilterStartDay: '',
+                mealPlanFilterEndDay: '',
                 mealPlanId : this.$route.params.id
             }
         },
@@ -69,6 +71,9 @@
 
                 this.rawStartDay = data.start_date;
                 this.rawEndDay = data.end_date;
+
+                this.mealPlanFilterStartDay = this.rawStartDay;
+                this.mealPlanFilterEndDay = this.rawEndDay;
 
                 this.startDay = this.prettyDate(data.start_date);
                 this.endDay = this.prettyDate(data.end_date);
@@ -90,8 +95,8 @@
 
             createGroceryList() {
                 axios.post('api/v1/meal_plan_list/' + this.mealPlanId, {
-                  "start_date": this.rawStartDay,
-                  "end_date": this.rawEndDay,
+                  "start_date": this.mealPlanFilterStartDay,
+                  "end_date": this.mealPlanFilterEndDay,
                 }).then((response) => {
                     this.$router.push({path : `/grocery-lists/${response.data.grocerylist.id}`});
                 })
