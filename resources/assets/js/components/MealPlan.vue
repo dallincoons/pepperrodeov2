@@ -6,16 +6,23 @@
                 <div class="list-heading">
                     <h3 class="list-title">Meal Plan for {{startDay}} - {{endDay}}</h3>
                     <div class="list-actions-wrapper">
-                        <div class="list-actions-buttons meal-plan-buttons">
+                        <div class="list-actions-buttons meal-plan-buttons" :class="{increaseWidth : filterDates}">
                             <button class="list-action list-action-1" @click="editMealPlan(mealPlanId)">Edit Plan</button>
                             <button class="list-action list-action-2" @click="deletePlan()">Delete Plan</button>
-                            <button class="list-action list-action-2" @click="createGroceryList()">Create Grocery List</button>
+                            <button class="list-action list-action-2" @click="createGroceryList()">Create Grocery List <span v-show="filterDates">for {{prettyDate(mealPlanFilterStartDay)}} - {{prettyDate(mealPlanFilterEndDay)}}</span></button>
+                            <button class="list-action list-action-2" @click="filterDates = !filterDates">Filter Dates</button>
                         </div>
-                        <label for="start">Start Date</label>
-                        <input type="date" id="start" name="plan-start" v-model="mealPlanFilterStartDay" :min="rawStartDay" :max="rawEndDay">
-
-                      <label for="start">End Date</label>
-                      <input type="date" id="start" name="plan-end" v-model="mealPlanFilterEndDay" :min="rawStartDay" :max="rawEndDay">
+                        <div v-show="filterDates" class="filter-date-picker">
+                            <div>
+                                <label for="start" >Start Date</label>
+                                <input type="date" id="start" name="plan-start" v-model="mealPlanFilterStartDay" :min="rawStartDay" :max="rawEndDay">
+                            </div>
+                            <div class="spacer">-</div>
+                            <div>
+                                <label for="start">End Date</label>
+                                <input type="date" id="start" name="plan-end" v-model="mealPlanFilterEndDay" :min="rawStartDay" :max="rawEndDay">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="dates-wrapper meal-plan-dates">
@@ -56,7 +63,8 @@
                 rawEndDay: '',
                 mealPlanFilterStartDay: '',
                 mealPlanFilterEndDay: '',
-                mealPlanId : this.$route.params.id
+                mealPlanId : this.$route.params.id,
+                filterDates: false
             }
         },
 
