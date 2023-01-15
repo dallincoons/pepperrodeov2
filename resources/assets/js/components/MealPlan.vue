@@ -85,6 +85,10 @@
                 return moment(date).format("dddd, MMMM Do")
             },
 
+          prettyDateMonthAndDay: (date) => {
+            return moment(date).format("MMMM Do")
+          },
+
             deletePlan() {
                 if(confirm('Do you want to delete this meal plan?')) {
                     axios.delete('api/v1/meal_planning_group/' + this.mealPlanId).then((response) => {
@@ -97,6 +101,7 @@
                 axios.post('api/v1/meal_plan_list/' + this.mealPlanId, {
                   "start_date": this.mealPlanFilterStartDay,
                   "end_date": this.mealPlanFilterEndDay,
+                  "name": `${this.prettyDateMonthAndDay(this.mealPlanFilterStartDay)} - ${this.prettyDateMonthAndDay(this.mealPlanFilterEndDay)}`,
                 }).then((response) => {
                     this.$router.push({path : `/grocery-lists/${response.data.grocerylist.id}`});
                 })

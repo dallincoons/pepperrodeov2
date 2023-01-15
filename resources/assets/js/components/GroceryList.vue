@@ -84,7 +84,8 @@
                 <p v-if="list.recipes && list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
                 <div class="list-body">
                     <div class="list-depts-wrapper">
-                        <div class="department-container" v-for="(items, department_name) in itemsGrouped"><div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}</div>
+                        <div class="department-container" v-for="(items, department_name) in itemsGrouped">
+                          <div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}<!--<span @click="removeDepartment(department_name)" class="department_remove">X</span>--></div>
                     <ul class="list-items">
                         <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
                             <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
@@ -203,6 +204,16 @@
 
             displayModal() {
                 this.showModal = true;
+            },
+
+            removeDepartment(department_name) {
+                let foundDepartment = this.departments.find((dep) => {
+                    return dep.name === department_name
+                });
+
+              axios.delete('/api/v1/grocery-lists/department/' + foundDepartment).then((response) => {
+                this.list = response.data;
+              });
             },
 
             showItemDescription(item) {

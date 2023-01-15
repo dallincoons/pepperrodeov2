@@ -21,7 +21,12 @@ class MealPlanListController extends Controller {
 
         $items = $mealPlanGroup->items;
 
-        $grocerylist = GroceryList::create(['title' => $mealPlanGroup->name, 'user_id' => $mealPlanGroup->user_id]);
+        $name = $mealPlanGroup->name;
+        if ($request->name) {
+            $name = $request->name;
+        }
+
+        $grocerylist = GroceryList::create(['title' => $name, 'user_id' => $mealPlanGroup->user_id]);
 
         $daysQuery = $mealPlanGroup->days();
 
