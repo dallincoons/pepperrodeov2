@@ -9,7 +9,7 @@
                         <div class="list-actions-buttons meal-plan-buttons" :class="{increaseWidth : filterDates}">
                             <button class="list-action list-action-1" @click="editMealPlan(mealPlanId)">Edit Plan</button>
                             <button class="list-action list-action-2" @click="deletePlan()">Delete Plan</button>
-                            <button class="list-action list-action-2" @click="createGroceryList()">Create Grocery List <span v-show="filterDates">for {{prettyDate(mealPlanFilterStartDay)}} - {{prettyDate(mealPlanFilterEndDay)}}</span></button>
+                            <button class="list-action list-action-2" @click="createGroceryList()">Create Grocery List <span v-show="filterDates">for {{prettyDateMonthAndDay(mealPlanFilterStartDay)}} - {{prettyDateMonthAndDay(mealPlanFilterEndDay)}}</span></button>
                             <button class="list-action list-action-2" @click="filterDates = !filterDates">Filter Dates</button>
                         </div>
                         <div v-show="filterDates" class="filter-date-picker">
@@ -90,11 +90,11 @@
 
         methods: {
             prettyDate: (date) => {
-                return moment(date).format("dddd, MMMM Do")
+                return moment(date).format("dddd, MMMM Do");
             },
 
           prettyDateMonthAndDay: (date) => {
-            return moment(date).format("MMMM Do")
+            return moment(date).format("MMMM Do");
           },
 
             deletePlan() {
