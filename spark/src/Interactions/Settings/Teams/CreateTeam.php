@@ -2,6 +2,7 @@
 
 namespace Laravel\Spark\Interactions\Settings\Teams;
 
+use Illuminate\Support\Str;
 use Laravel\Spark\Spark;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Spark\Events\Teams\TeamCreated;
@@ -49,7 +50,7 @@ class CreateTeam implements Contract
         }
 
         if ($plan->teams <= $user->ownedTeams()->count()) {
-            $validator->errors()->add('name', 'Please upgrade your subscription to create more '.str_plural(Spark::teamString()).'.');
+            $validator->errors()->add('name', 'Please upgrade your subscription to create more '.Str::plural(Spark::teamString()).'.');
         }
     }
 

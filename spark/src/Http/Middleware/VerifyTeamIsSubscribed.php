@@ -2,6 +2,7 @@
 
 namespace Laravel\Spark\Http\Middleware;
 
+use Illuminate\Support\Str;
 use Laravel\Spark\Spark;
 
 class VerifyTeamIsSubscribed
@@ -23,7 +24,7 @@ class VerifyTeamIsSubscribed
 
         return $request->ajax() || $request->wantsJson()
                                 ? response('Subscription Required.', 402)
-                                : redirect('/settings/'.str_plural(Spark::teamString()).'/'.$request->user()->currentTeam->id.'#/subscription');
+                                : redirect('/settings/'.Str::plural(Spark::teamString()).'/'.$request->user()->currentTeam->id.'#/subscription');
     }
 
     /**

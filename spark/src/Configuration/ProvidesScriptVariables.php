@@ -2,6 +2,7 @@
 
 namespace Laravel\Spark\Configuration;
 
+use Illuminate\Support\Str;
 use Laravel\Spark\Spark;
 use Laravel\Cashier\Cashier;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,7 @@ trait ProvidesScriptVariables
             'state' => Spark::call(InitialFrontendState::class.'@forUser', [Auth::user()]),
             'stripeKey' => config('services.stripe.key'),
             'teamString' => Spark::teamString(),
-            'pluralTeamString' => str_plural(Spark::teamString()),
+            'pluralTeamString' => Str::plural(Spark::teamString()),
             'userId' => Auth::id(),
             'usesApi' => Spark::usesApi(),
             'usesBraintree' => Spark::billsUsingBraintree(),
