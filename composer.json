@@ -15,6 +15,7 @@
         "laravel/framework": "^5.8",
         "laravel/scout": "^3.0",
         "laravel/spark": "*@dev",
+        "laravel/tinker": "~1.0",
         "league/fractal": "^0.17.0",
         "phpoption/phpoption": "^1.5",
         "prettus/l5-repository": "^2.6",
