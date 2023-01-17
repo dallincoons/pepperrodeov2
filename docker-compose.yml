@@ -4,7 +4,6 @@ services:
   db:
     image: mysql:5.7
     restart: unless-stopped
-    platform: linux/amd64
     environment:
       DB_HOST: db
       MYSQL_ROOT_PASSWORD: secret
