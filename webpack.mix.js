@@ -23,13 +23,13 @@ mix.less('resources/assets/less/app.less', 'public/css')
     .copy('resources/assets/img', 'public/img', false)
     .browserSync({
         port: 3000,
-        proxy: 'https://pepperrodeov2.test',
-        host: 'pepperrodeov2.test',
+        proxy: 'pepperrodeo.test',
+        host: 'pepperrodeo.test',
         open: 'external',
-        https: {
-            key: homedir + '/.config/valet/Certificates/pepperrodeov2.test.key',
-            cert: homedir + '/.config/valet/Certificates/pepperrodeov2.test.crt',
-        },
+        // https: {
+        //     key: homedir + '/.config/valet/Certificates/pepperrodeov2.test.key',
+        //     cert: homedir + '/.config/valet/Certificates/pepperrodeov2.test.crt',
+        // },
     })
     .webpackConfig({
         resolve: {

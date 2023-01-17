@@ -3,13 +3,52 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    restart: always
+    restart: unless-stopped
+    platform: linux/amd64
     environment:
-      MYSQL_USER: root
-      MYSQL_DATABASE: pepperrodeo
+      DB_HOST: db
       MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: pepperrodeo
+      MYSQL_USER: root
       MYSQL_PASSWORD: secret
     volumes:
       - ./db_volume:/var/lib/mysql
     ports:
       - 3306:3306
+    networks:
+      - app-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php:7.4-fpm
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    networks:
+      - app-network
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+  server:
+    image: nginx:alpine
+    container_name: server
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+    extra_hosts:
+      - "pepperrodeo.test:127.0.0.1"
+networks:
+  app-network:
+    driver: bridge
