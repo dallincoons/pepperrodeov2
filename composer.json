@@ -12,7 +12,7 @@
         "algolia/algoliasearch-client-php": "^1.20",
         "doctrine/dbal": "^2.11",
         "laravel/cashier": "^9.3.4",
-        "laravel/framework": "^6.0",
+        "laravel/framework": "^6.20",
         "laravel/scout": "^7.1.3",
         "laravel/spark": "*@dev",
         "laravel/tinker": "~1.0",
