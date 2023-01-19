@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "ca16e08daf4e44bd38d996553d62eb1b",
-=======
     "content-hash": "62b8cd097779f6cabb34f29b58e1b3f9",
->>>>>>> laravel-6-upgrade
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
