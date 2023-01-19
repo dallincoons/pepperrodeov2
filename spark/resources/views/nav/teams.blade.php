@@ -1,10 +1,10 @@
 <!-- Teams -->
-<li class="dropdown-header">{{ ucfirst(str_plural(Spark::teamString())) }}</li>
+<li class="dropdown-header">{{ ucfirst(\Illuminate\Support\Str::plural(Spark::teamString())) }}</li>
 
 <!-- Create Team -->
 @if (Spark::createsAdditionalTeams())
     <li>
-        <a href="/settings#/{{str_plural(Spark::teamString())}}">
+        <a href="/settings#/{{\Illuminate\Support\Str::plural(Spark::teamString())}}">
             <i class="fa fa-fw fa-btn fa-plus"></i>Create {{ ucfirst(Spark::teamString()) }}
         </a>
     </li>
@@ -13,7 +13,7 @@
 <!-- Switch Current Team -->
 @if (Spark::showsTeamSwitcher())
     <li v-for="team in teams">
-        <a :href="'/{{ str_plural(Spark::teamString()) }}/'+ team.id +'/switch'">
+        <a :href="'/{{ \Illuminate\Support\Str::plural(Spark::teamString()) }}/'+ team.id +'/switch'">
             <span v-if="user.current_team_id == team.id">
                 <i class="fa fa-fw fa-btn fa-check text-success"></i>@{{ team.name }}
             </span>

@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Str;
+
 $router->group(['middleware' => 'web'], function ($router) {
     $teamString = Spark::teamString();
 
-    $pluralTeamString = str_plural(Spark::teamString());
+    $pluralTeamString = Str::plural(Spark::teamString());
 
     // Terms Of Service...
     $router->get('/terms', 'TermsController@show')->name('terms');

@@ -92,7 +92,7 @@
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            {{ ucfirst(str_plural(Spark::teamString())) }}
+                            {{ ucfirst(\Illuminate\Support\Str::plural(Spark::teamString())) }}
                         </div>
 
                         <div class="panel-body">

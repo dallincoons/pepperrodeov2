@@ -2,6 +2,7 @@
 
 namespace Laravel\Spark\Listeners\Teams\Subscription;
 
+use Illuminate\Support\Str;
 use Laravel\Spark\Spark;
 use Laravel\Spark\Events\Teams\TeamCreated;
 use Laravel\Spark\Contracts\Repositories\NotificationRepository;
@@ -42,7 +43,7 @@ class CreateTrialEndingNotification
             'icon' => 'fa-clock-o',
             'body' => "The ".$event->team->name." ".Spark::teamString()."'s trial period will expire on ".$event->team->trial_ends_at->format('F jS').'.',
             'action_text' => 'Subscribe',
-            'action_url' => '/settings/'.str_plural(Spark::teamString()).'/'.$event->team->id.'#/subscription',
+            'action_url' => '/settings/'.Str::plural(Spark::teamString()).'/'.$event->team->id.'#/subscription',
         ]);
     }
 }

@@ -3,11 +3,11 @@
 namespace Laravel\Spark;
 
 use Mpociot\VatCalculator\VatCalculator;
-use Laravel\Cashier\Billable as CashierBillable;
+//use Laravel\Cashier\Billable as CashierBillable;
 
 trait Billable
 {
-    use CashierBillable;
+//    use CashierBillable;
 
     /**
      * Determine if the user is connected to any payment provider.
