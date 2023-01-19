@@ -4,6 +4,7 @@ namespace Laravel\Spark;
 
 use Exception;
 use Carbon\Carbon;
+use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Spark\Contracts\Repositories\TokenRepository;
@@ -117,7 +118,7 @@ class TokenGuard
         // first decrypt the cookie and then attempt to find the token value within the
         // database. If we can't decrypt the value we'll bail out with a null return.
         try {
-            $token = JWT::decode(decrypt($request->cookie('spark_token')));
+            $token = JWT::decode(CookieValuePrefix::remove(decrypt($request->cookie('spark_token'))));
         } catch (Exception $e) {
             return;
         }
@@ -178,7 +179,7 @@ class TokenGuard
     protected function decryptXsrfHeader($request)
     {
         try {
-            return decrypt($request->header('X-XSRF-TOKEN'));
+            return CookieValuePrefix::remove(decrypt($request->header('X-XSRF-TOKEN')));
         } catch (Exception $e) {
         }
     }
