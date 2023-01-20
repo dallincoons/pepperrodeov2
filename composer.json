@@ -15,7 +15,8 @@
         "laravel/framework": "^6.20",
         "laravel/scout": "^7.1.3",
         "laravel/spark": "*@dev",
-        "laravel/tinker": "~1.0",
+        "laravel/tinker": "~2.0",
+        "laravel/ui": "^2.0",
         "league/fractal": "^0.17.0",
         "phpoption/phpoption": "^1.5",
         "prettus/l5-repository": "^2.6",
@@ -56,8 +57,7 @@
             "php artisan optimize"
         ],
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ]
     },
     "config": {
