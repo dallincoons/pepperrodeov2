@@ -31,7 +31,7 @@
     "browser-sync": "^2.26.3",
     "browser-sync-webpack-plugin": "^2.2.2",
     "expect": "^21.2.1",
-    "jsdom": "^11.4.0",
+    "jsdom": "^16.5.0",
     "jsdom-global": "^3.0.2",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
