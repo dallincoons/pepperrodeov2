@@ -48,7 +48,7 @@ class SparkServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function booted()
+    public function booted(\Closure $closure = null)
     {
         Spark::useStripe()->noCardUpFront()->trialDays(10);
 

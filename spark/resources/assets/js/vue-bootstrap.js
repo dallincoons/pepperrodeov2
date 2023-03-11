@@ -10,11 +10,6 @@ if (window.Vue === undefined) {
 }
 
 /**
- * Load Vue Global Mixin.
- */
-Vue.mixin(require('./mixin'));
-
-/**
  * Define the Vue filters.
  */
 require('./filters');
