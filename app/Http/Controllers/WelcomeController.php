@@ -14,7 +14,7 @@ class WelcomeController extends Controller
     public function show()
     {
         if (!\Auth::check()) {
-            return view('vendor.spark.auth.login');
+            return view('login');
         }
 
         return view('welcome');
