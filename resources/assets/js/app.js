@@ -14,7 +14,7 @@
  |
  */
 
-require('spark-bootstrap');
+require('../../../spark/resources/assets/js/spark-bootstrap');
 
 require('./components/bootstrap');
 
@@ -43,7 +43,7 @@ var app = new Vue({
         LoginAndRegister
     },
 
-    mixins: [require('spark')],
+    mixins: [require('../../../spark/resources/assets/js/spark')],
 
     router : router
 });

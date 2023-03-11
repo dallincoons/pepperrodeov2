@@ -9,6 +9,4 @@
  | your components that you write while building your applications.
  */
 
-require('./../spark-components/bootstrap');
-
 require('./home');

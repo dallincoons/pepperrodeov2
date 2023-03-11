@@ -15,7 +15,6 @@
         "laravel/cashier": "^12.3",
         "laravel/framework": "^7.0",
         "laravel/scout": "^8.0",
-        "laravel/spark": "*@dev",
         "laravel/tinker": "~2.0",
         "laravel/ui": "^2.0",
         "league/fractal": "^0.17.0",

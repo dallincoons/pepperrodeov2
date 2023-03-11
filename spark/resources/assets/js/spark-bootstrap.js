@@ -42,7 +42,7 @@ if (window.$ === undefined || window.jQuery === undefined) {
  * Load Vue if this application is using Vue as its framework.
  */
 if ($('#spark-app').length > 0) {
-    require('vue-bootstrap');
+    require('./vue-bootstrap');
 }
 
 /**
