@@ -4,7 +4,8 @@
             <div class="list-wrapper">
                 <div class="red-accent-bar"></div>
                 <div class="list-heading">
-                    <h3 class="list-title">Meal Plan for {{startDay}} - {{endDay}}</h3>
+                    <h3 class="list-title" v-if="mealPlanFilterStartDay !== mealPlanFilterEndDay">Meal Plan for {{mealPlanFilterStartDay}} - {{mealPlanFilterEndDay}}</h3>
+                    <h3 class="list-title" v-if="mealPlanFilterStartDay === mealPlanFilterEndDay">Meal Plan for {{mealPlanFilterStartDay}}</h3>
                     <div class="list-actions-wrapper">
                         <div class="list-actions-buttons meal-plan-buttons" :class="{increaseWidth : filterDates}">
                             <button class="list-action list-action-1" @click="editMealPlan(mealPlanId)">Edit Plan</button>
@@ -26,7 +27,7 @@
                     </div>
                 </div>
                 <div class="dates-wrapper meal-plan-dates">
-                    <div class="date-wrapper" v-for="(day, date) in days">
+                    <div class="date-wrapper" v-for="(day, date) in filteredDays">
                         <div class="date-heading">
                             <p>{{prettyDate(date)}}</p>
                         </div>
@@ -65,6 +66,20 @@
                 mealPlanFilterEndDay: '',
                 mealPlanId : this.$route.params.id,
                 filterDates: false
+            }
+        },
+
+        computed: {
+            filteredDays() {
+                const filteredDays = {};
+
+                Object.keys(this.days).forEach((date) => {
+                    if (date >= this.mealPlanFilterStartDay && date <= this.mealPlanFilterEndDay) {
+                        filteredDays[date] = this.days[date];
+                    }
+                });
+
+                return filteredDays;
             }
         },
 
