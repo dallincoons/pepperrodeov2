@@ -20,16 +20,6 @@ trait Billable
     }
 
     /**
-     * Get all of the subscriptions for the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function subscriptions()
-    {
-        return $this->hasMany(Subscription::class)->orderBy('created_at', 'desc');
-    }
-
-    /**
      * Get the Spark plan that corresponds with the given subscription.
      *
      * If they are not subscribed and a free plan exists, that will be returned.

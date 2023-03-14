@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Billable, HasApiTokens, RoutesNotifications;
+    use HasApiTokens, RoutesNotifications;
 
     /**
      * Get the profile photo URL attribute.
@@ -43,21 +43,5 @@ class User extends Authenticatable
             'billing_country',
             'extra_billing_information'
         ]);
-    }
-
-    /**
-     * Convert the model instance to an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $array = parent::toArray();
-
-        if (! in_array('tax_rate', $this->hidden)) {
-            $array['tax_rate'] = $this->taxPercentage();
-        }
-
-        return $array;
     }
 }

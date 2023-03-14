@@ -28,25 +28,6 @@ class UserRepository implements UserRepositoryContract
     {
         $user = Spark::user()->where('id', $id)->first();
 
-        return $user ? $this->loadUserRelationships($user) : null;
-    }
-
-    /**
-     * Load the relationships for the given user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @return \Illuminate\Contracts\Auth\Authenticatable
-     */
-    protected function loadUserRelationships($user)
-    {
-        $user->load('subscriptions');
-
-        if (Spark::usesTeams()) {
-            $user->load(['ownedTeams.subscriptions', 'teams.subscriptions']);
-
-            $user->currentTeam();
-        }
-
         return $user;
     }
 
@@ -55,7 +36,7 @@ class UserRepository implements UserRepositoryContract
      */
     public function search($query, $excludeUser = null)
     {
-        $search = Spark::user()->with('subscriptions');
+        $search = Spark::user();
 
         // If a user to exclude was passed to the repository, we will exclude their User
         // ID from the list. Typically we don't want to show the current user in the
