@@ -41,7 +41,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Laravel\\Spark\\": "spark/src"
+            "Laravel\\Spark\\": "spark/src",
+            "Algolia\\AlgoliaSearch\\": "vendor/algolia/algoliasearch-client-php/src"
         }
     },
     "autoload-dev": {
