@@ -15,9 +15,11 @@ $factory->define(Recipe::class, function (Faker\Generator $faker) {
 });
 
 $factory->afterCreating(Recipe::class, function ($recipe, $faker) {
-    $category = Category::first() ?: factory(Category::class)->create();
-    factory(CategoryRecipe::class)->create([
-        'recipe_id' => $recipe->getKey(),
-        'category_id' => $category->getKey(),
-    ]);
+    if (!$recipe->category_id) {
+        $category = Category::first() ?: factory(Category::class)->create();
+        factory(CategoryRecipe::class)->create([
+            'recipe_id' => $recipe->getKey(),
+            'category_id' => $category->getKey(),
+        ]);
+    }
 });

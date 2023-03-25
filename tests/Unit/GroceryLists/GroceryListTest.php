@@ -229,4 +229,32 @@ class GroceryListTest extends TestCase
         $this->assertCount(1, $groups);
         $this->assertNotNull($groups->first()->category_id);
     }
+
+    /** @test */
+    public function adds_linked_recipes_using_same_category_as_parent()
+    {
+        $categoryA = create(Category::class);
+        $categoryB = create(Category::class);
+
+        $recipeA = create(Recipe::class);
+
+        $recipeLinkedA = create(Recipe::class, ['category_id' => $categoryB->getKey()]);
+        $recipeLinkedB = create(Recipe::class, ['category_id' => $categoryB->getKey()]);
+        $recipeLinkedA->categories()->save($categoryB);
+        $recipeLinkedB->categories()->save($categoryB);
+        $recipeA->linkedRecipes()->save($recipeLinkedA);
+        $recipeA->linkedRecipes()->save($recipeLinkedB);
+
+        $grocerylist = create(GroceryList::class);
+
+        $this->assertCount(0, GroceryListItemGroup::all());
+        $this->assertCount(1, CategoryRecipe::where('recipe_id', $recipeA->getKey())->get());
+        $grocerylist->addRecipe($recipeA, $categoryA->getKey());
+
+        $groups = GroceryListItemGroup::all();
+        $this->assertCount(3, $groups);
+        $this->assertEquals($categoryA->getKey(), $groups[0]->category_id);
+        $this->assertEquals($categoryA->getKey(), $groups[1]->category_id);
+        $this->assertEquals($categoryA->getKey(), $groups[2]->category_id);
+    }
 }

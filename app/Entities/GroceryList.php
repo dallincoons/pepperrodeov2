@@ -49,10 +49,10 @@ class GroceryList extends Model implements Transformable
             ->pluck('recipe_id')->filter()->all());
     }
 
-    public function addRecipes(array $recipes)
+    public function addRecipes(array $recipes, $categoryId = null)
     {
         foreach ($recipes as $recipe) {
-            $this->addRecipe(($recipe));
+            $this->addRecipe($recipe, $categoryId);
         }
     }
 
@@ -99,7 +99,7 @@ class GroceryList extends Model implements Transformable
 
         $linkedRecipes = $recipe->linkedRecipes;
         if ($linkedRecipes->count() > 0) {
-            $this->addRecipes($linkedRecipes->all());
+            $this->addRecipes($linkedRecipes->all(), $categoryID);
         }
     }
 
