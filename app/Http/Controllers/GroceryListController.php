@@ -32,7 +32,7 @@ class GroceryListController
 
         $grocerylist->append('combinedItems', 'recipes', 'uniqueRecipeCount');
 
-        return response()->json($grocerylist, 200);
+        return response()->json(['list' => $grocerylist, 'recipes' => $grocerylist->recipes], 200);
     }
 
     public function store(GroceryListCreateRequest $request)

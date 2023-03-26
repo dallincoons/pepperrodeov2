@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Entities\Department;
 use App\Entities\GroceryList;
+use App\Http\Requests\MealPlanListStoreRequest;
 use App\MealPlanGroup;
 use App\Repositories\GroceryListItemRepository;
 use Illuminate\Http\Request;
 
 class MealPlanListController extends Controller {
 
-    public function store(Request $request, $groupID)
+    public function store(MealPlanListStoreRequest $request, $groupID)
     {
         $mealPlanGroupQuery = MealPlanGroup::query()
             ->where('id', $groupID)
@@ -30,13 +31,8 @@ class MealPlanListController extends Controller {
 
         $daysQuery = $mealPlanGroup->days();
 
-        if ($request->start_date) {
-            $daysQuery->whereDate("date", ">=", $request->start_date);
-        }
-
-        if ($request->end_date) {
-            $daysQuery->whereDate("date", "<=", $request->end_date);
-        }
+        $daysQuery->whereDate("date", ">=", $request->getStartDate($mealPlanGroup));
+        $daysQuery->whereDate("date", "<=", $request->getEndDate($mealPlanGroup));
 
         $daysQuery->get()->each(function($day) use($grocerylist) {
             $grocerylist->addRecipe($day->recipe, $day->category_id);

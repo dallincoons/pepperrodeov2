@@ -42,8 +42,9 @@ class RetrieveGroceryListTest extends TestCase
         $response = $this->get('/api/v1/grocery-lists/' . $grocerylist->getKey());
 
         $response->assertStatus(200);
-        $this->assertEquals($grocerylist->id, $response->decodeResponseJson()['id']);
-        $this->assertEquals($grocerylist->items->first()->description, $response->decodeResponseJson()['items'][0]['description']);
+        $listJson = $response->decodeResponseJson()['list'];
+        $this->assertEquals($grocerylist->id, $listJson['id']);
+        $this->assertEquals($grocerylist->items->first()->description, $listJson['items'][0]['description']);
     }
 
     /** @test */
@@ -67,8 +68,8 @@ class RetrieveGroceryListTest extends TestCase
         $response = $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
 
         $response->assertSuccessful();
-        $this->assertCount(3, $response->decodeResponseJson()['items']);
-        $this->assertCount(2, $response->decodeResponseJson()['combinedItems']);
+        $this->assertCount(3, $response->decodeResponseJson()['list']['items']);
+        $this->assertCount(2, $response->decodeResponseJson()['list']['combinedItems']);
     }
 
     /** @test */
@@ -88,8 +89,8 @@ class RetrieveGroceryListTest extends TestCase
         $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
         $response = $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
 
-        $this->assertCount(2, $response->decodeResponseJson()['items']);
-        $this->assertCount(1, $response->decodeResponseJson()['combinedItems']);
+        $this->assertCount(2, $response->decodeResponseJson()['list']['items']);
+        $this->assertCount(1, $response->decodeResponseJson()['list']['combinedItems']);
     }
 
     /** @test */
@@ -123,6 +124,7 @@ class RetrieveGroceryListTest extends TestCase
         $response = $this->get($this->api('grocery-lists/' . $grocerylist->getKey()));
 
         $this->assertArrayHasKey('recipes', $response->decodeResponseJson());
-        $this->assertArrayHasKey('uniqueRecipeCount', $response->decodeResponseJson());
+        $this->assertArrayHasKey('list', $response->decodeResponseJson());
+        $this->assertArrayHasKey('uniqueRecipeCount', $response->decodeResponseJson()['list']);
     }
 }

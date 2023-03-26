@@ -19,7 +19,7 @@ class UpdateGroceryListDepartmentTest extends TestCase
         $department = factory(Department::class)->create();
 
         $response = $this->patch(route('list.item.department.update', [
-            'id' => $list->getKey(),
+            'groceryList' => $list->getKey(),
             'description' => $item['description'],
             'department_id' => $department->getKey(),
         ]));

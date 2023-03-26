@@ -58,17 +58,17 @@
                                             <p v-if="Object.keys(recipesAdded).length === 0" class="no-recipe-message">No Recipes Selected Yet!</p>
                                                 <div v-for="(recipeGroup, categoryName) in recipesAdded" class="category-container-add-list">
                                                     <h3 class="small_dept_heading">{{categoryName}}</h3>
-                                                        <ul>
-                                                            <li v-for="recipe in recipeGroup">{{recipe.title}}</li>
-                                                        </ul>
+                                                    <ul>
+                                                        <li v-for="recipe in recipeGroup">{{recipe.title}}</li>
+                                                    </ul>
                                                 </div>
                                                 <button @click="addRecipesToList" class="list-add-recipes-button">Add Recipe(s)</button>
                                             </div>
                                         </div>
-                                        <div class="added-recipes-wrapper" v-if="list.recipes">
+                                        <div class="added-recipes-wrapper" v-if="listRecipes">
                                             <recipes-on-list
                                                     v-if="viewListRecipes"
-                                                    :recipes="list.recipes"
+                                                    :recipes="listRecipes"
                                                     :list="list"
                                                     @close="viewListRecipes = !viewListRecipes"
                                                     @deleted="recipeDeleted"
@@ -84,16 +84,15 @@
                 <p v-if="list.recipes && list.recipes.length === 0" class="nothing-on-list">Nothing on your list yet, click 'add an item' or 'add recipe(s)' to get started!</p>
                 <div class="list-body">
                     <div class="list-depts-wrapper">
-                        <div class="department-container" v-for="(items, department_name) in itemsGrouped">
+                    <div class="department-container" v-for="(items, department_name) in itemsGrouped">
                           <div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}<!--<span @click="removeDepartment(department_name)" class="department_remove">X</span>--></div>
-                    <ul class="list-items">
-                        <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
-                            <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
-                            <span class="item" v-bind:class="{checked : checkedItems.includes(item.id)}">{{showItemDescription(item)}}</span>
-                        </li>
-
-                    </ul>
-                </div>
+                        <ul class="list-items">
+                            <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
+                                <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
+                                <span class="item" v-bind:class="{checked : checkedItems.includes(item.id)}">{{showItemDescription(item)}}</span>
+                            </li>
+                        </ul>
+                    </div>
                     </div>
                     <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal}">
                         <recipes-on-list
@@ -141,6 +140,7 @@
             return {
                 showModal: false,
                 list: {},
+                listRecipes: [],
                 listId: '',
                 description: '',
                 departments: '',
@@ -184,6 +184,7 @@
             recipesOnList: function () {
                 return this.list.recipes
             },
+
             groupedRecipes() {
                 return _.groupBy(this.recipes, function (recipe) {
                     return recipe.category.title;
@@ -226,7 +227,12 @@
 
             getList() {
                 axios.get('/api/v1/grocery-lists/' + this.listId).then((response) => {
-                    this.list = response.data;
+                    if (!response.data || !response.data.list || !response.data.recipes) {
+                        alert("bad response");
+                        console.log({response});
+                    }
+                    this.list = response.data.list;
+                    this.listRecipes = response.data.recipes;
                 });
             },
 
