@@ -3,9 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\Behavior\OrderByLatest;
-use App\MealPlanDay;
 use App\Repositories\GroceryListItemRepository;
-use App\Services\GroceryItemCombine;
 use App\Transformers\GroceryListRecipe;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -18,7 +16,9 @@ class GroceryList extends Model implements Transformable
 
     protected $fillable = [
         'title',
-        'user_id'
+        'user_id',
+        'start_date',
+        'end_date',
     ];
 
     /**

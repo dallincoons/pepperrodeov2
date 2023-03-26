@@ -7,7 +7,6 @@ use App\Entities\GroceryList;
 use App\Http\Requests\MealPlanListStoreRequest;
 use App\MealPlanGroup;
 use App\Repositories\GroceryListItemRepository;
-use Illuminate\Http\Request;
 
 class MealPlanListController extends Controller {
 
@@ -27,12 +26,15 @@ class MealPlanListController extends Controller {
             $name = $request->name;
         }
 
-        $grocerylist = GroceryList::create(['title' => $name, 'user_id' => $mealPlanGroup->user_id]);
+        $startDate = $request->getStartDate($mealPlanGroup);
+        $endDate = $request->getEndDate($mealPlanGroup);
+
+        $grocerylist = GroceryList::create(['title' => $name, 'user_id' => $mealPlanGroup->user_id, 'start_date' => $startDate, 'end_date' => $endDate]);
 
         $daysQuery = $mealPlanGroup->days();
 
-        $daysQuery->whereDate("date", ">=", $request->getStartDate($mealPlanGroup));
-        $daysQuery->whereDate("date", "<=", $request->getEndDate($mealPlanGroup));
+        $daysQuery->whereDate("date", ">=", $startDate);
+        $daysQuery->whereDate("date", "<=", $endDate);
 
         $daysQuery->get()->each(function($day) use($grocerylist) {
             $grocerylist->addRecipe($day->recipe, $day->category_id);
