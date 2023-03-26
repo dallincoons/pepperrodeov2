@@ -4,8 +4,8 @@
             <div class="list-wrapper">
                 <div class="red-accent-bar"></div>
                 <div class="list-heading">
-                    <h3 class="list-title" v-if="mealPlanFilterStartDay !== mealPlanFilterEndDay">Meal Plan for {{mealPlanFilterStartDay}} - {{mealPlanFilterEndDay}}</h3>
-                    <h3 class="list-title" v-if="mealPlanFilterStartDay === mealPlanFilterEndDay">Meal Plan for {{mealPlanFilterStartDay}}</h3>
+                    <h3 class="list-title" v-if="mealPlanFilterStartDay !== mealPlanFilterEndDay">Meal Plan for {{prettyDateMonthAndDay(mealPlanFilterStartDay)}} - {{prettyDateMonthAndDay(mealPlanFilterEndDay)}}</h3>
+                    <h3 class="list-title" v-if="mealPlanFilterStartDay === mealPlanFilterEndDay">Meal Plan for {{prettyDateMonthAndDay(mealPlanFilterStartDay)}}</h3>
                     <div class="list-actions-wrapper">
                         <div class="list-actions-buttons meal-plan-buttons" :class="{increaseWidth : filterDates}">
                             <button class="list-action list-action-1" @click="editMealPlan(mealPlanId)">Edit Plan</button>
