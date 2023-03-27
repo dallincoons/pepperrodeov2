@@ -24,8 +24,8 @@ class MealPlanListTest extends TestCase
         $recipeB->listableIngredients()->save(make(ListableIngredient::class));
 
         $mealPlanGroup = create(MealPlanGroup::class);
-        $mealPlanGroup->days()->save(make(MealPlanDay::class, ['recipe_id' => $recipeA->getKey()]));
-        $mealPlanGroup->days()->save(make(MealPlanDay::class, ['recipe_id' => $recipeB->getKey()]));
+        $mealPlanGroup->days()->save(make(MealPlanDay::class, ['recipe_id' => $recipeA->getKey(), 'date' => $mealPlanGroup->start_date]));
+        $mealPlanGroup->days()->save(make(MealPlanDay::class, ['recipe_id' => $recipeB->getKey(), 'date' => $mealPlanGroup->start_date]));
 
         $mealPlanGroup->items()->save(make(MealPlanItem::class));
         $mealPlanGroup->items()->save(make(MealPlanItem::class, ['add_to_list' => false]));

@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Entities\Department;
 use App\Entities\GroceryList;
+use App\Features\MealPlanToList\DateFilter;
+use App\Features\MealPlanToList\ListFromMealPlanBuilder;
 use App\Http\Requests\MealPlanListStoreRequest;
 use App\MealPlanGroup;
 use App\Repositories\GroceryListItemRepository;
 
 class MealPlanListController extends Controller {
 
-    public function store(MealPlanListStoreRequest $request, $groupID)
+    public function store(MealPlanListStoreRequest $request, $mealPlanId)
     {
         $mealPlanGroupQuery = MealPlanGroup::query()
-            ->where('id', $groupID)
-            ->with('days.recipe')
+            ->where('id', $mealPlanId)
+            ->with('days.recipe.listableIngredients')
             ->with('items');
 
         $mealPlanGroup = $mealPlanGroupQuery->firstOrFail();
-
-        $items = $mealPlanGroup->items;
 
         $name = $mealPlanGroup->name;
         if ($request->name) {
@@ -29,31 +29,9 @@ class MealPlanListController extends Controller {
         $startDate = $request->getStartDate($mealPlanGroup);
         $endDate = $request->getEndDate($mealPlanGroup);
 
-        $grocerylist = GroceryList::create(['title' => $name, 'user_id' => $mealPlanGroup->user_id, 'start_date' => $startDate, 'end_date' => $endDate]);
+        $builder = new ListFromMealPlanBuilder($mealPlanGroup, new DateFilter($startDate, $endDate));
 
-        $daysQuery = $mealPlanGroup->days();
-
-        $daysQuery->whereDate("date", ">=", $startDate);
-        $daysQuery->whereDate("date", "<=", $endDate);
-
-        $daysQuery->get()->each(function($day) use($grocerylist) {
-            $grocerylist->addRecipe($day->recipe, $day->category_id);
-        });
-
-        $itemRepository = app(GroceryListItemRepository::class);
-
-        foreach ($items as $item) {
-            if (!$item->add_to_list) {
-                continue;
-            }
-
-            $itemRepository->create([
-                'grocery_list_id' => $grocerylist->getKey(),
-                'description'   => $item->title,
-                'quantity'      => 1,
-                'department_id' => Department::DEFAULT_DEPT_ID,
-            ]);
-        }
+		$grocerylist = $builder->buildList($name);
 
         return response()->json(['grocerylist' => $grocerylist], 201);
     }

@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\Behavior\OrderByLatest;
+use App\Features\MealPlanToList\ListFromMealPlanBuilder;
 use App\Repositories\GroceryListItemRepository;
 use App\Transformers\GroceryListRecipe;
 use Illuminate\Database\Eloquent\Model;
