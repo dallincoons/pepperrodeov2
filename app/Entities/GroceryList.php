@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\Behavior\OrderByLatest;
+use App\Features\GroceryList\GroceryListBuilder;
 use App\Features\MealPlanToList\ListFromMealPlanBuilder;
 use App\Repositories\GroceryListItemRepository;
 use App\Transformers\GroceryListRecipe;
@@ -50,58 +51,14 @@ class GroceryList extends Model implements Transformable
             ->pluck('recipe_id')->filter()->all());
     }
 
-    public function addRecipes(array $recipes, $categoryId = null)
-    {
-        foreach ($recipes as $recipe) {
-            $this->addRecipe($recipe, $categoryId);
-        }
-    }
-
     /**
      * @param Recipe $recipe
      */
     public function addRecipe(Recipe $recipe, $categoryID = null)
     {
-        if ($categoryID == null) {
-            if (count($recipe->categories) < 1) {
-                return;
-            }
+		$builder = new GroceryListBuilder($this);
 
-            $categoryID = $recipe->categories->first()->getKey();
-        }
-
-        /** @var GroceryListItemRepository $itemRepository */
-        $itemRepository = app(GroceryListItemRepository::class);
-
-        $group = GroceryListItemGroup::create([
-            'grocery_list_id' => $this->getKey(),
-            'recipe_id' => $recipe->getKey(),
-            'category_id'  => $categoryID,
-        ]);
-
-        foreach ($recipe->listableIngredients as $ingredients) {
-            $itemRepository->create(
-                $this->translateIngredient($ingredients, $recipe)
-                 + ['grocery_list_id' => $this->getKey(), 'grocery_list_group_id' => $group->getKey()]
-            );
-        }
-
-        $subRecipes = $recipe->subRecipes;
-        if ($subRecipes->count() > 0) {
-            foreach ($subRecipes as $subRecipe) {
-                foreach ($subRecipe->listableIngredients as $ingredients) {
-                    $itemRepository->create(
-                        $this->translateIngredient($ingredients, $recipe)
-                        + ['grocery_list_id' => $this->getKey(), 'grocery_list_group_id' => $group->getKey()]
-                    );
-                }
-            }
-        }
-
-        $linkedRecipes = $recipe->linkedRecipes;
-        if ($linkedRecipes->count() > 0) {
-            $this->addRecipes($linkedRecipes->all(), $categoryID);
-        }
+		$builder->addRecipe($recipe, $categoryID);
     }
 
     public function removeRecipe(Recipe $recipe)
@@ -129,15 +86,5 @@ class GroceryList extends Model implements Transformable
         })->map(function($item) {
             return new CompositeItem($item);
         });
-    }
-
-    public function translateIngredient(ListableIngredient $ingredient, Recipe $recipe)
-    {
-        return [
-            'description'   => $ingredient->description,
-            'quantity'      => $ingredient->quantity,
-            'department_id' => $ingredient->department_id,
-            'recipe_id'     => $recipe->getKey()
-        ];
     }
 }

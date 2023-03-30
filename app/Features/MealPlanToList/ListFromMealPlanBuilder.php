@@ -26,7 +26,12 @@ class ListFromMealPlanBuilder
 		$daysQuery->whereDate("date", ">=", $this->dateFilter->startDate);
 		$daysQuery->whereDate("date", "<=", $this->dateFilter->endDate);
 
-		$grocerylist = GroceryList::create(['title' => $name, 'user_id' => $this->mealPlan->user_id, 'start_date' => $this->dateFilter->startDate, 'end_date' => $this->dateFilter->endDate]);
+		$grocerylist = GroceryList::create([
+			'title' => $name,
+			'user_id' => $this->mealPlan->user_id,
+			'start_date' => $this->dateFilter->startDate,
+			'end_date' => $this->dateFilter->endDate
+		]);
 
 		$daysQuery->get()->each(function($day) use ($grocerylist) {
 			$grocerylist->addRecipe($day->recipe, $day->category_id);
