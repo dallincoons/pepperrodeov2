@@ -19,6 +19,7 @@
                             <button class="list-action list-action-2" @click="viewRecipes(); toggleViewListRecipes();" :class="{'list-selected-action' : addRecipesOpen}">Add Recipe(s)</button>
                             <button class="list-action list-action-3" @click="print()">Print List</button>
                             <button class="list-action list-action-4" @click="deleteList">Delete List</button>
+                            <button class="list-action list-action-4" @click="showFilters">Filters</button>
                         </div>
                         <div class="open-action-wrapper" :class="{'action-open' : addRecipesOpen, 'action-open' : dropOpen}">
                             <div class="list-drop-wrapper" :class="{'list-show-box' : dropOpen}">
@@ -26,31 +27,7 @@
                             </div>
                             <div class="list-add-recipes-wrapper" :class="{'list-show-recipes' : addRecipesOpen}">
                                 <div class="list-add-recipes-body">
-                                    <div class="list-add-recipes-recipes-section">
-                                        <div class="list-add-recipes-header">
-                                            <h4 class="list-add-recipes-heading">Recipes</h4>
-                                            <div class="search-wrapper list-search">
-                                                <input
-                                                        type="search"
-                                                        name="recipeSearch"
-                                                        placeholder="Search"
-                                                        v-model="itemSearchedFor"
-                                                        v-on:keyup.enter="searchRecipes(itemSearchedFor)"
-                                                        class="recipe-input search-box"
-                                                >
-                                                <button class="close-icon" type="reset" @click="clearSearch()"><x-icon style="width: 15px; height: 15px" class="search-x-icon" :class="{closeIconVisible : itemSearchedFor.length > 0}"></x-icon></button>
-                                                <button @click="searchRecipes(itemSearchedFor)" class="search-button"><search class="search-icon"></search></button>
-                                            </div>
-                                        </div>
-                                        <ul class="list-add-recipes-list">
-                                            <li v-for="recipe in recipes" class="list-add-recipes-item">
-                                                <div class="fs-checkbox">
-                                                    <input type="checkbox" :id="'checkbox_' + recipe.id" :value="recipe.id" v-model="checkedRecipes">
-                                                    <label :for="'checkbox_' + recipe.id">{{recipe.title}}</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <AddRecipesSection></AddRecipesSection>
                                     <div class="selected-added-wrapper">
                                         <div class="selected-recipes-wrapper">
                                             <h4 class="list-add-recipes-heading">Recipes Selected</h4>
@@ -110,6 +87,7 @@
 </template>
 
 <script>
+    import { mapStores } from 'pinia';
     import GroceryLists from './resources/GroceryLists';
     import EditItemModal from './GroceryList/EditItemModal.vue';
     import NewItemForm from './GroceryList/NewItemForm.vue';
@@ -119,8 +97,8 @@
     import RecipesOnList from './RecipesOnList';
     import Trashcan from "./assets/trashcan";
     import Recipes from "./resources/Recipes";
-    import Search from "./assets/search"
-    import XIcon from "./assets/x-icon"
+    import AddRecipesSection from "./GroceryList/AddRecipesSection";
+    import {useListAddRecipesStore} from "./GroceryList/AddRecipesStore";
 
     export default {
 
@@ -132,11 +110,10 @@
             FullScreenModal,
             Modal,
             RecipesOnList,
-            Search,
-            XIcon
+            AddRecipesSection,
         },
 
-        data(){
+        data() {
             return {
                 showModal: false,
                 list: {},
@@ -147,19 +124,21 @@
                 itemToUpdate: '',
                 editable: false,
                 recipes: [],
-                checkedRecipes: [],
                 checkedItems: [],
                 dropOpen: false,
                 addRecipesModalShown: false,
                 optionModal: false,
                 viewListRecipes: false,
                 addRecipesOpen: false,
-                itemSearchedFor: '',
+                // itemSearchedFor: '',
                 recipeMap: {},
+                showingFilters: false,
             }
         },
 
         computed : {
+            ...mapStores(useListAddRecipesStore),
+
             itemsGrouped: function () {
                 return _.chain(this.list.combinedItems)
                     .sortBy(function (item) {
@@ -172,12 +151,15 @@
 
             recipesAdded: function () {
 
-                let checkedRecipes = this.checkedRecipes.map((recipeId) => {
+                let checkedRecipes = this.listAddRecipesStore.checkedRecipes.map((recipeId) => {
+                    console.log({recipeId});
+                    console.log(this.recipeMap);
+                    console.log(this.recipeMap[recipeId]);
                     return this.recipeMap[recipeId];
                 });
 
                return _.groupBy(checkedRecipes, function (recipe) {
-                    return recipe.category.title;
+                    return recipe.categories[0].title;
                 });
             },
 
@@ -187,7 +169,7 @@
 
             groupedRecipes() {
                 return _.groupBy(this.recipes, function (recipe) {
-                    return recipe.category.title;
+                    return recipe.categories[0].title;
                 });
             }
         },
@@ -299,20 +281,26 @@
             },
 
             viewRecipes() {
-                this.getRecipes((recipes) => {
-                    recipes.forEach((recipe) => {
-                        this.recipeMap[recipe.id] = recipe;
-                    });
-                });
+                if (!this.addRecipesOpen) {
 
-                this.addRecipesOpen = !this.addRecipesOpen;
+                    this.getRecipes((recipes) => {
+                        recipes.forEach((recipe) => {
+                            this.recipeMap[recipe.id] = recipe;
+                            this.addRecipesOpen = true;
+                        });
+                    });
+
+                    return;
+                }
+
+                this.addRecipesOpen = false;
             },
 
             addRecipesToList() {
-                GroceryLists.addRecipes(this.listId, this.checkedRecipes).then((response) => {
+                GroceryLists.addRecipes(this.listId, this.listAddRecipesStore.checkedRecipes).then((response) => {
                     this.addRecipesModalShown = false;
                     this.getList();
-                    this.checkedRecipes = [];
+                    this.listAddRecipesStore.checkedRecipes = [];
                     if (response.status == 200) {
                         this.list.recipes = this.list.recipes.concat(response.data.recipes_added)
                         vm.$set('list.recipes', this.list.recipes)
@@ -350,6 +338,10 @@
                 }
             },
 
+            showFilters() {
+                this.showingFilters = true;
+            },
+
             deleteRecipe(recipeId) {
                 let deleteConfirm = confirm("Are you sure you want to delete this recipe?" );
                 if (deleteConfirm === false) {
@@ -367,19 +359,6 @@
 
             print() {
                 window.print();
-            },
-
-            searchRecipes(item) {
-                Recipes.search(item).then((response) => {
-                    this.recipes =  response.data;
-                });
-            },
-
-            clearSearch() {
-                this.itemSearchedFor = '';
-                Recipes.all().then((response) => {
-                    this.recipes = response.data;
-                });
             },
         }
     }

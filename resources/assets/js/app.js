@@ -28,6 +28,12 @@ import VueRouter from 'vue-router';
 
 import vueDebounce from 'vue-debounce'
 
+import { createPinia, PiniaVuePlugin } from 'pinia';
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
+Vue.use(pinia);
 Vue.use(VueRouter);
 Vue.use(vueDebounce);
 
@@ -45,5 +51,6 @@ var app = new Vue({
 
     mixins: [require('../../../spark/resources/assets/js/spark')],
 
-    router : router
+    router,
+    pinia,
 });
