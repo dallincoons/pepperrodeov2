@@ -21,6 +21,13 @@ class ListFromMealPlanBuilder
 
 	public function buildList($name)
 	{
+		return \DB::transaction(function () use ($name) {
+			return $this->doBuildList($name);
+		});
+	}
+
+	public function doBuildList($name)
+	{
 		$daysQuery = $this->mealPlan->days();
 
 		$daysQuery->whereDate("date", ">=", $this->dateFilter->startDate);

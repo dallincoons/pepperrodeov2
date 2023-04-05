@@ -152,9 +152,6 @@
             recipesAdded: function () {
 
                 let checkedRecipes = this.listAddRecipesStore.checkedRecipes.map((recipeId) => {
-                    console.log({recipeId});
-                    console.log(this.recipeMap);
-                    console.log(this.recipeMap[recipeId]);
                     return this.recipeMap[recipeId];
                 });
 
