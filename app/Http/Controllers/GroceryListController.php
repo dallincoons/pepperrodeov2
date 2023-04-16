@@ -28,11 +28,13 @@ class GroceryListController
 
     public function show(Request $request, GroceryList $grocerylist)
     {
-        $grocerylist->load(['items', 'items.department']);
-
         $grocerylist->append('combinedItems', 'recipes', 'uniqueRecipeCount');
 
-        return response()->json(['list' => $grocerylist, 'recipes' => $grocerylist->recipes], 200);
+        return response()->json([
+			'list' => $grocerylist,
+			'recipes' => $grocerylist->recipes,
+			'items' => $grocerylist->combinedItems
+		]);
     }
 
     public function store(GroceryListCreateRequest $request)

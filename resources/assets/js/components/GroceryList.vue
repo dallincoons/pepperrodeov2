@@ -118,6 +118,7 @@
                 showModal: false,
                 list: {},
                 listRecipes: [],
+                items: [],
                 listId: '',
                 description: '',
                 departments: '',
@@ -140,7 +141,7 @@
             ...mapStores(useListAddRecipesStore),
 
             itemsGrouped: function () {
-                return _.chain(this.list.combinedItems)
+                return _.chain(this.items)
                     .sortBy(function (item) {
                         return item.department;
                     })
@@ -212,6 +213,7 @@
                     }
                     this.list = response.data.list;
                     this.listRecipes = response.data.recipes;
+                    this.items = response.data.items;
                 });
             },
 

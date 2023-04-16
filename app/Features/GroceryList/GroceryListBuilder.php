@@ -38,7 +38,13 @@ class GroceryListBuilder
 		foreach ($this->collectedRecipes as $recipe) {
 			/** @var CollectedRecipe $recipe */
 			foreach ($recipe->getListableIngredients() as $li) {
-				$this->collectItem(new CollectedItem($li->description, $li->quantity, $li->department_id, $recipe->getRecipeKey()), $recipe->getRecipeKey());
+				$this->collectItem(new CollectedItem(
+					$li->description,
+					$li->quantity,
+					$li->department_id,
+					$recipe->getRecipeKey(),
+					$day->date,
+				));
 			}
 		}
 
@@ -47,7 +53,13 @@ class GroceryListBuilder
 				continue;
 			}
 
-			$this->collectItem(new CollectedItem($item->title, 1, Department::DEFAULT_DEPT_ID, $recipe->getRecipeKey()), $recipe->getRecipeKey());
+			$this->collectItem(new CollectedItem(
+				$item->title,
+				1,
+				Department::DEFAULT_DEPT_ID,
+				$recipe->getRecipeKey(),
+				$mealPlan->start_date,
+			));
 		}
 
 		$groups = $this->saveGroups($this->collectedRecipes);
@@ -57,16 +69,8 @@ class GroceryListBuilder
 		return $this->groceryList;
 	}
 
-	private function collectRecipe(Recipe $recipe, $categoryId = null)
+	private function collectRecipe(Recipe $recipe, $categoryId)
 	{
-		if ($categoryId == null) {
-			if (count($recipe->categories) < 1) {
-				return;
-			}
-
-			$categoryID = $recipe->categories->first()->getKey();
-		}
-
 		$this->collectedRecipes[] = new CollectedRecipe($recipe, $categoryId);
 
 		foreach ($recipe->subRecipes as $subRecipe) {
@@ -78,7 +82,7 @@ class GroceryListBuilder
 		}
 	}
 
-	private function collectItem(CollectedItem $item, $recipeId)
+	private function collectItem(CollectedItem $item)
 	{
 		$this->items[] = $item;
 	}
