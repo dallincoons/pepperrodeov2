@@ -4,6 +4,7 @@ namespace App\Features\MealPlanToList;
 
 use App\Entities\Department;
 use App\Entities\GroceryList;
+use App\Features\GroceryList\GroceryListBuilder;
 use App\MealPlanGroup;
 use App\Repositories\GroceryListItemRepository;
 use Illuminate\Support\Facades\Date;
@@ -40,27 +41,8 @@ class ListFromMealPlanBuilder
 			'end_date' => $this->dateFilter->endDate
 		]);
 
-		$daysQuery->get()->each(function($day) use ($grocerylist) {
-			$grocerylist->addRecipe($day->recipe, $day->category_id);
-		});
+		$builder =  new GroceryListBuilder($grocerylist);
 
-		$itemRepository = app(GroceryListItemRepository::class);
-
-		$items = $this->mealPlan->items;
-
-		foreach ($items as $item) {
-			if (!$item->add_to_list) {
-				continue;
-			}
-
-			$itemRepository->create([
-				'grocery_list_id' => $grocerylist->getKey(),
-				'description'   => $item->title,
-				'quantity'      => 1,
-				'department_id' => Department::DEFAULT_DEPT_ID,
-			]);
-		}
-
-		return $grocerylist;
+		return $builder->addRecipesFromMealPlan($this->mealPlan);
 	}
 }

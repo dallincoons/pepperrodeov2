@@ -8,7 +8,6 @@ use App\Features\MealPlanToList\DateFilter;
 use App\Features\MealPlanToList\ListFromMealPlanBuilder;
 use App\Http\Requests\MealPlanListStoreRequest;
 use App\MealPlanGroup;
-use App\Repositories\GroceryListItemRepository;
 
 class MealPlanListController extends Controller {
 
