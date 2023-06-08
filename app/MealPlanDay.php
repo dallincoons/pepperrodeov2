@@ -18,6 +18,6 @@ class MealPlanDay extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id')->withTrashed();
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
 }
