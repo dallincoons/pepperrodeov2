@@ -13,11 +13,11 @@ class MealPlanDay extends Model
 
     public function recipe()
     {
-        return $this->hasOne(Recipe::class, 'id', 'recipe_id');
+        return $this->hasOne(Recipe::class, 'id', 'recipe_id')->withTrashed();
     }
 
     public function category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->hasOne(Category::class, 'id', 'category_id')->withTrashed();
     }
 }
