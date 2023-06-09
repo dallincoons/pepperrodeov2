@@ -8,6 +8,13 @@
         @update="updateItem"
         @delete="deleteItem"
         ></edit-item-modal>
+        <edit-category-modal
+            v-if="editingDepartment != null"
+            @close="hideDepartmentOptionsModal"
+            @delete="deleteDepartment"
+            :departmentId="editingDepartment"
+            :departmentName="this.getDepartmentNameById(this.editingDepartment)"
+        ></edit-category-modal>
         <div class="list-container">
             <div class="list-wrapper">
                 <div class="red-accent-bar"></div>
@@ -62,7 +69,7 @@
                 <div class="list-body">
                     <div class="list-depts-wrapper">
                     <div class="department-container" v-for="(items, department_name) in itemsGrouped">
-                          <div class="dept_heading"><span class="red-accent-line"></span>{{department_name}}<!--<span @click="removeDepartment(department_name)" class="department_remove">X</span>--></div>
+                          <div class="dept_heading" @click="displayDepartmentOptionsModal(items[0].department_id)"><span class="red-accent-line"></span>{{department_name}}</div>
                         <ul class="list-items">
                             <li v-for="item in items" class="list-item" @dblclick="openEditItem(item)">
                                 <span @click="toggleItem(item)" class="list-checkbox"><span v-bind:class="{checkmark : checkedItems.includes(item.id)}"></span></span>
@@ -90,6 +97,7 @@
     import { mapStores } from 'pinia';
     import GroceryLists from './resources/GroceryLists';
     import EditItemModal from './GroceryList/EditItemModal.vue';
+    import EditCategoryModal from './GroceryList/EditDepartmentModal';
     import NewItemForm from './GroceryList/NewItemForm.vue';
     import Caret from './assets/caret.vue';
     import FullScreenModal from './FullScreenModal.vue';
@@ -105,6 +113,7 @@
         components : {
             Trashcan,
             EditItemModal,
+            EditCategoryModal,
             NewItemForm,
             Caret,
             FullScreenModal,
@@ -116,6 +125,7 @@
         data() {
             return {
                 showModal: false,
+                editingDepartment: null,
                 list: {},
                 listRecipes: [],
                 listId: '',
@@ -184,6 +194,26 @@
 
             displayModal() {
                 this.showModal = true;
+            },
+
+            displayDepartmentOptionsModal(departmentId) {
+                this.editingDepartment = departmentId;
+            },
+
+            hideDepartmentOptionsModal() {
+                this.editingDepartment = null;
+            },
+
+            getDepartmentNameById(id) {
+                let department = this.departments.find((dep) => {
+                    return dep.id === id
+                });
+
+                if (!department) {
+                    return ""
+                }
+
+                return department.name;
             },
 
             removeDepartment(department_name) {
@@ -266,6 +296,14 @@
                 axios.all(requests).then(response => {
                     this.getList();
                 });
+            },
+
+            deleteDepartment(department) {
+                axios.delete('/api/v1/grocery-lists/' + this.listId + '/department/' + department.id).then((response) => {
+                    this.getList();
+                });
+
+                this.hideDepartmentOptionsModal()
             },
 
             updateListTitle() {

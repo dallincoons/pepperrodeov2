@@ -27,6 +27,8 @@ Route::group([
 ], function () {
     Route::get('grocery-lists/search', 'GroceryListSearchController@index');
 
+	Route::delete('grocery-lists/{grocerylist}/department/{departmentId}', 'GroceryListDepartmentController@delete');
+
     Route::post('grocery-lists/{grocerylist}/add/recipes', 'GroceryListRecipeController@post');
 
     Route::get('grocery-lists', 'GroceryListController@all');
@@ -37,7 +39,7 @@ Route::group([
 
     Route::get('grocery-list/recent', 'RecentGroceryListController@show')->name('grocery-list.recent');
 
-    Route::post('recipe_link', 'RecipeLinkController@store')->name('recipe_link.store');
+	Route::post('recipe_link', 'RecipeLinkController@store')->name('recipe_link.store');
 
     Route::get('recipes/search', 'RecipeSearchController@index');
 
