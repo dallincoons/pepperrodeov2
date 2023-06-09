@@ -78,7 +78,7 @@
                         </ul>
                     </div>
                     </div>
-                    <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal}">
+                    <div class="main-added-recipes-wrapper" v-bind:class="{'notSticky' : showModal || editingDepartment != null}">
                         <recipes-on-list
                                 v-if="list.recipes && list.recipes.length > 0"
                                 :recipes="list.recipes"
