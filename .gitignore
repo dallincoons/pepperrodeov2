@@ -1,8 +1,5 @@
 /node_modules
 /public/*
-!public/swagger/
-!public/swagger.json
-!public/swagger.yml
 /storage/*.key
 /vendor
 /.idea
