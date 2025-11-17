@@ -1,65 +1,41 @@
-version: '3'
-
 services:
-  redis:
-    image: redis:alpine
-    container_name: myapp-redis
-    command: redis-server --appendonly yes --requirepass "password"
-    volumes:
-      - ./data/redis:/data
-    ports:
-      - "8002:6379"
-    networks:
-      - app-network
-  db:
-    image: mysql:5.7
-    container_name: pr-mysql
-    restart: unless-stopped
-    environment:
-      DB_HOST: db
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: pepperrodeo
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-    volumes:
-      - ./db_volume:/var/lib/mysql
-    ports:
-      - 3306:3306
-    networks:
-      - app-network
-  app:
+  laravel.test:
     build:
-      context: .
+      context: ./vendor/laravel/sail/runtimes/8.3
       dockerfile: Dockerfile
-    image: php:7.4-fpm
-    container_name: app
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
-    networks:
-      - app-network
-    volumes:
-      - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-  server:
-    image: nginx:alpine
-    container_name: server
-    tty: true
-    restart: unless-stopped
+      args:
+        WWWUSER: "${WWWUSER}"
+        WWWGROUP: "${WWWGROUP}"
     ports:
       - "80:80"
-      - "443:443"
     volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    networks:
-      - app-network
-    extra_hosts:
-      - "pepperrodeo.test:127.0.0.1"
-networks:
-  app-network:
-    driver: bridge
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+      - redis
 
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: pepperrodeo
+      MYSQL_USER: pepper
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  mysql-data:
+  redis-data:
