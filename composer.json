@@ -9,7 +9,7 @@
     "type": "project",
     "require": {
         "php": "^8.0",
-        "algolia/algoliasearch-client-php": "^2.2",
+        "algolia/algoliasearch-client-php": "^4.0",
         "doctrine/dbal": "^2.11",
         "firebase/php-jwt": "^4.0",
         "laravel/framework": "^9.0",
